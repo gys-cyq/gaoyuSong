@@ -1,0 +1,26 @@
+lable{display:block;}
+.content{width:30%;display:block;margin:0 auto;border:1px solid #2fa4e7;background:#fff;}
+.register-header{width:100%;height:15%;background:#2fa4e7;color:#fff;height:40px;line-height:40px;text-align:center;}
+.select-subject{display:block;margin-top:10px;}
+.select-box{width: 80%;display: block;text-align:center;margin: 0 auto;font-size:16px;height:30px;}
+.select-box option{text-align:center;font-size:16px;}
+.company-info{width:80%;display: block;margin: 10px auto;}
+.company-info lable{width:25%;float:left;}
+.company-info input{width:70%;float:right;}
+.personal-info{clear:both;width:80%;margin: 10px auto;padding:10px 0;}
+.personal-info div{width:100%;}
+.store-name lable{width:25%;float:left;}
+.store-name input{width:70%;float:right;}
+.store-address {padding:10px 0;clear:both;}
+.store-address lable{width:25%;float:left;}
+.store-address div{width:71%;float:right;}
+.store-address div select{width:31.9%;}
+.store-address input{width:70%;float:right;display:block;margin:2px 0 5px;}
+.user-account{clear:both;padding:10px 0;}
+.user-account lable{width:25%;float:left;}
+.user-account input{width:70%;float:right;}
+.user-sex lable{width:25%;float:left;}
+.user-sex div{width:70%;float:right;}
+
+.stresson{clear:both;color:red;display:block;padding:10px;margin:10px auto;}
+.register-btn{width:80%;text-align:center;background:#2fa4e7;display:block;color:#fff;margin:0 auto 20px;height:35px;line-height:35px;border-radius: 5px;cursor:pointer;box-sizing:border-box;}

@@ -1,0 +1,21 @@
+[{
+  "menu":"系统管理",
+  "child":[{
+    "menu":"用户管理",
+    "url":"pages/user/User.html"
+  },{
+    "menu":"角色管理",
+    "url":"pages/role/Role.html"
+  },{
+    "menu":"部门管理",
+    "url":"pages/role/Role.html"
+  },{
+    "menu":"菜单管理",
+    "url":"pages/menu/menu.html"
+  },{
+    "menu":"流程管理",
+    "url":"pages/menu/procedure.html"
+  }
+  ]
+}
+]

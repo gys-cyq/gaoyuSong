@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>崇川科技局项目管理系统</title>
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="static/css/font.css" />
+		<link rel="stylesheet" href="static/css/weadmin.css" />
+		<link rel="stylesheet" href="lib/layui/css/layui.css" />
+		<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	</head>
+
+	<body>
+		<!-- 顶部开始 -->
+		<div class="container">
+			<div class="logo">
+				<a href="index.html">崇川科技局项目管理系统</a>
+			</div>
+			<ul class="layui-nav right" lay-filter="">
+				<li class="layui-nav-item">
+					<a href="javascript:;" id="nickname"></a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a onclick="WeAdminShow('修改密码','password.html')">修改密码</a>
+						</dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item to-index">
+					<a class="loginout" href="login.html">退出</a>
+				</li>
+			</ul>
+
+		</div>
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-side layui-bg-black">
+			   		 <div class="layui-side-scroll" id="side-nav">
+			      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					      <ul class="layui-nav layui-nav-tree"  lay-filter="leftNav" id="nav">
+					      </ul>
+					 </div>
+			</div>
+		</div>
+		<!-- <div class="x-slide_left"></div> -->
+		<!-- 左侧菜单结束 -->
+		<!-- 右侧主体开始 -->
+		<div class="page-content">
+			<div class="layui-tab tab" lay-filter="wenav_tab" id="WeTabTip"  lay-allowclose="true">
+				<ul class="layui-tab-title" id="tabName">
+					<li>首页</li>
+				</ul>
+				<div class="layui-tab-content childFrame">
+					<div class="layui-tab-item layui-show">
+						<iframe src='Welcome.html' frameborder="0" scrolling="yes" class="weIframe"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-content-bg"></div>
+		<script type="text/javascript">
+			layui.config({
+			  base: './static/js/',
+			}).use('admin');
+
+			 nickname = sessionStorage.getItem("userinfo");
+            token = localStorage.getItem("token");
+//            $("#nickname").text(nickname);
+            if(nickname==null){
+                location.href="Login.html";
+            }else{
+                $("#nickname").text(nickname);
+			}
+
+
+            var html = '';
+            $.ajax({
+//                url:baseUrl+'/login',
+				url:baseUrl+'/menu/getMenus',
+                type:'post',
+                dataType:'json',
+				data:{token:token},
+                success:function(res){
+				    if(res.status==1){
+
+      					var menus=res.data.menus;
+                        var len = menus.length;
+                        for (var i = 0; i < len; i++){
+                            var menu = menus[i];
+                            if(menu.children.length>0){
+                                html += "<li class=\"layui-nav-item\">"+"<a href='javascript:void(0)'><cite>"+menu.name+"</cite></a>";
+                                html += "<ul class=\"layui-nav-child\">";
+                                if(menu.children!=null && menu.children.length>0){
+                                    var children = menu.children;
+                                    for(var j=0;j<children.length;j++){
+                                        var child = children[j];
+                                        url2 = 'pages'+child.url+'.html';
+                                        html += '<li onclick="skip(\''+child.name+'\',\''+url2+'\',\''+child.id+'\')">'+'<a href=\'javascript:void(0)\'>'+'<cite style="color:#fff;">'+ child.name+'</cite>'+'</a>'+'</li>';
+//                                        html += '<li>'+'<a href=\'javascript:void(0)\'>'+'<cite style="color:#fff;">'+ child.name+'</cite>'+'</a>'+'</li>';
+                                    }
+								}
+								html += "</ul>";
+                                html += "</li>";
+							}
+							else{
+                                url2 = 'pages'+menu.url+'.html';
+                                html += "<li class=\"layui-nav-item\" onclick=\"skip(\''+menu.name+'\',\''+url2+'\',\''+menu.id+'\')\">"+"<a href='javascript:void(0)'><cite>"+menu.name+"</cite></a></li>";
+							}
+						}
+                        $('#nav').html(html);
+                        $('.layui-bg-black #nav li').click(function(event){
+                            if($(this).children('.layui-nav-child').length) {
+                                if ($(this).hasClass('open')) {
+                                    $(this).removeClass('open');
+                                    $(this).find('.nav_right').html('&#xe697;');
+                                    $(this).children('.layui-nav-child').stop().slideUp();
+                                    $(this).siblings().children('.layui-nav-child').slideUp();
+                                } else {
+                                    $(this).addClass('open');
+                                    $(this).children('a').find('.nav_right').html('&#xe6a6;');
+                                    $(this).children('.layui-nav-child').stop().slideDown();
+                                    $(this).siblings().children('.layui-nav-child').stop().slideUp();
+                                    $(this).siblings().find('.nav_right').html('&#xe697;');
+                                    $(this).siblings().removeClass('open');
+                                }
+                            }
+                            event.stopPropagation();
+						})
+
+					}else{
+                        errmsg(result);
+					}
+
+                },
+                error:function(){
+                    location.href='Login.html';
+                }
+            })
+			function skip(title,url2,id){
+					$.ajax({
+						url:baseUrl+'/menu/getMenuAction',
+						type:'post',
+						dataType:'json',
+						data:{token:token,id:id},
+						success:function(res){
+						    if(res.status==1){
+                                //跳转到页面
+                                tab.tabAdd(title, url2, id);
+                                tab.tabChange(id);
+                                localStorage.setItem("access-Data",res.data);
+							}else{
+                                errmsg(res);
+							}
+						},
+						error:function(res){
+                              location.href("Login.html");
+						}
+
+					})
+			}
+
+
+
+		</script>
+
+
+	</body>
+	<!--Tab菜单右键弹出菜单-->
+	<ul class="rightMenu" id="rightMenu">
+        <li data-type="fresh">刷新</li>
+        <li data-type="current">关闭当前</li>
+        <li data-type="other">关闭其它</li>
+        <li data-type="all">关闭所有</li>
+    </ul>
+
+</html>

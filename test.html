@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>layui</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="lib/layui/css/layui.css"  media="all">
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<div style="width:100%;height:100%;" class="layui-tab-brief">
+	<div style="margin:10px;">
+		<button class="layui-btn layui-btn-small" onclick="openAddLayer()">
+			<i class="layui-icon"></i> 添加用户
+		</button>
+	</div>
+	<fieldset class="layui-elem-field">
+		<div class="layui-field-box">
+			<div class="table-tree">
+
+			</div>
+		</div>
+	</fieldset>
+</div>
+<script type="text/javascript">
+    $('.table-tree').tableTree({
+        url: 'json/data.json',
+        tableHead: ['地区（降雨量）','1月','2月','3月'],
+        width: 600,
+        height: 600,
+    })
+</script>
+</body>
+</html>

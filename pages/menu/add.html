@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cmn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css"  />
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <form id="demoform">
+        <div class="layui-form-item">
+            <div class="layui-inline" id="parent">
+                <!--<label class="layui-form-label">父id</label>-->
+                <div class="layui-input-inline">
+                    <input type="hidden" name="parentId" id="parentId"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">资源类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="type1"/>
+                    <input type="hidden" name="type" id="type"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">菜单名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" id="name"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">菜单路径</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">权限字符串</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="permission"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">排序号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sort"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" onclick="submit()">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript">
+    layui.use(['form','layer'],function(){
+        var layer = layui.layer,
+             form = layui.form;
+        token=localStorage.getItem("token");
+        var data=JSON.parse(window.sessionStorage.getItem("thisRow"));
+        if(data==null||data==''){
+           $("#type1").val("栏目");
+            $("#type").val("column");
+           $("#parentId").val(0);
+        }else{
+            if(data.type=="action"){
+                layer.alert("此为菜单动作，无法再添加子菜单！",function(){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+            }
+            if(data.type=="menu"){
+                $("#type1").val("动作");
+                $("#type").val("action");
+                $("#parentId").val(data.parentId);
+
+            }else{
+                $("#type1").val("菜单");
+                $("#type").val("menu");
+                $("#parentId").val(data.parentId);
+            }
+            console.log(data);
+        }
+    })
+    function submit(){
+        var url = baseUrl+"/menu/add";
+        var options={
+            url:url,
+            type:'post',
+            //clearForm:true,
+            resetForm:true,
+            timeout:10000,
+            data:{token:token},
+            beforeSubmit:ValidateForm,
+            success:function(res){
+                if(res.status==1){
+                    layer.alert("成功",function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+
+                }else{
+//                    var index = parent.layer.getFrameIndex(window.name);
+//                    parent.layer.close(index);
+                    errmsg(res);
+                }
+            },
+            error:function(data){
+                console.log(JSON.stringify(data));
+                //未登陆
+                layer.msg("系统异常");
+            }
+        };
+        $("#demoform").ajaxForm(options);
+        $("#demoform").submit();
+    }
+    function ValidateForm(){
+//        if(!$("#demoform").form('validate')){
+//            exist;
+//        }
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<title>南通科技局</title>
+		<link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+		<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+		<style>
+		.layui-input-iframe{
+			margin:9px 5px;
+		}
+		</style>
+	</head>
+	<body>
+		<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
+			<form class="layui-form">
+				<div class="layout-form">
+					<label class="layui-form-label">用户名</label>
+					<input type="text" class="layui-input-iframe" id="username" readonly="readonly"/>
+				</div>
+				<div class="layout-form">
+					<label class="layui-form-label">部门</label>
+					<input type="text" class="layui-input-iframe" id="department" readonly="readonly"/>
+				</div>
+				<div class="layout-form">
+					<label class="layui-form-label">角色</label>
+					<input type="text" class="layui-input-iframe" id="roles" readonly="readonly"/>
+				</div>
+			</form>
+		</div>
+	<script type="text/javascript">
+		var id=localStorage.getItem("users");
+        $.ajax({
+            url:'../../json/user.json',
+            type:"post",
+            dataType:"json",
+            success:function(data){
+                for(var i in data){
+                    if(data[i].num==id){
+                        $("#username").val(data[i].name);
+                        $("#department").val(data[i].depart);
+                        $("#roles").val(data[i].role);
+					}
+				}
+            },
+            error:function(xhr,type,errorThrown){
+                console.log("请求失败");
+            }
+
+        });
+		layui.use('layer',function(){
+		    var layer=layui.layer;
+
+            $(function(){
+                setTimeout(function(){
+                    frameVal();
+                },100);
+            });
+            function frameVal(){
+                var dataId = $('input[name="dataId"]').val();
+			}
+        })
+	</script>
+	</body>
+</html>

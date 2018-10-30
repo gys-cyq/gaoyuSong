@@ -1,0 +1,133 @@
+.searchTitle{
+    display:inline-block;
+    margin:10px;
+    font-weight:bold;
+}
+
+.style-table {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .style-table thead {
+        background-color: #f2f2f2;
+    }
+    
+    .style-table th,
+    .style-table td {
+        text-align: left;
+        padding: 5px 15px;
+        min-height: 20px;
+        line-height: 20px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .style-table td:first-child{
+    	width:50px;
+    }
+    .style-table td:last-child{
+    	width:285px;
+    }
+    .style-table th {
+        border: 1px solid #e7e7e7;
+        background-color: #F5F5F6;
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: bold;
+        color: #676a6c
+    }
+    
+    /*.style-table tbody tr:nth-child(2n) {
+        background-color: #f7f7f7;
+    }*/
+    
+    .style-table tbody tr:hover {
+        background-color: #f7f7f7;
+    }
+.modal-fill{
+	display:block;
+	width:100%;
+	min-height:100px;
+	box-sizing:border-box;
+	padding: 10px;
+}
+.modal-fill div{
+	display:block;
+	width:50%;
+	float:left;
+	margin:10px 0;
+	box-sizing:border-box;
+}
+.modal-fill div label{
+	width:25%;
+	float:left;
+}
+.modal-fill div input,.modal-fill div select{
+	width:60%;
+}
+.horiborder{
+	display:block;
+	width:100%;
+	box-sizing:border-box;
+	margin:10px 0;
+}
+.roleChoose {
+            color: #F2AE11;
+            font-size: 0.3em;
+            margin-bottom: 1em;
+            text-align: center;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+        .roleChoose span {
+            display: block;     /*设置为块级元素会独占一行形成上下居中的效果*/
+            font-size: 3em;
+            color: #212121;
+            position: relative;   /*定位横线（当横线的父元素）*/
+        }
+        .roleChoose span:before, .roleChoose span:after {
+            content: '';                 /*CSS伪类用法*/
+            position: absolute;         /*定位背景横线的位置*/
+            top: 52%;
+            background: #eee;       /*宽和高做出来的背景横线*/
+            width: 36%;
+            height: 1px;
+        }
+        .roleChoose span:before{
+            left: 3%;        /*调整背景横线的左右距离*/
+        }
+        .roleChoose span:after {
+            right:3%;
+        }	
+        .rolechoices{
+        	width:100%;	
+        	height:40px;
+        	padding:5px 0;
+			border-left:1px solid #eee;
+			border-right:1px solid #eee;
+			border-bottom:1px solid #eee;
+        }
+        .rolechoices div{
+        	float:left;
+        	box-sizing:border-box;
+        	margin:0 20px;
+        }
+        .userStatus{
+        	width:100%;	
+        	height:40px;
+        	padding:5px 0;
+			border-left:1px solid #eee;
+			border-right:1px solid #eee;
+			border-bottom:1px solid #eee;
+        }
+        .userStatus div{
+        	float:left;
+        	width:50%;
+        	padding:0 10px;
+        	box-sizing:border-box;
+        }
+/* 页码样式 */
+.pagenum{
+	margin-left:20px;
+	}
