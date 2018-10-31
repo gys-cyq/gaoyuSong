@@ -1,20 +1,23 @@
-[{
-	"num":"1",
-	"name":"111",
-	"password":"111111",
-	"depart":"人事",
-	"role":"管理员"
- },{
-	 "num":"2",
-	 "name":"222",
-	"password":"111111",
-	 "depart":"技术",
-	 "role":"用户"
- },{
-	 "num":"3",
-	 "name":"333",
-	 "password":"111111",
-	 "depart":"行政",
-	 "role":"用户"
- }
+[
+	{
+		"num": "1",
+		"name": "111",
+		"password": "111111",
+		"depart": "人事",
+		"role": "管理员"
+	},
+	{
+		"num": "2",
+		"name": "222",
+		"password": "111111",
+		"depart": "技术",
+		"role": "用户"
+	},
+	{
+		"num": "3",
+		"name": "333",
+		"password": "111111",
+		"depart": "行政",
+		"role": "用户"
+	}
 ]
