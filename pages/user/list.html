@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../lib/layui/css/layui.mobile.css" />
     <link rel="stylesheet" href="../../css/style.css" />
+   
 </head>
 
 <body>
@@ -53,8 +54,8 @@
                 // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
                 // ,totalRow: true //开启合计行
                 , cols: [[ //表头
-                    {type:'numbers',title:'序列号',width:120}
-                    ,{ field: 'username', title: '用户名' }
+                    { type: 'numbers', title: '序列号', width: 120 }
+                    , { field: 'username', title: '用户名' }
                     , { field: 'nickname', title: '昵称' }
                     , { field: 'roleNames', title: '角色' }
                     , {
@@ -76,7 +77,32 @@
                 var data = obj.data //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值
                 if (layEvent === 'detail') {
-                    layer.msg('查看操作'+data.username);
+                    layer.open({
+                        type: 2,
+                        area: ['350px', '400px'],
+                        fix: false, //不固定
+                        maxmin: true,
+                        title: '详细信息',
+                        content: 'details.html',
+                        success: function (layero, index) {
+                            //向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
+                            var body = layer.getChildFrame('body', index);
+                            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                            body.find('#username').val(data.username);
+                            body.find('#nickname').val(data.nickname);
+                            body.find('#roles').val(data.roleNames);
+                            var status;
+                            if(data.locked==0){
+                                status="正常";
+                            }else{
+                                status="锁定";
+                            }
+                            body.find('#status').val(status);
+                        },
+                        error: function (layero, index) {
+                            console.log("失败");
+                        }
+                    });
                 } else if (layEvent === 'del') {
                     layer.confirm('真的删除行么', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构
@@ -90,7 +116,20 @@
 
         });
 
-        function openAddLayer(){
+        function openAddLayer() {
+            layer.open({
+                type:2,
+                title:'添加用户',
+                content:'add.html',
+                area:['350px','400px'],
+                fix:false,
+                maxmin:true,
+                success:function(layero,index){
+
+                },
+                error:function(layero, index){}
+
+            });
 
         }
     </script>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -9,10 +10,136 @@
     <meta name="format-detection" content="telephone=no">
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+
+    <style>
+        .item {
+            display: flex;
+            float: left;
+            align-items: center
+        }
+    </style>
+</head>
+
+<body>
+    <div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
+        <form class="layui-form">
+            <div class="layout-form item">
+                <label class="layui-form-label">用户名</label>
+                <input type="text" class="layui-input-iframe" id="username" readonly="readonly" lay-verify="required" />
+                <!-- <div class="layui-input-block">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                </div> -->
+            </div>
+            <div class="layout-form item">
+                <label class="layui-form-label">昵称</label>
+                <input type="text" class="layui-input-iframe" id="nickname" readonly="readonly" />
+            </div>
+            <div class="layout-form item">
+                <label class="layui-form-label">密码</label>
+                <input type="input" class="layui-input-iframe" id="password" readonly="readonly" lay-verify="required" />
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">用户类型</label>
+                <div class="layui-input-inline">
+                    <select id="type" lay-filter="type">
+                        <option value="1">普通用户</option>
+                        <option value="2">科技局用户</option>
+                        <option value="3">街道/园区用户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layout-form" style="margin-top: 20px" >
+                <label class="layui-form-label">街道</label>
+                <div class="layui-input-inline" >
+                    <select id="streetId" lay-filter="test1">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layout-form" style="margin-top: 20px">
+                <label class="layui-form-label">园区</label>
+                <div class="layui-input-inline">
+                    <select id="parkId">
+                    </select>
+                </div>
+            </div>
+
+            <div class="layout-form item">
+                <label class="layui-form-label">部门</label>
+                <input type="text" class="layui-input-iframe" id="department" readonly="readonly" />
+            </div>
+            <div class="layout-form item">
+                <label class="layui-form-label">角色</label>
+                <input type="text" class="layui-input-iframe" id="roles" readonly="readonly" />
+            </div>
+            <div class="layout-form item">
+                <label class="layui-form-label">状态</label>
+                <input type="text" class="layui-input-iframe" id="status" readonly="readonly" />
+            </div>
+
+
+        </form>
+    </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
-</head>
-<body>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript">
+     var form;
+        layui.use(['form', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
+             form = layui.form;
+             form.on('select(type)', function (data) {
+                console.log(data.value); //得到被选中的值
+                if (data.value == 2) {
+                } else if (data.value == 3) {
+                    getStreetList();
+                    
+                }
+            });
 
+        });
+       
+        function getStreetList() {
+         
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response=eval(response);
+                    try{
+                        if(response.status==1){
+                            var data=response.data;
+                            var html='';
+                            for(var i in data){
+                                var id=data[i].id;
+                                var name=data[i].name;
+                                html+=' <option value='+id+'>'+name+'</option>';
+                               
+                            }
+                            console.log(html);
+                            $('#streetId').val(html);
+                            // $('#streetId').html(html);
+
+                            form.val('test1',html)
+                            form.render('select','test1');
+                           
+                            
+                        }
+                    }catch(e){
+                       console.log(e.message);
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+            
+        }
+
+    </script>
 </body>
+
 </html>
