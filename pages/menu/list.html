@@ -24,11 +24,9 @@
 <div class="layui-tab-brief">
     <div style="margin:10px;">
         <button class="layui-btn layui-btn-small" onclick="openAddLayer2()" style="margin-left:15px;" >
-        <!--<button class="layui-btn layui-btn-small" style="margin-left:15px;"  lay-event="getCheckData">-->
             <i class="layui-icon">  </i> 新增栏目
         </button>
         <button class="layui-btn layui-btn-small"  style="margin-left:15px;" id="openAddLayer">
-            <!--<button class="layui-btn layui-btn-small" style="margin-left:15px;"  lay-event="getCheckData">-->
             <i class="layui-icon">  </i> 新增菜单/动作
         </button>
     </div>
@@ -79,6 +77,8 @@
                         "msg":res.msg,
                         "data":res.data
                     }
+                },error:function(res){
+                    errmsg(res)
                 },
 //                url:'../../json/data.json',
                 where:{token:token},
@@ -107,46 +107,80 @@
             });
         };
         renderTable();
+        var data;
             table.on('row(table1)', function (obj){
                 obj.tr.addClass('layui-table-click2').siblings().removeClass('layui-table-click2');
-                var data = obj.data;
+                data = obj.data;
                 var id = data.parentId;
-//                sessionStorage.setItem("thisRow",JSON.stringify(data));
-                console.log(id);
-                $("#openAddLayer").on("click",function(data){
-                    sessionStorage.setItem("thisRow",JSON.stringify(obj));
-                    if(data==null){
-                        
-                    }
+//                localStorage.setItem("thisRow",JSON.stringify(data));
+
+            });
+
+        $("#openAddLayer").on("click",function(){
+            if(data==null|| data==''){
+                layer.msg("请选择行进行添加");
+            }else{
+                if(data.type=="action"){
+                    layer.alert("不能为动作再添加子菜单");
+                }else if(data.type=="menu"){
                     layer.open({
                         type:2,
-                        title:'新增菜单/动作',
-                        area:['400px','500px'],
+                        title:'新增动作',
+                        area:['450px','360px'],
                         fix:false,
                         content:'add.html',
                         success:function(layero,index){
-//                        console.log(obj);
+                            var body = layui.layer.getChildFrame('body', index);
+                            body.find('#type').val("action");
+                            body.find("#parentId").val(data.id);
                         },
                         error:function(layero,index){
-                            errmsg(res);
+//                                errmsg(res);
                         }
                     })
-                })
-            });
+                }else{
+                    layer.open({
+                        type:2,
+                        title:'新增菜单',
+                        area:['450px','360px'],
+                        fix:false,
+                        content:'add.html',
+                        success:function(layero,index){
+                            var body = layui.layer.getChildFrame('body', index);
+                            body.find('#type').val("menu");
+                            body.find("#parentId").val(data.id);
+                        },
+                        error:function(layero,index){
+//                                errmsg(res);
+                        }
+                    })
+                }
+            }
+
+
+        })
             window.openAddLayer2 = function(){
-                layer.open({
-                    type:2,
-                    title:'新增栏目',
-                    area:['400px','500px'],
-                    fix:false,
-                    content:'add.html',
-                    success:function(layero,index){
+             if(data!=null&&data!=''){
+                 layer.alert("此按钮只能增加栏目，请不要选择父菜单",function(){
+                     location.reload();
+                 });
+             }else{
+                 layer.open({
+                     type:2,
+                     title:'新增栏目',
+                     area:['480px','360px'],
+                     fix:false,
+                     content:'add.html',
+                     success:function(layero,index){
+                         var body = layui.layer.getChildFrame('body', index);
+                         body.find('#type').val("column");
+                         body.find("#parentId").val(0);
+                     },
+                     error:function(layero,index){
 
-                    },
-                    error:function(layero,index){
-
-                    }
-                })
+                     }
+                 })
+             }
             }
 
 
@@ -154,11 +188,50 @@
             var data = obj.data;
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
-                    obj.del();
+                    var crowId= data.id;
+                    var url = baseUrl + "/menu/delete";
+                     $.ajax({
+                         url: url,
+                         type: "post",
+                         resetForm: true,
+                         timeout: 10000,
+                         data: {token: token,id:crowId},
+                         success: function (res) {
+                             if (res.status == 1) {
+//                                 obj.del();
+//                                 obj.children.del();
+//                                 layer.msg("删除成功");
+                                 location.reload();
+                             } else {
+                                 errmsg(res);
+                             }
+                         },
+                         error: function () {
+                             layer.msg('删除失败');
+                         }
+                     });
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
-                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                layer.open({
+                    type:2,
+                    title:'编辑',
+                    area:['480px','360px'],
+                    fix:false,
+                    content:'edit.html',
+                    success:function(layero,index){
+                        var body = layui.layer.getChildFrame('body', index);
+                        body.find('#id').val(data.id);
+                        body.find('#name').val(data.name);
+                        body.find('#url').val(data.url);
+                        body.find('#permission').val(data.permission);
+                        body.find('#sort').val(data.sort);
+                        body.find('#type').val(data.type);
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
             }
         });
 
