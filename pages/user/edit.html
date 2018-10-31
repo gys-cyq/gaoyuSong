@@ -13,22 +13,32 @@
 			.layui-input-iframe{
 				margin:9px 5px;
 			}
+			.layui-tab-brief{
+				width: 100%;
+				height: 100%;
+				margin-top: 20px;
+			}
+			/* .item{
+				display: flex;
+				float: left;
+				align-items: center
+			} */
 		</style>
 	</head>
 	<body>
 		<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
 			<form class="layui-form">
-				<div class="layout-form">
+				<div class="layout-form item">
 					<label class="layui-form-label">用户名</label>
-					<input type="text" class="layui-input-iframe" />
+					<input type="text" class="layui-input-iframe" id="username" />
 				</div>
-				<div class="layout-form">
+				<div class="layout-form item">
 					<label class="layui-form-label">部门</label>
-					<input type="text" class="layui-input-iframe"/>
+					<input type="text" class="layui-input-iframe" id="dept"/>
 				</div>
-				<div class="layout-form">
+				<div class="layout-form item">
 					<label class="layui-form-label">角色</label>
-					<input type="text" class="layui-input-iframe"/>
+					<input type="text" class="layui-input-iframe" id="role"/>
 				</div>
 			</form>
 			<div style="text-align:center;margin-top:20px;">

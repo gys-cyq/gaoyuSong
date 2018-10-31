@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>南通科技局</title>
@@ -8,142 +9,91 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../../static/css/font.css"  />
-    <link rel="stylesheet" href="../../static/css/weadmin.css"  />
-    <link rel="stylesheet" href="../../lib/layui/css/layui.css"  />
-    <link rel="stylesheet" href="../../lib/layui/css/layui.mobile.css"  />
-    <link rel="stylesheet" href="../../css/style.css"  />
-    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
-    <style>
-    </style>
+    <link rel="stylesheet" href="../../static/css/font.css" />
+    <link rel="stylesheet" href="../../static/css/weadmin.css" />
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../lib/layui/css/layui.mobile.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
 </head>
+
 <body>
-<div style="width:100%;height:100%;" class="layui-tab-brief">
     <div style="margin:10px;">
         <button class="layui-btn layui-btn-small" onclick="openAddLayer()">
             <i class="layui-icon"></i> 添加用户
         </button>
     </div>
-    <fieldset class="layui-elem-field">
-        <div class="layui-field-box">
-            <table class="style-table">
-                <thead slot="thead">
-                <tr>
-                    <th>序号</th>
-                    <th width="180">用户名</th>
-                    <th>所在部门</th>
-                    <th>角色</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody slot="tbody" class="news_content" id="userContent">
-                </tbody>
-            </table>
-        </div>
-    </fieldset>
-    <div id="pagenum" class="pagenum"></div>
-</div>
-<!--<script type="text/javascript" src="js/user.js"></script>-->
-<script type="text/javascript">
-    layui.use(['laypage','jquery','layer'], function(){
-        var laypage=layui.laypage,
-            $=layui.jquery,
-            layer = layui.layer;
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script src="../../js/main.js"></script>
+    <script type="text/javascript">
+        layui.use('table', function () {
+            var table = layui.table;
 
-        laypage.render({
-            elem: 'pagenum',
-            count: 100,
-            layout: ['limit', 'prev', 'page', 'next'],
-            limit: 10,
+            table.render({
+                elem: '#demo'
+                , height: 420
+                , url: baseUrl + '/user/select' //数据接口
+                , where: { token: localStorage.getItem('token') }
+                , parseData: function (res) {
+
+                    return {
+                        "code": 0,
+                        "msg": res.msg,
+                        "count": res.data.total,
+                        "data": res.data.list
+                    }
+                }
+                , page: true //开启分页
+                // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+                // ,totalRow: true //开启合计行
+                , cols: [[ //表头
+                    {type:'numbers',title:'序列号',width:120}
+                    ,{ field: 'username', title: '用户名' }
+                    , { field: 'nickname', title: '昵称' }
+                    , { field: 'roleNames', title: '角色' }
+                    , {
+                        field: 'locked ', templet: function (e) {
+                            if (e.locked == 0) {
+                                return "正常"
+                            } else {
+                                return "锁定"
+                            }
+                        }, title: '状态'
+                    }
+                    , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo' }
+
+                ]]
+            });
+
+            //监听行工具事件
+            table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值
+                if (layEvent === 'detail') {
+                    layer.msg('查看操作'+data.username);
+                } else if (layEvent === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构
+                        layer.close(index);
+                        //向服务端发送删除指令
+                    });
+                } else if (layEvent === 'edit') {
+                    layer.msg('编辑操作');
+                }
+            });
+
         });
-        window.openAddLayer = function(){
-            layer.open({
-                type: 2,
-                area: ['350px', '400px'],
-                fix: false, //不固定
-                maxmin: true,
-                title: '添加用户',
-                content: 'add.html',
-            });
-        }
-        window.openSearchLayer =function(obj){
-            localStorage.setItem("users",obj);
-            layer.open({
-                type: 2,
-                area: ['350px', '400px'],
-                fix: false, //不固定
-                maxmin: true,
-                title: '详细信息',
-                content: 'details.html?id=obj',
-                success: function(layero, index) {
-                    //向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
-//							var body = layer.getChildFrame('body', index);
-//							body.contents().find("#dataId").val(id);
-                },
-                error: function(layero, index) {
-                    console.log("失败");
-                }
-            });
-        }
-        window.openEditLayer =function(){
-            layer.open({
-                type:2,
-                area:['350px','400px'],
-                fix:false,
-                content:'edit.html',
-                success:function(layero,index){
-                },
-                error:function(layero,index){
-                    console.log('失败');
-                }
-            })
-        }
-        window.delLayer =function(obj){
-            layer.confirm('确认要删除吗？', function(index) {
-                //发异步删除数据
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!', {
-                    icon: 1,
-                    time: 1000
-                });
-            });
-        }
-    })
-    //        var user = {
-    //            "id" : 6,
-    //            "userName" : "小红",
-    //            "password" : "123",
-    //            "age" : 12
-    //        };
-    $.ajax({
-//            url:'http://192.168.10.140:8090/test',
-        url:'../../json/user.json',
-        type:"get",
-        dataType:"json",
-//            data : JSON.stringify(user),
-//            contentType : 'application/json;charset=UTF-8',
-        success:function(data){
-//                console.log(data);
-            var html='';
-            for(var i in data){
-                html += '<tr><td>'+data[i].num+'</td>'+
-                    '<td>'+data[i].name+'</td>'+
-                    '<td>'+data[i].depart+'</td>'+
-                    "<td>"+data[i].role+"</td>"+
-                    '<td><button class=\"layui-btn\" onclick=\"openSearchLayer(\''+data[i].num+'\')\">查看</button>'+
-                    "<button class=\"layui-btn layui-btn-small\" onclick=\"openEditLayer()\"><i class=\"layui-icon\"></i></button>"+
-                    "<button class=\"layui-btn layui-btn-danger layui-btn-small\" onclick=\"delLayer(this)\"><i class=\"layui-icon\"></i></button></td>"+
-                    "</tr>";
-            }
-            $("#userContent").html(html);
-        },
-        error:function(xhr,type,errorThrown){
-            console.log("请求失败");
-            console.log(xhr);
-        }
 
-    });
-</script>
+        function openAddLayer(){
+
+        }
+    </script>
 </body>
+
 </html>
