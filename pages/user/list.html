@@ -61,7 +61,7 @@
                     , {
                         field: 'locked ', templet: function (e) {
                             if (e.locked == 0) {
-                                return "正常"
+                                return "开启"
                             } else {
                                 return "锁定"
                             }
@@ -79,9 +79,8 @@
                 if (layEvent === 'detail') {
                     layer.open({
                         type: 2,
-                        area: ['350px', '400px'],
+                        area: ['450px', '360px'],
                         fix: false, //不固定
-                        maxmin: true,
                         title: '详细信息',
                         content: 'details.html',
                         success: function (layero, index) {
@@ -121,7 +120,7 @@
                 type:2,
                 title:'添加用户',
                 content:'add.html',
-                area:['350px','400px'],
+                area:['800px','360px'],
                 fix:false,
                 maxmin:true,
                 success:function(layero,index){

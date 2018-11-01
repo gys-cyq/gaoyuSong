@@ -12,122 +12,349 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
 
     <style>
-        .item {
+        /* .item {
+            width: 100%;
+            height: auto;
             display: flex;
             float: left;
             align-items: center
+        } */
+
+        .layui-form-item {
+            text-align: center;
+        }
+
+        .layui-form-label {
+            padding: 9px 10px;
+        }
+
+        .layui-input,
+        .layui-textarea {
+            width: 100%;
+        }
+
+        .layui-form-item .layui-input-inline {
+            width: 200px;
+        }
+
+        .layui-input-block {
+            width: 200px;
+        }
+        select{
+            width: 100%
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+
+        .layui-form-checkbox[lay-skin="primary"]:hover i {
+            border-color: #2fa4e7;
+        }
+
+        .layui-form-checked[lay-skin="primary"] i {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
+
+        .layui-form-onswitch {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
+
+        .layui-btn-submit {
+            text-align: center;
+            margin: 10px 0
         }
     </style>
 </head>
 
 <body>
-    <div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
-        <form class="layui-form">
-            <div class="layout-form item">
-                <label class="layui-form-label">用户名</label>
-                <input type="text" class="layui-input-iframe" id="username" readonly="readonly" lay-verify="required" />
-                <!-- <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
-                </div> -->
-            </div>
-            <div class="layout-form item">
-                <label class="layui-form-label">昵称</label>
-                <input type="text" class="layui-input-iframe" id="nickname" readonly="readonly" />
-            </div>
-            <div class="layout-form item">
-                <label class="layui-form-label">密码</label>
-                <input type="input" class="layui-input-iframe" id="password" readonly="readonly" lay-verify="required" />
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">用户类型</label>
-                <div class="layui-input-inline">
-                    <select id="type" lay-filter="type">
-                        <option value="1">普通用户</option>
-                        <option value="2">科技局用户</option>
-                        <option value="3">街道/园区用户</option>
-                    </select>
+    <div class="layui-tab-brief" style="margin-top: 10px">
+        <form class="layui-form" id="demofrom">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" lay-verify="required|isExistUsername" id="name" class="layui-input" autocomplete="off"
+                            placeholder="请输入用户名" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                        <label class="layui-form-label">昵称
+                                <span style="color:red;">*</span>
+                            </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nickname" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入昵称">
+                    </div>
                 </div>
             </div>
-            <div class="layui-inline layout-form" style="margin-top: 20px" >
-                <label class="layui-form-label">街道</label>
-                <div class="layui-input-inline" >
-                    <select id="streetId" lay-filter="test1">
-                    </select>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">密码
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="password" lay-verify="required" id="name" class="layui-input" autocomplete="off" placeholder="请输入密码"
+                        />
+                    </div>
                 </div>
+               
+                <div class="layui-inline">
+                        <label class="layui-form-label">用户类型</label>
+                        <div class="layui-input-inline">
+                            <select id="type" lay-filter="type" name="type">
+                                <option value="1">普通用户</option>
+                                <option value="2">科技局用户</option>
+                                <option value="3">街道/园区用户</option>
+                            </select>
+                        </div>
+                    </div>
             </div>
-            <div class="layui-inline layout-form" style="margin-top: 20px">
-                <label class="layui-form-label">园区</label>
-                <div class="layui-input-inline">
-                    <select id="parkId">
-                    </select>
+            <div class="layui-form-item">
+                    <div class="layui-inline layout-form" style="margin-top: 20px">
+                            <label class="layui-form-label">街道 <span style="color:red;">*</span></label>
+                            <div class="layui-input-block">
+                                <select id="streetId" lay-filter="street" name="streetId" lay-verify="required">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline layout-form" style="margin-top: 20px">
+                            <label class="layui-form-label">园区</label>
+                            <div class="layui-input-block">
+                                <select id="parkId" lay-filter="park" name="parkId">
+                                </select>
+                            </div>
+                        </div>
                 </div>
-            </div>
+            
 
-            <div class="layout-form item">
+            <!-- <div class="layout-form item">
                 <label class="layui-form-label">部门</label>
-                <input type="text" class="layui-input-iframe" id="department" readonly="readonly" />
-            </div>
-            <div class="layout-form item">
-                <label class="layui-form-label">角色</label>
-                <input type="text" class="layui-input-iframe" id="roles" readonly="readonly" />
-            </div>
-            <div class="layout-form item">
-                <label class="layui-form-label">状态</label>
-                <input type="text" class="layui-input-iframe" id="status" readonly="readonly" />
-            </div>
+                <input type="text" class="layui-input-iframe" id="department" />
+            </div> -->
+            <div class="layui-form-item">
 
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色 <span style="color:red;">*</span></label>
+                   
+                        <ul id="rolesul" lay-verify="isCheckd"></ul>
+                   
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" lay-skin="switch" lay-text="开启|锁定" lay-filter='status' value="1">
+                    <input type="hidden" lay-skin="switch" lay-filter='status' value="1" name="locked" id="locked">
+
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" type="reset">重置</button>
+                </div>
+            </div>
 
         </form>
+
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/jquery.form.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
-     var form;
+        var form;
+        var streetId;
+        var parkId;
+        var locked;
         layui.use(['form', 'layer', 'laydate'], function () {
             var layer = layui.layer;
-             form = layui.form;
-             form.on('select(type)', function (data) {
-                console.log(data.value); //得到被选中的值
+            form = layui.form;
+            getRoleList();
+            form.on('select(type)', function (data) {
+                // console.log(data.value); //得到被选中的值
                 if (data.value == 2) {
                 } else if (data.value == 3) {
                     getStreetList();
-                    
+
                 }
             });
+            form.on('select(street)', function (data) {
+                streetId = data.value;
+                getParkList();
+
+            });
+            form.on('select(park)', function (data) {
+                parkId = data.value;
+            });
+            form.on('checkbox', function (data) {
+                console.log(data.value);
+
+            });
+            form.on('switch(status)', function (data) {
+                if (this.checked) {
+                    $('#locked').val(0)
+
+                } else {
+                    $('#locked').val(0)
+                }
+            });
+            form.verify({
+
+                isExistUsername: function (value) {
+                    var msg;
+                    $.ajax({
+                        url: baseUrl + '/user/isExistUsername',
+                        type: 'post',
+                        dataType: 'json',
+                        timeout: 10000,
+                        async: false,
+                        data: {
+                            token: localStorage.getItem('token'),
+                            username: value
+                        },
+                        success: function (response) {
+                            if (response.status != 1) {
+                                console.log(response.msg);
+                                msg = response.msg;
+
+                            }
+
+                        },
+                        error: function (xhr, type, errorThrown) {
+
+                        }
+
+                    });
+                    return msg;
+
+
+                }, isCheckd: function (value) {
+                    var isCheckd = false;
+                    $("input:checkbox").each(function (i) {
+                        if ($(this).prop("checked") == true) {
+                            isCheckd = true;
+                        }
+
+                    });
+                    console.log(isCheckd)
+                    if (!isCheckd) {
+                        return "请选择用户角色";
+                    }
+
+                }
+
+            });
+
+            form.on('submit(submit)', function (data) {
+                console.log(JSON.stringify(data.field));
+                var url = baseUrl + '/user/add';
+                var options = {
+                    url: url,
+                    type: 'POST',
+                    dataType: "json",
+                    data: { token: localStorage.getItem('token') },
+                    clearForm: true,
+                    resetForm: true,
+                    async: false,
+                    timeout: 10000,
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        } else {
+                            layer.msg(res.msg);
+
+                        }
+                    },
+                    error: function (data) {
+                        alert('error');
+                    }
+
+                };
+                $('#demofrom').ajaxForm(options);
+                $('#demofrom').submit();
+                return false;
+
+            });
+
 
         });
-       
+      
+        function getRoleList() {
+            $.ajax({
+                url: baseUrl + "/role/getRoleList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token')
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = "";
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var description = data[i].description;
+                                html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + description + ' lay-skin="primary" name="roles" > ' + '</li>';
+                            }
+                            $('#rolesul').html(html);
+                            form.render();
+
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            })
+        }
+
         function getStreetList() {
-         
             $.ajax({
                 url: baseUrl + '/street/getStreetList',
                 type: 'get',
                 dataType: 'json',
                 data: { token: localStorage.getItem('token') },
                 success: function (response) {
-                    response=eval(response);
-                    try{
-                        if(response.status==1){
-                            var data=response.data;
-                            var html='';
-                            for(var i in data){
-                                var id=data[i].id;
-                                var name=data[i].name;
-                                html+=' <option value='+id+'>'+name+'</option>';
-                               
-                            }
-                            console.log(html);
-                            $('#streetId').val(html);
-                            // $('#streetId').html(html);
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
 
-                            form.val('test1',html)
-                            form.render('select','test1');
-                           
-                            
+                            }
+
+                            $('#streetId').html(html);
+                            form.render();
+
+
+
+
+
                         }
-                    }catch(e){
-                       console.log(e.message);
+                    } catch (e) {
+                        console.log(e.message);
 
                     }
 
@@ -136,9 +363,48 @@
                     console.log(xhr.responseText);
                 }
             });
-            
-        }
 
+        }
+        function getParkList() {
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            form.render();
+                            parkId = data[0].id;
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
+            });
+
+
+        }
     </script>
 </body>
 
