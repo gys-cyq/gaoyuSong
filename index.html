@@ -42,7 +42,7 @@
 			<div class="layui-side layui-bg-black">
 			   		 <div class="layui-side-scroll" id="side-nav">
 			      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-					      <ul class="layui-nav layui-nav-tree"  lay-filter="leftNav" id="nav">
+					      <ul class="layui-nav layui-nav-tree" id="nav">
 					      </ul>
 					 </div>
 			</div>
@@ -152,7 +152,8 @@
                                 //跳转到页面
                                 tab.tabAdd(title, url2, id);
                                 tab.tabChange(id);
-                                localStorage.setItem("access-Data",res.data);
+                                actions=localStorage.setItem("actions",res.data);
+
 							}else{
                                 errmsg(res);
 							}
