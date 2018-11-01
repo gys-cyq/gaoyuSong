@@ -22,7 +22,7 @@
 </head>
 <body>
 <div class="layui-tab-brief">
-    <div style="margin:10px;">
+    <div style="margin:10px;" id="addbutton">
         <button class="layui-btn layui-btn-small" onclick="openAddLayer2()" style="margin-left:15px;" >
             <i class="layui-icon">  </i> 新增栏目
         </button>
@@ -38,10 +38,21 @@
         </div>
     </fieldset>
 </div>
+<!--<script type="text/html" id="oper-col">-->
+    <!--{{#  if(actions.indexOf('menu:update')!=-1){actions='编辑'}  }-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">{{actions}}</a>-->
+    <!--{{# }if(actions.indexOf('menu:delete')!=-1){actions='删除'} }-->
+    <!--{{actions}}-->
+    <!--{{# } }}-->
 <script type="text/html" id="oper-col">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
 </script>
+
+<!--</script>-->
+<!--<script type="text/html">-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>-->
+        <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+<!--</script>-->
 
 
 <script>
@@ -56,6 +67,24 @@
         var element = layui.element;
         var treetable = layui.treetable;
 
+        actions =localStorage.getItem("actions");
+        if(actions.indexOf('menu:add')!=-1){
+            $('#addbutton').css('display','block');
+        }else{
+            $('#addbutton').css('display','none');
+        }
+        var html='';
+        if(actions.indexOf('menu:update')!=-1){
+            html+="<a class=\"layui-btn layui-btn-primary layui-btn-xs\" lay-event=\"edit\" style=\"background-color:#2fa4e7;color:#fff;\">编辑</a>"
+        }
+        if(actions.indexOf('menu:delete')!=-1){
+            html+="<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>"
+        }
+        $("#oper-col").html(html);
+//        console.log(actions);
+
+
+
         // 渲染表格
         var renderTable = function () {
 
@@ -66,7 +95,7 @@
                 treeSpid: 0,
                 treeIdName: 'id',
                 treePidName: 'parentId',
-                treeDefaultClose: false,
+                treeDefaultClose: true,
                 treeLinkage: false,
                 elem: '#table1',
                 url: baseUrl+'/menu/select',
@@ -97,10 +126,15 @@
                             return "动作";
                         }
                     }, title: '资源类型'},
-                    {templet: '#oper-col', align: 'center', title: '操作'}
+                    {field:'actions',title:'操作',templet:'#oper-col',}
+//                    {templet: '#oper-col', align: 'center', title: '操作',}
 //                            {templet: '#oper-col', title: 'oper'}
                 ]],
                 done: function (res,cuur,count) {
+                    if(actions.indexOf('menu:delete')==-1&&actions.indexOf('menu:update')==-1){
+                        var tables = $("#table1").next().find(".layui-table-box");
+                        tables.find("[data-field='actions']").remove();
+                    }
                     layer.closeAll('loading');
 
                 }
@@ -113,6 +147,7 @@
                 data = obj.data;
                 var id = data.parentId;
 //                localStorage.setItem("thisRow",JSON.stringify(data));
+
 
             });
 
@@ -160,11 +195,7 @@
 
         })
             window.openAddLayer2 = function(){
-             if(data!=null&&data!=''){
-                 layer.alert("此按钮只能增加栏目，请不要选择父菜单",function(){
-                     location.reload();
-                 });
-             }else{
+
                  layer.open({
                      type:2,
                      title:'新增栏目',
@@ -180,7 +211,6 @@
 
                      }
                  })
-             }
             }
 
 
