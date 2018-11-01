@@ -4,6 +4,7 @@ var baseUrl = 'http://192.168.10.99:8090',
      url2='',
      id=''
      tab=[],
+     actions=[],
      accessData=[],
      localPage="http://127.0.0.1:63342/kjj";
 function errmsg(res){
