@@ -14,45 +14,40 @@
 		.layui-input-iframe{
 			margin:9px 5px;
 		}
+		.item{
+				display: flex;
+				float: left;
+				align-items: center
+			}
 		</style>
 	</head>
 	<body>
 		<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
 			<form class="layui-form">
-				<div class="layout-form">
+				<div class="layout-form item">
 					<label class="layui-form-label">用户名</label>
 					<input type="text" class="layui-input-iframe" id="username" readonly="readonly"/>
 				</div>
-				<div class="layout-form">
+				<div class="layout-form item">
+						<label class="layui-form-label">昵称</label>
+						<input type="text" class="layui-input-iframe" id="nickname" readonly="readonly"/>
+				</div>
+				<div class="layout-form item">
+						<label class="layui-form-label">角色</label>
+						<input type="text" class="layui-input-iframe" id="roles" readonly="readonly"/>
+					</div>
+				<div class="layout-form item">
+						<label class="layui-form-label">状态</label>
+						<input type="text" class="layui-input-iframe" id="status" readonly="readonly"/>
+					</div>
+				<div class="layout-form item">
 					<label class="layui-form-label">部门</label>
 					<input type="text" class="layui-input-iframe" id="department" readonly="readonly"/>
 				</div>
-				<div class="layout-form">
-					<label class="layui-form-label">角色</label>
-					<input type="text" class="layui-input-iframe" id="roles" readonly="readonly"/>
-				</div>
+				
 			</form>
 		</div>
 	<script type="text/javascript">
-		var id=localStorage.getItem("users");
-        $.ajax({
-            url:'../../json/user.json',
-            type:"post",
-            dataType:"json",
-            success:function(data){
-                for(var i in data){
-                    if(data[i].num==id){
-                        $("#username").val(data[i].name);
-                        $("#department").val(data[i].depart);
-                        $("#roles").val(data[i].role);
-					}
-				}
-            },
-            error:function(xhr,type,errorThrown){
-                console.log("请求失败");
-            }
-
-        });
 		layui.use('layer',function(){
 		    var layer=layui.layer;
 
