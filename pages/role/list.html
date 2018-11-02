@@ -13,151 +13,163 @@
     <link rel="stylesheet" href="../../css/style.css"  />
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
 </head>
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
         <label class="searchTitle">角色名称</label>
         <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="role" id="roleSearch" autocomplete="off">
         </div>
-        <a class="layui-btn search_btn">查询</a>
-        <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="display:block;margin-top:15px;">
-            <i class="layui-icon"></i> 添加角色
-        </button>
+        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <div>
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
+                <i class="layui-icon"></i> 添加角色
+            </button>
+            <button class="layui-btn" style="margin-top:15px;">权限分配</button>
+        </div>
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
-            <table class="style-table">
-                <thead slot="thead">
-                <tr>
-                    <th>序号</th>
-                    <th width="180">角色名</th>
-                    <th>角色描述</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody slot="tbody" id="roleContent">
-                </tbody>
+            <table class="style-table" id="roleList" lay-filter="roleList">
             </table>
         </div>
     </fieldset>
     <div id="pagenum" class="pagenum"></div>
 </div>
+<script type="text/html" id="roleAction">
 
+</script>
 <script type="text/javascript">
-    var data = [];
-    var addRoleData = window.sessionStorage.getItem("addRole");
-    $.ajax({
-        url:"../../json/role.json",
-        type:"get",
-        dataType:'json',
-        data:addRoleData,
-//                contentType : 'application/json;charset=UTF-8',
-        success:function(data){
-            if(addRoleData!=null){
-                data = data.concat(JSON.parse(addRoleData));
+layui.use(['table','layer','jquery'], function(){
+    var table = layui.table,
+         layer = layui.layer,
+         $ = layui.jquery;
+    //第一个实例
+    token=localStorage.getItem("token");
+
+    actions =localStorage.getItem("actions");
+    if(actions.indexOf('menu:add')!=-1){
+        $('#addbutton').css('display','inline-block');
+    }else{
+        $('#addbutton').css('display','none');
+    }
+    var html='';
+    if(actions.indexOf('menu:update')!=-1){
+        html+="<a class=\"layui-btn layui-btn-primary layui-btn-xs\" lay-event=\"edit\" style=\"background-color:#2fa4e7;color:#fff;\">编辑</a>"
+    }
+    if(actions.indexOf('menu:delete')!=-1){
+        html+="<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>"
+    }
+    $("#roleAction").html(html);
+
+     table.render({
+        elem: '#roleList',
+        url:baseUrl+'/role/select',
+        where:{token:token},
+        parseData: function(res){
+            return {
+                "code" : 0,
+                "msg" : res.msg,
+                "count" : res.data.total,
+                "data" : res.data.list
             }
-            var html='';
-            for(var i in data){
-                html += '<tr><td>'+data[i].num+'</td>'+
-                    '<td>'+data[i].role+'</td>'+
-                    '<td>'+data[i].discript+'</td>'+
-                    '<td><button class=\"layui-btn\" onclick=\"openSearchLayer()\">权限分配</button>'+
-                    '<button class=\"layui-btn layui-btn-small\" onclick=\"openEditLayer(\''+data[i].num+'\')\"><i class=\"layui-icon\"></i>编辑</button>';
-                if(data[i].property!=0){
-                    html += '<button class=\"layui-btn layui-btn-danger layui-btn-small\" onclick=\"delLayer(this)\"><i class=\"layui-icon\"></i>删除</button>';
-                }
-                html += '</td></tr>';
-            }
-            $("#roleContent").html(html);
         },
-        error:function(xhr,type,errorThrown){
-            console.log("角色读取失败111"+xhr.status);
+        page: true, //开启分页
+        id:id,
+        cols: [[ //表头
+            {field: 'role', title: '角色名称'},
+            {field: 'description', title: '角色描述'},
+            {field:'available',templet:function(d){
+                if(d.available=='1'){
+                    return "可用";
+                }else{
+                    return "不可用";
+                }
+            },title:'是否可用'},
+            {field:'',title:'操作',templet:function(d){
+                if(d.id>5){
+                    return '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>'+
+                        '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="rolrDel">删除</a>';
+                }else{
+                    return '<span style="display:none;"></span>';
+                }
+            }},
+        ]],
+        done: function (res,cuur,count) {
+            layer.closeAll('loading');
         }
+    });
+
+    var active = {
+        reload :function(){
+            url = baseUrl + '/role/getRoleList';
+            var Srole = $('#roleSearch').val();
+            table.reload(id,{
+                url:url,
+                method:'get',
+                dataType:'json',
+                page:{
+                    curr:'1'
+                },
+                where:{
+                    role:Srole
+                }
+            })
+        }
+    }
+
+    $("#Search").on('click',function(){
+        var type = $(this).data('type');
+        if( $('#roleSearch').val().trim()==""){
+            layer.msg('查询角色名称不能为空');
+            return false;
+        }
+        active[type] ? active[type].call(this) : '';
     })
-    layui.use(['laypage','layer'],function(){
-        var laypage=layui.laypage,
-            layer=layui.layer;
 
-        laypage.render({
-            elem: 'pagenum'
-            ,count: 100
-            ,layout: [ 'prev', 'page', 'next','count', 'limit', 'refresh', 'skip', ]
-            ,jump: function(obj){
-//                        console.log(obj)
+    window.openAddLayer = function(){
+        layer.open({
+            type:2,
+            title:'新增角色',
+            area:['450px','360px'],
+            fix:false,
+            content:'add.html',
+            success:function(layero,index){
+                var body = layui.layer.getChildFrame('body', index)
+            },
+            error:function(layero,index){
+
             }
-        });
+        })
+    }
 
-        window.openAddLayer=function(){
+    table.on("tool(roleList)",function(obj){
+        console.log(111);
+        var data = obj.data;
+        if(obj.event==='edit'){
             layer.open({
                 type:2,
-                area:['600px','500px'],
+                title:'编辑角色信息',
+                area:['480px','360px'],
                 fix:false,
-                maxmin:true,
-                title:'增加角色',
-                content:'add.html',
+                content:'edit.html',
                 success:function(layero,index){
-
+                    var body = layui.layer.getChildFrame('body', index);
+                    body.find('#id').val(data.id);
+                    body.find('#roleName').val(data.role);
+                    body.find('#roleDes').val(data.description);
+                    body.find("#roleab").val(data.available);
                 },
                 error:function(layero,index){
 
                 }
             })
         }
-
-        window.openSearchLayer=function(){
-            layer.open({
-                type: 2,
-                area: ['600px', '500px'],
-                fix: false, //不固定
-                maxmin: true,
-                title: '修改权限',
-                content: 'Root.html',
-                success: function(layero, index) {
-                    //向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
-//							var body = layer.getChildFrame('body', index);
-//							body.contents().find("#rolename").val(obj);
-                },
-                error: function(layero, index) {
-                    alert("aaa");
-                }
-            });
-        }
-        window.openEditLayer=function(obj){
-            localStorage.setItem("roles",obj);
-            layer.open({
-                type: 2,
-                area: ['600px', '500px'],
-                fix: false, //不固定
-                maxmin: true,
-                title: '修改角色信息',
-                content: 'edit.html',
-                success: function(layero, index) {
-                    //向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
-                    var body = layer.getChildFrame('body', index);
-                    body.contents().find("#rolename").val(obj);
-//							var data=JSON.stringify(obj);
-//							for(var i in obj){
-//                                alert(obj[i]);
-//							}
-                },
-                error: function(layero, index) {
-                    alert("aaa");
-                }
-            });
-        }
-        window.delLayer =function(obj){
-            layer.confirm('确认要删除吗？', function(index) {
-                //发异步删除数据
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!', {
-                    icon: 1,
-                    time: 1000
-                });
-            });
-        }
     })
+
+});
 </script>
 </body>
 </html>

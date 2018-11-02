@@ -413,7 +413,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 	//本地存储中移除删除的元素
 	function removeStorageMenu(id) {
 		var menu = JSON.parse(sessionStorage.getItem('menu'));
-		//var curMenu = JSON.parse(localStorage.getItem('curMenu'));
+		var curMenu = JSON.parse(localStorage.getItem('curMenu'));
 		if(menu) {
 			var deep = false;
 			for(var i = 0; i < menu.length; i++) {

@@ -7,72 +7,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="stylesheet" href="../../lib/layui/css/layui.css"/>
-    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
     <title>南通科技局</title>
     <style>
-        .layout-form-content{
-            display:block;
-            text-align:center;
-            margin:0 auto;
+        .layui-form-label{
+            padding:9px 10px;
         }
-        .layui-input-iframe{
-            margin:9px 5px;
+        .layui-input, .layui-textarea{
+            width:100%;
+        }
+        .layui-form-item .layui-input-inline{
+            width:280px;
+        }
+        .layui-form-onswitch{
+            border-color:#2fa4e7;
+            background-color:#2fa4e7;
         }
 
     </style>
 </head>
 <body>
 <div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
-    <form class="layui-form">
-        <div class="layout-form-content">
-            <label class="layui-form-label">角色名</label>
-            <input type="text" class="layui-input-iframe" id="rolename"/>
+    <form class="layui-form" id="roleEdit">
+        <input type="hidden" name="id"  id="id"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="roleName" class="layui-input" name="role"/>
+                </div>
+            </div>
         </div>
-        <div class="layout-form-content">
-            <label class="layui-form-label">角色描述</label>
-            <input type="text" class="layui-input-iframe" id="roledetails"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色描述</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="roleDes" name="description"/>
+                </div>
+            </div>
         </div>
-        <div class="layout-form-content">
-            <label class="layui-form-label">权限</label>
-            <input type="text" class="layui-input-iframe" id="roleroot"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">是否可用</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="available"/>
+                    <input type="text" class="layui-input" id="roleab" />
+                </div>
+            </div>
+        </div>
+        <div  class="layui-form-item" style="text-align:center;">
+            <div class="layui-inline">
+                <button class="layui-btn" onclick="edit()">确定</button>
+                <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
+            </div>
         </div>
     </form>
-    <div style="text-align:center;margin-top:20px;">
-        <button class="layui-btn" onclick="edit()">确定</button>
-        <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
-    </div>
 </div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
-    var id=localStorage.getItem("roles");
-    $.ajax({
-        url:"../../json/role.json",
-        type:"post",
-        dataType:"json",
-        success:function(data){
-            for(var i in data){
-                if(data[i].num==id){
-                    $("#roledetails").val(data[i].role);
-                    $("#roleroot").val(data[i].discript);
+    layui.use(['layer','form'],function(){
+        var layer = layui.layer,
+            form = layui.form;
+        token = localStorage.getItem("token");
+    })
+    function edit(){
+        var url = baseUrl + "/role/update";
+        var options = {
+            url: url,
+            type: 'post',
+            resetForm: true,
+            timeout: 10000,
+            data: {token: token},
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.alert("成功", function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+                } else {
+                    console.log(222);
+//                        errmsg(res);
                 }
+            },
+            error: function (data) {
+                //未登陆
+                console.log(token);
+                layer.msg("系统异常");
             }
-        },error:function(xhr,type,errorThrown){
-                console.log("获取待编辑内容失败");
-        }
-    })
-    layui.use('layer',function(){
-        var layer = layui.layui;
+        };
+        $("#demoform").ajaxForm(options);
+        $("#demoform").submit();
 
-        window.edit = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
-
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
-    })
+    }
+//    var id=localStorage.getItem("roles");
+//    $.ajax({
+//        url:"../../json/role.json",
+//        type:"post",
+//        dataType:"json",
+//        success:function(data){
+//            for(var i in data){
+//                if(data[i].num==id){
+//                    $("#roledetails").val(data[i].role);
+//                    $("#roleroot").val(data[i].discript);
+//                }
+//            }
+//        },error:function(xhr,type,errorThrown){
+//                console.log("获取待编辑内容失败");
+//        }
+//    })
+//    layui.use('layer',function(){
+//        var layer = layui.layui;
+//
+//        window.edit = function(){
+//            var index = parent.layer.getFrameIndex(window.name);
+//            parent.layer.close(index);
+//        }
+//
+//        window.cancel = function(){
+//            var index = parent.layer.getFrameIndex(window.name);
+//            parent.layer.close(index);
+//        }
+//    })
 </script>
 </body>
 </html>
