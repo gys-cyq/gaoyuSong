@@ -14,6 +14,11 @@
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
+    <style>
+        .layui-table-click2 {
+            background: #eee;
+        }
+    </style>
 </head>
 <body>
 <div class="layui-tab-brief">
@@ -27,7 +32,7 @@
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
                 <i class="layui-icon"></i> 添加角色
             </button>
-            <button class="layui-btn" style="margin-top:15px;">权限分配</button>
+            <button class="layui-btn" style="margin-top:15px;" onclick="openRoot()">权限分配</button>
         </div>
     </div>
     <fieldset class="layui-elem-field">
@@ -50,7 +55,7 @@ layui.use(['table','layer','jquery'], function(){
     token=localStorage.getItem("token");
 
     actions =localStorage.getItem("actions");
-    if(actions.indexOf('menu:add')!=-1){
+    if(actions.indexOf('menu:add')==-1){
         $('#addbutton').css('display','inline-block');
     }else{
         $('#addbutton').css('display','none');
@@ -73,7 +78,7 @@ layui.use(['table','layer','jquery'], function(){
                 "code" : 0,
                 "msg" : res.msg,
                 "count" : res.data.total,
-                "data" : res.data.list
+                "data" : res.data.list,
             }
         },
         page: true, //开启分页
@@ -83,15 +88,15 @@ layui.use(['table','layer','jquery'], function(){
             {field: 'description', title: '角色描述'},
             {field:'available',templet:function(d){
                 if(d.available=='1'){
-                    return "可用";
+                    return "正常";
                 }else{
-                    return "不可用";
+                    return "<span style='color:red;'>禁用</span>";
                 }
             },title:'是否可用'},
             {field:'',title:'操作',templet:function(d){
                 if(d.id>5){
                     return '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>'+
-                        '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="rolrDel">删除</a>';
+                        '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>';
                 }else{
                     return '<span style="display:none;"></span>';
                 }
@@ -145,8 +150,45 @@ layui.use(['table','layer','jquery'], function(){
         })
     }
 
+    var data;
+    table.on('row(roleList)', function (obj) {
+        obj.tr.addClass('layui-table-click2').siblings().removeClass('layui-table-click2');
+        data=obj.data;
+        data2 = JSON.stringify(data);
+        var id = data.id;
+        var resourceId = data.resourceList;
+        //                localStorage.setItem("thisRow",JSON.stringify(data));
+
+
+    });
+    window.openRoot = function(){
+        if (data == null || data == '') {
+            layer.msg("请选择行进行添加");
+        }else if(data.available==0){
+            layer.msg("此角色已被禁用，请设置为正常后再为其分配角色");
+        }else {
+            layer.open({
+                type: 2,
+                title: '权限分配',
+                area: ['650px', '500px'],
+                fix: false,
+                maxmin:true,
+                content: 'Root.html',
+                success: function (layero, index) {
+                    var body = layui.layer.getChildFrame('body', index);
+//                    body.find("#roleid").val(JSON.parse(data).id);
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(data2);
+
+                },
+                error: function (layero, index) {
+
+                }
+            })
+        }
+    }
+
     table.on("tool(roleList)",function(obj){
-        console.log(111);
         var data = obj.data;
         if(obj.event==='edit'){
             layer.open({
@@ -155,17 +197,50 @@ layui.use(['table','layer','jquery'], function(){
                 area:['480px','360px'],
                 fix:false,
                 content:'edit.html',
+                maxmin:true,
                 success:function(layero,index){
                     var body = layui.layer.getChildFrame('body', index);
                     body.find('#id').val(data.id);
                     body.find('#roleName').val(data.role);
                     body.find('#roleDes').val(data.description);
                     body.find("#roleab").val(data.available);
+//                    if(data.available==1){
+//                        body.find("#roleab2").val("正常");
+//                    }else{
+//                        body.find("#roleab2").val("禁用");
+//                    }
                 },
                 error:function(layero,index){
 
                 }
             })
+        }else if(obj.event === 'del'){
+            layer.confirm('真的删除行么', function (index) {
+                var rowId = data.id;
+                var url = baseUrl + "/role/delete";
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    resetForm: true,
+                    timeout: 10000,
+                    maxmin:true,
+                    data: { token: token, id: rowId },
+                    success: function (res) {
+                        if (res.status == 1) {
+                            location.reload();
+                        } else {
+//                            errmsg(res);
+                            console.log(res.msg);
+//                            location.reload();
+
+                        }
+                    },
+                    error: function () {
+                        layer.msg('删除失败');
+                    }
+                });
+                layer.close(index);
+            });
         }
     })
 

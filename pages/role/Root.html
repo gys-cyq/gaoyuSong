@@ -13,127 +13,167 @@
 		<link rel="stylesheet" href="../../css/style.css"  />
 		<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+		<script type="text/javascript" src="../../js/main.js"></script>
 	</head>
 	<body>
 		<div class="layui-tab-brief">
+			<input type="hidden"  id="roleid" name="roleid"/>
 	        <fieldset class="layui-elem-field">
 	            <div class="layui-field-box">
 					<table class="style-table"><tbody id="rootContent"></tbody></table>
 	            </div>
 	        </fieldset>
-			<div style="text-align:center;margin-top:20px;">
-				<button class="layui-btn" onclick="submit()" id="saveDataBtn">保存</button>
-				<button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
-			</div>
+		</div>
+		<div style="text-align:center;margin-top:10px;">
+			<button class="layui-btn"  id="saveDataBtn">保存</button>
+			<button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
 		</div>
 		<script type="text/javascript">
-            $.ajax({
-				url:'../../json/root.json',
-                type:"get",
-                dataType:"json",
-                success:function(data){
-                    var html="";
-                    for(var i in data){
-						html += "<tr>";
-						html+="<th><input type='checkbox' value='+data[i].num+' />"+data[i].name+"</th>";
-						if(data[i].child){
-						    html+="<th>"
-						    html+="<table class='style-table'><tbody>";
-						    for(var key in data[i].child){
-                                html+="<tr>";
-						        html+="<th><input type='checkbox' value='+(data[i].child)[key].num+' />"+(data[i].child)[key].name+"</th>";
-//						        var data=(data[i].child)[key];
-						        if((data[i].child)[key].child){
-						            html+="<th>";
-						            html+="<table class='style-table'><tbody>";
-						            for(var j in (data[i].child)[key].child){
-						                html+="<tr>";
-                                        html+="<th><input type='checkbox' value='+((data[i].child)[key].child)[j].num+' />"+((data[i].child)[key].child)[j].name+"</th>";
-						                html+="</tr>";
-									}
-						            html+="</tbody></table>";
-						            html+="</th>"
-								}
-                                html+="</tr>";
-							}
-							html+="</tbody></table>"
-							html+="</th>"
-						}
-						html+="</tr>";
+            token = localStorage.getItem("token");
+            var rootData;
+            var roleid;
+            var sourceList;
+            var k;
+			layui.use(['layer','table'],function(){
+			    var layer = layui.layer,
+					table = layui.table;
 
-//						console.log(data[i].name);
-					}
-                    $("#rootContent").html(html);
-
-                    function getCookie(name){
-                        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); //正则匹配
-                        if(arr = document.cookie.match(reg)){
-                            return unescape(arr[2]);
-                        }else{
-                            return null;
-                        }
-                    }
-                    function searchData(){
-                        var saveData = '';
-                        $("body").find("input").each(function(i){
-                            if($(this).is(':checked')){
-                                saveData += $(this).val() + "|";
-                            }
-                        });
-                        return saveData;
-                    }
-                    function setCookie(name,value) {
-                        document.cookie = name + '=' + escape(value);
-                    }
-
-                    var rootChoices = document.cookie.indexOf("rootChoices");
-                    if(rootChoices == -1){
-                        // 本地cookie不存在 ，什么也不做，不读取
-                    }else{
-                        // 读取cooke内容
-                        var loaclCookie = getCookie("rootChoices");
-                        // 写入浏览器渲染
-                        var cookieArr = loaclCookie.split('|');
-                        for (var i = 0 ; i < cookieArr.length - 1; i++){
-//						$("#" + cookieArr[i]).prop("checked",true);
-                            $("input[value='" + cookieArr[i] + "']").prop("checked",true);
-
-                        }
-
-                    }
-
-                    $('input').click(function() {
-//                        var c = $(this).is(':checked');
-						if($(this).is(':checked')){
-                            $(this).parents("th").siblings().find("input").prop("checked", true);
-						}else{
-                            $(this).parents("th").siblings().find("input").prop("checked", false);
-						}
-
-                        $('#saveDataBtn').click(function(){
-                            var saveData=searchData();
-                            setCookie("rootChoices",saveData);
-						})
-                    })
-                },
-                error:function(xhr,type,errorThrown){
-                    console.log("请求失败");
-                    console.log(xhr.status);
+                window.cancel=function(){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
                 }
 
-            });
-			layui.use(['jquery','layer'],function(){
-				var layer=layui.layer,
-				$=layui.jquery;
-				window.cancel=function(){
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.layer.close(index);
-				}
-				window.submit=function(){
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.layer.close(index);
+			})
+
+            function child(obj) {
+                rootData = JSON.parse(obj);
+                roleid = rootData.id;
+                sourceList = rootData.resourceList;
+                k=sourceList.length;
+
+                $.ajax({
+				url:baseUrl+'/menu/getMenuList',
+				type:'get',
+				dataType:"json",
+				data:{token:token,id:roleid},
+				success:function(res){
+				    if(res.status==1){
+				        var data = res.data;
+                        var html="";
+                        for(var i in data){
+                            html += "<tr>";
+                            html+="<th><input type='checkbox' value=\""+data[i].id+"\" name=\"menus\" />"+data[i].name+"</th>";
+                            if(data[i].children){
+                                html+="<th>"
+                                html+="<table class='style-table'><tbody>";
+                                for(var key in data[i].children){
+                                    html+="<tr>";
+                                    html+="<th><input type='checkbox' value=\""+(data[i].children)[key].id+"\" name=\"menus\"  />"+(data[i].children)[key].name+"</th>";
+//						        var data=(data[i].children)[key];
+                                    if((data[i].children)[key].children){
+                                        html+="<th>";
+                                        html+="<table class='style-table'><tbody>";
+                                        for(var j in (data[i].children)[key].children){
+                                            html+="<tr>";
+                                            html+="<th><input type='checkbox' value=\""+((data[i].children)[key].children)[j].id+"\" name=\"menus\" />"+((data[i].children)[key].children)[j].name+"</th>";
+                                            html+="</tr>";
+                                        }
+                                        html+="</tbody></table>";
+                                        html+="</th>"
+                                    }
+                                    html+="</tr>";
+                                }
+                                html+="</tbody></table>"
+                                html+="</th>"
+                            }
+                            html+="</tr>";
+
+//						console.log(data[i].name);
+                        }
+                        $("#rootContent").html(html);
+
+
+
+                        var list = document.getElementsByTagName('input');
+                        for(var i=0;i<k;i++){
+                            for(var j=0;j<list.length;j++){
+                                if(list[j].value==sourceList[i].id){
+                                    $(list[j]).prop("checked",true);
+                                    continue;
+								}
+							}
+//                           if( $("input").val()==sourceList[i].id){
+//                               $(this).prop("checked",true);
+//						   }
+//                            if(sourceList[i].id){
+//								$(this).prop("checked",true);
+//								console.log(sourceList[i].id);
+//							}嗯，我上次面试完考虑了一下，我觉得那个学校福利一般，工资也还好
+                        }
+                        $('input').click(function() {
+
+                            if($(this).is(':checked')){
+                                $(this).parents("th").siblings().find("input").prop("checked", true);
+                            }else{
+                                if($(this).parents("tr:first-child").parent().find("input").is(':checked')){
+                                    $(this).prop("checked",false);
+//                                    $(this).parents().find("input").prop("checked",false);
+								}else{
+                                    $(this).parents("th").siblings().find("input").prop("checked", false);
+								}
+                            }
+
+                        })
+
+					}else{
+				        console.log(res.msg);
+					}
+				},
+				error:function(){
+
 				}
 			})
+
+
+            $("#saveDataBtn").click(function(){
+                var menus=[];
+                var list = document.getElementsByTagName('input');
+                var j=0;
+                for(var i=0;i<list.length;i++){
+                    if($(list[i]).is(':checked')){
+                        menus[j]=list[i].value;
+                        j++;
+					}
+				}
+				if(menus.length!=0){
+                    var url=baseUrl + '/role/distributed';
+                    $.ajax({
+                        url:url,
+                        type:'post',
+                        dataType:'json',
+                        traditional:true,
+                        data:{roleid:roleid,menus:menus,token:token},
+                        success:function(res){
+                            if(res.status==1){
+                                layer.msg("权限选择成功");
+                            }else{
+                                layer.msg('请选择一项权限再保存');
+                            }
+                        },
+                        error:function(res){
+                            console.log(222);
+                        }
+                    })
+				}else{
+				    layer.msg('请选择一项权限再保存');
+				}
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.location.reload();
+            })
+
+			}
+
 		</script>
 	</body>
 </html>

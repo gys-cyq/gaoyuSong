@@ -108,13 +108,11 @@
                         parent.location.reload();
                     });
                 } else {
-                    console.log(222);
-//                        errmsg(res);
+                        errmsg(res);
                 }
             },
             error: function (data) {
                 //未登陆
-                console.log(token);
                 layer.msg("系统异常");
             }
         };
