@@ -39,8 +39,10 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
-        layui.use('table', function () {
+        var layer;
+        layui.use(['table','layer'], function () {
             var table = layui.table;
+            layer=layui.layer;
             var actions = localStorage.getItem("actions");
             actions = localStorage.getItem("actions");
             if (actions.indexOf('user:add') != -1) {
@@ -76,8 +78,8 @@
                 // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
                 // ,totalRow: true //开启合计行
                 , cols: [[ //表头
-                    { type: 'numbers', title: '序列号', width: 120 }
-                    , { field: 'username', title: '用户名' }
+                    // { type: 'numbers', title: '序列号', width: 120 }
+                    ,{ field: 'username', title: '用户名' }
                     , { field: 'nickname', title: '昵称' }
                     , { field: 'roleNames', title: '角色' }
                     , {
@@ -101,7 +103,7 @@
                 if (layEvent === 'detail') {
                     layer.open({
                         type: 2,
-                        area: ['800px', '450px'],
+                        area: ['800px', '360px'],
                         fix: false, //不固定
                         title: '详细信息',
                         content: 'details.html',
@@ -167,8 +169,9 @@
                     if (res.status == 1) {
                         layer.msg(res.msg);
                         obj.del(); //删除对应行（tr）的DOM结构
-                        layer.close(index);
-                        parent.location.reload();//删除
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
                     } else {
                         layer.msg(res.msg);
                     }

@@ -62,7 +62,7 @@
 					</div>
 				</div> -->
 			</div>
-			<div class="layui-form-item">
+			<div class="layui-form-item" id="street">
 					<div class="layui-inline">
 						<label class="layui-form-label">街道
 							
@@ -125,7 +125,16 @@
 		function child(obj){
 			$("input[name='username']").val(obj.username);
 			$("input[name='nickname']").val(obj.nickname);
+			$("input[name='roles']").val(obj.roleNames);
 			$("input[name='locked']").val(obj.locked==0?"开启":'锁定');
+			if(obj.type==3){
+				$('#street').show();
+				$("input[name='streetId']").val(obj.streetName);
+				$("input[name='parkId']").val(obj.parkName);
+			}else{
+				$('#street').hide();
+			}
+			
 
 		}
 	</script>
