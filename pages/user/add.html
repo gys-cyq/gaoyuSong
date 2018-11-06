@@ -19,36 +19,6 @@
             float: left;
             align-items: center
         } */
-
-        .layui-form-item {
-            text-align: center;
-        }
-
-        .layui-form-label {
-            padding: 9px 10px;
-        }
-
-        .layui-input,
-        .layui-textarea {
-            width: 100%;
-        }
-
-        .layui-form-item .layui-input-inline {
-            width: 200px;
-        }
-
-        .layui-input-block {
-            width: 200px;
-        }
-        select{
-            width: 100%
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-
         .layui-form-checkbox[lay-skin="primary"]:hover i {
             border-color: #2fa4e7;
         }
@@ -84,9 +54,9 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">昵称
-                                <span style="color:red;">*</span>
-                            </label>
+                    <label class="layui-form-label">昵称
+                        <span style="color:red;">*</span>
+                    </label>
                     <div class="layui-input-inline">
                         <input type="text" name="nickname" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入昵称">
                     </div>
@@ -102,67 +72,79 @@
                         />
                     </div>
                 </div>
-               
-                <div class="layui-inline">
-                        <label class="layui-form-label">用户类型</label>
-                        <div class="layui-input-inline">
-                            <select id="type" lay-filter="type" name="type">
-                                <option value="1">普通用户</option>
-                                <option value="2">科技局用户</option>
-                                <option value="3">街道/园区用户</option>
-                            </select>
-                        </div>
+
+                <div class="layui-inline" id="type">
+                    <label class="layui-form-label">用户类型</label>
+                    <div class="layui-input-inline">
+                        <select  lay-filter="type" name="type">
+                            <option value="1">普通用户</option>
+                            <option value="2">科技局用户</option>
+                            <option value="3">街道/园区用户</option>
+                        </select>
                     </div>
-            </div>
-            <div class="layui-form-item">
-                    <div class="layui-inline layout-form" style="margin-top: 20px">
-                            <label class="layui-form-label">街道 <span style="color:red;">*</span></label>
-                            <div class="layui-input-block">
-                                <select id="streetId" lay-filter="street" name="streetId" lay-verify="required">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline layout-form" style="margin-top: 20px">
-                            <label class="layui-form-label">园区</label>
-                            <div class="layui-input-block">
-                                <select id="parkId" lay-filter="park" name="parkId">
-                                </select>
-                            </div>
-                        </div>
                 </div>
-            
+            </div>
+            <div class="layui-form-item" id="second">
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <select  lay-filter="street" name="streetId" lay-verify="type">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline ">
+                    <label class="layui-form-label">园区</label>
+                    <div class="layui-input-inline">
+                        <select id="parkId" lay-filter="park" name="parkId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色
+                    <span style="color:red;">*</span>
+                </label>
+                <div class="layui-fluid">
+                    <ul id="rolesul" lay-verify="isCheckd" class="layui-tab-title"></ul>
+                </div>
+
+            </div>
+
 
             <!-- <div class="layout-form item">
                 <label class="layui-form-label">部门</label>
                 <input type="text" class="layui-input-iframe" id="department" />
             </div> -->
+
             <div class="layui-form-item">
-
-
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色 <span style="color:red;">*</span></label>
-                   
-                        <ul id="rolesul" lay-verify="isCheckd"></ul>
-                   
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <input type="checkbox" lay-skin="switch" lay-text="开启|锁定" lay-filter='status' value="1">
-                    <input type="hidden" lay-skin="switch" lay-filter='status' value="1" name="locked" id="locked">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-skin="switch" lay-text="开启|锁定" lay-filter='status' checked>
+                        <input type="hidden" lay-skin="switch" lay-filter='status' value="0" name="locked" id="locked">
 
 
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary" type="reset">重置</button>
+                    </div>
                 </div>
             </div>
 
-        </form>
+
+
+    
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+    </form>
 
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -174,15 +156,30 @@
         var streetId;
         var parkId;
         var locked;
+        var type;
         layui.use(['form', 'layer', 'laydate'], function () {
             var layer = layui.layer;
             form = layui.form;
             getRoleList();
+            $('#second').hide();
+            var userId=localStorage.getItem('userId');
+            if(userId==1){
+                $("#type").show();
+            }else{
+                $("#type").hide();
+                
+            }
             form.on('select(type)', function (data) {
                 // console.log(data.value); //得到被选中的值
-                if (data.value == 2) {
-                } else if (data.value == 3) {
+                type=data.value;
+                if (data.value == 1) {
+                    $('#second').hide();
+                }else if(data.value==2){
+                    $('#second').hide();
+                } 
+                else if (data.value == 3) {
                     getStreetList();
+                    $('#second').show();
 
                 }
             });
@@ -195,8 +192,7 @@
                 parkId = data.value;
             });
             form.on('checkbox', function (data) {
-                console.log(data.value);
-
+                
             });
             form.on('switch(status)', function (data) {
                 if (this.checked) {
@@ -222,7 +218,6 @@
                         },
                         success: function (response) {
                             if (response.status != 1) {
-                                console.log(response.msg);
                                 msg = response.msg;
 
                             }
@@ -249,6 +244,10 @@
                         return "请选择用户角色";
                     }
 
+                },type:function(value){
+                    if(localStorage.getItem('userId')==1 && value==null && type==3){
+                        return "街道不能为空";
+                    }
                 }
 
             });
@@ -290,7 +289,7 @@
 
 
         });
-      
+
         function getRoleList() {
             $.ajax({
                 url: baseUrl + "/role/getRoleList",

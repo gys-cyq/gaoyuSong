@@ -62,6 +62,7 @@
                         nickname=res.data.user.nickname
                         sessionStorage.setItem("userinfo",nickname);
                         localStorage.setItem("token",res.data.token);
+                        localStorage.setItem('userId',res.data.user.id);
                         token=res.data.token;
                         location.href="index.html";
                     }else{
