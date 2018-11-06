@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
+    <form class="layui-form" id="streetForm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">街道名称<span style="color:red">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" placeholder="请输入街道名称" id="streetName" class="layui-input" lay-verify="required" name="name"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址<span style="color:red;">*</span></label>
+            <div class="layui-input-inline">
+                <select name="province" lay-filter="province" lay-verify="required" id="provinceList">
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="city" lay-filter="city" lay-verify="required" id="cityList">
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="country" lay-filter="country"  lay-verify="required" id="countryList" >
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div  class="layui-inline">
+                <label class="layui-form-label">邮编</label>
+                <div class="layui-input-block">
+                    <input type="text" name="zipcode" class="layui-input" id="zipcode">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div  class="layui-inline">
+                <label class="layui-form-label">联系人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="linkUser" class="layui-input" id="linkUser">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div  class="layui-inline">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="linkTel" class="layui-input" id="linkTel">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align:center;">
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit=""  id="streetEdit">确定</button>
+                <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    layui.use(['form','layer'],function(){
+        var form = layui.form,
+            layer = layui.layer;
+
+        getProvinceList();
+
+        form.on('select(province)', function (data) {
+            getCityList(data.value,'cityList');
+        })
+        form.on('select(city)', function (data) {
+            getCityList(data.value,'countryList');
+        })
+    })
+
+    function child(obj) {
+        console.log(obj.cityName);
+        $("#streetName").val(obj.name);
+        $('#zipcode').val(obj.zipcode);
+        $("#provinceList").val(obj.province);
+        $("#cityList").val(obj.city);
+        $("#countryList").html(obj.country);
+        $('#linkUser').val(obj.linkUser);
+        $('#linkTel').val(obj.linkTel);
+
+    }
+    $('#streetEdit').on('click',function(){
+        var url = baseUrl + "/street/update";
+        console.log(url);
+        var options = {
+            url: url,
+            type: 'post',
+            dataType:'json',
+            resetForm: true,
+            timeout: 10000,
+            data: {token: token},
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.alert("成功", function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+                } else {
+                    console.log(222);
+//                        errmsg(res);
+                }
+            },
+            error: function (data) {
+                //未登陆
+                layer.msg("系统异常");
+            }
+        };
+        $("#streetForm").ajaxForm(options);
+        $("#streetForm").submit();
+
+    })
+
+    function getProvinceList(){
+        $.ajax({
+            url: baseUrl + '/area/selectProvince',
+            type: 'get',
+            dataType: 'json',
+            data: { token:localStorage.getItem("token")},
+            success: function (response) {
+                response = eval(response);
+
+                if (response.status == 1) {
+                    var data = response.data;
+                    var html = ' <option value="">' + '请选择省份' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].areaName;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#provinceList').html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    function getCityList(obj,selectId){
+        $.ajax({
+            url: baseUrl + '/area/selectChildren',
+            type: 'get',
+            dataType: 'json',
+            data: { token:localStorage.getItem("token"),id:obj},
+            success: function (response) {
+                console.log(response);
+                response = eval(response);
+
+                if (response.status == 1) {
+                    var data = response.data;
+                    var html = ' <option value="">' + '请选择城市' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].areaName;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#'+selectId).html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        })
+    }
+
+
+</script>
+</html>
