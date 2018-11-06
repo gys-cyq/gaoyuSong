@@ -18,9 +18,6 @@
         .layui-form-label {
             width: 150px
         }
-        .layui-input{
-            width: 180px
-        }
     </style>
 
 </head>
@@ -28,8 +25,7 @@
 <body>
     <div class="layui-tab-brief" style="margin-top: 10px">
         <form class="layui-form" id="demofrom">
-
-
+            <input type="hidden" name="id" class="layui-input" />
             <div class="layui-inline">
                 <label class="layui-form-label">编号
                     <span style="color:red;">*</span>
@@ -55,7 +51,7 @@
                     <span style="color:red;">*</span>
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="typeName" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入企业类型名称">
+                    <input type="text" name="typeName" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入企业类型名称（资质）">
                 </div>
             </div>
             <div class="layui-inline">
@@ -84,6 +80,7 @@
     <script type="text/javascript" src="../../js/jquery.form.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
+        var typeId;
         layui.use(['form', 'upload'], function () {
             var form = layui.form;
             var upload = layui.upload;
@@ -135,7 +132,9 @@
                         async: false,
                         data: {
                             token: localStorage.getItem('token'),
-                            number: value
+                            number: value,
+                            id:typeId
+                            
                         },
                         success: function (response) {
                             if (response.status != 1) {
@@ -153,7 +152,7 @@
             });
             form.on('submit(submit)',function(data){
                 console.log(JSON.stringify(data.field));
-                var url=baseUrl+'/companytype/add';
+                var url=baseUrl+'/companytype/update';
                 var options={
                     url:url,
                     type:'post',
@@ -185,6 +184,20 @@
             });
 
         });
+        function child(obj){
+            typeId=obj.id;
+            $("input[name='id']").val(obj.id);
+            $("input[name='typeName']").val(obj.typeName);
+            $("input[name='number']").val(obj.number);
+            $("input[name='year']").val(obj.year);
+            $("input[name='image']").val(obj.image);
+            var image = baseUrl + '/file/getImg?path=' + obj.image;
+            if(obj.image!=''){
+                $('#demo1').attr('src', image);
+            }
+           
+
+        }
     </script>
 </body>
 

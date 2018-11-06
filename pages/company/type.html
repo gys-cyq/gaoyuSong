@@ -12,10 +12,15 @@
     <!--<link rel="stylesheet" href="../../static/css/font.css" />-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-
+    <style>
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
 
 </head>
-
+<!-- https://pro.modao.cc/app/JeGI5hEDkXOiwAKf9wh3XIf4G5cOQ26 -->
 <body>
     <div class="layui-tab-brief">
         <div style="margin:10px;">
@@ -40,9 +45,9 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-        layui.use(['table','layer'], function () {
+        layui.use(['table', 'layer'], function () {
             var table = layui.table;
-            var layer=layui.layer;
+            var layer = layui.layer;
             var actions = localStorage.getItem("actions");
 
             if (actions.indexOf('companytype:add') != -1) {
@@ -50,7 +55,7 @@
             } else {
                 $('#addbutton').hide();
             }
-            var html=''
+            var html = ''
             if (actions.indexOf('companytype:update') != -1) {
                 html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
             }
@@ -74,7 +79,20 @@
                 },
                 page: true,//开启分页
                 cols: [
-                    [{ field: 'image', title: '图标' },
+                    [{
+                        field: 'image', templet: function (data) {
+                            if (data.image != "") {
+                                var image = baseUrl + '/file/getImg?path=' + data.image;
+                                var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" >' + '</img>' + '</div>';
+
+                                console.log(html);
+                                return html;
+                            } else {
+                                return ''
+                            }
+
+                        }, title: '图标', style: 'height:48px;width:48px;line-height:48px!important;'
+                    },
                     { field: 'number', title: '编号' },
                     { field: 'typeName', title: '企业类型名称（资质）' },
                     { field: 'year', title: '有效年限' },
@@ -84,29 +102,70 @@
 
 
             });
-            table.on('tool(test)',function(obj){
-                var data=obj.data;
-                var layEvent=obj.event;
-                if(layEvent=='edit'){
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                var layEvent = obj.event;
+                if (layEvent == 'edit') {
+                    layer.open({
+                        type: 2,
+                        area: ['450px', '360px'],
+                        fix: false,
+                        title: '修改用户',
+                        content: 'type_edit.html',
+                        success: function (layero, index) {
 
-                }else if(layEvent=='del'){
-                    layer.confirm("确定删除吗？",function(index){
+
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(data)
+
+
+                        }, error: function (layero, index) {
+
+                        }
+                    });
+
+
+                } else if (layEvent == 'del') {
+                    layer.confirm("确定删除吗？", function (index) {
+                        $.ajax({
+                            url: baseUrl+'/companytype/delete',
+                            type: 'post',
+                            dataType: "json",
+                            timeout: 10000,
+                            data: {
+                                token: localStorage.getItem('token'),
+                                id: data.id
+                            }, success: function (res) {
+                                if (res.status == 1) {
+                                    layer.msg(res.msg);
+                                    obj.del();
+    
+                                    parent.layer.close(index);
+                                    // parent.location.reload();
+                                } else {
+                                    layer.msg(res.msg);
+                                }
+                            },
+                            error: function (xhr, type, errorThrown) {
+
+                            }
+                        });
 
                     });
-                    
+
 
                 }
             });
 
         });
-        function openAddLayer(){
+        function openAddLayer() {
             layer.open({
-                type:2,
-                title:'添加企业类型',
-                content:'type_add.html',
-                area:['450px','360px'],
-                fix:false,
-                maxmin:true,
+                type: 2,
+                title: '添加企业类型',
+                content: 'type_add.html',
+                area: ['450px', '360px'],
+                fix: false,
+                maxmin: true,
             });
 
 

@@ -119,14 +119,15 @@
                 </div>
             </div>
 
-            <div class="layui-form-item">
+            
+
+        </form>
+        <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" id="yes">通过</button>
                     <button class="layui-btn layui-btn-primary" id="no">不通过</button>
                 </div>
             </div>
-
-        </form>
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
@@ -138,12 +139,13 @@
         layui.use(['layer', 'form'], function () {
             layer = layui.layer;
             form = layui.form;
-            $('#yes').click(function () {
+            $('#yes').on('click',function () {
+                layer.msg('1')
                 layer.alert("确定通过吗？", function () {
                     approveCompany(1);
                 });
             });
-            $('#no').click(function () {
+            $('#no').on('click',function () {
                 layer.alert('确定不通过吗？', function () {
                     approveCompany(2);
 

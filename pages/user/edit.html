@@ -163,17 +163,17 @@
 			// getRoleList();
 
 		
-			form.on('select(street)', function (data) {
-				streetId = data.value;
-				getParkList();
+			// form.on('select(street)', function (data) {
+			// 	streetId = data.value;
+			// 	getParkList();
 
-			});
-			form.on('select(park)', function (data) {
-				parkId = data.value;
-			});
-			form.on('checkbox', function (data) {
+			// });
+			// form.on('select(park)', function (data) {
+			// 	parkId = data.value;
+			// });
+			// form.on('checkbox', function (data) {
 
-			});
+			// });
 			form.on('switch(status)', function (data) {
 				if (this.checked) {
 					$('#locked').val(0)
