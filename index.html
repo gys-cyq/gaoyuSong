@@ -109,7 +109,7 @@
 							}
 							else{
                                 url2 = 'pages'+menu.url+'.html';
-                                html += "<li class=\"layui-nav-item\" onclick=\"skip(\''+menu.name+'\',\''+url2+'\',\''+menu.id+'\')\">"+"<a href='javascript:void(0)'><cite>"+menu.name+"</cite></a></li>";
+                                html += '<li class=\"layui-nav-item\" onclick=\"skip(\''+menu.name+'\',\''+url2+'\',\''+menu.id+'\')\">'+'<a href=\'javascript:void(0)\'>'+'<cite>'+menu.name+'</cite>'+'</a>'+'</li>';
 							}
 						}
                         $('#nav').html(html);
@@ -152,7 +152,8 @@
                                 //跳转到页面
                                 tab.tabAdd(title, url2, id);
                                 tab.tabChange(id);
-                                actions=localStorage.setItem("actions",res.data);
+                                console.log(url2);
+                                localStorage.setItem("actions",res.data);
 
 							}else{
                                 errmsg(res);
