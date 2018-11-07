@@ -66,10 +66,10 @@
                         for(var i=0;i<obj.length;i++){
                             var imgurl=baseUrl+'/images/'+obj[i].formats+'.png';
                             var downloadurl = baseUrl+'/file/download?path='+obj[i].path;
-                            html += '<div style=\"display:inline-block;padding:5px 10px;\"><a href="'+downloadurl+'">';
+                            html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+obj[i].filename+'\'"><a href="'+downloadurl+'">';
 //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
                             html += '<img src="'+imgurl+'"></img>';
-                            html += '<div>'+obj[i].filename+'</div>';
+                            html += '<div style="width:30px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
                             html += '</a></div>';
                         }
                         return html;
