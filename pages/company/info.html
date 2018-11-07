@@ -16,7 +16,8 @@
             margin: 20px
             /* text-align: center */
         }
-        .layui-textarea{
+
+        .layui-textarea {
             width: 850px;
 
         }
@@ -27,8 +28,8 @@
 <body>
     <div class="layui-table-brief" style="margin: 10px">
         <div>
-            <button class="layui-btn" id="applySeniorCompany" >资质申报</button>
-            <button class="layui-btn">历史申报</button>
+            <button class="layui-btn" id="applySeniorCompany">资质申报</button>
+            <button class="layui-btn" onclick="history()">历史申报</button>
         </div>
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
             <input name="id" class="layui-input" type="hidden" />
@@ -118,7 +119,7 @@
                     </label>
                     <div class="layui-input-inline">
                         <!-- <input type="text" name="operationScope" class="layui-input" autocomplete="off" /> -->
-                        <textarea class="layui-textarea" name="operationScope" ></textarea>
+                        <textarea class="layui-textarea" name="operationScope"></textarea>
 
                     </div>
                 </div>
@@ -131,7 +132,7 @@
                     </label>
                     <div class="layui-input-block">
                         <!-- <input type="text" name="remark" class="layui-input" autocomplete="off" /> -->
-                        <textarea class="layui-textarea" name="remark" ></textarea>
+                        <textarea class="layui-textarea" name="remark"></textarea>
 
 
                     </div>
@@ -156,6 +157,7 @@
     <script type="text/javascript">
         var form;
         var layer;
+        var historyId;
         layui.use(['form', 'layer', 'laydate'], function () {
             layer = layui.layer;
             form = layui.form;
@@ -188,7 +190,7 @@
                 $('#demofrom').submit();
                 return false;
             });
-            $('#applySeniorCompany').click(function(){
+            $('#applySeniorCompany').click(function () {
                 applySeniorCompany();
             });
         });
@@ -205,6 +207,7 @@
                 success: function (res) {
                     if (res.status == 1) {
                         var data = res.data;
+                        historyId = data.id;
                         form.val("formTest", data);
                     } else {
                         layer.msg(res.msg);
@@ -216,37 +219,55 @@
             });
         }
         function only_num(obj) {
-            　　　　//得到第一个字符是否为负号
-            　　　　var num = obj.value.charAt(0);
-            　　　　//先把非数字的都替换掉，除了数字和.
-            　　　　obj.value = obj.value.replace(/[^\d\.]/g, '');
-            　　　　//必须保证第一个为数字而不是.
-            　　　　obj.value = obj.value.replace(/^\./g, '');
-            　　　　//保证只有出现一个.而没有多个.
-            　　　　obj.value = obj.value.replace(/\.{2,}/g, '.');
-            　　　　//保证.只出现一次，而不能出现两次以上
-            　　　　obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
-            　　　　//如果第一位是负号，则允许添加
-            　　　　if (num == '-') {
-                　　　　　　obj.value = '-' + obj.value;
-            　　　　}
-        　　}
-        function applySeniorCompany(){
+            //得到第一个字符是否为负号
+            var num = obj.value.charAt(0);
+            //先把非数字的都替换掉，除了数字和.
+            obj.value = obj.value.replace(/[^\d\.]/g, '');
+            //必须保证第一个为数字而不是.
+            obj.value = obj.value.replace(/^\./g, '');
+            //保证只有出现一个.而没有多个.
+            obj.value = obj.value.replace(/\.{2,}/g, '.');
+            //保证.只出现一次，而不能出现两次以上
+            obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+            //如果第一位是负号，则允许添加
+            if (num == '-') {
+                obj.value = '-' + obj.value;
+            }
+        }
+        function applySeniorCompany() {
             layer.open({
-                        type: 2,
-                        area: ['450px', '360px'],
-                        fix: false,
-                        title: '资质申报',
-                        content: 'applySenior.html',
-                        success: function (layero, index) {
+                type: 2,
+                area: ['460px', '460px'],
+                fix: false,
+                title: '资质申报',
+                content: 'applySenior.html',
+                success: function (layero, index) {
 
 
 
-                        }, error: function (layero, index) {
+                }, error: function (layero, index) {
 
-                        }
-                    });
+                }
+            });
 
+        };
+        function history() {
+            layer.open({
+                type: 2,
+                area: ['1000px', '400px'],
+                fix: true,
+                title: '历史申报',
+                content: 'history.html',
+                success: function (layero, index) {
+                    // layer.msg(historyId);
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(historyId);
+
+                }, error: function (layero, index) {
+                    
+                }
+
+            });
         }
     </script>
 </body>

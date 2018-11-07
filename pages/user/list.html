@@ -93,7 +93,9 @@
                     }
                     , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
 
-                ]]
+                ]],done:function(res,cuur,count){
+                    layer.closeAll('loading');
+                }
             });
 
             //监听行工具事件
