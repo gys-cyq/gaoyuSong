@@ -14,38 +14,28 @@
 </head>
 <body>
 <div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
-    <form class="layui-form" id="roleForm">
+    <form class="layui-form" id="parkForm">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">街道名称<span style="color:red">*</span></label>
+                <label class="layui-form-label">园区名称<span style="color:red">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" placeholder="请输入街道名称" id="streetNameAdd" class="layui-input" lay-verify="required" name="name"/>
+                    <input type="text" placeholder="请输入园区名称" id="parkNameAdd" class="layui-input" lay-verify="required" name="name"/>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-                <label class="layui-form-label">地址<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <select name="province" lay-filter="province" id="provinceList" lay-verify="required">
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="city" lay-filter="city" id="cityList" lay-verify="required">
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="country" lay-filter="country" id="countryList" lay-verify="required">
-                    </select>
-                </div>
-        </div>
-        <div class="layui-form-item">
-            <div  class="layui-inline">
-                <label class="layui-form-label">邮编</label>
-                <div class="layui-input-block">
-                    <input type="text" name="zipcode" class="layui-input">
-                </div>
+            <label class="layui-form-label">所属街道<span style="color:red;">*</span></label>
+            <div class="layui-input-inline">
+                <select name="street" lay-filter="street" id="streetList" lay-verify="required">
+                </select>
             </div>
         </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">地址<span style="color:red;">*</span></label>-->
+            <!--<div class="layui-input-inline">-->
+                <!--<input type="text" name="address" class="layui-input"/>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="layui-form-item">
             <div  class="layui-inline">
                 <label class="layui-form-label">联系人</label>
@@ -74,31 +64,20 @@
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
+    token = localStorage.getItem("token");
     var form;
     layui.use(['form','layer'],function(){
-        form = layui.form;
         var layer = layui.layer;
+            form = layui.form;
 
-        token = localStorage.getItem("token");
-        getProvinceList();
-        form.on('select(province)', function (data) {
-            console.log(data.value);
-//
-                getCityList(data.value,'cityList');
-        })
-        form.on('select(city)', function (data) {
-            console.log(data.value);
-//
-            getCityList(data.value,'countryList');
-        })
+            getstreetList();
 
         window.cancel = function(){
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         }
-
         form.on('submit(addRole)', function(data){
-            var url = baseUrl + "/street/add";
+            var url = baseUrl + "/park/add";
             var options = {
                 url: url,
                 type: 'post',
@@ -124,62 +103,30 @@
                     layer.msg("系统异常");
                 }
             };
-            $("#roleForm").ajaxForm(options);
-            $("#roleForm").submit();
+            $("#parkForm").ajaxForm(options);
+            $("#parkForm").submit();
             return false;
         })
     })
-
-    function getProvinceList(){
+    function getstreetList(){
         $.ajax({
-            url: baseUrl + '/area/selectProvince',
+            url: baseUrl + '/street/getStreetList',
             type: 'get',
             dataType: 'json',
-            data: { token:localStorage.getItem("token")},
+            data: { token:token},
             success: function (response) {
                 response = eval(response);
 
                 if (response.status == 1) {
                     var data = response.data;
-                    var html = ' <option value="">' + '请选择省份' + '</option>';
+                    var html = ' <option value="">' + '请选择街道' + '</option>';
                     for (var i in data) {
                         var id = data[i].id;
-                        var name = data[i].areaName;
+                        var name = data[i].name;
                         html += ' <option value=' + id + '>' + name + '</option>';
 
                     }
-                    $('#provinceList').html(html);
-                    form.render();
-                }else{
-                    console.log(response.msg);
-                }
-
-            },
-            error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-    function getCityList(obj,selectId){
-        $.ajax({
-            url: baseUrl + '/area/selectChildren',
-            type: 'get',
-            dataType: 'json',
-            data: { token:localStorage.getItem("token"),id:obj},
-            success: function (response) {
-                console.log(response);
-                response = eval(response);
-
-                if (response.status == 1) {
-                    var data = response.data;
-                    var html = ' <option value="">' + '请选择城市' + '</option>';
-                    for (var i in data) {
-                        var id = data[i].id;
-                        var name = data[i].areaName;
-                        html += ' <option value=' + id + '>' + name + '</option>';
-
-                    }
-                    $('#'+selectId).html(html);
+                    $('#streetList').html(html);
                     form.render();
                 }else{
                     console.log(response.msg);
@@ -191,8 +138,6 @@
             }
         })
     }
-
-
 </script>
 </body>
 </html>

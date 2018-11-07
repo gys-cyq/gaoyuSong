@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>崇川科技局项目管理系统</title>
+    <link rel="stylesheet" href="../../static/css/font.css"  />
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css"  />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box">
+            <table class="style-table" id="attachmenttypeList" lay-filter="attachmenttypeList">
+            </table>
+        </div>
+    </fieldset>
+</div>
+<script type="text/html" id="attachmenttypeAction">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>
+</script>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    layui.use(['table','layer'],function(){
+        var table = layui.table,
+            layer = layui.layer;
+
+        table.render({
+            elem: '#attachmenttypeList',
+            url:baseUrl+'/template/selecttype',
+            where:{token:token},
+            parseData: function(res){
+                return {
+                    "code" : 0,
+                    "msg" : res.msg,
+                    "data" : res.data,
+                }
+            },
+            page: false, //关闭分页
+            id:id,
+            cols: [[ //表头
+//                {field: 'code', title: '类别编号'},
+                {field: 'typeName', title: '类别名称'},
+                {field:'',title:'操作',templet:'#attachmenttypeAction'},
+            ]],
+            done: function (res,cuur,count) {
+                layer.closeAll('loading');
+            }
+        });
+
+        table.on("tool(attachmenttypeList)",function(obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '编辑',
+                    area: ['480px', '360px'],
+                    fix: false,
+                    content: 'edit.html',
+                    maxmin: true,
+                    success: function (layero, index) {
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    },
+                    error: function (layero, index) {
+
+                    }
+                })
+            }
+        })
+    })
+</script>
+</body>
+</html>

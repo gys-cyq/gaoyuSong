@@ -11,16 +11,14 @@
     <link rel="stylesheet" href="../../static/css/font.css"  />
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css"  />
-    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
 </head>
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
-        <label class="searchTitle">街道名称</label>
+        <label class="parkTitle">园区名称</label>
         <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="streetSearch" autocomplete="off">
+            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="parkSearch" autocomplete="off">
         </div>
         <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
         <div>
@@ -31,43 +29,45 @@
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
-            <table class="style-table" id="streetList" lay-filter="streetList">
+            <table class="style-table" id="parkList" lay-filter="parkList">
             </table>
         </div>
     </fieldset>
 </div>
-<script type="text/html" id="streetAction">
+<script type="text/html" id="parkAction">
 
 </script>
 
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['table','layer','jquery'],function(){
+    token = localStorage.getItem("token");
+    layui.use(['form','layer','table'],function(){
         var layer = layui.layer,
-            table = layui.table,
-            $ = layui.jquery;
-
-        token = localStorage.getItem("token");
+            form = layui.form,
+            table = layui.table;
 
         var actions =localStorage.getItem("actions");
-        if(actions.indexOf('street:add')!=-1){
+        console.log(actions);
+        if(actions.indexOf('park:add')!=-1){
             $('#addbutton').css('display','inline-block');
         }else{
             $('#addbutton').css('display','none');
         }
         var html='';
-        if(actions.indexOf('street:update')!=-1){
+        if(actions.indexOf('park:update')!=-1){
             html+="<a class=\"layui-btn layui-btn-primary layui-btn-xs\" lay-event=\"edit\" style=\"background-color:#2fa4e7;color:#fff;\">编辑</a>"
         }
-        if(actions.indexOf('street:delete')!=-1){
+        if(actions.indexOf('park:delete')!=-1){
             html+="<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>"
         }
-        $("#streetAction").html(html);
-
+        $("#parkAction").html(html);
 
 
         table.render({
-            elem: '#streetList',
-            url:baseUrl+'/street/select',
+            elem: '#parkList',
+            url:baseUrl+'/park/select',
             where:{token:token},
             parseData: function(res){
                 return {
@@ -78,28 +78,24 @@
                 }
             },
             page: true, //开启分页
-            id:'testid',
+            id:'parkid',
             cols: [[ //表头
-                {field: 'name', title: '街道名称'},
-                {field: 'provinceName', title: '省'},
-                {field: 'cityName', title: '市'},
-                {field:'countryName',title:'区'},
-                {field: 'zipcode', title: '邮编'},
+                {field: 'name', title: '园区名称'},
+                {field: 'streetName', title: '所属街道'},
                 {field: 'linkUser', title: '联系人'},
                 {field: 'linkTel', title: '联系电话'},
-                {field:'',title:'操作',templet:'#streetAction'},
+                {field:'',title:'操作',templet:'#parkAction'},
             ]],
             done: function (res,cuur,count) {
                 layer.closeAll('loading');
             }
         });
 
+
         var active = {
             reload :function(){
-                var url = baseUrl + '/street/select';
-//                var street = $('#streetSearch').val();
-
-                table.reload('testid',{
+                var url = baseUrl + '/park/select';
+                table.reload('parkid',{
                     url:url,
                     method:'get',
                     dataType:'json',
@@ -108,7 +104,7 @@
                     },
                     where:{
                         token:token,
-                        name:$('#streetSearch').val()
+                        name:$('#parkSearch').val()
                     },
                     done:function(res,curr,count){
 
@@ -119,21 +115,19 @@
 
         $("#Search").on('click',function(){
             var type = $(this).data('type');
-            var url = baseUrl + '/street/getStreetList';
-//            var sname = $('#streetSearch').val();
-            if( $('#streetSearch').val().trim()==""){
-                layer.msg('查询的街道名称不能为空');
+            var url = baseUrl + '/park/getParkList';
+            if( $('#parkSearch').val().trim()==""){
+                layer.msg('查询的园区名称不能为空');
                 return false;
             }else{
                 active[type] ? active[type].call(this) : '';
             }
         })
 
-
         window.openAddLayer = function(){
             layer.open({
                 type:2,
-                title:'新增街道',
+                title:'新增园区',
                 area:['450px','360px'],
                 fix:false,
                 content:'add.html',
@@ -147,12 +141,12 @@
             })
         }
 
-        table.on("tool(streetList)",function(obj){
+        table.on("tool(parkList)",function(obj){
             var data = obj.data;
             if(obj.event==='edit'){
                 layer.open({
                     type:2,
-                    title:'编辑街道信息',
+                    title:'编辑园区信息',
                     area:['480px','360px'],
                     fix:false,
                     content:'edit.html',
@@ -166,10 +160,9 @@
                     }
                 })
             }else if(obj.event==='del'){
-                layer.confirm('真的删除此街道吗', function (index) {
+                layer.confirm('真的删除此园区吗', function (index) {
                     var rowId = data.id;
-                    var url = baseUrl + "/street/delete";
-                    console.log(url);
+                    var url = baseUrl + "/park/delete";
                     $.ajax({
                         url: url,
                         type: "post",
@@ -188,7 +181,6 @@
                             }
                         },
                         error: function (res) {
-                            console.log(res);
                             layer.msg('删除失败');
                         }
                     });
