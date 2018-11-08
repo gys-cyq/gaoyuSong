@@ -57,7 +57,16 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+            if (r != null) return unescape(r[2]); return null;
+        }
+
         layui.use('table', function () {
+            var pid = GetQueryString('pid')
+            var getdata = parent.GetPageData(pid)
+            console.log(getdata)
             var table = layui.table;
             table.render({
                 elem: '#demo'
@@ -83,7 +92,7 @@
                 // ,totalRow: true //开启合计行
                 , cols: [[ //表头
                     // { type: 'numbers', title: '序列号', width: 120 }
-                     { field: 'name', title: '企业名称' }
+                    { field: 'name', title: '企业名称' }
                     , { field: 'legalPerson', title: '法定代表人' }
                     , { field: 'contactsTel', title: '企业电话' }
                     , {
@@ -93,7 +102,7 @@
                     }
                     , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
 
-                ]],done:function(res,cuur,count){
+                ]], done: function (res, cuur, count) {
                     layer.closeAll('loading');
                 }
             });
@@ -102,12 +111,12 @@
                 var layEvent = obj.event;//获得lay-event对应的值
                 if (layEvent == 'detail') {
                     layer.open({
-                        type:2,
-                        area:['1000px','360px'],
-                        fix:false,//不固定
-                        title:'详细信息',
-                        content:'register_detail.html',
-                        success:function(layero,index){
+                        type: 2,
+                        area: ['1000px', '360px'],
+                        fix: false,//不固定
+                        title: '详细信息',
+                        content: 'register_detail.html',
+                        success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
 
@@ -117,12 +126,12 @@
 
                 } else if (layEvent == 'audit') {
                     layer.open({
-                        type:2,
-                        area:['1000px','450px'],
-                        fix:false,//不固定
-                        title:'审核',
-                        content:'register_audit.html',
-                        success:function(layero,index){
+                        type: 2,
+                        area: ['1000px', '450px'],
+                        fix: false,//不固定
+                        title: '审核',
+                        content: 'register_audit.html',
+                        success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
 

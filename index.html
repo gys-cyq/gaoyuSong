@@ -140,7 +140,8 @@
                 error:function(){
                     location.href='Login.html';
                 }
-            })
+			})
+			var datas = {}
 			function skip(title,url2,id){
 					$.ajax({
 						url:baseUrl+'/menu/getMenuAction',
@@ -149,8 +150,9 @@
 						data:{token:token,id:id},
 						success:function(res){
 						    if(res.status==1){
-                                //跳转到页面
-                                tab.tabAdd(title, url2, id);
+								//跳转到页面
+								datas[id] = res.data
+                                tab.tabAdd(title, url2 + "?pid=" + id, id);
                                 tab.tabChange(id);
                                 console.log(url2);
                                 localStorage.setItem("actions",res.data);
@@ -164,6 +166,10 @@
 						}
 
 					})
+			}
+
+			function GetPageData(id) {
+				return datas[id];
 			}
 
 
