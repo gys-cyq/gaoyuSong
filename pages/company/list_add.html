@@ -11,43 +11,31 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-    <style>
-        .layui-form {
-            margin: 20px
-            /* text-align: center */
-        }
 
-        .layui-textarea {
-            width: 850px;
-
-        }
-    </style>
 
 </head>
 
 <body>
     <div class="layui-table-brief" style="margin: 10px">
-        <div>
-            <button class="layui-btn" id="applySeniorCompany">资质申报</button>
-            <button class="layui-btn" onclick="history()">历史申报</button>
-        </div>
+
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
-            <input name="id" class="layui-input" type="hidden" />
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业名称
                         <span style="color:red;">*</span>
+
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" id="name" class="layui-input" autocomplete="off" />
+                        <input type="text" name="name" class="layui-input" lay-verify="required" />
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">企业法人
                         <span style="color:red;">*</span>
+
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="legalPerson" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入昵称">
+                        <input type="text" name="legalPerson" class="layui-input" lay-verify="required">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -55,17 +43,15 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="address" class="layui-input" autocomplete="off" placeholder="请输入密码" />
+                        <input type="text" name="address" class="layui-input" />
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-
-
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">联系人</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="contacts" class="layui-input" autocomplete="off" />
+                        <input type="text" name="contacts" class="layui-input" />
 
                     </div>
                 </div>
@@ -74,7 +60,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="contactsTel" class="layui-input" autocomplete="off" />
+                        <input type="tel" name="contactsTel" class="layui-input" />
 
                     </div>
                 </div>
@@ -83,12 +69,31 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerDate" class="layui-input" id="time" readonly='readonly' />
+                        <input type="text" name="registerDate" class="layui-input" id="registerDate" readonly='readonly' />
 
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="account" class="layui-input" lay-verify="required|isExistUsername" />
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">密码
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" class="layui-input" lay-verify="required" />
+
+                    </div>
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">注册资金
 
@@ -98,12 +103,15 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
+
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="number" name="staffNumber" class="layui-input" autocomplete="off" />
+                        <input type="number" name="staffNumber" class="layui-input" />
 
                     </div>
                 </div>
@@ -111,15 +119,24 @@
 
 
             </div>
-
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">经营范围
+                    <label class="layui-form-label">企业类型
 
                     </label>
                     <div class="layui-input-inline">
-                        <!-- <input type="text" name="operationScope" class="layui-input" autocomplete="off" /> -->
-                        <textarea class="layui-textarea" name="operationScope"></textarea>
+                        <!-- <input class="layui-input" name="typeName"></input> -->
+                        <ul id="typeName" style="display: flex"></ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">经营范围
+                    </label>
+                    <div class="layui-input-inline" style="width: 850px">
+                        <input class="layui-input" name="operationScope" ></input>
 
                     </div>
                 </div>
@@ -130,9 +147,8 @@
                     <label class="layui-form-label">备注
 
                     </label>
-                    <div class="layui-input-block">
-                        <!-- <input type="text" name="remark" class="layui-input" autocomplete="off" /> -->
-                        <textarea class="layui-textarea" name="remark"></textarea>
+                    <div class="layui-input-inline" style="width: 850px">
+                        <input class="layui-input" name="remark"></input>
 
 
                     </div>
@@ -142,11 +158,10 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                    <button class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
-
+                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" type="reset">重置</button>
                 </div>
             </div>
-
         </form>
 
     </div>
@@ -156,20 +171,51 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
         var form;
-        var layer;
-        var historyId;
+        var typeName;
         layui.use(['form', 'layer', 'laydate'], function () {
-            layer = layui.layer;
             form = layui.form;
+            var layer = layui.layer;
             var laydate = layui.laydate;
-            findCompany();
             laydate.render({
-                elem: '#time'
+                elem: '#registerDate'
+            });
+            findcompanyTypeAll();
+            form.verify({
+                isExistUsername: function (value) {
+                    var msg;
+                    $.ajax({
+                        url: baseUrl + '/user/isExistUsername',
+                        type: 'post',
+                        dataType: 'json',
+                        timeout: 10000,
+                        async: false,
+                        data: {
+                            token: localStorage.getItem('token'),
+                            username: value
+                        },
+                        success: function (response) {
+                            if (response.status != 1) {
+                                msg = response.msg;
+
+                            }else{
+                                errmsg(response)
+                            }
+
+                        },
+                        error: function (xhr, type, errorThrown) {
+
+                        }
+
+                    });
+                    return msg;
+
+
+                }
             });
             form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
                 var options = {
-                    url: baseUrl + "/company/update",
+                    url: baseUrl + "/company/add",
                     type: 'post',
                     dataType: 'json',
                     data: {
@@ -178,9 +224,14 @@
                     timeout: 10000,
                     success: function (res) {
                         if (res.status == 1) {
-                            layer.msg(res.msg);
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
                         }else{
                             errmsg(res);
+                            
                         }
 
                     },
@@ -192,84 +243,49 @@
                 $('#demofrom').submit();
                 return false;
             });
-            $('#applySeniorCompany').click(function () {
-                applySeniorCompany();
-            });
+
         });
 
-        function findCompany() {
+        function findcompanyTypeAll() {
+
             $.ajax({
-                url: baseUrl + '/company/findcompany',
+                url: baseUrl + '/companytype/findcompanyTypeAll',
                 type: 'get',
                 dataType: 'json',
                 timeout: 10000,
-                data: {
-                    token: localStorage.getItem('token')
-                },
+                data: { token: localStorage.getItem('token') },
                 success: function (res) {
+
                     if (res.status == 1) {
                         var data = res.data;
-                        historyId = data.id;
-                        form.val("formTest", data);
+                        var html = '';
+
+                        for (var i in data) {
+                            var id = data[i].id;
+                            var typeName = data[i].typeName;
+                            html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + typeName + ' lay-skin="primary" name="typeIds" > ' + '</li>';
+
+                        }
+                       
+                        $('#typeName').html(html);
+
+
+
+                        form.render();
+
+
                     } else {
-                        layer.msg(res.msg);
+                        errmsg(res);
                     }
 
-                }, error: function (xhr, type, errorThrown) {
+                },
+                error: function (xhr, type, errorThrown) {
 
-                }
-            });
-        }
-        function only_num(obj) {
-            //得到第一个字符是否为负号
-            var num = obj.value.charAt(0);
-            //先把非数字的都替换掉，除了数字和.
-            obj.value = obj.value.replace(/[^\d\.]/g, '');
-            //必须保证第一个为数字而不是.
-            obj.value = obj.value.replace(/^\./g, '');
-            //保证只有出现一个.而没有多个.
-            obj.value = obj.value.replace(/\.{2,}/g, '.');
-            //保证.只出现一次，而不能出现两次以上
-            obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
-            //如果第一位是负号，则允许添加
-            if (num == '-') {
-                obj.value = '-' + obj.value;
-            }
-        }
-        function applySeniorCompany() {
-            layer.open({
-                type: 2,
-                area: ['460px', '460px'],
-                fix: false,
-                title: '资质申报',
-                content: 'applySenior.html',
-                success: function (layero, index) {
-
-
-
-                }, error: function (layero, index) {
 
                 }
             });
 
-        };
-        function history() {
-            layer.open({
-                type: 2,
-                area: ['1000px', '400px'],
-                fix: true,
-                title: '历史申报',
-                content: 'history.html',
-                success: function (layero, index) {
-                    // layer.msg(historyId);
-                    var iframe = window['layui-layer-iframe' + index];
-                    iframe.child(historyId);
 
-                }, error: function (layero, index) {
-                    
-                }
-
-            });
         }
     </script>
 </body>

@@ -61,7 +61,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="contactsTel" class="layui-input" />
+                        <input type="tel" name="contactsTel" class="layui-input" />
 
                     </div>
                 </div>
@@ -70,7 +70,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerDate" class="layui-input" />
+                        <input type="text" name="registerDate" class="layui-input" id="registerDate" readonly='readonly' />
 
                     </div>
                 </div>
@@ -81,9 +81,9 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <!-- <input class="layui-input" name="typeName"></input> -->
-                        <select name="typeName" lay-filter="typeName" id="typeName">
-                        </select>
+                        <input class="layui-input" name="typeName"></input>
+                        <!-- <select name="companyTypeId" lay-filter="typeName" id="typeName" style="display: none">
+                        </select> -->
 
                     </div>
                 </div>
@@ -92,7 +92,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="account" class="layui-input" />
+                        <input type="text" name="account" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
@@ -101,7 +101,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="password" class="layui-input" />
+                        <input type="text" name="password" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
@@ -112,7 +112,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" />
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" />
 
                     </div>
                 </div>
@@ -121,7 +121,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="staffNumber" class="layui-input" />
+                        <input type="number" name="staffNumber" class="layui-input" />
 
                     </div>
                 </div>
@@ -145,7 +145,7 @@
 
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="operationScope" readonly="readonly"></input>
+                        <input class="layui-input" name="operationScope" ></input>
 
                     </div>
                 </div>
@@ -157,7 +157,7 @@
 
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="remark" readonly="readonly"></input>
+                        <input class="layui-input" name="remark" ></input>
 
 
                     </div>
@@ -183,25 +183,60 @@
         var typeName;
 
         function child(obj) {
-           
-            
-            findcompanyTypeAll(obj.typeName);
-            layui.use(['form', 'layer'], function () {
+
+
+
+            layui.use(['form', 'layer', 'laydate'], function () {
                 form = layui.form;
                 var layer = layui.layer;
-                
-               obj = JSON.stringify(obj);
-               var data=JSON.parse(obj);
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#registerDate'
+                });
+
+
+                obj = JSON.stringify(obj);
+                var data = JSON.parse(obj);
                 form.val('formTest', data);
-                
-               
                 form.render();
-                
-              
+                // findcompanyTypeAll(data);
+                form.on('submit(submit)', function (data) {
+                console.log(JSON.stringify(data.field));
+                var options = {
+                    url: baseUrl + "/company/update",
+                    type: 'post',
+                    dataType: 'json',
+                    clearForm: true,
+                    resetForm: true,
+                    data: {
+                        token: localStorage.getItem('token')
+                    },
+                    timeout: 10000,
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        }else{
+                            errmsg(res);
+                        }
+
+                    },
+                    error: function (res) {
+
+                    }
+                };
+                $('#demofrom').ajaxForm(options);
+                $('#demofrom').submit();
+                return false;
+            });
+
             });
         }
-        function findcompanyTypeAll(typeName) {
-           
+        function findcompanyTypeAll(obj) {
+
             $.ajax({
                 url: baseUrl + '/companytype/findcompanyTypeAll',
                 type: 'get',
@@ -221,13 +256,16 @@
 
                         }
                         $('#typeName').html(html);
+
+
+                        form.val('formTest', { "companyTypeId": obj.companyTypeId });
+
+
                         form.render();
-                        $('#typeName').html(typeName);
-                        $('#typeName').val(typeName);
-                     
+
 
                     } else {
-                        layer.msg(res.msg);
+                        errmsg(res);
                     }
 
                 },

@@ -145,7 +145,7 @@
                             }
 
                         } else {
-                            layer.msg(res.msg);
+                            errmsg(res);
                         }
                     }
                     , error: function () {
@@ -201,7 +201,7 @@
                             $('#companyType').html(html);
                             form.render();
                         } else {
-                            layer.msg(res.msg);
+                            errmsg(res);
                         }
 
                     },

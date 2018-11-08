@@ -220,6 +220,8 @@
                             if (response.status != 1) {
                                 msg = response.msg;
 
+                            }else{
+                                errmsg(response)
                             }
 
                         },
@@ -272,7 +274,7 @@
                                 parent.location.reload();
                             });
                         } else {
-                            layer.msg(res.msg);
+                            errmsg(res)
 
                         }
                     },
@@ -312,6 +314,8 @@
                             $('#rolesul').html(html);
                             form.render();
 
+                        }else{
+                            errmsg(response)
                         }
 
                     } catch (e) {

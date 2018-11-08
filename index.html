@@ -149,11 +149,15 @@
 						data:{token:token,id:id},
 						success:function(res){
 						    if(res.status==1){
-                                //跳转到页面
+								//跳转到页面
+								if(url2.indexOf('company/qualification')!=-1){
+									url2='pages/company/list_zizhi.html';
+
+								}
                                 tab.tabAdd(title, url2, id);
-                                tab.tabChange(id);
+								tab.tabChange(id);
                                 console.log(url2);
-                                localStorage.setItem("actions",res.data);
+								localStorage.setItem("actions",res.data);							
 
 							}else{
                                 errmsg(res);

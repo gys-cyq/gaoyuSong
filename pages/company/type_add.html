@@ -142,6 +142,8 @@
                                 console.log(response.msg);
                                 msg = response.msg;
 
+                            }else{
+                                errmsg(res);
                             }
                         }
 
@@ -171,7 +173,7 @@
                                 parent.location.reload();
                             });
                         }else{
-                            layer.alert(res.msg);
+                            errmsg(res);
                         }
                     },error:function(data){
 
