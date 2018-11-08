@@ -141,7 +141,6 @@
                     location.href='Login.html';
                 }
 			})
-			var datas = {}
 			function skip(title,url2,id){
 					$.ajax({
 						url:baseUrl+'/menu/getMenuAction',
@@ -151,11 +150,11 @@
 						success:function(res){
 						    if(res.status==1){
 								//跳转到页面
-								datas[id] = res.data
+								SetPageData(id, res.data);
                                 tab.tabAdd(title, url2 + "?pid=" + id, id);
                                 tab.tabChange(id);
-                                console.log(url2);
-                                localStorage.setItem("actions",res.data);
+                                // console.log(url2);
+                                // localStorage.setItem("actions",res.data);
 
 							}else{
                                 errmsg(res);
@@ -169,9 +168,14 @@
 			}
 
 			function GetPageData(id) {
+				var datas = JSON.parse(sessionStorage.getItem('actionsData') || '{}')
 				return datas[id];
 			}
-
+			function SetPageData(id, data) {
+				var datas = JSON.parse(sessionStorage.getItem('actionsData') || '{}')		
+				datas[id] = data
+				sessionStorage.setItem('actionsData', JSON.stringify(datas))
+			}
 
 
 		</script>
