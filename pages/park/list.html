@@ -48,7 +48,8 @@
             form = layui.form,
             table = layui.table;
 
-        var actions =localStorage.getItem("actions");
+        var pid = GetQueryString('pid');
+        var actions = parent.GetPageData(pid);
         console.log(actions);
         if(actions.indexOf('park:add')!=-1){
             $('#addbutton').css('display','inline-block');

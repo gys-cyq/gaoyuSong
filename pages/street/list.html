@@ -48,7 +48,8 @@
 
         token = localStorage.getItem("token");
 
-        var actions =localStorage.getItem("actions");
+        var pid = GetQueryString('pid');
+        var actions = parent.GetPageData(pid);
         if(actions.indexOf('street:add')!=-1){
             $('#addbutton').css('display','inline-block');
         }else{
