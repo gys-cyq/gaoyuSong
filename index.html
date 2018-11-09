@@ -146,6 +146,7 @@
                     location.href='Login.html';
                 }
 			})
+			var number;
 			function skip(title,url2,id){
 					$.ajax({
 						url:baseUrl+'/menu/getMenuAction',
@@ -156,11 +157,19 @@
 						    if(res.status==1){
 								//跳转到页面
 								if(url2.indexOf('company/qualification')!=-1){
+									number=url2.split('company/qualification/')[1].split('.html')[0];
 									url2='pages/company/list_zizhi.html';
 
 								}						
 								SetPageData(id, res.data);
-                                tab.tabAdd(title, url2 + "?pid=" + id, id);
+								if(url2=='pages/company/list_zizhi.html'){
+									tab.tabAdd(title, url2 + "?pid=" + number, id);
+
+								}else{
+									tab.tabAdd(title, url2 + "?pid=" + id, id);
+
+								}
+
                                 tab.tabChange(id);
                                 // console.log(url2);
                                 // localStorage.setItem("actions",res.data);
