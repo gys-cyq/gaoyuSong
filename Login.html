@@ -8,27 +8,60 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     	<meta http-equiv="Cache-Control" content-type="utf-8" />
     	<link rel="stylesheet" href="static/css/font.css"  />
-    	<link rel="stylesheet" href="static/css/weadmin.css" />
-    	<!--<link rel="stylesheet" href="lib/layui/css/layui.css"  />-->
+    	<!--<link rel="stylesheet" href="static/css/weadmin.css" />-->
+        <link rel="stylesheet" href="lib/layui/css/layui.css"  />
         <link rel="stylesheet" href="css/style.css" />
     	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     	<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+        <style>
+            html {
+                width: 100%;
+                height: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            body{
+                width:100%;
+                height:100%;
+                background: url(img/login.jpg);background-size:100% 100%;background-repeat:no-repeat;font-size:18px;
+                margin:0;
+            }
+
+            .layui-input{
+                border-color:#000;
+            }
+        </style>
 	</head>
 	<body>
     <div class="login">
-        <form method="post" class="layui-form" >
-            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" id="usernameText">
-            <hr class="hr15">
-            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" id="passwordText">
-            <hr class="hr15">
-            <span>没有账号？<a href="register.html">点击注册</a></span>
-            <input class="loginin" value="登录" onclick="login()" style="width:100%;" type="button">
-            <hr class="hr20" >
-        </form>
+        <div class="login-content">
+            <div class="login-header">
+                <span>崇川科技局项目管理系统</span>
+            </div>
+            <div class="chooseType">
+                <div class="typeL">
+                    <span>登录</span>
+                </div>
+                <div class="typeR" id="skipR">
+                    <span>注册</span>
+                </div>
+            </div>
+            <form method="post" class="layui-form" style="margin-top:20px;">
+                <input name="username" placeholder="账号"  type="text" lay-verify="required" class="layui-input" id="usernameText" style="margin:20px 0;padding:25px;">
+                <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" id="passwordText" style="margin:20px 0;padding:25px;">
+                <button class="layui-btn layui-btn-lg" onclick="login()" style="width:100%;margin-top:20px;">
+                    登录
+                </button>
+                <!--<input class="loginin" value="登录" onclick="login()" style="width:100%;" type="button">-->
+            </form>
+        </div>
     </div>
 
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript">
+        $('#skipR').on('click',function(){
+            location.href='register.html';
+        })
         layui.use('layer',function(){
             var layer = layui.layer;
         })
