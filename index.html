@@ -140,7 +140,7 @@
                 error:function(){
                     location.href='Login.html';
                 }
-            })
+			})
 			function skip(title,url2,id){
 					$.ajax({
 						url:baseUrl+'/menu/getMenuAction',
@@ -153,11 +153,12 @@
 								if(url2.indexOf('company/qualification')!=-1){
 									url2='pages/company/list_zizhi.html';
 
-								}
-                                tab.tabAdd(title, url2, id);
-								tab.tabChange(id);
-                                console.log(url2);
-								localStorage.setItem("actions",res.data);							
+								}						
+								SetPageData(id, res.data);
+                                tab.tabAdd(title, url2 + "?pid=" + id, id);
+                                tab.tabChange(id);
+                                // console.log(url2);
+                                // localStorage.setItem("actions",res.data);
 
 							}else{
                                 errmsg(res);
@@ -170,6 +171,15 @@
 					})
 			}
 
+			function GetPageData(id) {
+				var datas = JSON.parse(sessionStorage.getItem('actionsData') || '{}')
+				return datas[id];
+			}
+			function SetPageData(id, data) {
+				var datas = JSON.parse(sessionStorage.getItem('actionsData') || '{}')		
+				datas[id] = data
+				sessionStorage.setItem('actionsData', JSON.stringify(datas))
+			}
 
 
 		</script>

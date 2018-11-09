@@ -1,5 +1,6 @@
 var baseUrl = 'http://192.168.10.99:8090',
 // http://58.221.146.166:9200
+// var baseUrl = 'http://58.221.146.166:9200',
      token = '',
      nickname='',
      url2='',
@@ -7,7 +8,7 @@ var baseUrl = 'http://192.168.10.99:8090',
      tab=[],
      actions=[],
      accessData=[],
-     localPage="http://127.0.0.1:63342/kjj";
+     localPage="";
 function errmsg(res){
     if(res.errcode=='10007'){
         //跳转到登录页
