@@ -25,6 +25,14 @@
             margin-left:100px;
             width:85%;
         }
+        .layui-input-inline3{
+            display:block;
+            float:left;
+            width:14%;
+            padding:9px 15px;
+            margin-bottom:15px;
+            margin-left:5px;
+        }
 
     </style>
 </head>
@@ -56,6 +64,29 @@
                                 <input type="text" class="layui-input" name="legalPerson" lay-verify="required"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="layui-form-item2">
+                            <label class="layui-form-label" style="padding:9px 0;">所属街道<span style="color:red;">*</span></label>
+                            <div class="layui-input-inline3">
+                                <select name="province" lay-filter="province" id="provinceList" lay-verify="required">
+                                </select>
+                            </div>
+                            <div class="layui-input-inline3">
+                                <select name="city" lay-filter="city" id="cityList" lay-verify="required">
+                                </select>
+                            </div>
+                            <div class="layui-input-inline3">
+                                <select name="country" lay-filter="country" id="countryList" lay-verify="required">
+                                </select>
+                            </div>
+                            <div class="layui-input-inline3">
+                                <select name="street" lay-filter="street" id="streetList" lay-verify="required">
+                                </select>
+                            </div>
+                            <div class="layui-input-inline3">
+                                <select name="park" lay-filter="park" id="parkList">
+                                </select>
+                            </div>
                     </div>
                     <div class="layui-form-item">
                             <lable class="layui-form-label">地址</lable>
@@ -183,9 +214,25 @@
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
+    var form;
     layui.use(['form','layer'],function(){
-        var form = layui.form,
-            layer = layui.layer;
+        form = layui.form;
+        var layer = layui.layer;
+
+        getProvinceList();
+        form.on('select(province)', function (data) {
+            getCityList(data.value,'cityList');
+        })
+        form.on('select(city)', function (data) {
+            getCityList(data.value,'countryList');
+        })
+        form.on('select(country)', function (data) {
+            getstreetList(data.value);
+        })
+        form.on('select(street)', function (data) {
+            getparkList(data.value);
+        })
+
 
         form.on('submit(register)', function(data){
             var url = baseUrl + "/registerCompany";
@@ -199,7 +246,7 @@
                 success: function (res) {
                     console.log(res);
                     if (res.status == 1) {
-                        layer.alert("成功", function (index) {
+                        layer.alert("注册成功,等待1-3个工作日审核通过后可用于登录", function (index) {
                             layer.close(index);
                         });
                     } else {
@@ -228,7 +275,7 @@
                 success: function (res) {
                     console.log(res);
                     if (res.status == 1) {
-                        layer.alert("成功", function (index) {
+                        layer.alert("注册成功,等待1-3个工作日审核通过后可用于登录", function (index) {
                             layer.close(index);
                         });
                     } else {
@@ -289,6 +336,126 @@
         var s = date.getSeconds();
         var time = y+'-'+m+'-'+d+' '+h+':'+min+':'+s;
         $('#registerTime').val(time);
+    }
+    function getProvinceList(){
+        $.ajax({
+            url: baseUrl + '/area/selectProvince',
+            type: 'get',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 1) {
+                    var data = response.data;
+                    var html = ' <option value="">' + '请选择省份' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].areaName;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#provinceList').html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    function getCityList(obj,selectId){
+        $.ajax({
+            url: baseUrl + '/area/selectChildren',
+            type: 'get',
+            dataType: 'json',
+            data:{id:obj},
+            success: function (response) {
+                response = eval(response);
+
+                if (response.status == 1) {
+                    var data = response.data;
+                    console.log(data);
+                    var html = ' <option value="">' + '请选择城市' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].areaName;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#'+selectId).html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        })
+    }
+    function getstreetList(obj){
+        $.ajax({
+            url: baseUrl + '/street/getStreetList',
+            type: 'get',
+            dataType: 'json',
+            data: { id:obj},
+            success: function (response) {
+                response = eval(response);
+
+                if (response.status == 1) {
+                    var data = response.data;
+                    var html = ' <option value="">' + '请选择街道' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].name;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#streetList').html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        })
+    }
+    function getparkList(obj){
+        $.ajax({
+            url: baseUrl + '/park/getParkList',
+            type: 'get',
+            dataType: 'json',
+            data: { id:obj},
+            success: function (response) {
+                response = eval(response);
+
+                if (response.status == 1) {
+                    console.log(response.data);
+                    var data = response.data;
+                    var html = ' <option value="">' + '请选择园区' + '</option>';
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var name = data[i].name;
+                        html += ' <option value=' + id + '>' + name + '</option>';
+
+                    }
+                    $('#parkList').html(html);
+                    form.render();
+                }else{
+                    console.log(response.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        })
     }
 
 </script>
