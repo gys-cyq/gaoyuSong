@@ -67,7 +67,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="telphone" autocomplete="off" class="layui-input" value="">
+                        <input type="text" id="contactsTel" autocomplete="off" class="layui-input" value="">
                     </div>
 
 
@@ -117,7 +117,7 @@
             var laydate = layui.laydate;
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/company/findcompanyByNumber',
+                url: baseUrl + '/company/findCompanyAllByNumberAndByPage',
                 where: { token: localStorage.getItem('token'), number: pid },
                 parseData: function (res) {
 
@@ -129,7 +129,7 @@
                     }
                 },
                 page: true,
-                limit: 20,
+                // limit: 20,
                 id: 'testReload',
                 cols: [[
                     { field: 'name', title: '公司名称' },
@@ -149,7 +149,98 @@
                 elem: '#year',
                 type: 'year'
             });
+            var active = {
+                reload: function () {
+
+                    table.reload('testReload', {
+                        url: baseUrl + '/company/findCompanyAllByNumberAndByPage',
+                        method: 'get',
+                        dataType: 'json',
+                        page: {
+                            curr: '1'
+                        },
+                        where: {
+                            token: localStorage.getItem('token'),
+                            name: $('#name').val(),
+                            legalPerson: $('#legalPerson').val(),
+                            address: $('#address').val(),
+                            contactsTel:$('#contactsTel').val(),
+                            year: $('#year').val()
+                        }
+                    });
+                }
+            }
+            $('#Search').click(function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+
+
+            });
+            table.on('tool(test)',function(obj){
+                var res=obj.data;
+                var layEvent=obj.event;
+                if (layEvent == 'detail') {
+                    layer.open({
+                        type: 2,
+                        area: ['1050px', '460px'],
+                        fix: false,//不固定
+                        title: '详细信息',
+                        content: 'list_detail.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
+                        }
+
+                    });
+
+                } else if(layEvent=='edit'){
+                    layer.open({
+                        type: 2,
+                        area: ['1050px', '500px'],
+                        fix: false,//不固定
+                        title: '修改信息',
+                        content: 'list_zizhi_edit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
+                        }
+
+                    });
+                }else if(layEvent=='del'){
+
+                }else if(layEvent=='history'){
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '400px'],
+                        fix: true,
+                        title: '历史申报',
+                        content: 'history.html',
+                        success: function (layero, index) {
+                            // layer.msg(historyId);
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res.id);
+
+                        }, error: function (layero, index) {
+
+                        }
+
+                    });
+                }
+
+            });
         });
+        function add(){
+            layer.open({
+                type: 2,
+                area: ['1050px', '560px'],
+                fix: false,//不固定
+                title: '修改信息',
+                content: 'list_zizhi_add.html',
+
+            });
+        }
         function download() {
             window.location.href = baseUrl + '/template/company_template.xls';
 
