@@ -48,7 +48,8 @@
         layui.use(['table', 'layer'], function () {
             var table = layui.table;
             var layer = layui.layer;
-            var actions = localStorage.getItem("actions");
+            var pid = GetQueryString('pid')
+            var actions = parent.GetPageData(pid)
 
             if (actions.indexOf('companytype:add') != -1) {
                 $('#addbutton').show();

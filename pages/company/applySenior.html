@@ -117,6 +117,7 @@
                 findcompanyTypeAll();
                 getTemplateList();
                 var purl = '/company/qualifications/apply/'+y+m+d;
+                var files1
                 var uploadInst = upload.render({
                     elem: '#uploadFile' //绑定元素
                     , url: baseUrl + '/file/upload'   //上传接口
@@ -126,10 +127,10 @@
                     method: 'post',
                     data: { token: token, savepath: purl },
                     choose: function (obj) {
-                        var files = this.files = obj.pushFile();
+                        files1 = this.files = obj.pushFile();
                         layer.load();
                     },
-                    done: function (res) {
+                    done: function (res,index,upload) {
                         //上传完毕回调
                         layer.closeAll('loading');
                         if (res.status == 1) {
@@ -147,6 +148,7 @@
                         } else {
                             errmsg(res);
                         }
+                        delete files1[index];
                     }
                     , error: function () {
                         //请求异常回调

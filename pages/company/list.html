@@ -71,7 +71,7 @@
         <button class="layui-btn" onclick="download()">下载导入模板</button>
 
         <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
-        <button class="layui-btn" id="import">导入</button>
+        <button class="layui-btn" id="upload">导入</button>
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
@@ -93,7 +93,7 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
         var form;
-        var upload;
+       
         var companyTypeId;
 
 
@@ -101,8 +101,10 @@
             var table = layui.table;
             var layer = layui.layer;
             form = layui.form;
-            upload = layui.upload;
-            var actions = localStorage.getItem("actions");
+            var upload = layui.upload;
+            var pid = GetQueryString('pid')
+            var actions = parent.GetPageData(pid)
+
             if (actions.indexOf('companylist:add') != -1) {
                 $('#add').show();
             } else {
@@ -130,31 +132,8 @@
             }
             $('#barDemo').html(html);
             findcompanyTypeAll();
-            upload.render({
-                elem: '#import',
-                url: baseUrl + '/company/importExcel',
-                accept: 'file',
-                exts: 'xls|xlsx',
-                multiple: true,
-                method: 'post',
-                data: { token: localStorage.getItem('token'), 
-                        myfile: 'myfile' },
-                choose: function (obj) {
-                    var files = this.files = obj.pushFile();
-                    layer.load();
-                },
-                done: function (res) {
-                    layer.closeAll('loading');
-                    if (res.status == 1) {
-                        layer.msg(res.msg);
-                    } else {
-                        errmsg(res);
-                    }
-                },
-                error: function () {
-                    layer.closeAll('loading');
-                }
-            });
+          
+           
 
             table.render({
                 elem: '#demo',
@@ -294,6 +273,35 @@
                 companyTypeId = data.value;
 
             });
+              // 导入
+              var files;
+            var uploadInst = upload.render({
+                elem: '#upload',
+                url: baseUrl + '/company/importExcel',
+                accept: 'file',
+                exts: 'xls|xlsx',
+                method: 'post',
+                data: { token: localStorage.getItem('token'), 
+                        myfile: 'myfile' },
+                choose: function (obj) {
+                    //将文件放在队列里面
+                  files = this.files = obj.pushFile();
+                  layer.load();
+                },
+                done: function (res, index, upload) {
+                    layer.closeAll('loading');
+                    if (res.status == 1) {
+                        layer.msg(res.msg);
+                        parent.location.reload();
+                    } else {
+                        errmsg(res);
+                    }
+                    delete files[index]; //删除队列里面的文件
+                },
+                error: function () {
+                    layer.closeAll('loading');
+                }
+            });
         });
         function add() {
             layer.open({
@@ -319,10 +327,16 @@
                 url+='&name='+$('#name').val();
             }
             if($('#legalPerson').val()!=''){
-                
+                url+='&legalPerson='+$('#legalPerson').val();
             }
-            window.location.href=baseUrl+'/company/exportExcel?token='+localStorage.getItem('token')+'&name='+$('#name').val()+
-            '&legalPerson='+$('#legalPerson').val()+'&address='+$("#address").val()+'&companyTypeId='+companyTypeId;
+            if($("#address").val()!=''){
+                url+='&address='+$("#address").val();
+            }
+            if(companyTypeId!=undefined){
+                url+='&companyTypeId='+companyTypeId;
+            }
+
+            window.location.href=url;
         }
 
 
