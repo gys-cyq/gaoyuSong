@@ -26,7 +26,7 @@
 
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="name" class="layui-input" autocomplete="off" />
+                    <input type="text" id="name" class="layui-input" autocomplete="off" value="" />
                 </div>
 
                 <div class="layui-inline">
@@ -34,7 +34,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="legalPerson" autocomplete="off" class="layui-input">
+                        <input type="text" id="legalPerson" autocomplete="off" class="layui-input" value="">
                     </div>
 
 
@@ -53,7 +53,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="address" autocomplete="off" class="layui-input">
+                        <input type="text" id="address" autocomplete="off" class="layui-input" value="">
                     </div>
 
 
@@ -97,8 +97,6 @@
         var companyTypeId;
 
 
-
-
         layui.use(['table', 'layer', 'form', 'upload'], function () {
             var table = layui.table;
             var layer = layui.layer;
@@ -139,7 +137,8 @@
                 exts: 'xls|xlsx',
                 multiple: true,
                 method: 'post',
-                data: { token: localStorage.getItem('token'), myfile: 'myfile' },
+                data: { token: localStorage.getItem('token'), 
+                        myfile: 'myfile' },
                 choose: function (obj) {
                     var files = this.files = obj.pushFile();
                     layer.load();
@@ -315,31 +314,15 @@
 
 
         function exportFile() {
-            $.ajax({
-                url: baseUrl + '/company/exportExcel',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: {
-                    token: localStorage.getItem('token'),
-                    name: $('#name').val(),
-                    legalPerson: $('#legalPerson').val(),
-                    address: $('#address').val(),
-                    companyTypeId: companyTypeId
-                },
-                success: function (res) {
-                    if (res.status == 1) {
-                        layer.msg(res.msg);
-                    } else {
-                        errmsg(res);
-                    }
-
-                },
-                error: function () {
-
-                }
-
-            });
+            var url=baseUrl+'/company/exportExcel?token='+localStorage.getItem('token');
+            if($('#name').val()!=''){
+                url+='&name='+$('#name').val();
+            }
+            if($('#legalPerson').val()!=''){
+                
+            }
+            window.location.href=baseUrl+'/company/exportExcel?token='+localStorage.getItem('token')+'&name='+$('#name').val()+
+            '&legalPerson='+$('#legalPerson').val()+'&address='+$("#address").val()+'&companyTypeId='+companyTypeId;
         }
 
 
