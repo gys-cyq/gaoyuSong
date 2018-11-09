@@ -53,7 +53,8 @@ layui.use(['table','layer','jquery'], function(){
     //第一个实例
     token=localStorage.getItem("token");
 
-    actions =localStorage.getItem("actions");
+    var pid = GetQueryString('pid');
+    var actions = parent.GetPageData(pid);
     if(actions.indexOf('menu:add')==-1){
         $('#addbutton').css('display','inline-block');
     }else{

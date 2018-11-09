@@ -69,7 +69,8 @@
             var element = layui.element;
             var treetable = layui.treetable;
 
-            actions = localStorage.getItem("actions");
+            var pid = GetQueryString('pid');
+            var actions = parent.GetPageData(pid);
             if (actions.indexOf('menu:add') != -1) {
                 $('#addbutton').css('display', 'block');
             } else {

@@ -33,7 +33,7 @@
 					<dl class="layui-nav-child">
 						<!-- 二级菜单 -->
 						<dd>
-							<a onclick="WeAdminShow('修改密码','password.html')">修改密码</a>
+							<a onclick="WeAdminShow()">修改密码</a>
 						</dd>
 					</dl>
 				</li>
@@ -71,7 +71,23 @@
 		<script type="text/javascript">
 			layui.config({
 			  base: './static/js/',
-			}).use('admin');
+			}).use(['admin','layer'],function(){
+			    var layer = layui.layer;
+			    window.WeAdminShow = function(){
+			        layer.open({
+						type:2,
+						title:'修改密码',
+						area:['450px','360px'],
+						content:'password.html',
+						success:function(){
+
+						},
+						error:function(){
+
+						}
+					})
+				}
+			});
 
 			 nickname = sessionStorage.getItem("userinfo");
             token = localStorage.getItem("token");
@@ -93,7 +109,7 @@
                 success:function(res){
 				    if(res.status==1){
 
-      					var menus=res.data.menus;
+      					var menus=res.data;
                         var len = menus.length;
                         for (var i = 0; i < len; i++){
                             var menu = menus[i];
