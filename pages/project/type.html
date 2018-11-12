@@ -20,11 +20,11 @@
     </style>
 
 </head>
-<!-- https://pro.modao.cc/app/JeGI5hEDkXOiwAKf9wh3XIf4G5cOQ26 -->
+
 <body>
     <div class="layui-tab-brief">
         <div style="margin:10px;">
-            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" >
                 <i class="layui-icon"></i> 添加
             </button>
         </div>
@@ -37,37 +37,19 @@
     </div>
 
     <script type="text/html" id="barDemo">
-                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-            </script>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-        layui.use(['table', 'layer'], function () {
-            var table = layui.table;
-            var layer = layui.layer;
-            var pid = GetQueryString('pid')
-            var actions = parent.GetPageData(pid)
-
-            if (actions.indexOf('companytype:add') != -1) {
-                $('#addbutton').show();
-            } else {
-                $('#addbutton').hide();
-            }
-            var html = ''
-            if (actions.indexOf('companytype:update') != -1) {
-                html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
-            }
-            if (actions.indexOf('companytype:delete') != -1) {
-                html += ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">' + '删除' + '</a>'
-            }
-            $('#barDemo').html(html);
-
+        layui.use(['table','layer'],function(){
+            var table=layui.table;
+            var layer=layui.layer;
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/companytype/findcompanyTypeByPage',
+                url: baseUrl + '/projectType/findprojectTypeByPage',
                 where: { token: localStorage.getItem('token') },
                 parseData: function (res) {
 
@@ -80,38 +62,26 @@
                 },
                 page: true,//开启分页
                 cols: [
-                    [{
-                        field: 'image', templet: function (data) {
-                            if (data.image != "") {
-                                var image = baseUrl + '/file/getImg?path=' + data.image;
-                                var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" >' + '</img>' + '</div>';
-
-                                console.log(html);
-                                return html;
-                            } else {
-                                return ''
-                            }
-
-                        }, title: '图标', style: 'height:48px;width:48px;line-height:48px!important;'
-                    },
-                    { field: 'number', title: '编号' },
-                    { field: 'typeName', title: '企业类型名称（资质）' },
-                    { field: 'year', title: '有效年限' },
+                    [
+                    { type: 'numbers', title: '序列号', width: 120 },
+                    { field: 'typeName', title: '类别名称' },
+                  
                     { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ]
 
 
             });
-            table.on('tool(test)', function (obj) {
-                var data = obj.data;
-                var layEvent = obj.event;
-                if (layEvent == 'edit') {
+            table.on('tool(test)',function(obj){
+                var data=obj.data;
+                var layEvent=obj.event;
+                console.log(data)
+                if(layEvent=='edit'){
                     layer.open({
                         type: 2,
-                        area: ['450px', '360px'],
+                        area: ['300px', '200px'],
                         fix: false,
-                        title: '修改企业类型',
+                        title: '修改项目类别',
                         content: 'type_edit.html',
                         success: function (layero, index) {
 
@@ -125,11 +95,10 @@
                         }
                     });
 
-
-                } else if (layEvent == 'del') {
+                }else if(layEvent=='del'){
                     layer.confirm("确定删除吗？", function (index) {
                         $.ajax({
-                            url: baseUrl+'/companytype/delete',
+                            url: baseUrl+'/projectType/delete',
                             type: 'post',
                             dataType: "json",
                             timeout: 10000,
@@ -140,7 +109,6 @@
                                 if (res.status == 1) {
                                     layer.msg(res.msg);
                                     obj.del();
-    
                                     parent.layer.close(index);
                                     parent.location.reload();
                                 } else {
@@ -154,22 +122,20 @@
 
                     });
 
-
                 }
+
             });
 
         });
-        function openAddLayer() {
+        function openAddLayer(){
             layer.open({
                 type: 2,
                 title: '添加企业类型',
                 content: 'type_add.html',
-                area: ['450px', '360px'],
+                area: ['300px', '200px'],
                 fix: false,
                 maxmin: true,
             });
-
-
         }
     </script>
 </body>

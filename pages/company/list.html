@@ -43,6 +43,16 @@
 
                 </div>
                 <div class="layui-inline">
+                        <label class="layui-form-label">企业地址
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="address" autocomplete="off" class="layui-input" value="">
+                        </div>
+    
+    
+                 </div>
+                <div class="layui-inline">
                     <label class="layui-form-label">企业类型
 
                     </label>
@@ -51,16 +61,27 @@
                         </select>
                     </div>
                 </div>
+              
                 <div class="layui-inline">
-                    <label class="layui-form-label">企业地址
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="address" autocomplete="off" class="layui-input" value="">
+                        <label class="layui-form-label">街道
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="streetId" id="streetId" >
+                            </select>
+                        </div>
                     </div>
-
-
-                </div>
+              
+                    <div class="layui-inline">
+                            <label class="layui-form-label">园区
+        
+                            </label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="parkId" id="parkId">
+                                </select>
+                            </div>
+                        </div>
+                      
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
 
 
@@ -96,6 +117,8 @@
         var form;
 
         var companyTypeId;
+        var streetId;
+        var parkId;
 
 
         layui.use(['table', 'layer', 'form', 'upload'], function () {
@@ -133,6 +156,7 @@
             }
             $('#barDemo').html(html);
             findcompanyTypeAll();
+            getStreetList();
 
 
 
@@ -213,6 +237,7 @@
                                     layer.msg(res.msg);
                                     obj.del();
                                     layer.close(index);
+                                    parent.location.reload();
                                 } else {
                                     errmsg(res);
                                 }
@@ -258,7 +283,9 @@
                             name: $('#name').val(),
                             legalPerson: $('#legalPerson').val(),
                             address: $('#address').val(),
-                            companyTypeId: companyTypeId
+                            companyTypeId: companyTypeId,
+                            streetId:streetId,
+                            parkId:parkId
                         }
                     })
                 }
@@ -274,6 +301,13 @@
                 companyTypeId = data.value;
 
             });
+            form.on('select(streetId)',function(data){
+                streetId=data.value;
+                getParkList();
+            });   
+            form.on('select(parkId)', function (data) {
+                parkId = data.value;
+            });  
             // 导入
             var files;
             var uploadInst = upload.render({
@@ -311,7 +345,7 @@
                 type: 2,
                 area: ['1050px', '560px'],
                 fix: false,//不固定
-                title: '修改信息',
+                title: '添加信息',
                 content: 'list_add.html',
 
             });
@@ -337,6 +371,14 @@
             }
             if (companyTypeId != undefined) {
                 url += '&companyTypeId=' + companyTypeId;
+            }
+            if(streetId!=undefined){
+                url += '&streetId=' + streetId;
+
+            }
+            if(parkId!=undefined){
+                url += '&parkId=' + parkId;
+
             }
 
             window.location.href = url;
@@ -376,6 +418,86 @@
             });
 
         }
+        
+        function getStreetList() {
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+
+                            }
+
+                            $('#streetId').html(html);
+                            form.render();
+
+
+
+
+
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
+        function getParkList(){
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            form.render();
+                          
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
+            });
+
+        }
+
     </script>
 </body>
 

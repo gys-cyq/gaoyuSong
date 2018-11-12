@@ -115,18 +115,35 @@
 
                     </div>
                 </div>
-
+                <div class="layui-inline">
+                        <label class="layui-form-label">街道
+                                <span style="color:red;">*</span>
+                        </label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId" name="streetId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                            <label class="layui-form-label">园区
+        
+                            </label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="parkId" id="parkId" name="parkId">
+                                </select>
+                            </div>
+                        </div>
 
 
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业类型
-
+                            <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
                         <!-- <input class="layui-input" name="typeName"></input> -->
-                        <ul id="typeName" style="display: flex"></ul>
+                        <ul id="typeName" style="display: flex" lay-verify="isCheckd"></ul>
 
                     </div>
                 </div>
@@ -172,6 +189,7 @@
     <script type="text/javascript">
         var form;
         var typeName;
+        var streetId;
         layui.use(['form', 'layer', 'laydate'], function () {
             form = layui.form;
             var layer = layui.layer;
@@ -180,6 +198,11 @@
                 elem: '#registerDate'
             });
             findcompanyTypeAll();
+            getStreetList();
+            form.on('select(streetId)',function(data){
+                streetId=data.value;
+                getParkList();
+            });
             form.verify({
                 isExistUsername: function (value) {
                     var msg;
@@ -209,6 +232,23 @@
                     });
                     return msg;
 
+
+                },streetId:function(value){
+                    if(value==null){
+                        return "街道不能为空";
+                    }
+                },isCheckd:function(value){
+                    var isCheckd = false;
+                    $("input:checkbox").each(function (i) {
+                        if ($(this).prop("checked") == true) {
+                            isCheckd = true;
+                        }
+
+                    });
+                    console.log(isCheckd)
+                    if (!isCheckd) {
+                        return "请选择企业类型";
+                    }
 
                 }
             });
@@ -283,6 +323,85 @@
 
 
                 }
+            });
+
+
+        }
+        function getStreetList() {
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+
+                            }
+
+                            $('#streetId').html(html);
+                            form.render();
+
+
+
+
+
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
+        function getParkList() {
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            form.render();
+                           
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
             });
 
 

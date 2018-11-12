@@ -107,7 +107,30 @@
 
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道
 
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="streetName" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="parkName" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+                <input type="hidden" name="streetId" class="layui-input"  />
+                <input type="hidden" name="parkId" class="layui-input"  />
 
 
             </div>
@@ -179,7 +202,7 @@
                     success: function (res) {
                         if (res.status == 1) {
                             layer.msg(res.msg);
-                        }else{
+                        } else {
                             errmsg(res);
                         }
 
@@ -266,7 +289,7 @@
                     iframe.child(historyId);
 
                 }, error: function (layero, index) {
-                    
+
                 }
 
             });
