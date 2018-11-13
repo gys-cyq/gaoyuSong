@@ -101,6 +101,7 @@
                 success:function(res){
                     if(res.status==1){
                         nickname=res.data.user.nickname
+                        localStorage.setItem('user',JSON.stringify(res.data.user));
                         sessionStorage.setItem("userinfo",nickname);
                         localStorage.setItem("token",res.data.token);
                         localStorage.setItem('userId',res.data.user.id);
