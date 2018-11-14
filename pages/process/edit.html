@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css"/>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <title>崇川科技局项目管理系统</title>
+</head>
+<body>
+<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
+    <form class="layui-form" id="processEdit">
+        <input type="hidden" name="id"  id="id"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">流程名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="name" class="layui-input" name="name" readonly="readonly" style="background:#eee;"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline" style="width:100%;">
+                <label class="layui-form-label">原审批流程</label>
+                <div class="layui-input-inline" style="width:75%;">
+                    <!--<input type="text" class="layui-input" id="nodes" name="nodes"/>-->
+                    <ul id="processNodes1" style="padding:9px;width:70%;">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline" style="width:100%;">
+                <label class="layui-form-label">新审批流程</label>
+                <div class="layui-input-inline" style="width:75%;">
+                    <ul id="processNodes" style="padding:9px;width:70%;">
+                        +
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div  class="layui-form-item" style="text-align:center;">
+            <div class="layui-inline">
+                <button class="layui-btn" onclick="edit()">确定</button>
+                <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript">
+    layui.use(['form','layer'],function(){
+        var layer = layui.layer,
+            form = layui.form;
+        token = localStorage.getItem("token");
+
+        window.cancel = function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+
+        $('#processNodes').on('click',function(){
+            layer.open({
+                type:2,
+                title:'增加流程',
+                area:['480px','360px'],
+                fix:false,
+                content:'addProcess.html',
+                maxmin:true,
+                success:function(layero,index){
+//                    var iframe = window['layui-layer-iframe' + index];
+//                    iframe.child(data);
+                },
+                error:function(layero,index){
+
+                }
+            })
+        })
+    })
+
+    function edit(){
+        var url = baseUrl + "/process/update";
+        var options = {
+            url: url,
+            type: 'post',
+            resetForm: true,
+            timeout: 10000,
+            data: {token: token},
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.alert("成功", function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+                } else {
+                    layer.msg('系统异常');
+//                        errmsg(res);
+                }
+            },
+            error: function (data) {
+                //未登陆
+                layer.msg("系统异常");
+            }
+        };
+        $("#roleEdit").ajaxForm(options);
+        $("#roleEdit").submit();
+
+    }
+    function child(obj){
+        $('#id').val(obj.id);
+        $('#name').val(obj.name);
+        var html = '';
+        var data = obj.nodeList;
+        console.log(obj);
+        for(var i=0;i<data.length;i++){
+            if(data[i].nodeDescription!=null){
+                html += '<li style="display:inline-block">'+data[i].nodeDescription;
+                if(i!=data.length-1){
+                    html += '-->';
+                }
+                html += '</li>';
+            }
+        }
+        $("#processNodes1").html(html);
+    }
+</script>
+</body>
+</html>

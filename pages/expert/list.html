@@ -7,16 +7,65 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <title>南通科技局</title>
+    <title>崇川科技局项目管理系统</title>
+    <link rel="stylesheet" href="../../static/css/font.css"  />
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
-    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/style.css"  />
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
 </head>
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" id="expertname"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile" id="expertmobile"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所学专业</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="schoolMajor" id="schoolMajor">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">职称</label>
+                    <div class="layui-input-inline">
+                        <select name="jobTitle" lay-filter="jobTitle" id="jobTitle">
+                            <option value="">不限</option>
+                            <option value="1">正高</option>
+                            <option value="2">副高</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所在地区</label>
+                    <div class="layui-input-inline">
+                        <select name="area" lay-filter="area" id="area">
+                            <option value="">所有</option>
+                            <option value="1">市内</option>
+                            <option value="2">市外</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
         <div>
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
                 <i class="layui-icon"></i> 添加
@@ -35,17 +84,22 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/javascript">
-    layui.use(['table','layer'],function(){
-        var table = layui.table,
-            layer = layui.layer;
-        token = localStorage.getItem("token");
+    var schoolMajor;
+    var areaFind;
+    token = localStorage.getItem("token");
+    var form;
+    layui.use(['table','layer','jquery'],function(){
+        var layer = layui.layer,
+            table = layui.table,
+            $ = layui.jquery;
+        form = layui.form;
+        findschoolMajor();
 
         table.render({
             elem: '#expertList',
             url:baseUrl+'/expert/findExpertByPage',
             where:{token:token},
             parseData: function(res){
-                console.log(res.data.list);
                 return {
                     "code" : 0,
                     "msg" : res.msg,
@@ -54,14 +108,12 @@
                 }
             },
             page: true, //开启分页
+            id:'expertId',
             cols: [[ //表头
                 {field: 'name', title: '专家姓名'},
                 {field: 'sex', title: '性别'},
-                {field: 'company', title: '单位'},
-                {field:'schoolMajor',title:'学校所学专业'},
-                {field: 'workMajor', title: '从事专业'},
                 {field: 'position', title: '职务'},
-                {field: 'jobTitle',templee:function(d){
+                {field: 'jobTitle',templet:function(d){
                     if(d.jobTitle==1){
                         return '正高';
                     }else{
@@ -80,7 +132,7 @@
                 {field: 'createTime', title: '创建时间'},
                 {field: 'schoolMajorName', title: '学校所学专业名'},
                 {field: 'workMajorName', title: '从事专业名'},
-                {field:'',title:'操作',templet:'#expertAction'},
+                {field:'',title:'操作',templet:'#expertAction',width:'150'},
             ]],
             done: function (res,cuur,count) {
                 layer.closeAll('loading');
@@ -90,7 +142,7 @@
         window.openAddLayer = function(){
           layer.open({
               type:2,
-              area:['800px','500px'],
+              area:['800px','510px'],
               content:'add.html',
               maxmin:true,
               success:function(){
@@ -101,6 +153,48 @@
               }
           })
         }
+        form.on('select(schoolMajor)', function (data) {
+            schoolMajor = data.value;
+        });
+
+        var active = {
+            reload :function(){
+                var url = baseUrl + '/expert/findExpertByPage';
+                table.reload('expertId',{
+                    url:url,
+                    method:'get',
+                    dataType:'json',
+                    page:{
+                        curr:'1'
+                    },
+                    where:{
+                        token:token,
+                        name:$('#expertname').val(),
+                        mobile:$('#expertmobile').val(),
+                        jobTitle:$('#jobTitle').val(),
+                        area:$('#area').val(),
+                        schoolMajor:schoolMajor,
+                    },
+                    done:function(res,curr,count){
+
+                    }
+                })
+            }
+        }
+
+        $("#Search").on('click',function(){
+            var type = $(this).data('type');
+//            var url = baseUrl + '/expert/findExpertAll';
+//            if( $('#expertname').val().trim()==""){
+//                layer.msg('查询的专家名称不能为空');
+//                return false;
+//            }else{
+//                active[type] ? active[type].call(this) : '';
+//            }
+            active[type] ? active[type].call(this) : '';
+        })
+
+
 
         table.on("tool(expertList)",function(obj){
             var data = obj.data;
@@ -108,7 +202,7 @@
                 layer.open({
                     type:2,
                     title:'编辑专家信息',
-                    area:['480px','360px'],
+                    area:['800px','500px'],
                     fix:false,
                     content:'edit.html',
                     maxmin:true,
@@ -121,11 +215,10 @@
                     }
                 })
             }else if(obj.event==='del'){
+                console.log(data);
                 layer.confirm('真的删除吗', function (index) {
                     var rowId = data.id;
-                    console.log(rowId);
                     var url = baseUrl + "/expert/delete";
-                    console.log(url);
                     $.ajax({
                         url: url,
                         type: "post",
@@ -153,6 +246,40 @@
             }
         })
     })
+
+    function findschoolMajor(){
+        $.ajax({
+            url: baseUrl + '/profession/selectChildren',
+            type: 'get',
+            dataType: 'json',
+            timeout: 10000,
+            data: { token:token},
+            success: function (res) {
+
+                if (res.status == 1) {
+                    var data = res.data;
+                    console.log(data);
+                    var html = ' <option value="">' + '所有' + '</option>';
+
+                    for (var i in data) {
+                        var id = data[i].id;
+                        var schoolMajorName = data[i].name;
+                        html += ' <option value=' + id + '>' + schoolMajorName + '</option>';
+
+                    }
+                    $('#schoolMajor').html(html);
+                    form.render();
+                } else {
+                    layer.msg(res.msg);
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+
+
+            }
+        });
+    }
 </script>
 </body>
 </html>
