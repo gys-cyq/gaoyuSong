@@ -16,6 +16,12 @@
         .layui-inline {
             margin-bottom: 20px;
         }
+        .filename {
+            width: 80px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 </head>
@@ -27,7 +33,7 @@
                 <input class="layui-input" name="userId">
                 <input class="layui-input" name="declareCompany">
                 <input class="layui-input" name="projectIndustry">
-                <input class="layui-input" name="files" lay-vertify='files'>
+                <input class="layui-input" name="files" lay-verify='fileList'>
 
             </div>
             <div class="layui-form-item">
@@ -92,7 +98,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" autocomplete="off" />
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify='required' />
 
                     </div>
                 </div>
@@ -157,6 +163,7 @@
         var form;
         var fileList = [];
         var date = new Date();
+        var isUpload = false;
         var y = date.getFullYear();
         var m = date.getMonth() + 1;
         if (m < 10) {
@@ -180,14 +187,14 @@
             var demoListView = $('#demoList')
             var uploadListIns = upload.render({
                 elem: '#testList'
-                , url: baseUrl + '/file/upload'
+                , url: baseUrl + '/file/uploadByCode'
                 , accept: 'file'
                 , exts: 'doc|xls|docx|xlsx'
                 , multiple: true
                 , auto: false
                 , bindAction: '#testListAction'
                 , method: 'post',
-                data: { token: token, savepath: purl }
+                data: { token: token, code: 'C200002' }
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                     console.log(files);
@@ -215,7 +222,8 @@
                 , done: function (res, index, upload) {
                     if (res.status == 1) { //上传成功
                         var data = res.data;
-                       
+                        isUpload = true;
+
                         for (var i = 0; i < data.length; i++) {
                             fileList.push(data[i]);
 
@@ -226,8 +234,9 @@
                             , tds = tr.children();
                         tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
                         tds.eq(2).html(''); //清空操作
+                      
                         return delete this.files[index]; //删除文件队列已经上传成功的文件
-                        
+
                     }
                     this.error(index, upload);
                 }
@@ -239,8 +248,9 @@
                 }
             });
             form.verify({
-                files:function(value){
-                    if(value.length==0){
+                fileList: function (value) {
+
+                    if (!isUpload) {
                         return '请上传附件'
                     }
                 }
@@ -260,6 +270,10 @@
                     success: function (res) {
                         if (res.status == 1) {
                             layer.msg(res.msg);
+                            demoListView.html('')
+                            $("input[name='userId']").val(user.id);
+                            $("input[name='companyName']").val(user.nickname);
+                            $("input[name='declareCompany']").val(user.companyId);
                         } else {
                             errmsg(res);
                         }

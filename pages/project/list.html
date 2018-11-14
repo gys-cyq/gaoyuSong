@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="../../css/style.css" />
     <!-- 企业库 -->
     <style>
+        .layui-table-cell {
+            height: auto;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all
+        }
     </style>
 
 </head>
@@ -29,7 +35,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                            <select id="type" name="type" lay-filter='type'></select>
+                        <select id="type" name="type" lay-filter='type'></select>
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -43,26 +49,26 @@
 
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">申报单位
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="companyName" autocomplete="off" class="layui-input" value="">
-                        </div>
-    
-    
-                 </div>
+                    <label class="layui-form-label">申报单位
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="companyName" autocomplete="off" class="layui-input" value="">
+                    </div>
+
+
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">申报时间
 
                     </label>
                     <div class="layui-input-inline">
-                            <input type="text" id="year" readonly='readonly' class="layui-input" value="">
+                        <input type="text" id="year" readonly='readonly' class="layui-input" value="">
 
                     </div>
                 </div>
-              
-              
+
+
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
 
 
@@ -87,10 +93,10 @@
 
     </div>
     <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                    <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
-                    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
-                </script>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+            <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+            <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+        </script>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
@@ -99,12 +105,12 @@
         var typeId;
 
 
-        layui.use(['table', 'layer', 'form', 'upload','laydate'], function () {
+        layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             var table = layui.table;
             var layer = layui.layer;
             form = layui.form;
             var upload = layui.upload;
-            var laydate=layui.laydate;
+            var laydate = layui.laydate;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
             console.log(actions);
@@ -124,21 +130,25 @@
                 $('#export').hide();
             }
             var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-            if (actions.indexOf('project:update') != -1) {
-                html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
-            }
-            if (actions.indexOf('project:delete') != -1) {
-                html += ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">' + '删除' + '</a>'
-            }
             if (actions.indexOf('project:history') != -1) {
                 html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
             }
+            if (actions.indexOf('project:contract:apply') != -1) {
+                html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+            }
+            if (actions.indexOf('project:midterminspection:apply') != -1) {
+                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
+            }
+            if (actions.indexOf('project:acceptance:apply') != -1) {
+                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
+            }
+         
             $('#barDemo').html(html);
             findprojectTypeAll();
-           laydate.render({
-               elem:'#year',
-               type:'year'
-           });
+            laydate.render({
+                elem: '#year',
+                type: 'year'
+            });
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/project/findprojectByPage',
@@ -161,20 +171,24 @@
                         { field: 'typeName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
                         { field: 'declareDate', title: '申报日期' },
-                        { field: 'status', title: '状态',templet: function (e) {
-                            if(e.status==0){
-                                return '<span style="color: red;">'+"待审核"+'</span>';
-                            }else if(e.status==1){
-                                return '<span style="color: red;">'+'审核中'+'</span>'
-                            }else if(e.status==2){
-                                return '<span style="color: red;">'+"通过"+'</span>';
-                            }else if(e.status==3){
-                                return '<span style="color: red;">'+"不通过"+'</span>'
-                            }else if(e.status==4){
-                                return '<span style="color: red;">'+"退回"+'</span>'
+                        {
+                            field: 'status', title: '状态', templet: function (e) {
+                                if (e.status == 0) {
+                                    return '<span style="color: red;">' + "待审核" + '</span>';
+                                } else if (e.status == 1) {
+                                    return '<span style="color: red;">' + '审核中' + '</span>'
+                                } else if (e.status == 2) {
+                                    return '<span style="color: red;">' + "通过" + '</span>';
+                                } else if (e.status == 3) {
+                                    return '<span style="color: red;">' + "不通过" + '</span>'
+                                } else if (e.status == 4) {
+                                    return '<span style="color: red;">' + "退回" + '</span>'
+                                }else{
+                                    return '';
+                                }
                             }
-                        }},
-                        { fixed: 'right', width: 300, align: 'center', toolbar: '#barDemo', title: '操作' }
+                        },
+                        { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ], done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -188,7 +202,7 @@
                 if (layEvent == 'detail') {
                     layer.open({
                         type: 2,
-                        area: ['1050px', '460px'],
+                        area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '详细信息',
                         content: 'list_detail.html',
@@ -200,55 +214,37 @@
 
                     });
 
-                } else if (layEvent == 'edit') {
+                } else if (layEvent == 'contract') {
                     layer.open({
                         type: 2,
-                        area: ['1050px', '500px'],
-                        fix: false,//不固定
-                        title: '修改信息',
-                        content: 'list_edit.html',
+                        area: ['1100px', '460px'],
+                        fix: true,
+                        title: '合同审批申请',
+                        content: 'contact.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res);
+                            iframe.child(res.id);
+
+                        }, error: function (layero, index) {
 
                         }
 
                     });
 
-                } else if (layEvent == 'del') {
-                    layer.confirm('确定删除吗？', function (index) {
-                        $.ajax({
-                            url: baseUrl + '/project/delete',
-                            type: 'post',
-                            dataType: 'json',
-                            timeout: 10000,
-                            data: { token: localStorage.getItem('token'), id: res.id },
-                            success: function (res) {
-                                if (res.status == 1) {
-                                    layer.msg(res.msg);
-                                    obj.del();
-                                    layer.close(index);
-                                    parent.location.reload();
-                                } else {
-                                    errmsg(res);
-                                }
 
-                            }, error: function (xhr, type, errorThrown) {
+                } else if (layEvent == 'midterminspection') {
 
-                            }
 
-                        });
-                    });
+                } else if (layEvent == 'acceptance') {
 
                 } else if (layEvent == 'history') {
                     layer.open({
                         type: 2,
                         area: ['1000px', '400px'],
                         fix: true,
-                        title: '历史申报',
+                        title: '历史申请',
                         content: 'history.html',
                         success: function (layero, index) {
-                            // layer.msg(historyId);
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res.id);
 
@@ -259,9 +255,9 @@
                     });
                 }
             });
-            form.on('select(type)',function(data){
-                typeId=data.value;
-               
+            form.on('select(type)', function (data) {
+                typeId = data.value;
+
             });
             var active = {
                 reload: function () {
@@ -279,7 +275,7 @@
                             type: typeId,
                             declareDate: $('#year').val(),
                             companyName: $('#companyName').val()
-                            
+
                         }
                     })
                 }
@@ -291,7 +287,7 @@
 
 
             });
-             
+
             // 导入
             var files;
             var uploadInst = upload.render({
@@ -376,30 +372,23 @@
             if ($('#name').val() != '') {
                 url += '&name=' + $('#name').val();
             }
-            if ($('#legalPerson').val() != '') {
-                url += '&legalPerson=' + $('#legalPerson').val();
+            if ($('#year').val() != '') {
+                url += '&declareDate=' + $('#year').val();
             }
-            if ($("#address").val() != '') {
-                url += '&address=' + $("#address").val();
+            if ($("#companyName").val() != '') {
+                url += '&companyName=' + $("#companyName").val();
             }
-            if (companyTypeId != undefined) {
-                url += '&companyTypeId=' + companyTypeId;
+            if (typeId != undefined) {
+                url += '&type=' + typeId;
             }
-            if(streetId!=undefined){
-                url += '&streetId=' + streetId;
 
-            }
-            if(parkId!=undefined){
-                url += '&parkId=' + parkId;
-
-            }
 
             window.location.href = url;
         }
 
 
-        
-      
+
+
 
     </script>
 </body>
