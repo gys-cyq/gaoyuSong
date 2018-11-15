@@ -161,7 +161,7 @@
                     , auto: false
                     , bindAction: '#testListAction'
                     , method: 'post',
-                    data: { token: token, code: 'C200003' }
+                    data: { token: token, code: 'C200004' }
                     , choose: function (obj) {
                         var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                         console.log(files);
@@ -225,7 +225,7 @@
                 form.on('submit(submit)', function (data) {
                     console.log(JSON.stringify(data.field));
                     var options = {
-                        url: baseUrl + "/project/projectContractApply",
+                        url: baseUrl + "/project/projectMidtermInspectionApply",
                         type: 'post',
                         dataType: 'json',
                         clearForm: true,

@@ -26,6 +26,8 @@
     </div>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="files">附件</a>
+
 
     </script>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -56,7 +58,19 @@
                     cols: [
                         [
                             { field: 'name', title: '项目名称' },
-                            { field: 'type', title: '项目类别' },
+                            { field: 'type', title: '申报类型' ,templet:function(e){
+                                 if(e.type=='C100001'){
+                                    return '新项目申报'
+                                }else if(e.type=='C100002'){
+                                    return '合同审核'
+                                }else if(e.type=='C100003'){
+                                    return "中期检查"
+                                }else if(e.type=='C100004'){
+                                    return "项目验收"
+                                }else{
+                                    return ""
+                                }
+                            }},
                             // { field: 'companyName', title: '申报单位' },
                             {field:'timeStr',title:'申请日期'},
                             {
@@ -97,6 +111,20 @@
                             success: function (layero, index) {
                                 var iframe = window['layui-layer-iframe' + index];
                                 iframe.child(data.id);
+
+                            }
+
+                        });
+                    }else if(layEvent=='files'){
+                        layer.open({
+                            type: 2,
+                            area: ['900px', '300px'],
+                            fix: false,//不固定
+                            title: '附件',
+                            content: 'files.html',
+                            success: function (layero, index) {
+                                var iframe = window['layui-layer-iframe' + index];
+                                iframe.child(data);
 
                             }
 

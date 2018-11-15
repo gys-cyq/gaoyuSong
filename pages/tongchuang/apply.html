@@ -12,18 +12,7 @@
     <!--<link rel="stylesheet" href="../../static/css/font.css" />-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-    <style>
-        .layui-inline {
-            margin-bottom: 20px;
-        }
 
-        .filename {
-            width: 80px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    </style>
 
 </head>
 
@@ -31,30 +20,21 @@
     <div class="layui-table-brief" style="margin: 20px">
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <div class="layui-form-item" style="display: none">
-                <input class="layui-input" name="userId">
                 <input class="layui-input" name="declareCompany">
                 <input class="layui-input" name="projectIndustry">
+                <input class="layui-input" name="type" value="C101001">
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">项目类型
+                    <label class="layui-form-label">项目名称
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <select id="type" name="type" lay-verify='required'></select>
+                        <input type="text" name="name" class="layui-input" autocomplete="off" lay-verify='required' />
                     </div>
                 </div>
-                <div class="layui-inline" id="type">
-                        <label class="layui-form-label">项目名称
-                            <span style="color:red;">*</span>
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="name" class="layui-input" autocomplete="off" lay-verify='required' />
-    
-                        </div>
-                    </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">项目行业
                         <span style="color:red;">*</span>
@@ -66,13 +46,6 @@
                     <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
 
                 </div>
-
-              
-
-            </div>
-
-            <div class="layui-form-item">
-
                 <div class="layui-inline">
                     <label class="layui-form-label">申报单位
                         <span style="color:red;">*</span>
@@ -82,40 +55,53 @@
 
                     </div>
                 </div>
+
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人姓名
-                        <span style="color:red;">*</span>
+
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="linkName" class="layui-input" lay-verify='required' />
+                        <input type="text" name="linkName" class="layui-input" />
 
                     </div>
                 </div>
-                <div class="layui-inline" >
+                <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
-                        <span style="color:red;">*</span>
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" lay-verify='required' />
+                        <input type="tel" name="linkTel" class="layui-input" />
 
                     </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">项目说明
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="description" class="layui-input" />
+                        <input type="text" name="description" class="layui-input" style="width: 100%" />
 
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目备注
 
-            <div class="layui-form-item" style="display: flex">
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="remark" class="layui-input" />
+
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="layui-form-item" style="display: flex">
                 <div class="layui-inline">
                     <label class="layui-form-label">附件
                     </label>
@@ -125,7 +111,7 @@
                 <ul id="template" style="display: flex;float: left;"></ul>
 
 
-            </div>
+            </div> -->
             <div class="layui-upload">
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
@@ -156,34 +142,19 @@
 
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
-    <script type="text/javascript" src="../../js/jquery.form.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/jquery.form.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-        var form;
-        var fileList = [];
-        var date = new Date();
-        var isUpload = false;
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        if (m < 10) {
-            m = "0" + m;
-        }
-        var d = date.getDate();
-        if (d < 10) {
-            d = "0" + d;
-        }
         layui.use(['form', 'layer', 'upload'], function () {
-            form = layui.form;
+            var form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
-            findprojectTypeAll();
-            getTemplateList();
+            var isUpload = false;
+            var fileList=[];
             var user = JSON.parse(localStorage.getItem('user'));
-            $("input[name='userId']").val(user.id);
             $("input[name='companyName']").val(user.nickname);
             $("input[name='declareCompany']").val(user.companyId);
-            var purl = ' /project/apply/' + y + m + d;
             var demoListView = $('#demoList')
             var uploadListIns = upload.render({
                 elem: '#testList'
@@ -194,7 +165,7 @@
                 , auto: false
                 , bindAction: '#testListAction'
                 , method: 'post',
-                data: { token: token, code: 'C200002' }
+                data: { token: token, code: 'C200006' }
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                     console.log(files);
@@ -204,7 +175,6 @@
                             , '<td>' + file.name + '</td>'
                             , '<td>等待上传</td>'
                             , '<td>'
-
                             , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
                             , '</td>'
                             , '</tr>'].join(''));
@@ -258,7 +228,7 @@
             form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
                 var options = {
-                    url: baseUrl + "/project/applyProject",
+                    url: baseUrl + "/tcb/apply",
                     type: 'post',
                     dataType: 'json',
                     clearForm: true,
@@ -288,78 +258,16 @@
                 return false;
             });
 
+
         });
-        function findprojectTypeAll() {
-            $.ajax({
-                url: baseUrl + '/projectType/findprojectTypeAll',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: { token: localStorage.getItem('token') },
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        var html = ' <option value="">' + '请选择项目类型' + '</option>';
-                        for (var i in data) {
-                            var typeName = data[i].typeName;
-                            var id = data[i].id;
-                            html += ' <option value=' + id + '>' + typeName + '</option>';
 
-                        }
-
-                        $('#type').html(html);
-                        form.render();
-                    } else {
-                        errmsg(res);
-                    }
-
-                }, error: function (xhr, type, errorThrown) {
-
-                }
-            });
-        }
-        function getTemplateList() {
-            $.ajax({
-                url: baseUrl + '/template/getTemplateList',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: {
-                    token: localStorage.getItem('token'),
-                    code: 'C200002'
-                },
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        var html = '';
-                        for (var i in data) {
-                            var imgurl = baseUrl + '/images/' + data[i].formats + '.png';
-                            var downloadurl = baseUrl + '/file/download?path=' + data[i].path;
-                            html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
-                            //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
-                            html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
-                            html += '<div class="filename">' + data[i].filename + '</div>';
-                            html += '</a></div>';
-                        }
-                        $('#template').html(html);
-                    } else {
-                        layer.msg(res.msg);
-                    }
-
-                },
-                error: function (xhr, type, errorThrown) {
-
-                }
-            });
-
-        }
         function openDeclare() {
             layer.open({
                 type: 2,
                 title: '选择项目行业',
                 area: ['250px', '360px'],
                 fix: false,
-                content: 'project_declare.html',
+                content: '../project/project_declare.html',
                 success: function (layero, index) {
 
                 },
@@ -375,7 +283,6 @@
 
         }
     </script>
-
 </body>
 
 </html>

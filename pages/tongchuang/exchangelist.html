@@ -31,14 +31,6 @@
             <div class="layui-form-item" style="margin-top: 10px">
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">项目类别
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <select id="type" name="type" lay-filter='type'></select>
-                    </div>
-                </div>
-                <div class="layui-inline">
                     <label class="layui-form-label">项目名称
 
                     </label>
@@ -48,25 +40,7 @@
 
 
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">申报单位
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="companyName" autocomplete="off" class="layui-input" value="">
-                    </div>
-
-
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">申报时间
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="year" readonly='readonly' class="layui-input" value="">
-
-                    </div>
-                </div>
+               
 
 
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
@@ -144,15 +118,11 @@
             }
          
             $('#barDemo').html(html);
-            findprojectTypeAll();
-            laydate.render({
-                elem: '#year',
-                type: 'year'
-            });
+         
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/project/findprojectByPage',
-                where: { token: localStorage.getItem('token') },
+                url: baseUrl + '/tcb/select',
+                where: { token: localStorage.getItem('token') ,type:'C101002'},
                 parseData: function (res) {
 
                     return {
@@ -168,27 +138,12 @@
                 cols: [
                     [
                         { field: 'name', title: '项目名称' },
-                        { field: 'typeName', title: '项目类别' },
+                        { field: 'projectIndustryName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
-                        { field: 'declareDate', title: '申报日期' },
-                        {
-                            field: 'status', title: '状态', templet: function (e) {
-                                if (e.status == 0) {
-                                    return '<span style="color: red;">' + "待审核" + '</span>';
-                                } else if (e.status == 1) {
-                                    return '<span style="color: red;">' + '审核中' + '</span>'
-                                } else if (e.status == 2) {
-                                    return '<span style="color: red;">' + "通过" + '</span>';
-                                } else if (e.status == 3) {
-                                    return '<span style="color: red;">' + "不通过" + '</span>'
-                                } else if (e.status == 4) {
-                                    return '<span style="color: red;">' + "退回" + '</span>'
-                                }else{
-                                    return '';
-                                }
-                            }
-                        },
-                        { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作' }
+                        { field: 'declareDateStr', title: '申报日期' },
+                        
+                            
+                        { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ], done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -214,75 +169,7 @@
 
                     });
 
-                } else if (layEvent == 'contract') {
-                    layer.open({
-                        type: 2,
-                        area: ['1100px', '460px'],
-                        fix: true,
-                        title: '合同审批申请',
-                        content: 'contact.html',
-                        success: function (layero, index) {
-                            var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res);
-
-                        }, error: function (layero, index) {
-
-                        }
-
-                    });
-
-
-                } else if (layEvent == 'midterminspection') {//中期检查
-                    layer.open({
-                        type: 2,
-                        area: ['1100px', '460px'],
-                        fix: true,
-                        title: '中期检查申请',
-                        content: 'midterminspection.html',
-                        success: function (layero, index) {
-                            var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res);
-
-                        }, error: function (layero, index) {
-
-                        }
-
-                    });
-
-                } else if (layEvent == 'acceptance') {
-                    layer.open({
-                        type: 2,
-                        area: ['1100px', '460px'],
-                        fix: true,
-                        title: '项目验收申请',
-                        content: 'acceptance.html',
-                        success: function (layero, index) {
-                            var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res);
-
-                        }, error: function (layero, index) {
-
-                        }
-
-                    });
-
-                } else if (layEvent == 'history') {
-                    layer.open({
-                        type: 2,
-                        area: ['1000px', '400px'],
-                        fix: true,
-                        title: '历史申请',
-                        content: 'history.html',
-                        success: function (layero, index) {
-                            var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res.id);
-
-                        }, error: function (layero, index) {
-
-                        }
-
-                    });
-                }
+                } 
             });
             form.on('select(type)', function (data) {
                 typeId = data.value;
@@ -292,7 +179,7 @@
                 reload: function () {
 
                     table.reload('testReload', {
-                        url: baseUrl + '/project/findprojectByPage',
+                        url: baseUrl + '/tcb/select',
                         method: 'get',
                         dataType: 'json',
                         page: {
@@ -300,11 +187,9 @@
                         },
                         where: {
                             token: localStorage.getItem('token'),
+                            type:"C101002",
                             name: $('#name').val(),
-                            type: typeId,
-                            declareDate: $('#year').val(),
-                            companyName: $('#companyName').val()
-
+                           
                         }
                     })
                 }
@@ -349,35 +234,7 @@
                 }
             });
         });
-        function findprojectTypeAll() {
-            $.ajax({
-                url: baseUrl + '/projectType/findprojectTypeAll',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: { token: localStorage.getItem('token') },
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        var html = ' <option value="">' + '请选择项目类型' + '</option>';
-                        for (var i in data) {
-                            var typeName = data[i].typeName;
-                            var id = data[i].id;
-                            html += ' <option value=' + id + '>' + typeName + '</option>';
-
-                        }
-
-                        $('#type').html(html);
-                        form.render();
-                    } else {
-                        errmsg(res);
-                    }
-
-                }, error: function (xhr, type, errorThrown) {
-
-                }
-            });
-        }
+       
         function add() {
             layer.open({
                 type: 2,
@@ -401,15 +258,7 @@
             if ($('#name').val() != '') {
                 url += '&name=' + $('#name').val();
             }
-            if ($('#year').val() != '') {
-                url += '&declareDate=' + $('#year').val();
-            }
-            if ($("#companyName").val() != '') {
-                url += '&companyName=' + $("#companyName").val();
-            }
-            if (typeId != undefined) {
-                url += '&type=' + typeId;
-            }
+           
 
 
             window.location.href = url;
