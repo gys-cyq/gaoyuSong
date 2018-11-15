@@ -27,6 +27,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="id" id="id"/>
         <div class="layui-form-item" id="choose1">
             <div class="layui-inline">
                 <label class="layui-form-label">角色</label>
@@ -43,9 +44,9 @@
                 </div>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" style="text-align:center;">
             <div class="layui-inline">
-                <button class="layui-btn" lay-submit=""  id="streetEdit">确定</button>
+                <button class="layui-btn" lay-submit=""  id="streetEdit" lay-filter="streetEdit">确定</button>
                 <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -55,12 +56,20 @@
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
+    var index = parent.layer.getFrameIndex(window.name);
     layui.use(['form','layer'],function(){
         var layer = layui.layer,
             form = layui.form;
 
+        window.cancel = function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+
         form.on('select(type)', function (data) {
             if(data.value==1){
+                $('#choose2').css('display','none');
+                $('#choose1').css('display','block');
                 $.ajax({
                     url:baseUrl + '/role/getRoleList',
                     type:'get',
@@ -73,7 +82,9 @@
                             for(var i=0;i<data.length;i++){
                                 var id=data[i].id;
                                 var name = data[i].role;
-                                html += '<option value="+id+">'+name+'</option>';
+                                var description = data[i].description;
+                                html += '<option value='+description+'>'+name+'</option>';
+                                $('#id').val(id);
                             }
                             $('#role').html(html);
                             form.render();
@@ -96,12 +107,13 @@
                     success:function(res){
                         if(res.status==1){
                             var data = res.data.list;
-                            console.log(data);
                             var html = '';
                             for(var i=0;i<data.length;i++){
                                 var id=data[i].id;
                                 var name = data[i].username;
-                                html += '<option value="+id+">'+name+'</option>';
+                                var nickname = data[i].nickname;
+                                html += '<option value='+nickname+'>'+name+'</option>';
+                                $('#id').val(id);
                             }
                             $('#user').html(html);
                             form.render();
@@ -116,9 +128,12 @@
             }
         })
 
-        $('#streetEdit').on('click',function(){
-
-        })
+        form.on('submit(streetEdit)', function(data){
+            var dataObj = data.field;
+            console.log(dataObj);
+            parent.layer.close(index);
+            parent.GetValue(dataObj);
+        });
 
     })
 </script>

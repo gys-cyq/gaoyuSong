@@ -38,7 +38,8 @@
 					</dl>
 				</li>
 				<li class="layui-nav-item to-index">
-					<a class="loginout" href="login.html">退出</a>
+					<!--<a class="loginout" href="login.html">退出</a>-->
+					<a class="loginout" href="javascript:void(0);" id="loginout">退出</a>
 				</li>
 			</ul>
 
@@ -202,6 +203,24 @@
 				sessionStorage.setItem('actionsData', JSON.stringify(datas))
 			}
 
+			$('#loginout').on('click',function(){
+			    $.ajax({
+					url:baseUrl + '/logout',
+					type:"post",
+					dataType:"json",
+					data:{token:token},
+					success:function(res){
+					    if(res.status==1){
+					        location.href='Login.html';
+						}else{
+                            errmsg(res);
+						}
+					},
+					error:function(res){
+					    layer.msg('系统异常');
+					}
+				})
+			})
 
 		</script>
 

@@ -33,7 +33,6 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>
 </script>
 <script type="text/javascript">
-    var html = '';
     layui.use(['table','layer','jquery'], function(){
         var table = layui.table,
             layer = layui.layer,
@@ -57,13 +56,15 @@
                 {field: 'typeName', title: '类型名称'},
                 {field: 'name', title: '流程名称'},
                 {field: 'nodeList',templet:function(d){
+                        var html = '';
                         var data = d.nodeList;
-                        html += '<div>';
+                        console.log(data);
+                        html += '<div style="height:100%;">';
                         for(var i=0;i<data.length;i++){
                             if(data[i].nodeDescription!=null){
-                                html += '<div style="display:inline-block">'+data[i].nodeDescription;
+                                html += '<div style="display:inline-block;"><span style="background:#ddd;padding:5px 8px;border-radius:5px;">'+data[i].nodeDescription+'</span>';
                                 if(i!=data.length-1){
-                                    html += '-->';
+                                    html += '<img src="../../img/arrow.png"  style="width:25px;"/>';
                                 }
                                 html += '</div>';
                             }
@@ -71,38 +72,6 @@
                         html += '</div>';
                         return html;
                     },title: '流程节点'},
-
-//                    var process1;
-//                    for(var i=0;i<data.length;i++){
-//                        if(data[i].type==1){
-//                            $.ajax({
-//                                url:baseUrl + '/role/getRoleList',
-//                                type:'get',
-//                                dataType:'json',
-//                                data:{token:token},
-//                                success:function(res){
-//                                    if(res.status==1){
-//                                        var obj = res.data;
-//                                        for(var j=0;j<obj.length;j++){
-//                                            console.log(obj[j]);
-//                                            if(obj[j].id==data[i].relationId){
-//                                                process1 = obj[j].name;
-//
-//                                            }
-//                                        }
-//                                    }else{
-//                                        layer.msg(res.msg);
-//                                    }
-//                                },
-//                                error:function(res){
-//                                    layer.msg('系统异常');
-//                                }
-//                            })
-//                            return process1;
-//                        }else{
-//                            return '具体人员';
-//                        }
-//                    }
                 {field:'',title:'操作',templet:'#processAction'},
             ]],
             done: function (res,cuur,count) {
@@ -110,27 +79,6 @@
             }
         });
 
-//        window.getprocessRole = function(){
-//            $.ajax({
-//                url:baseUrl + '/role/getRoleList',
-//                type:'get',
-//                dataType:'json',
-//                data:{token:token},
-//                suceess:function(res){
-//                    if(res.status==1){
-//                        var html='';
-//
-//                    }
-//                },
-//                error:function(){
-//
-//                }
-//            })
-//        }
-//
-//        window.getprocessUser = function(){
-//
-//        }
 
         table.on("tool(processList)",function(obj){
             var data = obj.data;
