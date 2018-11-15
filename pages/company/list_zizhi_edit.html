@@ -19,6 +19,7 @@
     <div class="layui-table-brief" style="margin: 10px">
 
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
+            <input name="id" class="layui-input" type="hidden" />
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业名称
@@ -74,23 +75,45 @@
                     </div>
                 </div>
             </div>
+           
             <div class="layui-form-item">
-
                 <div class="layui-inline">
-                    <label class="layui-form-label">账号
-                        <span style="color:red;">*</span>
+                    <label class="layui-form-label">企业类型
+
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="account" class="layui-input" lay-verify="required|isExistUsername" />
+                        <input class="layui-input" name="typeName"></input>
+                        <!-- <select name="companyTypeId" lay-filter="typeName" id="typeName" style="display: none">
+                        </select> -->
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="account" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">密码
-                        <span style="color:red;">*</span>
+
                     </label>
                     <div class="layui-input-inline">
-                        <input type="password" name="password" class="layui-input" lay-verify="required" />
+                        <input type="text" name="password" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">到期日期
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input name="expirationDate" class="layui-input" readonly='readonly' id="expirationDate" />
 
                     </div>
                 </div>
@@ -103,8 +126,6 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
 
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数
@@ -115,45 +136,38 @@
 
                     </div>
                 </div>
-                <div class="layui-inline">
+
+
+
+            </div>
+            <div class="layui-form-item">
+                    <div class="layui-inline">
                         <label class="layui-form-label">街道
-                                <span style="color:red;">*</span>
+                            <span style="color:red;">*</span>
                         </label>
                         <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId" name="streetId">
+                            <select lay-filter="streetId" id="streetId" lay-verify="streetId" name="streetId">
                             </select>
                         </div>
                     </div>
                     <div class="layui-inline">
-                            <label class="layui-form-label">园区
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <select lay-filter="parkId" id="parkId" name="parkId">
-                                </select>
-                            </div>
+                        <label class="layui-form-label">园区
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="parkId" id="parkId" name="parkId">
+                            </select>
                         </div>
-
-
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">企业类型
-                            <span style="color:red;">*</span>
-                    </label>
-                    <div class="layui-input-inline">
-                        <!-- <input class="layui-input" name="typeName"></input> -->
-                        <ul id="typeName" style="display: flex" lay-verify="isCheckd"></ul>
-
                     </div>
+    
                 </div>
-            </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">经营范围
+
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="operationScope" ></input>
+                        <input class="layui-input" name="operationScope"></input>
 
                     </div>
                 </div>
@@ -190,103 +204,74 @@
         var form;
         var typeName;
         var streetId;
-        layui.use(['form', 'layer', 'laydate'], function () {
-            form = layui.form;
-            var layer = layui.layer;
-            var laydate = layui.laydate;
-            laydate.render({
-                elem: '#registerDate'
-            });
-            findcompanyTypeAll();
-            getStreetList();
-            form.on('select(streetId)',function(data){
-                streetId=data.value;
-                getParkList();
-            });
-            form.verify({
-                isExistUsername: function (value) {
-                    var msg;
-                    $.ajax({
-                        url: baseUrl + '/user/isExistUsername',
+
+        function child(obj) {
+
+
+
+            layui.use(['form', 'layer', 'laydate'], function () {
+                form = layui.form;
+                var layer = layui.layer;
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#registerDate'
+                });
+
+
+                obj = JSON.stringify(obj);
+                var data = JSON.parse(obj);
+                form.val('formTest', data);
+                form.render();
+                // findcompanyTypeAll(data);
+                getStreetList(data);
+                getParkList(data);
+                form.on('select(streetId)', function (data) {
+                    streetId = data.value;
+                    getParkList(undefined);
+                });
+                form.verify({
+                   streetId: function (value) {
+                        if (value.length == 0) {
+                            return "街道不能为空";
+                        }
+                    }
+                });
+                form.on('submit(submit)', function (data) {
+                    console.log(JSON.stringify(data.field));
+                    var options = {
+                        url: baseUrl + "/company/update",
                         type: 'post',
                         dataType: 'json',
-                        timeout: 10000,
-                        async: false,
+                        clearForm: true,
+                        resetForm: true,
                         data: {
-                            token: localStorage.getItem('token'),
-                            username: value
+                            token: localStorage.getItem('token')
                         },
-                        success: function (response) {
-                            if (response.status != 1) {
-                                msg = response.msg;
-
-                            }else{
-                                errmsg(response)
+                        timeout: 10000,
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.alert("成功", function () {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    parent.location.reload();
+                                });
+                            } else {
+                                errmsg(res);
                             }
 
                         },
-                        error: function (xhr, type, errorThrown) {
+                        error: function (res) {
 
                         }
+                    };
+                    $('#demofrom').ajaxForm(options);
+                    $('#demofrom').submit();
+                    return false;
+                });
 
-                    });
-                    return msg;
-
-
-                },streetId:function(value){
-                    if(value==null){
-                        return "街道不能为空";
-                    }
-                },isCheckd:function(value){
-                    var isCheckd = false;
-                    $("input:checkbox").each(function (i) {
-                        if ($(this).prop("checked") == true) {
-                            isCheckd = true;
-                        }
-
-                    });
-                    console.log(isCheckd)
-                    if (!isCheckd) {
-                        return "请选择企业类型";
-                    }
-
-                }
             });
-            form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
-                var options = {
-                    url: baseUrl + "/company/add",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        token: localStorage.getItem('token')
-                    },
-                    timeout: 10000,
-                    success: function (res) {
-                        if (res.status == 1) {
-                            layer.alert("成功", function () {
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                                parent.location.reload();
-                            });
-                        }else{
-                            errmsg(res);
-                            
-                        }
-
-                    },
-                    error: function (res) {
-
-                    }
-                };
-                $('#demofrom').ajaxForm(options);
-                $('#demofrom').submit();
-                return false;
-            });
-
-        });
-
-        function findcompanyTypeAll() {
+        }
+        function findcompanyTypeAll(obj) {
 
             $.ajax({
                 url: baseUrl + '/companytype/findcompanyTypeAll',
@@ -298,17 +283,18 @@
 
                     if (res.status == 1) {
                         var data = res.data;
-                        var html = '';
+                        var html = ' <option value="">' + '请选择企业类型' + '</option>';
 
                         for (var i in data) {
                             var id = data[i].id;
                             var typeName = data[i].typeName;
-                            html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + typeName + ' lay-skin="primary" name="typeIds" > ' + '</li>';
+                            html += ' <option value=' + id + ' >' + typeName + '</option>';
 
                         }
-                       
                         $('#typeName').html(html);
 
+
+                        form.val('formTest', { "companyTypeId": obj.companyTypeId });
 
 
                         form.render();
@@ -327,7 +313,7 @@
 
 
         }
-        function getStreetList() {
+        function getStreetList(obj) {
             $.ajax({
                 url: baseUrl + '/street/getStreetList',
                 type: 'get',
@@ -347,6 +333,8 @@
                             }
 
                             $('#streetId').html(html);
+                            $('#streetId').val(obj.streetId);
+                            // form.val('formTest', { "streetId": obj.streetId });
                             form.render();
 
 
@@ -364,9 +352,8 @@
                     console.log(xhr.responseText);
                 }
             });
-
         }
-        function getParkList() {
+        function getParkList(obj) {
             $.ajax({
                 url: baseUrl + "/park/getParkList",
                 type: 'get',
@@ -388,8 +375,12 @@
                             }
 
                             $('#parkId').html(html);
+                            if (obj != undefined) {
+                                $('#parkId').val(obj.parkId);
+                            }
+
                             form.render();
-                           
+
                         }
 
                     } catch (e) {

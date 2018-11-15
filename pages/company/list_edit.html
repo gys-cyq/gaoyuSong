@@ -81,7 +81,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" name="typeName"></input>
+                        <input class="layui-input" name="typeName" readonly="readonly"></input>
                         <!-- <select name="companyTypeId" lay-filter="typeName" id="typeName" style="display: none">
                         </select> -->
 
@@ -134,9 +134,29 @@
 
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="streetId" id="streetId" lay-verify="streetId" name="streetId">
+                        </select>
+                    </div>
+                </div>
 
 
 
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="parkId" id="parkId" name="parkId">
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="layui-form-item">
@@ -145,7 +165,7 @@
 
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="operationScope" ></input>
+                        <input class="layui-input" name="operationScope"></input>
 
                     </div>
                 </div>
@@ -157,7 +177,7 @@
 
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="remark" ></input>
+                        <input class="layui-input" name="remark"></input>
 
 
                     </div>
@@ -181,6 +201,7 @@
     <script type="text/javascript">
         var form;
         var typeName;
+        var streetId
 
         function child(obj) {
 
@@ -197,41 +218,56 @@
 
                 obj = JSON.stringify(obj);
                 var data = JSON.parse(obj);
+                streetId = data.streetId;
                 form.val('formTest', data);
                 form.render();
                 // findcompanyTypeAll(data);
-                form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
-                var options = {
-                    url: baseUrl + "/company/update",
-                    type: 'post',
-                    dataType: 'json',
-                    clearForm: true,
-                    resetForm: true,
-                    data: {
-                        token: localStorage.getItem('token')
-                    },
-                    timeout: 10000,
-                    success: function (res) {
-                        if (res.status == 1) {
-                            layer.alert("成功", function () {
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                                parent.location.reload();
-                            });
-                        }else{
-                            errmsg(res);
+                getStreetList(data);
+                getParkList(data);
+
+                form.on('select(streetId)', function (data) {
+                    streetId = data.value;
+                    getParkList(undefined);
+                });
+                form.verify({
+                   streetId: function (value) {
+                        if (value.length == 0) {
+                            return "街道不能为空";
                         }
-
-                    },
-                    error: function (res) {
-
                     }
-                };
-                $('#demofrom').ajaxForm(options);
-                $('#demofrom').submit();
-                return false;
-            });
+                });
+                form.on('submit(submit)', function (data) {
+                    console.log(JSON.stringify(data.field));
+                    var options = {
+                        url: baseUrl + "/company/update",
+                        type: 'post',
+                        dataType: 'json',
+                        clearForm: true,
+                        resetForm: true,
+                        data: {
+                            token: localStorage.getItem('token')
+                        },
+                        timeout: 10000,
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.alert("成功", function () {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    parent.location.reload();
+                                });
+                            } else {
+                                errmsg(res);
+                            }
+
+                        },
+                        error: function (res) {
+
+                        }
+                    };
+                    $('#demofrom').ajaxForm(options);
+                    $('#demofrom').submit();
+                    return false;
+                });
 
             });
         }
@@ -273,6 +309,90 @@
 
 
                 }
+            });
+
+
+        }
+        function getStreetList(obj) {
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+
+                            }
+
+                            $('#streetId').html(html);
+                            $('#streetId').val(obj.streetId);
+                            // form.val('formTest', { "streetId": obj.streetId });
+                            form.render();
+
+
+
+
+
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+        function getParkList(obj) {
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            if (obj != undefined) {
+                                $('#parkId').val(obj.parkId);
+                            }
+
+                            form.render();
+
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
             });
 
 

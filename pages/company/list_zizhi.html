@@ -3,17 +3,443 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <!-- 企业库 -->
+    <style>
+    </style>
+
 </head>
 
 <body>
+    <div class="layui-tab-brief">
+
+        <form class="layui-form">
+            <div class="layui-form-item" style="margin-top: 10px">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业名称
+
+                    </label>
+
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" class="layui-input" autocomplete="off" value="" />
+                    </div>
+
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">法定代表人
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="legalPerson" autocomplete="off" class="layui-input" value="">
+                    </div>
+
+
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">到期年份
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input id="year" class="layui-input" type="text" readonly="readonly">
+                        </input>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业地址
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="address" autocomplete="off" class="layui-input" value="">
+                    </div>
+
+
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业电话
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="number" id="contactsTel" autocomplete="off" class="layui-input" value="">
+                    </div>
+
+
+                </div>
+
+                <div class="layui-inline">
+                        <label class="layui-form-label">街道
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <select lay-filter="streetId" id="streetId" >
+                            </select>
+                        </div>
+                    </div>
+              
+                    <div class="layui-inline">
+                            <label class="layui-form-label">园区
+        
+                            </label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="parkId" id="parkId">
+                                </select>
+                            </div>
+                 </div>
+                <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+
+
+            </div>
+        </form>
+        <div style="margin: 20px">
+            <button class="layui-btn layui-btn-small" id="add" onclick="add()">
+                <i class="layui-icon"></i> 添加
+            </button>
+            <button class="layui-btn" onclick="download()">下载导入模板</button>
+
+            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
+            <button class="layui-btn" id="upload">导入</button>
+        </div>
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <table class="style-table" id="demo" lay-filter="test">
+                </table>
+            </div>
+        </fieldset>
+
+    </div>
+    <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">历史申报</a>
+
+                </script>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-     alert(window.location.hash);
+        var form;
+        var pid;
+        var streetId;
+        var parkId;
+        layui.use(['form', 'table', 'layer', 'upload', 'laydate'], function () {
+            pid = GetQueryString('pid');
+            console.log('pid:' + pid)
+            var layer = layui.layer;
+             form= layui.form;
+            var table = layui.table;
+            var upload = layui.upload;
+            var laydate = layui.laydate;
+            getStreetList();
+            table.render({
+                elem: '#demo',
+                url: baseUrl + '/company/findCompanyAllByNumberAndByPage',
+                where: { token: localStorage.getItem('token'), number: pid },
+                parseData: function (res) {
+
+                    return {
+                        "code": 0,
+                        "msg": res.msg,
+                        "count": res.data.total,
+                        "data": res.data.list
+                    }
+                },
+                page: true,
+                // limit: 20,
+                id: 'testReload',
+                cols: [[
+                    { field: 'name', title: '公司名称' },
+                    { field: 'legalPerson', title: '公司法人' },
+                    { field: 'contactsTel', title: '企业电话' },
+                    { field: 'address', title: '企业地址' },
+                    { field: 'operationScope', title: '经营范围' },
+                    { fixed: 'right', width: 300, align: 'center', toolbar: '#barDemo', title: '操作' }
+                ]],
+                done: function (res, curr, count) {
+                    layer.closeAll('loading');
+                }
+
+
+            });
+            laydate.render({
+                elem: '#year',
+                type: 'year'
+            });
+            var active = {
+                reload: function () {
+
+                    table.reload('testReload', {
+                        url: baseUrl + '/company/findCompanyAllByNumberAndByPage',
+                        method: 'get',
+                        dataType: 'json',
+                        page: {
+                            curr: '1'
+                        },
+                        where: {
+                            token: localStorage.getItem('token'),
+                            name: $('#name').val(),
+                            legalPerson: $('#legalPerson').val(),
+                            address: $('#address').val(),
+                            contactsTel: $('#contactsTel').val(),
+                            year: $('#year').val(),
+                            streetId:streetId,
+                            parkId:parkId
+                        }
+                    });
+                }
+            }
+            $('#Search').click(function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+
+
+            });
+            table.on('tool(test)', function (obj) {
+                var res = obj.data;
+                var layEvent = obj.event;
+                if (layEvent == 'detail') {
+                    layer.open({
+                        type: 2,
+                        area: ['1050px', '460px'],
+                        fix: false,//不固定
+                        title: '详细信息',
+                        content: 'list_zizhi_detai.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+                        },
+                        error:function(){
+
+                        }
+
+                    });
+
+                } else if (layEvent == 'edit') {
+                    layer.open({
+                        type: 2,
+                        area: ['1050px', '500px'],
+                        fix: false,//不固定
+                        title: '修改信息',
+                        content: 'list_zizhi_edit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
+                        }
+
+                    });
+                } else if (layEvent == 'del') {
+                    layer.confirm('确定删除吗？', function (index) {
+                        $.ajax({
+                            url: baseUrl + '/company/delete',
+                            type: 'post',
+                            dataType: 'json',
+                            timeout: 10000,
+                            data: { token: localStorage.getItem('token'), id: res.id },
+                            success: function (res) {
+                                if (res.status == 1) {
+                                    layer.msg(res.msg);
+                                    obj.del();
+                                    layer.close(index);
+                                    parent.location.reload();
+                                } else {
+                                    errmsg(res);
+                                }
+
+                            }, error: function (xhr, type, errorThrown) {
+
+                            }
+
+                        });
+                    });
+
+                } else if (layEvent == 'history') {
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '400px'],
+                        fix: true,
+                        title: '历史申报',
+                        content: 'history.html',
+                        success: function (layero, index) {
+                            // layer.msg(historyId);
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res.id);
+
+                        }, error: function (layero, index) {
+
+                        }
+
+                    });
+                }
+
+            });
+            var files;
+            var uploadInst = upload.render({
+                elem: '#upload',
+                url: baseUrl + '/company/importExcelByNumber',
+                accept: 'file',
+                exts: 'xls|xlsx',
+                method: 'post',
+                data: {
+                    token: localStorage.getItem('token'),
+                    myfile: 'myfile',
+                    number:pid
+                },
+                choose: function (obj) {
+                    //将文件放在队列里面
+                    files = this.files = obj.pushFile();
+                    layer.load();
+                },
+                done: function (res, index, upload) {
+                    layer.closeAll('loading');
+                    if (res.status == 1) {
+                        layer.msg(res.msg);
+                        parent.location.reload();
+                    } else {
+                        errmsg(res);
+                    }
+                    delete files[index]; //删除队列里面的文件
+                },
+                error: function () {
+                    layer.closeAll('loading');
+                }
+            });
+            form.on('select(streetId)',function(data){
+                streetId=data.value;
+                getParkList();
+            });
+            form.on('select(parkId)',function(data){
+                parkId=data.value;
+            });
+        });
+        function add() {
+            layer.open({
+                type: 2,
+                area: ['1050px', '560px'],
+                fix: false,//不固定
+                title: '修改信息',
+                content: 'list_zizhi_add.html?pid='+pid,
+
+            });
+        }
+        function download() {
+            window.location.href = baseUrl + '/template/company_template.xls';
+
+
+        }
+        function exportFile(){
+            var url = baseUrl + '/company/exportExcel?token=' + localStorage.getItem('token')+'&number='+pid;
+            if ($('#name').val() != '') {
+                url += '&name=' + $('#name').val();
+            }
+            if ($('#legalPerson').val() != '') {
+                url += '&legalPerson=' + $('#legalPerson').val();
+            }
+            if ($("#address").val() != '') {
+                url += '&address=' + $("#address").val();
+            }
+            if($('#contactsTel').val()!=''){
+                url += '&contactsTel=' + $("#contactsTel").val();
+
+            }
+          
+            if(streetId!=undefined){
+                url += '&streetId=' + streetId;
+
+            }
+            if(parkId!=undefined){
+                url += '&parkId=' + parkId;
+
+            }
+            window.location.href = url;
+
+        }
+         function getStreetList() {
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+
+                            }
+
+                            $('#streetId').html(html);
+                            form.render();
+
+
+
+
+
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
+        function getParkList(){
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            form.render();
+                          
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
+            });
+
+        }
+
     </script>
 </body>
 

@@ -19,6 +19,7 @@
     <div class="layui-table-brief" style="margin: 10px">
 
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
+            <input type="hidden" name="number" class="layui-input" lay-verify="required" />
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业名称
@@ -75,6 +76,15 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">到期日期
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input name="expirationDate" class="layui-input" readonly='readonly' id="expirationDate" />
+
+                    </div>
+                </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">账号
@@ -94,6 +104,9 @@
 
                     </div>
                 </div>
+
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">注册资金
 
@@ -103,8 +116,6 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
 
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数
@@ -115,25 +126,28 @@
 
                     </div>
                 </div>
-                <div class="layui-inline">
-                        <label class="layui-form-label">街道
-                                <span style="color:red;">*</span>
-                        </label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId" name="streetId">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                            <label class="layui-form-label">园区
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <select lay-filter="parkId" id="parkId" name="parkId">
-                                </select>
-                            </div>
-                        </div>
 
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="streetId" id="streetId" lay-verify="streetId" name="streetId">
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="parkId" id="parkId" name="parkId">
+                        </select>
+                    </div>
+                </div>
 
             </div>
             <div class="layui-form-item">
@@ -153,7 +167,7 @@
                     <label class="layui-form-label">经营范围
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="operationScope" ></input>
+                        <input class="layui-input" name="operationScope"></input>
 
                     </div>
                 </div>
@@ -197,6 +211,11 @@
             laydate.render({
                 elem: '#registerDate'
             });
+            laydate.render({
+                elem: '#expirationDate'
+            })
+            pid = GetQueryString('pid');
+            $("input[name='number']").val(pid);
             findcompanyTypeAll();
             getStreetList();
             form.on('select(streetId)',function(data){
@@ -220,7 +239,7 @@
                             if (response.status != 1) {
                                 msg = response.msg;
 
-                            }else{
+                            } else {
                                 errmsg(response)
                             }
 
@@ -233,11 +252,7 @@
                     return msg;
 
 
-                },streetId:function(value){
-                    if(value==null){
-                        return "街道不能为空";
-                    }
-                },isCheckd:function(value){
+                }, isCheckd: function (value) {
                     var isCheckd = false;
                     $("input:checkbox").each(function (i) {
                         if ($(this).prop("checked") == true) {
@@ -250,12 +265,17 @@
                         return "请选择企业类型";
                     }
 
+
+                },streetId:function(value){
+                    if(value.length==0){
+                        return "街道不能为空";
+                    }
                 }
             });
             form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
                 var options = {
-                    url: baseUrl + "/company/add",
+                    url: baseUrl + "/company/addByNumber",
                     type: 'post',
                     dataType: 'json',
                     data: {
@@ -269,9 +289,9 @@
                                 parent.layer.close(index);
                                 parent.location.reload();
                             });
-                        }else{
+                        } else {
                             errmsg(res);
-                            
+
                         }
 
                     },
@@ -306,7 +326,7 @@
                             html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + typeName + ' lay-skin="primary" name="typeIds" > ' + '</li>';
 
                         }
-                       
+
                         $('#typeName').html(html);
 
 
@@ -327,7 +347,7 @@
 
 
         }
-        function getStreetList() {
+        function getStreetList(){
             $.ajax({
                 url: baseUrl + '/street/getStreetList',
                 type: 'get',
@@ -364,7 +384,6 @@
                     console.log(xhr.responseText);
                 }
             });
-
         }
         function getParkList() {
             $.ajax({
