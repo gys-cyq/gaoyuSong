@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>崇川科技局项目管理系统</title>
+    <link rel="stylesheet" href="../../static/css/font.css"  />
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css"  />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box">
+            <table class="style-table" id="patentList" lay-filter="patentList">
+            </table>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    layui.use(['layer','table','form','upload'],function() {
+        var layer = layui.layer,
+            table = layui.table,
+            form = layui.form,
+            upload = layui.upload;
+
+
+        table.render({
+            elem: '#patentList',
+            url: baseUrl + '/patent/findPatentByPage',
+            where: {token: token},
+            parseData: function (res) {
+                return {
+                    "code": 0,
+                    "msg": res.msg,
+                    "count": res.data.total,
+                    "data": res.data.list,
+                }
+            },
+            id: 'patentId',
+            page: true, //开启分页
+            cols: [[ //表头
+//                {field: 'id', title: '专家名称'},
+                {field: 'type', title: '专利类型', width: 60,},
+                {field: 'number', title: '专利号'},
+                {field: 'name', title: '专利名称'},
+                {field: 'applyUserName', title: '申请人'},
+                {field: 'authorizerUserName', title: '专利权人'},
+                {field: 'applyDate', title: '申请日期'},
+                {field: 'authorizerDate', title: '授权日期'},
+                {field: 'tel', title: '电话'},
+                {field: 'validityPeriod', title: '有效期（单位:年）', width: 60},
+            ]],
+            done: function (res, cuur, count) {
+                layer.closeAll('loading');
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

@@ -185,7 +185,7 @@
             , error: function (index, upload) {
                 var tr = demoListView.find('tr#upload-' + index)
                     , tds = tr.children();
-                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(1).html('<span style="color: #FF5722;">上传失败</span>');
                 // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
             }
         });
@@ -229,7 +229,7 @@
 //                    var body = layui.layer.getChildFrame('body', index);
 //                    body.find('#attachmentcode').val(data.code);
                     var iframe = window['layui-layer-iframe' + index];
-                    iframe.child('C200011');
+                    iframe.child('C200011','专利资质申报模板下载');
                 },
                 error: function (layero, index) {
 
