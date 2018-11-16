@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <form class="layui-form" id="patentEditform" style="margin-top:10px;">
+        <input type="hidden" id="id" name="id" />
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">专利类型<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="type"id="type"  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利号<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="number"id="number"  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利名称<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name"id="name"  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">申请人<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="applyUserName"id="applyUserName"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">申请人地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="applyAddress" id="applyAddress"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">申请人街道</label>
+                <div class="layui-input-inline">
+                    <!--<input type="text" name="applyStreet" id="applyStreet"  autocomplete="off" class="layui-input">-->
+                    <select type="text" name="applyStreet" id="applyStreet"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利权人（个人或单位）</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">授权日期<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerDate" id="authorizerDate"  autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">专利权人地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerAddress" id="authorizerAddress" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">所在街道</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="authorizerStreet" name="authorizerStreet" id="authorizerStreet"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">有效期（单位:年）</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">申请日期<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="applyDate" id="applyDate" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">创建时间<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利类型名称<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="typeName" id="typeName" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                <button class="layui-btn" lay-submit=""  id="patentEdit">确定</button>
+                <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    var form;
+    layui.use(['form','layer'],function(){
+        form = layui.form;
+        var layer = layui.layer;
+
+        window.cancel = function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    })
+
+     function child(obj){
+         $('#id').val(obj.id);
+         $('#type').val(obj.type);
+         $('#number').val(obj.number);
+         $('#name').val(obj.name);
+         $('#applyUserName').val(obj.applyUserName);
+         $('#applyAddress').val(obj.applyAddress);
+         $('#applyStreet').val(obj.applyStreet);
+         $('#authorizerUserName').val(obj.authorizerUserName);
+         $('#authorizerDate').val(obj.authorizerDate);
+         $('#authorizerAddress').val(obj.authorizerAddress);
+         $('#authorizerStreet').val(obj.authorizerStreet);
+         $('#tel').val(obj.tel);
+         $('#validityPeriod').val(obj.validityPeriod);
+         $('#remark').val(obj.remark);
+         $('#createTime').val(obj.createTime);
+         $('#typeName').val(obj.typeName);
+         $('#applyDate').val(obj.applyDate);
+
+         getStreetList(obj);
+     }
+
+    $('#patentEdit').on('click',function(){
+        var url = baseUrl + "/patent/update";
+        var options = {
+            url: url,
+            type: 'post',
+            dataType:'json',
+            resetForm: true,
+            timeout: 10000,
+            data: {token: token},
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.alert("成功", function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+                } else {
+                    errmsg(res);
+                }
+            },
+            error: function (data) {
+                //未登陆
+                layer.msg("系统异常");
+            }
+        };
+        $("#patentEditform").ajaxForm(options);
+        $("#patentEditform").submit();
+
+    })
+    function getStreetList(obj){
+        $.ajax({
+            url: baseUrl + '/street/getStreetList',
+            type: 'get',
+            dataType: 'json',
+            data: { token: token },
+            success: function (response) {
+                response = eval(response);
+                try {
+                    if (response.status == 1) {
+                        var data = response.data;
+                        var html = ' <option value="">' + '请选择街道' + '</option>';
+                        for (var i in data) {
+                            var id = data[i].id;
+                            var name = data[i].name;
+                            html += ' <option value=' + id + '>' + name + '</option>';
+
+                        }
+
+                        $('#authorizerStreet').html(html);
+                        $('#authorizerStreet').val(obj.authorizerStreet);
+                        $('#applyStreet').html(html);
+                        $('#applyStreet').val(obj.applyStreet);
+                        form.render();
+                    }
+                } catch (e) {
+                    console.log(e.message);
+
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+</script>
+</body>
+</html>

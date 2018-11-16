@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
+    <form class="layui-form" id="zlzzForm">
+        <input type="hidden" name="id" id="id" />
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">类别名称<span style="color:red">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" placeholder="请输入类别编号" id="typeName" class="layui-input" lay-verify="required" name="typeName"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align:center;">
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit=""  id="zlzzEdit">确定</button>
+                <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    layui.use(['form','layer'],function(){
+        var form = layui.form,
+            layer = layui.layer;
+
+        window.cancel = function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    })
+
+    function child(obj){
+        $('#id').val(obj.id);
+        $('#typeName').val(obj.typeName);
+    }
+
+    $('#zlzzEdit').on('click',function(){
+        var url = baseUrl + "/patentFundingType/update";
+        var options = {
+            url: url,
+            type: 'post',
+            dataType:'json',
+            resetForm: true,
+            timeout: 10000,
+            data: {token: token},
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.alert("成功", function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    });
+                } else {
+                    errmsg(res);
+                }
+            },
+            error: function (data) {
+                //未登陆
+                layer.msg("系统异常");
+            }
+        };
+        $("#zlzzForm").ajaxForm(options);
+        $("#zlzzForm").submit();
+
+    })
+</script>
+</body>
+</html>

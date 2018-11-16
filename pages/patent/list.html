@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>崇川科技局项目管理系统</title>
+    <link rel="stylesheet" href="../../static/css/font.css"  />
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css"  />
+    <script type="text/javascript" src="../../js/main.js"></script>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <div style="margin:10px;">
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">专利号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="number" id="number"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">专利名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" id="name"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">专利权人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="authorizerUserName" id="authorizerUserName"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
+        <div style="margin: 20px">
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
+                <i class="layui-icon"></i> 添加
+            </button>
+            <button class="layui-btn" onclick="download()">下载导入模板</button>
+            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
+            <button class="layui-btn" id="upload">导入</button>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box">
+            <table class="style-table" id="patentList" lay-filter="patentList">
+            </table>
+        </div>
+    </fieldset>
+</div>
+<script type="text/html" id="patentAction">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="details" style="background-color:#2fa4e7;color:#fff;">详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript">
+    token = localStorage.getItem("token");
+    layui.use(['layer','table','form','upload'],function(){
+        var layer = layui.layer,
+            table = layui.table,
+            form = layui.form,
+            upload = layui.upload;
+
+
+        table.render({
+            elem: '#patentList',
+            url:baseUrl+'/patent/findPatentByPage',
+            where:{token:token},
+            parseData: function(res){
+                return {
+                    "code" : 0,
+                    "msg" : res.msg,
+                    "count" : res.data.total,
+                    "data" : res.data.list,
+                }
+            },
+            id:'patentId',
+            page: true, //开启分页
+            cols: [[ //表头
+//                {field: 'id', title: '专家名称'},
+                {field: 'type', title: '专利类型',width:60,},
+                {field: 'number', title: '专利号'},
+                {field: 'name', title: '专利名称'},
+                {field: 'applyUserName', title: '申请人'},
+                {field: 'authorizerUserName', title: '专利权人'},
+                {field: 'applyDate', title: '申请日期'},
+                {field: 'authorizerDate', title: '授权日期'},
+                {field: 'tel', title: '电话'},
+                {field: 'validityPeriod', title: '有效期（单位:年）',width:60},
+                {field:'',title:'操作',templet:'#patentAction',width:180},
+            ]],
+            done: function (res,cuur,count) {
+                layer.closeAll('loading');
+            }
+        });
+
+        window.openAddLayer = function(){
+            layer.open({
+                type:2,
+                title:'新增专利类型',
+                area:['800px','450px'],
+                fix:false,
+                content:'list-add.html',
+                success:function(layero,index){
+//                    var iframe = window['layui-layer-iframe' + index];
+//                    iframe.child(data);
+                },
+                error:function(layero,index){
+
+                }
+            })
+        }
+
+        var active = {
+            reload :function(){
+                var url = baseUrl + '/patent/findPatentByPage';
+                table.reload('patentId',{
+                    url:url,
+                    method:'get',
+                    dataType:'json',
+                    page:{
+                        curr:'1'
+                    },
+                    where:{
+                        token:token,
+                        number:$('#number').val(),
+                        name:$('#name').val(),
+                        authorizerUserName:$('#authorizerUserName').val(),
+                        tel:$('#tel').val(),
+                    },
+                    done:function(res,curr,count){
+
+                    }
+                })
+            }
+        }
+
+        $("#Search").on('click',function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        })
+
+        table.on("tool(patentList)",function(obj){
+            var data = obj.data;
+            if(obj.event==='edit'){
+                layer.open({
+                    type:2,
+                    title:'编辑专利类型',
+                    area:['800px','500px'],
+                    fix:false,
+                    content:'list-edit.html',
+                    maxmin:true,
+                    success:function(layero,index){
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
+            }else if(obj.event==='del'){
+                layer.confirm('真的删除专利号为'+data.number+'的专利吗', function (index) {
+                    var rowId = data.id;
+                    var url = baseUrl + "/patent/delete";
+                    $.ajax({
+                        url: url,
+                        type: "post",
+                        resetForm: true,
+                        timeout: 10000,
+                        maxmin:true,
+                        data: { token: token, id: rowId },
+                        success: function (res) {
+                            if (res.status == 1) {
+                                location.reload();
+                            } else {
+                                console.log(res.msg);
+                            }
+                        },
+                        error: function (res) {
+                            layer.msg('删除失败');
+                        }
+                    });
+                    layer.close(index);
+                });
+            }else if(obj.event==='details'){
+                layer.open({
+                    type:2,
+                    title:'专家库详细信息',
+                    area:['800px','500px'],
+                    fix:false,
+                    content:'list-details.html',
+                    maxmin:true,
+                    success:function(layero,index){
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
+            }
+        })
+
+        var files;
+        var uploadInst = upload.render({
+            elem: '#upload',
+            url: baseUrl + '/patent/importExcel',
+            accept: 'file',
+            exts: 'xls|xlsx',
+            data: {
+                token: token,
+                myfile: 'myfile',
+            },
+            choose: function (obj) {
+                //将文件放在队列里面
+                files = this.files=obj.pushFile();
+                layer.load();
+            },
+            done: function (res, index, upload) {
+                layer.closeAll('loading');
+                if (res.status == 1) {
+                    layer.msg(res.msg);
+                    parent.location.reload();
+                } else {
+                    errmsg(res);
+                }
+                delete files[index]; //删除队列里面的文件
+            },
+            error: function () {
+                layer.closeAll('loading');
+            }
+        });
+    })
+    function download() {
+        window.location.href = baseUrl + '/template/patent_template.xls';
+    }
+    function exportFile() {
+        var url = baseUrl + '/patent/exportExcel?token=' + token;
+        if ($('#name').val() != '') {
+            url += '&name=' + $('#name').val();
+        }
+        if ($('#number').val() != '') {
+            url += '&number=' + $('#number').val();
+        }
+        if ($("#tel").val() != '') {
+            url += '&tel=' + $("#tel").val();
+        }
+        if (authorizerUserName  != undefined) {
+            url += '&authorizerUserName =' + $("#authorizerUserName").val() ;
+        }
+        window.location.href = url;
+    }
+</script>
+</body>
+</html>
