@@ -19,25 +19,35 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .titlename{
+            text-align:center;
+            font-size:16px;
+            padding:10px;
+        }
     </style>
 
 </head>
 
 
 <body>
-    <div class="layui-form-item" style="display: flex;margin-top: 20px">
-        <!-- <div class="layui-inline">
-            <label class="layui-form-label">附件
-            </label>
-
-        </div> -->
-        <ul id="template" style="display: flex;float: left;"></ul>
+    <div class="layui-table-brief" style="margin: 10px">
+        <div class="titlename">
+            专利资质申报模板下载
+        </div>
+        <fieldset class="layui-elem-field">
+            <!--<div class="layui-field-box">-->
+            <!--<table class="style-table" id="mouldList" lay-filter="mouldList">-->
+            <!--</table>-->
+            <!--</div>-->
+            <ul id="template" style="display: flex;float: left;padding:5px 15px;"></ul>
+        </fieldset>
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-        function child(obj) {
+        function child(obj,title) {
+            $('.titlename').html(title)
             $.ajax({
                 url: baseUrl + '/template/getTemplateList',
                 type: 'get',
@@ -45,25 +55,25 @@
                 timeout: 10000,
                 data: {
                     token: localStorage.getItem('token'),
-                    code:obj
+                    code: obj
 
                 },
                 success: function (res) {
                     if (res.status == 1) {
                         var data = res.data;
                         var html = '';
-                        
+
                         for (var i in data) {
                             var imgurl = baseUrl + '/images/' + data[i].formats + '.png';
                             var downloadurl = baseUrl + '/file/download?path=' + data[i].path;
-                            html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
+                            html += '<div style="text-align:center;"><a href="' + downloadurl + '">';
                             html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
                             html += '<div class="filename">' + data[i].filename + '</div>';
                             html += '</a></div>';
                         }
                         $('#template').html(html);
                     } else {
-                        layer.msg(res.msg);
+                        errmsg(res);
                     }
 
                 },
