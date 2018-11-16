@@ -87,8 +87,8 @@
             var layer=layui.layer;
             upload.render({
                 elem: '#upload',
-                url: baseUrl + '/file/upload',
-                data:{token:localStorage.getItem('token'),savepath:'/company/icon'},
+                url: baseUrl + '/file/uploadByCode',
+                data:{token:localStorage.getItem('token'),code:'C200000'},
                 accept:'images',
                 exts:'png|gif|jpeg|jpg',
                 method:'post',

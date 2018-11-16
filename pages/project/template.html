@@ -39,14 +39,13 @@
     <script type="text/javascript">
         function child(obj) {
             $.ajax({
-                url: baseUrl + '/project/getFiles',
-                type: 'post',
+                url: baseUrl + '/template/getTemplateList',
+                type: 'get',
                 dataType: 'json',
                 timeout: 10000,
                 data: {
                     token: localStorage.getItem('token'),
-                    type: obj.type,
-                    projectId:obj.id
+                    code:obj
 
                 },
                 success: function (res) {
