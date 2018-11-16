@@ -142,12 +142,12 @@
                     status = '审核中'
                 } else if (data.status == 2) {
                     status = "通过";
-                } else if (e.status == 3) {
+                } else if (data.status == 3) {
                     status = "不通过";
-                } else if (e.status == 4) {
+                } else if (data.status == 4) {
                     status = "退回";
                 }
-
+               
                 statusTV.val(status);
                 var html = '';
                 for (var i in data.attList) {

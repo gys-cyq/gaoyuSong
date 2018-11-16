@@ -120,8 +120,8 @@
          
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/tcb/select',
-                where: { token: localStorage.getItem('token') ,type:'C101001'},
+                url: baseUrl + '/ticket/select',
+                where: { token: localStorage.getItem('token') ,type:'C102002'},
                 parseData: function (res) {
 
                     return {
@@ -186,7 +186,7 @@
                         },
                         where: {
                             token: localStorage.getItem('token'),
-                            type:"C101001",
+                            type:"C101002",
                             name: $('#name').val(),
                            
                         }

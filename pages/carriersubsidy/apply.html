@@ -22,7 +22,7 @@
             <div class="layui-form-item" style="display: none">
                 <input class="layui-input" name="declareCompany">
                 <input class="layui-input" name="projectIndustry">
-                <input class="layui-input" name="type" value="C101001">
+                <!-- <input class="layui-input" name="type" value="C101001"> -->
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
             </div>
@@ -165,7 +165,7 @@
                 , auto: false
                 , bindAction: '#testListAction'
                 , method: 'post',
-                data: { token: token, code: 'C200006' }
+                data: { token: token, code: 'C200010' }
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                     console.log(files);
@@ -228,7 +228,7 @@
             form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
                 var options = {
-                    url: baseUrl + "/tcb/apply",
+                    url: baseUrl + "/carrier/apply",
                     type: 'post',
                     dataType: 'json',
                     clearForm: true,

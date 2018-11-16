@@ -199,10 +199,11 @@
                 },
                 success: function (response) {
                     if (response.status == 1) {
-                        layer.msg(response.msg);
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
+                        layer.alert(response.msg, function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            parent.location.reload();
+                        })
                     } else {
                         errmsg(res);
                     }

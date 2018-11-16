@@ -134,10 +134,10 @@
                 if (layEvent == 'detail') {
                     layer.open({
                         type: 2,
-                        area: ['1050px', '460px'],
+                        area: ['750px', '460px'],
                         fix: false,//不固定
                         title: '详细信息',
-                        content: 'list_detail.html',
+                        content: 'check_detail.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
@@ -149,10 +149,10 @@
                 } else if (layEvent == 'edit') {
                     layer.open({
                         type: 2,
-                        area: ['1050px', '500px'],
+                        area: ['750px', '460px'],
                         fix: false,//不固定
                         title: '审核',
-                        content: 'list_edit.html',
+                        content: 'check_audit.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);

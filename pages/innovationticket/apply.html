@@ -213,8 +213,8 @@
                 , error: function (index, upload) {
                     var tr = demoListView.find('tr#upload-' + index)
                         , tds = tr.children();
-                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    tds.eq(1).html('<span style="color: #FF5722;">上传失败</span>');
+                    // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                 }
             });
             form.verify({

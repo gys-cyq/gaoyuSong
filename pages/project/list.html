@@ -92,11 +92,11 @@
         </fieldset>
 
     </div>
-    <script type="text/html" id="barDemo">
+    <!-- <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
             <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
             <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
-        </script>
+        <!-- </script> -->
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
@@ -129,21 +129,7 @@
             } else {
                 $('#export').hide();
             }
-            var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-            if (actions.indexOf('project:history') != -1) {
-                html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-            }
-            if (actions.indexOf('project:contract:apply') != -1) {
-                html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
-            }
-            if (actions.indexOf('project:midterminspection:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
-            }
-            if (actions.indexOf('project:acceptance:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
-            }
-         
-            $('#barDemo').html(html);
+           
             findprojectTypeAll();
             laydate.render({
                 elem: '#year',
@@ -183,14 +169,54 @@
                                     return '<span style="color: red;">' + "不通过" + '</span>'
                                 } else if (e.status == 4) {
                                     return '<span style="color: red;">' + "退回" + '</span>'
-                                }else{
+                                } else {
                                     return '';
                                 }
                             }
                         },
-                        { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作' }
+                        // { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作'},
+                        
+                        {
+                            field: 'isExpert', title: '操作',width:250,align:'center', templet: function (e) {
+                                var html='';
+                                if (e.isExpert == 1) {
+                                    html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+                                    if (actions.indexOf('project:history') != -1) {
+                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+                                    }
+                                    if (actions.indexOf('project:contract:apply') != -1) {
+                                        html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+                                    }
+                                    if (actions.indexOf('project:midterminspection:apply') != -1) {
+                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
+                                    }
+                                    if (actions.indexOf('project:acceptance:apply') != -1) {
+                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
+                                    }
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" id="audit">' + '专家送审' + '</a>';
+                                    return html
+                                
+                                } else {
+                                    html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+                                    if (actions.indexOf('project:history') != -1) {
+                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+                                    }
+                                    if (actions.indexOf('project:contract:apply') != -1) {
+                                        html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+                                    }
+                                    if (actions.indexOf('project:midterminspection:apply') != -1) {
+                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
+                                    }
+                                    if (actions.indexOf('project:acceptance:apply') != -1) {
+                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
+                                    }
+                                    return html
+                                }
+                            }
+                        }
                     ]
                 ], done: function (res, cuur, count) {
+                  
                     layer.closeAll('loading');
                 }
 
@@ -220,7 +246,7 @@
                         area: ['1100px', '460px'],
                         fix: true,
                         title: '合同审批申请',
-                        content: 'contact_detail.html',
+                        content: 'contact.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
@@ -381,7 +407,7 @@
         function add() {
             layer.open({
                 type: 2,
-                area: ['1050px', '560px'],
+                area: ['1150px', '500px'],
                 fix: false,//不固定
                 title: '添加信息',
                 content: 'list_add.html',

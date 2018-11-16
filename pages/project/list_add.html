@@ -117,8 +117,9 @@
 
             <div class="layui-form-item" style="display: flex">
                 <div class="layui-inline">
-                    <label class="layui-form-label">附件
+                    <label class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;" onclick="openFiles()">点击附件
                     </label>
+
 
                 </div>
 
@@ -178,7 +179,7 @@
             var layer = layui.layer;
             var upload = layui.upload;
             findprojectTypeAll();
-            getTemplateList();
+            // getTemplateList();
             var user = JSON.parse(localStorage.getItem('user'));
             $("input[name='userId']").val(user.id);
             $("input[name='companyName']").val(user.nickname);
@@ -373,6 +374,21 @@
             $("input[name='projectName']").val(message.name)
             $("input[name='projectIndustry']").val(message.id);
 
+        }
+        function openFiles() {
+            layer.open({
+                type: 2,
+                area: ['400px', '300px'],
+                fix: false,//不固定
+                title: '附件',
+                content: 'template.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child('C200002',"项目申报模板下载");
+
+                }
+
+            });
         }
     </script>
 

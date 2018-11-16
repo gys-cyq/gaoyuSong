@@ -53,7 +53,6 @@
             <button class="layui-btn layui-btn-small" id="add" onclick="add()">
                 <i class="layui-icon"></i> 添加
             </button>
-
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
             <button class="layui-btn" id="upload">导入</button>
         </div>
@@ -115,13 +114,14 @@
             if (actions.indexOf('project:acceptance:apply') != -1) {
                 html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
             }
+            
          
             $('#barDemo').html(html);
          
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/tcb/select',
-                where: { token: localStorage.getItem('token') ,type:'C101001'},
+                url: baseUrl + '/carrier/select',
+                where: { token: localStorage.getItem('token')},
                 parseData: function (res) {
 
                     return {
