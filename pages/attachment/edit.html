@@ -61,7 +61,7 @@
         var layer = layui.layer,
             form = layui.form,
             upload = layui.upload;
-        var url = baseUrl+'/file/upload';
+        var url = baseUrl+'/file/uploadByCode';
         var purl = '/template/'+attachmentcode+'/'+y+m+d;
         var uploadInst = upload.render({
             elem: '#uploadFile' //绑定元素
@@ -70,7 +70,8 @@
             exts:'doc|xls|docx|xlsx',
             multiple:true,
             method:'post'
-            ,data:{token:token,savepath:purl},
+//            ,data:{token:token,savepath:purl},
+            ,data:{token:token,code:'C900001'},
             allDone: function(obj){ //当文件全部被提交后，才触发
                 console.log(obj.total); //得到总文件数
                 console.log(obj.successful); //请求成功的文件数
@@ -96,7 +97,7 @@
                      var data = res.data;
                      if(data!=null){
 //                         $('#filesspan').html('');
-                         $("#filesspan").append('<input name="files" value="'+data[0]+'" />');
+                         $("#filesspan").append('<input name="files" value="'+data[0]+'" type="hidden"/>');
                      }
                 }
             },
