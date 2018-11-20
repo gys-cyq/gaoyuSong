@@ -58,7 +58,7 @@
                     cols: [
                         [
                             { field: 'companyName', title: '企业名称' },
-                            { field: 'companyType', title: '申报资质' },
+                            { field: 'companyTypeName', title: '申报资质' },
                             { field: 'applyDate', title: '申报时间' },
                             {
                                 field: 'status', templet: function (data) {
@@ -68,14 +68,11 @@
                                        return "待审核"
                                     }else if(data.status==1){
                                        return "通过"
-                                    }else{
+                                    }else if(data.status==2){
                                         return "不通过"
-                                    }
-                                
-                                        
-                                      
-                                      
-                                    
+                                    }else{
+                                        return ""
+                                    }                      
                                     
                                 }, title: '状态'
                             },

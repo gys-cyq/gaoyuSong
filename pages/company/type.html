@@ -14,8 +14,14 @@
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
         img {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
+        }
+        .layui-table-cell {
+            height: auto;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all
         }
     </style>
 
@@ -85,14 +91,12 @@
                             if (data.image != "") {
                                 var image = baseUrl + '/file/getImg?path=' + data.image;
                                 var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" >' + '</img>' + '</div>';
-
-                                console.log(html);
                                 return html;
                             } else {
                                 return ''
                             }
 
-                        }, title: '图标', style: 'height:48px;width:48px;line-height:48px!important;'
+                        }, title: '图标', width:100
                     },
                     { field: 'number', title: '编号' },
                     { field: 'typeName', title: '企业类型名称（资质）' },

@@ -159,7 +159,7 @@
                         area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '详细信息',
-                        content: 'list_detail.html',
+                        content: 'elist_detail.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
@@ -246,11 +246,7 @@
 
         }
 
-        function download() {
-            window.location.href = baseUrl + '/template/project_template.xls';
-
-        }
-
+       
 
         function exportFile() {
             var url = baseUrl + '/project/exportExcel?token=' + localStorage.getItem('token');

@@ -40,9 +40,9 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
         var layer;
-        layui.use(['table','layer'], function () {
+        layui.use(['table', 'layer'], function () {
             var table = layui.table;
-            layer=layui.layer;
+            layer = layui.layer;
             var pid = GetQueryString('pid')
             var actions = parent.GetPageData(pid)
             if (actions.indexOf('user:add') != -1) {
@@ -93,7 +93,7 @@
                     }
                     , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
 
-                ]],done:function(res,cuur,count){
+                ]], done: function (res, cuur, count) {
                     layer.closeAll('loading');
                 }
             });
@@ -119,7 +119,37 @@
                     });
                 } else if (layEvent === 'del') {
                     layer.confirm('确定删除吗？', function (index) {
-                        deleteUser(obj, index);
+                        $.ajax({
+                            url: baseUrl + "/user/delete",
+                            type: 'post',
+                            dataType: 'json',
+                            timeout: 10000,
+                            data: {
+                                token: localStorage.getItem('token'),
+                                id: obj.data.id
+                            },
+                            success: function (res) {
+                                if (res.status == 1) {
+                                    layer.alert("成功", function () {
+                                        obj.del();
+                                        layer.close(index);
+                                        parent.location.reload();
+                                     
+                                    });
+
+
+
+
+                                } else {
+                                    errmsg(res)
+                                }
+
+                            },
+                            error: function (xhr, type, errorThrown) {
+
+                            }
+                        });
+
                     });
                 } else if (layEvent === 'edit') {
 
@@ -151,35 +181,6 @@
                     // body.find("input[name='roles']").val(data.roleNames);
                     // body.find("input[name='locked']").val(data.locked);
                 }, error: function (layero, index) {
-
-                }
-            });
-
-        }
-        function deleteUser(obj, index) {
-
-            $.ajax({
-                url: baseUrl + "/user/delete",
-                type: 'post',
-                dataType: 'json',
-                timeout: 10000,
-                data: {
-                    token: localStorage.getItem('token'),
-                    id: obj.data.id
-                },
-                success: function (res) {
-                    if (res.status == 1) {
-                        layer.msg(res.msg);
-                        obj.del(); //删除对应行（tr）的DOM结构
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    } else {
-                        errmsg(res)
-                    }
-
-                },
-                error: function (xhr, type, errorThrown) {
 
                 }
             });
