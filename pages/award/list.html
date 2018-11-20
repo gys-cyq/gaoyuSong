@@ -19,15 +19,15 @@
         <form class="layui-form" id="expertform" style="margin-top:10px;">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">项目名称</label>
+                    <label class="layui-form-label">奖励名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="projectName" id="projectName"  autocomplete="off" class="layui-input">
+                        <input type="text" name="rewardName" id="rewardName"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">公司名称</label>
+                    <label class="layui-form-label">奖励类型</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companyName" id="companyName"  autocomplete="off" class="layui-input">
+                        <input type="text" name="rewardType" id="rewardType"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -69,9 +69,10 @@
 
         table.render({
             elem: '#patentList',
-            url: baseUrl + '/infrastructure/findInfrastructureByPage',
+            url: baseUrl + '/reward/findRewardByPage',
             where: {token: token},
             parseData: function (res) {
+                console.log(res);
                 return {
                     "code": 0,
                     "msg": res.msg,
@@ -82,12 +83,11 @@
             id: 'infrastId',
             page: true, //开启分页
             cols: [[ //表头
-                {field: 'number', title: '设施号'},
-                {field: 'companyName', title: '公司名称'},
-                {field: 'projectName', title: '项目名称'},
-                {field: 'projectLevel', title: '项目级别'},
-                {field: 'projectSetupTime', title: '立项日期'},
-                {field: 'createTime', title: '创建日期'},
+                {field: 'rewardName', title: '奖励名称'},
+                {field: 'rewardType', title: '奖励类型'},
+                {field: 'rewardObject', title: '奖励对象'},
+                {field: 'description', title: '奖励说明'},
+                {field: 'createTime', title: '创建时间'},
                 {field: '', title: '操作', templet: '#patentAction'},
             ]],
             done: function (res, cuur, count) {
@@ -114,7 +114,7 @@
 
         var active = {
             reload: function () {
-                var url = baseUrl + '/infrastructure/findInfrastructureByPage';
+                var url = baseUrl + '/reward/findRewardByPage';
                 table.reload('infrastId', {
                     url: url,
                     method: 'get',
@@ -124,8 +124,8 @@
                     },
                     where: {
                         token: token,
-                        projectName:$('#projectName').val(),
-                        companyName: $('#companyName').val(),
+                        rewardName:$('#rewardName').val(),
+                        rewardType: $('#rewardType').val(),
                     },
                     done: function (res, curr, count) {
 
@@ -158,9 +158,9 @@
                     }
                 })
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除设施号为' + data.number + '的基础设施吗', function (index) {
+                layer.confirm('真的删除' + data.rewardName + '吗', function (index) {
                     var rowId = data.id;
-                    var url = baseUrl + "/infrastructure/infrastructureDelete";
+                    var url = baseUrl + "/reward/delete";
                     $.ajax({
                         url: url,
                         type: "post",
@@ -172,7 +172,7 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-                                console.log(res.msg);
+                               errmsg(res);
                             }
                         },
                         error: function (res) {
@@ -188,7 +188,7 @@
         var files;
         var uploadInst = upload.render({
             elem: '#upload',
-            url: baseUrl + '/infrastructure/importExcel',
+            url: baseUrl + '/reward/importExcel',
             accept: 'file',
             exts: 'xls|xlsx',
             data: {
@@ -216,15 +216,15 @@
         });
     })
     function download() {
-        window.location.href = baseUrl + '/template/infrastructure_template.xls';
+        window.location.href = baseUrl + '/template/reward_template.xls';
     }
     function exportFile() {
-        var url = baseUrl + '/infrastructure/exportExcel?token=' + token;
-        if ($('#companyName').val() != '') {
-            url += '&companyName=' + $('#companyName').val();
+        var url = baseUrl + '/reward/exportExcel?token=' + token;
+        if ($('#rewardName').val() != '') {
+            url += '&rewardName=' + $('#rewardName').val();
         }
-        if ($('#number').val() != '') {
-            url += '&number=' + $('#number').val();
+        if ($('#rewardType').val() != '') {
+            url += '&rewardType=' + $('#rewardType').val();
         }
         window.location.href = url;
     }

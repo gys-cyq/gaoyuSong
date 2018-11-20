@@ -19,15 +19,9 @@
         <form class="layui-form" id="expertform" style="margin-top:10px;">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">项目名称</label>
+                    <label class="layui-form-label">载体名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="projectName" id="projectName"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">公司名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="companyName" id="companyName"  autocomplete="off" class="layui-input">
+                        <input type="text" name="name" id="name"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -35,14 +29,6 @@
                 </div>
             </div>
         </form>
-        <div style="margin: 20px">
-            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
-                <i class="layui-icon"></i> 添加
-            </button>
-            <button class="layui-btn" onclick="download()">下载导入模板</button>
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
-            <button class="layui-btn" id="upload">导入</button>
-        </div>
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
@@ -69,7 +55,7 @@
 
         table.render({
             elem: '#patentList',
-            url: baseUrl + '/infrastructure/findInfrastructureByPage',
+            url: baseUrl + '/carrierInfo/findCarrierInfoByPage',
             where: {token: token},
             parseData: function (res) {
                 return {
@@ -82,12 +68,10 @@
             id: 'infrastId',
             page: true, //开启分页
             cols: [[ //表头
-                {field: 'number', title: '设施号'},
-                {field: 'companyName', title: '公司名称'},
-                {field: 'projectName', title: '项目名称'},
-                {field: 'projectLevel', title: '项目级别'},
-                {field: 'projectSetupTime', title: '立项日期'},
-                {field: 'createTime', title: '创建日期'},
+                {field: 'name', title: '载体名称'},
+                {field: 'operatingMechanism', title: '运营机构'},
+                {field: 'level', title: '级别'},
+                {field: 'cognizanceTime', title: '认定时间'},
                 {field: '', title: '操作', templet: '#patentAction'},
             ]],
             done: function (res, cuur, count) {
@@ -114,7 +98,7 @@
 
         var active = {
             reload: function () {
-                var url = baseUrl + '/infrastructure/findInfrastructureByPage';
+                var url = baseUrl + '/carrierInfo/findCarrierInfoByPage';
                 table.reload('infrastId', {
                     url: url,
                     method: 'get',
@@ -124,8 +108,7 @@
                     },
                     where: {
                         token: token,
-                        projectName:$('#projectName').val(),
-                        companyName: $('#companyName').val(),
+                        name: $('#name').val(),
                     },
                     done: function (res, curr, count) {
 
@@ -158,9 +141,9 @@
                     }
                 })
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除设施号为' + data.number + '的基础设施吗', function (index) {
+                layer.confirm('真的删除' + data.name + '吗', function (index) {
                     var rowId = data.id;
-                    var url = baseUrl + "/infrastructure/infrastructureDelete";
+                    var url = baseUrl + "/carrierInfo/delete";
                     $.ajax({
                         url: url,
                         type: "post",
@@ -172,7 +155,7 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-                                console.log(res.msg);
+                                errmsg(res);
                             }
                         },
                         error: function (res) {
@@ -183,51 +166,52 @@
                 });
             }
         })
-
-
-        var files;
-        var uploadInst = upload.render({
-            elem: '#upload',
-            url: baseUrl + '/infrastructure/importExcel',
-            accept: 'file',
-            exts: 'xls|xlsx',
-            data: {
-                token: token,
-                myfile: 'myfile',
-            },
-            choose: function (obj) {
-                //将文件放在队列里面
-                files = this.files=obj.pushFile();
-                layer.load();
-            },
-            done: function (res, index, upload) {
-                layer.closeAll('loading');
-                if (res.status == 1) {
-                    layer.msg(res.msg);
-                    parent.location.reload();
-                } else {
-                    errmsg(res);
-                }
-                delete files[index]; //删除队列里面的文件
-            },
-            error: function () {
-                layer.closeAll('loading');
-            }
-        });
     })
-    function download() {
-        window.location.href = baseUrl + '/template/infrastructure_template.xls';
-    }
-    function exportFile() {
-        var url = baseUrl + '/infrastructure/exportExcel?token=' + token;
-        if ($('#companyName').val() != '') {
-            url += '&companyName=' + $('#companyName').val();
-        }
-        if ($('#number').val() != '') {
-            url += '&number=' + $('#number').val();
-        }
-        window.location.href = url;
-    }
+
+
+//        var files;
+//        var uploadInst = upload.render({
+//            elem: '#upload',
+//            url: baseUrl + '/infrastructure/importExcel',
+//            accept: 'file',
+//            exts: 'xls|xlsx',
+//            data: {
+//                token: token,
+//                myfile: 'myfile',
+//            },
+//            choose: function (obj) {
+//                //将文件放在队列里面
+//                files = this.files=obj.pushFile();
+//                layer.load();
+//            },
+//            done: function (res, index, upload) {
+//                layer.closeAll('loading');
+//                if (res.status == 1) {
+//                    layer.msg(res.msg);
+//                    parent.location.reload();
+//                } else {
+//                    errmsg(res);
+//                }
+//                delete files[index]; //删除队列里面的文件
+//            },
+//            error: function () {
+//                layer.closeAll('loading');
+//            }
+//        });
+//    })
+//    function download() {
+//        window.location.href = baseUrl + '/template/infrastructure_template.xls';
+//    }
+//    function exportFile() {
+//        var url = baseUrl + '/infrastructure/exportExcel?token=' + token;
+//        if ($('#companyName').val() != '') {
+//            url += '&companyName=' + $('#companyName').val();
+//        }
+//        if ($('#number').val() != '') {
+//            url += '&number=' + $('#number').val();
+//        }
+//        window.location.href = url;
+//    }
 </script>
 </body>
 </html>

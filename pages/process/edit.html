@@ -90,9 +90,7 @@
         window.GetValue = function(obj) {
             $("#hiddlevalues").append('<input type="hidden" name="nodes" id="node'+index+'" />');
             var val = obj.type +"#"+obj.id+"#"+index;
-            console.log(obj.id+'111');
             $("#node"+index).val(val);
-
             var html = '';
             if(index!=1){
                 html += '<img src="../../img/arrow.png"  style="width:25px;"/>';
@@ -120,6 +118,7 @@
             data: {token: token},
             success: function (res) {
                 $("#hiddlevalues").html("");
+
                 index = 1;
                 if (res.status == 1) {
                     layer.alert("成功", function () {
@@ -146,7 +145,6 @@
     function child(obj){
        var pid = $('#id').val(obj.id);
         $('#name').val(obj.name);
-        console.log(obj.id);
         var html = '';
         var data = obj.nodeList;
         for(var i=0;i<data.length;i++){

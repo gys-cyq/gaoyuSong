@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="id" id="id"/>
+        <input type="text" id="id" name="id" />
         <div class="layui-form-item" id="choose1">
             <div class="layui-inline">
                 <label class="layui-form-label">角色</label>
@@ -79,15 +79,20 @@
                         if(res.status==1){
                             var data = res.data;
                             var html = '';
+                            var description;
                             for(var i=0;i<data.length;i++){
-                                var id=data[i].id;
                                 var name = data[i].role;
-                                var description = data[i].description;
-                                html += '<option value='+description+'>'+name+'</option>';
-                                $('#id').val(id);
+                                description = data[i].description;
+                                html += '<option value='+description+'>'+description+'</option>';
                             }
                             $('#role').html(html);
                             form.render();
+                            for(var j=0;j<data.length;j++){
+                                if(data[j].description==$('#role').val()){
+                                    var id=data[j].id;
+                                    $('#id').val(id);
+                                }
+                            }
                         }else{
                             errmsg(res);
                         }
@@ -108,15 +113,27 @@
                         if(res.status==1){
                             var data = res.data.list;
                             var html = '';
+                            var name;
+                            var nickname;
                             for(var i=0;i<data.length;i++){
                                 var id=data[i].id;
-                                var name = data[i].username;
-                                var nickname = data[i].nickname;
-                                html += '<option value='+nickname+'>'+name+'</option>';
-                                $('#id').val(id);
+                                name = data[i].username;
+                                nickname = data[i].nickname;
+                                if(nickname==null){
+                                    html += '<option value='+name+'>'+name+'</option>';
+                                }else{
+                                    html += '<option value='+nickname+'>'+nickname+'</option>';
+                                }
+//                                $('#id').val(id);
                             }
                             $('#user').html(html);
                             form.render();
+                            for(var j=0;j<data.length;j++){
+                                if(data[j].name==$('#user').val() || data[j].nickname==$('#user').val()){
+                                    var id=data[j].id;
+                                    $('#id').val(id);
+                                }
+                            }
                         }else{
                             errmsg(res);
                         }
@@ -130,7 +147,6 @@
 
         form.on('submit(streetEdit)', function(data){
             var dataObj = data.field;
-            console.log(dataObj);
             parent.layer.close(index);
             parent.GetValue(dataObj);
         });

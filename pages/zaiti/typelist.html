@@ -21,7 +21,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width:auto;">类型名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" id="name"  autocomplete="off" class="layui-input">
+                        <input type="text" name="typeName" id="typeName"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -58,7 +58,7 @@
 
         table.render({
             elem: '#patentTypeList',
-            url:baseUrl+'/infrastructuretype/findInfrastructuretypeByPage',
+            url:baseUrl+'/carrierType/findcarrierTypeByPage',
             where:{token:token},
             parseData: function(res){
                 return {
@@ -71,7 +71,7 @@
             id:'patentId',
             page: true, //开启分页
             cols: [[ //表头
-                {field: 'name', title: '专利类型名称'},
+                {field: 'typeName', title: '专利类型名称'},
                 {field:'',title:'操作',templet:'#patentTypeAction'},
             ]],
             done: function (res,cuur,count) {
@@ -97,7 +97,7 @@
         }
         var active = {
             reload :function(){
-                var url = baseUrl + '/infrastructuretype/findInfrastructuretypeByPage';
+                var url = baseUrl + '/carrierType/findcarrierTypeByPage';
 //                var street = $('#streetSearch').val();
 
                 table.reload('patentId',{
@@ -109,7 +109,7 @@
                     },
                     where:{
                         token:token,
-                        name:$('#name').val(),
+                        typeName:$('#typeName').val(),
                     },
                     done:function(res,curr,count){
                     }
@@ -119,7 +119,7 @@
 
         $("#Search").on('click',function(){
             var type = $(this).data('type');
-            if( $('#name').val().trim()==""){
+            if( $('#typeName').val().trim()==""){
                 layer.msg('查询的街道名称不能为空');
                 return false;
             }else{
@@ -146,9 +146,9 @@
                     }
                 })
             }else if(obj.event==='del'){
-                layer.confirm('真的删除'+data.name+'吗', function (index) {
+                layer.confirm('真的删除'+data.typeName+'吗', function (index) {
                     var rowId = data.id;
-                    var url = baseUrl + "/infrastructuretype/infrastructuretypeDelete";
+                    var url = baseUrl + "/carrierType/delete";
                     $.ajax({
                         url: url,
                         type: "post",
