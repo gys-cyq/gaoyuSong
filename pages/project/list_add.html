@@ -47,14 +47,14 @@
                     </div>
                 </div>
                 <div class="layui-inline" id="type">
-                        <label class="layui-form-label">项目名称
-                            <span style="color:red;">*</span>
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="name" class="layui-input" autocomplete="off" lay-verify='required' />
-    
-                        </div>
+                    <label class="layui-form-label">项目名称
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" class="layui-input" autocomplete="off" lay-verify='required' />
+
                     </div>
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">项目行业
                         <span style="color:red;">*</span>
@@ -67,7 +67,7 @@
 
                 </div>
 
-              
+
 
             </div>
 
@@ -78,7 +78,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companyName" class="layui-input" readonly='readonly' lay-verify='required' />
+                        <input type="text" name="companyName" class="layui-input" lay-verify='required' id="companyName"  />
 
                     </div>
                 </div>
@@ -92,7 +92,7 @@
 
                     </div>
                 </div>
-                <div class="layui-inline" >
+                <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
                         <span style="color:red;">*</span>
 
@@ -103,14 +103,14 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" style="width: 1000px;">
                 <div class="layui-inline">
                     <label class="layui-form-label">项目说明
 
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="width: 840px;">
                         <input type="text" name="description" class="layui-input" />
-
+                        <!-- <input type="text" name="name" lay-verify="required" layui-autocomplete lay-data="{url: 'http://192.168.10.99:8090company/findCompanyAll?', template_val: '{{d.consignee}}', template_txt: '{{d.consignee}} <span class=\'layui-badge layui-bg-gray\'>{{d.phone_number}}</span>' }" placeholder="请输入" class="layui-input"> -->
                     </div>
                 </div>
             </div>
@@ -160,31 +160,43 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/jquery.form.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
+    <!-- <script type="text/javascript" src="../../js/autocomplete.js"></script> -->
     <script type="text/javascript">
         var form;
         var fileList = [];
-        var date = new Date();
         var isUpload = false;
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        if (m < 10) {
-            m = "0" + m;
-        }
-        var d = date.getDate();
-        if (d < 10) {
-            d = "0" + d;
-        }
-        layui.use(['form', 'layer', 'upload'], function () {
+
+        layui.config({
+            base: '../../js/' //假设这是test.js所在的目录
+        })
+        .extend({ //设定模块别名
+            autocomplete: 'autocomplete'
+        });
+
+        layui.use(['form', 'layer', 'upload','autocomplete'], function () {
             form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
+            var autocomplete=layui.autocomplete;
+            autocomplete.render({
+                elem: '#companyName',
+                url: baseUrl + 'company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=' + $('#companyName').val(),
+                response:{
+                    code:'status',
+                    data:'data'
+                },
+                template_val: '{{d.consignee}}',
+                template_txt: '{{d.consignee}} <span class=\'layui-badge layui-bg-gray\'>{{d.phone_number}}</span>',
+                onselect: function (resp) {
+
+                }
+            })
             findprojectTypeAll();
-            // getTemplateList();
+        
+            
             var user = JSON.parse(localStorage.getItem('user'));
+            console.log(user);
             $("input[name='userId']").val(user.id);
-            $("input[name='companyName']").val(user.nickname);
-            $("input[name='declareCompany']").val(user.companyId);
-            var purl = ' /project/apply/' + y + m + d;
             var demoListView = $('#demoList')
             var uploadListIns = upload.render({
                 elem: '#testList'
@@ -244,8 +256,8 @@
                 , error: function (index, upload) {
                     var tr = demoListView.find('tr#upload-' + index)
                         , tds = tr.children();
-                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    tds.eq(1).html('<span style="color: #FF5722;">上传失败</span>');
+                    // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                 }
             });
             form.verify({
@@ -259,7 +271,7 @@
             form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
                 var options = {
-                    url: baseUrl + "/project/applyProject",
+                    url: baseUrl + "/project/add",
                     type: 'post',
                     dataType: 'json',
                     clearForm: true,
@@ -270,12 +282,19 @@
                     timeout: 10000,
                     success: function (res) {
                         if (res.status == 1) {
-                            layer.msg(res.msg);
-                            demoListView.html('')
-                            $("input[name='userId']").val(user.id);
-                            $("input[name='companyName']").val(user.nickname);
-                            $("input[name='declareCompany']").val(user.companyId);
+                            layer.alert(res.message, function () {
+                                demoListView.html('')
+                                $("input[name='userId']").val(user.id);
+                                
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            })
+
+
                         } else {
+                            $("input[name='userId']").val(user.id);
+                            demoListView.html('')
                             errmsg(res);
                         }
 
@@ -289,7 +308,11 @@
                 return false;
             });
 
+         
+
         });
+       
+
         function findprojectTypeAll() {
             $.ajax({
                 url: baseUrl + '/projectType/findprojectTypeAll',
@@ -307,6 +330,7 @@
                             html += ' <option value=' + id + '>' + typeName + '</option>';
 
                         }
+                       
 
                         $('#type').html(html);
                         form.render();
@@ -315,45 +339,12 @@
                     }
 
                 }, error: function (xhr, type, errorThrown) {
+                    alert('失败')
 
                 }
             });
         }
-        function getTemplateList() {
-            $.ajax({
-                url: baseUrl + '/template/getTemplateList',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: {
-                    token: localStorage.getItem('token'),
-                    code: 'C200002'
-                },
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        var html = '';
-                        for (var i in data) {
-                            var imgurl = baseUrl + '/images/' + data[i].formats + '.png';
-                            var downloadurl = baseUrl + '/file/download?path=' + data[i].path;
-                            html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
-                            //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
-                            html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
-                            html += '<div class="filename">' + data[i].filename + '</div>';
-                            html += '</a></div>';
-                        }
-                        $('#template').html(html);
-                    } else {
-                        layer.msg(res.msg);
-                    }
 
-                },
-                error: function (xhr, type, errorThrown) {
-
-                }
-            });
-
-        }
         function openDeclare() {
             layer.open({
                 type: 2,
@@ -384,7 +375,7 @@
                 content: 'template.html',
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
-                    iframe.child('C200002',"项目申报模板下载");
+                    iframe.child('C200002', "项目申报模板下载");
 
                 }
 

@@ -108,7 +108,7 @@
                     <label class="layui-form-label">项目说明
 
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="width: 840px">
                         <input type="text" name="description" class="layui-input" />
 
                     </div>
@@ -269,18 +269,21 @@
                     },
                     timeout: 10000,
                     success: function (res) {
+                        demoListView.html('')
+                        fileList=[];
+                        $("input[name='userId']").val(user.id);
+                        $("input[name='companyName']").val(user.nickname);
+                        $("input[name='declareCompany']").val(user.companyId);
                         if (res.status == 1) {
                             layer.msg(res.msg);
-                            demoListView.html('')
-                            $("input[name='userId']").val(user.id);
-                            $("input[name='companyName']").val(user.nickname);
-                            $("input[name='declareCompany']").val(user.companyId);
+
                         } else {
                             errmsg(res);
                         }
 
                     },
                     error: function (res) {
+                        fileList=[];
 
                     }
                 };
@@ -384,7 +387,7 @@
                 content: 'template.html',
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
-                    iframe.child('C200002',"项目申报模板下载");
+                    iframe.child('C200002', "项目申报模板下载");
 
                 }
 

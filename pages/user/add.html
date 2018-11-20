@@ -90,7 +90,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <select  lay-filter="street" name="streetId" lay-verify="type">
+                        <select  lay-filter="street" name="streetId" lay-verify="type" id="streetId">
                         </select>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                     <span style="color:red;">*</span>
                 </label>
                 <div class="layui-fluid">
-                    <ul id="rolesul" lay-verify="isCheckd" class="layui-tab-title"></ul>
+                    <ul id="rolesul" lay-verify="isCheckd" style="display: fl"></ul>
                 </div>
 
             </div>
@@ -262,8 +262,8 @@
                     type: 'POST',
                     dataType: "json",
                     data: { token: localStorage.getItem('token') },
-                    clearForm: true,
-                    resetForm: true,
+                    // clearForm: true,
+                    // resetForm: true,
                     async: false,
                     timeout: 10000,
                     success: function (res) {
@@ -350,8 +350,6 @@
 
                             $('#streetId').html(html);
                             form.render();
-
-
 
 
 
