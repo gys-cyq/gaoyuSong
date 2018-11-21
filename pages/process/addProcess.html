@@ -32,7 +32,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">角色</label>
                 <div class="layui-input-inline">
-                    <select id="role" name="role"></select>
+                    <select id="role" name="role" lay-filter="role"></select>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">用户</label>
                 <div class="layui-input-inline">
-                    <select id="user" name="username"></select>
+                    <select id="user" name="username" lay-filter="user"></select>
                 </div>
             </div>
         </div>
@@ -66,6 +66,8 @@
             parent.layer.close(index);
         }
 
+
+
         form.on('select(type)', function (data) {
             if(data.value==1){
                 $('#choose2').css('display','none');
@@ -78,7 +80,7 @@
                     success:function(res){
                         if(res.status==1){
                             var data = res.data;
-                            var html = '';
+                            var html = '<option value="">'+'请选择角色'+'</option>';
                             var description;
                             for(var i=0;i<data.length;i++){
                                 var name = data[i].role;
@@ -87,12 +89,13 @@
                             }
                             $('#role').html(html);
                             form.render();
-                            for(var j=0;j<data.length;j++){
-                                if(data[j].description==$('#role').val()){
-                                    var id=data[j].id;
-                                    $('#id').val(id);
-                                }
-                            }
+//                            for(var j=0;j<data.length;j++){
+//                                if(data[j].description==$('#role').val()){
+//                                    console.log(data[j].description);
+//                                    var id=data[j].id;
+//                                    $('#id').val(id);
+//                                }
+//                            }
                         }else{
                             errmsg(res);
                         }
@@ -145,8 +148,59 @@
             }
         })
 
+        form.on('select(role)', function (data) {
+            var obj = $('#role').val();
+            $.ajax({
+                url: baseUrl + '/role/getRoleList',
+                type: 'get',
+                dataType: 'json',
+                data: {token: token},
+                success: function (res) {
+                    if (res.status == 1) {
+                        var data = res.data;
+                        for (var j = 0; j < data.length; j++) {
+                            if (data[j].description == obj) {
+                                var id = data[j].id;
+                                $('#id').val(id);
+                            }
+                        }
+                    } else {
+                        errmsg(res);
+                    }
+                },
+                error: function (res) {
+
+                }
+            })
+        })
+        form.on('select(user)', function (data) {
+            var obj = $('#user').val();
+            $.ajax({
+                url: baseUrl + '/user/select',
+                type: 'get',
+                dataType: 'json',
+                data: {token: token},
+                success: function (res) {
+                    if (res.status == 1) {
+                        var data = res.data;
+                        for (var j = 0; j < data.length; j++) {
+                            if (data[j].description == obj) {
+                                var id = data[j].id;
+                                $('#id').val(id);
+                            }
+                        }
+                    } else {
+                        errmsg(res);
+                    }
+                },
+                error: function (res) {
+
+                }
+            })
+        })
         form.on('submit(streetEdit)', function(data){
             var dataObj = data.field;
+            console.log(dataObj);
             parent.layer.close(index);
             parent.GetValue(dataObj);
         });

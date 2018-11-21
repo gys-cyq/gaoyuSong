@@ -96,7 +96,7 @@
                 html += '<img src="../../img/arrow.png"  style="width:25px;"/>';
             }
             if(obj.type==1){
-                html += '<li style="display:inline-block;">'+obj.role+'</li>';
+                html += '<li style="display:inline-block;" >'+obj.role+'</li>';
             }else{
                 html += '<li style="display:inline-block;">'+obj.username+'</li>';
             }
@@ -118,7 +118,6 @@
             data: {token: token},
             success: function (res) {
                 $("#hiddlevalues").html("");
-
                 index = 1;
                 if (res.status == 1) {
                     layer.alert("成功", function () {
