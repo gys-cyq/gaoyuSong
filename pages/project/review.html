@@ -63,7 +63,7 @@
                         { field: 'companyName', title: '申报单位' },
                         {
                             field: 'declareDate', title: '申报日期', templet: function (e) {
-                                var date = new Date(1398250549490);
+                                var date = new Date(e.declareDate);
                                 Y = date.getFullYear() + '-';
                                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
                                 D = date.getDate() + ' ';
@@ -74,8 +74,6 @@
                                 return time;
                             }
                         },
-
-
                         { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ], done: function (res, cuur, count) {

@@ -42,8 +42,8 @@
             var layer = layui.layer;
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/tcb/unexamineTongchuangbi',
-                where: { token: localStorage.getItem('token'), type: "C101001" },
+                url: baseUrl + '/project/unexamineProject',
+                where: { token: localStorage.getItem('token'), type: "C100004" },
                 parseData: function (res) {
 
                     return {
@@ -74,6 +74,8 @@
                                 return time;
                             }
                         },
+
+
                         { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ], done: function (res, cuur, count) {
