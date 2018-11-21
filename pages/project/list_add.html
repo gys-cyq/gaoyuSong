@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -170,27 +170,41 @@
             base: '../../js/' //假设这是test.js所在的目录
         })
         .extend({ //设定模块别名
-            autocomplete: 'autocomplete'
+            //autocomplete: 'autocomplete',
+            yutons_sug: 'yutons_sug'
         });
 
-        layui.use(['form', 'layer', 'upload','autocomplete'], function () {
+        layui.use(['form', 'layer', 'upload', 'yutons_sug'], function () {
             form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
-            var autocomplete=layui.autocomplete;
-            autocomplete.render({
-                elem: '#companyName',
-                url: baseUrl + 'company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=' + $('#companyName').val(),
-                response:{
-                    code:'status',
-                    data:'data'
-                },
-                template_val: '{{d.consignee}}',
-                template_txt: '{{d.consignee}} <span class=\'layui-badge layui-bg-gray\'>{{d.phone_number}}</span>',
-                onselect: function (resp) {
-
+            //var autocomplete = layui.autocomplete;
+            var yutons_sug = layui.yutons_sug;
+            //console.log(yutons_sug)
+            //初始化部门输入提示框
+            yutons_sug.render({
+                id: "companyName", //设置容器唯一id
+                type: 'sug', //设置输入框提示类型：sug-下拉框，sugTable-下拉表格
+                key: 'name',
+                url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
+                onselect: function (data) {
+                    console.log(data)
                 }
-            })
+            });
+            //console.log(autocomplete)
+            //autocomplete.render({
+            //    elem: $('#companyName')[0],
+            //    url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=' + $('#companyName').val(),
+            //    response:{
+            //        code:'status',
+            //        data:'data'
+            //    },
+            //    template_val: '{{d.consignee}}',
+            //    template_txt: '{{d.consignee}} <span class=\'layui-badge layui-bg-gray\'>{{d.phone_number}}</span>',
+            //    onselect: function (resp) {
+            //        console.log(resp)
+            //    }
+            //})
             findprojectTypeAll();
         
             
