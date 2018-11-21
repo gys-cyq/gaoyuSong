@@ -95,8 +95,8 @@
     <!-- <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
             <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
-            <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
-        <!-- </script> -->
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+    <!-- </script> -->
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
@@ -113,7 +113,7 @@
             var laydate = layui.laydate;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
-            console.log(actions);
+
             if (actions.indexOf('project:add') != -1) {
                 $('#add').show();
             } else {
@@ -129,7 +129,7 @@
             } else {
                 $('#export').hide();
             }
-           
+
             findprojectTypeAll();
             laydate.render({
                 elem: '#year',
@@ -156,7 +156,19 @@
                         { field: 'name', title: '项目名称' },
                         { field: 'typeName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
-                        { field: 'declareDate', title: '申报日期' },
+                        {
+                            field: 'declareDate', title: '申报日期', templet: function (e) {
+                                var date = new Date(1398250549490);
+                                Y = date.getFullYear() + '-';
+                                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                                D = date.getDate() + ' ';
+                                // h = date.getHours() + ':';
+                                // m = date.getMinutes() + ':';
+                                // s = date.getSeconds();
+                                var time = Y + M + D;
+                                return time;
+                            }
+                        },
                         {
                             field: 'status', title: '状态', templet: function (e) {
                                 if (e.status == 0) {
@@ -169,47 +181,54 @@
                                     return '<span style="color: red;">' + "不通过" + '</span>'
                                 } else if (e.status == 4) {
                                     return '<span style="color: red;">' + "退回" + '</span>'
-                                } else {
+                                } else if (e.status == 7) {
+                                    return '<span style="color: red;">' + "专家审批结束" + '</span>'
+
+                                } else if (e.status == 8) {
+                                    return '<span style="color: red;">' + "未匹配审批流程" + '</span>'
+
+                                }
+                                else {
                                     return '';
                                 }
                             }
                         },
                         // { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作'},
-                        
-                        {
-                            field: 'isExpert', title: '操作',width:250,align:'center', templet: function (e) {
-                                var html='';
-                                html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-                                    if (actions.indexOf('project:history') != -1) {
-                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-                                    }
-                                    if (actions.indexOf('project:contract:apply') != -1) {
-                                        html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
-                                    }
-                                    if (actions.indexOf('project:midterminspection:apply') != -1) {
-                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
-                                    }
-                                    if (actions.indexOf('project:acceptance:apply') != -1) {
-                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
-                                    }
-                                    if(actions.indexOf('project:edit') != -1&&e.status==4){
-                                        html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '编辑' + '</a>'
 
-                                    }
+                        {
+                            field: 'isExpert', title: '操作', width: 250, align: 'center', templet: function (e) {
+                                var html = '';
+                                html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+                                if (actions.indexOf('project:history') != -1) {
+                                    html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+                                }
+                                if (actions.indexOf('project:contract:apply') != -1) {
+                                    html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+                                }
+                                if (actions.indexOf('project:midterminspection:apply') != -1) {
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
+                                }
+                                if (actions.indexOf('project:acceptance:apply') != -1) {
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
+                                }
+                                if (actions.indexOf('project:edit') != -1 && e.status == 4) {
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
+
+                                }
                                 if (e.isExpert == 1) {
-                                    
-                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" id="audit">' + '专家送审' + '</a>';
+
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
                                     return html
-                                
+
                                 } else {
-                                   
+
                                     return html
                                 }
                             }
                         }
                     ]
                 ], done: function (res, cuur, count) {
-                  
+
                     layer.closeAll('loading');
                 }
 
@@ -295,6 +314,39 @@
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res.id);
+
+                        }, error: function (layero, index) {
+
+                        }
+
+                    });
+                } else if (layEvent == 'edit') {
+                    layer.open({
+                        type: 2,
+                        area: ['800px', '460px'],
+                        fix: true,
+                        title: '编辑',
+                        content: 'list_edit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
+                        }, error: function (layero, index) {
+
+                        }
+
+                    });
+                } else if (layEvent == 'audit') {
+                    layer.open({
+                        type: 2,
+                        area: ['460px', '500px'],
+                        fix: true,
+                        title: '专家送审',
+                        content: 'list_audit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
 
                         }, error: function (layero, index) {
 

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+</head>
+
+<body>
+
+    <div class="layui-tab-brief" style="margin: 20px">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">职称
+                    </label>
+                    <div class="layui-input-inline">
+                        <select id="jobTitle" name="jobTitle" lay-verify='required' lay-filter='jobTitle'>
+                            <option value="">请选择职称</option>
+
+                            <option value="1">正高</option>
+                            <option value="2">副高</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所在地区
+                    </label>
+                    <div class="layui-input-inline">
+                        <select id="area" name="area" lay-verify='required' lay-filter='area'>
+                            <option value="">请选择所在地区</option>
+
+                            <option value="1">市内</option>
+                            <option value="2">市外</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目行业</label>
+                    <div class="layui-input-inline" style="display: flex">
+                        <input type="hidden" name="projectIndustry">
+                        <input type="text" name="projectIndustryName" class="layui-input" lay-verify='required' readonly='readonly' style="width: 180px;margin-right: 10px"
+                        />
+                        <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                    <button class="layui-btn" lay-submit="" lay-filter="submit">确定</button>
+                    <button type="cancel" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/jquery.form.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript">
+        var jobTitle
+        var jobId
+        var area;
+        var areaId;
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form;
+            var layer = layui.layer;
+            form.on('select(jobTitle)', function (data) {
+
+                jobId = data.value;
+                if (jobId == 1) {
+                    jobTitle = '正高'
+                } else {
+                    jobTitle = '副高'
+                }
+            });
+            form.on('select(area)', function (data) {
+                areaId = data.value;
+                if (jobId == 1) {
+                    area = '市内'
+                } else {
+                    area = '市外'
+                }
+            })
+            form.on('submit(submit)', function (data) {
+                var projectIndustry = $("input[name='projectIndustry']").val();
+                var messageId =  areaId + '#' + jobId + '#' + projectIndustry;
+                var message = area + ',' + jobTitle + ',' + $("input[name='projectIndustryName']").val()
+                parent.setChooseValues(messageId, message);
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+
+            })
+
+        });
+        
+        function openDeclare() {
+            layer.open({
+                type: 2,
+                title: '选择项目行业',
+                area: ['250px', '250px'],
+                fix: false,
+                content: 'project_declare.html',
+                success: function (layero, index) {
+
+                },
+                error: function (layero, index) {
+
+                }
+            })
+        }
+        function setChooseValues(message) {
+            $("input[name='projectIndustryName']").val(message.name)
+            $("input[name='projectIndustry']").val(message.id);
+
+        }
+
+        function cancel() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+
+        }
+    </script>
+</body>
+
+</html>
