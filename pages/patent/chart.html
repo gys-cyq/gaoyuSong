@@ -15,57 +15,188 @@
 </head>
 <body>
 <div class="layui-tab-brief">
+    <div style="margin:10px;">
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道名称</label>
+                    <div class="layui-input-inline">
+                        <!--<input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="streetSearch" autocomplete="off">-->
+                        <select name="name" id="streetSearch" lay-verify="type" autocomplete="off" lay-verify="required">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <fieldset class="layui-elem-field">
-        <div class="layui-field-box">
-            <table class="style-table" id="patentList" lay-filter="patentList">
-            </table>
-        </div>
+        <div id="main" style="width: 100%;height:400px;"></div>
     </fieldset>
 </div>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+<script type="text/javascript" src="../../js/echarts.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
-    layui.use(['layer','table','form','upload'],function() {
+    var user = JSON.parse(localStorage.getItem("user"));
+
+    var form;
+    layui.use(['layer','table','form'],function() {
         var layer = layui.layer,
-            table = layui.table,
-            form = layui.form,
-            upload = layui.upload;
+            table = layui.table;
+            form = layui.form;
 
 
-        table.render({
-            elem: '#patentList',
-            url: baseUrl + '/patent/findPatentByPage',
-            where: {token: token},
-            parseData: function (res) {
-                return {
-                    "code": 0,
-                    "msg": res.msg,
-                    "count": res.data.total,
-                    "data": res.data.list,
-                }
-            },
-            id: 'patentId',
-            page: true, //开启分页
-            cols: [[ //表头
-//                {field: 'id', title: '专家名称'},
-                {field: 'type', title: '专利类型', width: 60,},
-                {field: 'number', title: '专利号'},
-                {field: 'name', title: '专利名称'},
-                {field: 'applyUserName', title: '申请人'},
-                {field: 'authorizerUserName', title: '专利权人'},
-                {field: 'applyDate', title: '申请日期'},
-                {field: 'authorizerDate', title: '授权日期'},
-                {field: 'tel', title: '电话'},
-                {field: 'validityPeriod', title: '有效期（单位:年）', width: 60},
-            ]],
-            done: function (res, cuur, count) {
-                layer.closeAll('loading');
-            }
-        });
+        if(user.userId==null&&(user.streetId!=null&&user.streetId!=0)&&(user.parkId==0)){
+            $('#expertform').remove();
+            chartsShow();
+        }else if((user.streetId!=null&&user.streetId!=0)&&(user.parkId!=0)){
+            $('#expertform').remove();
+            layer.msg('您暂无权限访问此页面');
+        }else{
+            getstreetName();
+            chartsShow();
+        }
     })
 
+
+    function getstreetName(){
+        $.ajax({
+            url:baseUrl+'/street/select',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data.list;
+                    var html ='<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var name = data[i].name;
+                        var id =data[i].id;
+                        html += '<option value='+id+'>'+name+'</option>';
+                    }
+                    $('#streetSearch').html(html);
+                    form.render();
+                }else{
+                    errmsg(res);
+                }
+
+
+            },
+            error:function(res){
+                console.log('系统异常');
+            }
+        })
+    }
+    function chartsShow(){
+        $.ajax({
+            url:baseUrl+'/patent/patentDistribution',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                var data = res.data;
+                getChartdata(data);
+                    $('#Search').on('click',function(){
+                        for(var i=0;i<data.length;i++){
+                            if($('#streetSearch').val()==data[i].id){
+                                getChartdata(data[i]);
+                            }
+                        }
+                    })
+            },
+            error:function(res){
+                console.log('系统异常');
+            }
+        })
+    }
+
+    $('#Search').on('click',function(){
+        if($('#streetSearch').val()==null){
+            chartsShow();
+        }else{
+            chartsShow2();
+        }
+    })
+    function chartsShow2(){
+        $.ajax({
+            url:baseUrl+'/patent/patentDistribution',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                var data = res.data;
+                for(var i=0;i<data.length;i++){
+                    if($('#streetSearch').val()==data[i].id){
+                        getChartdata(data[i]);
+                    }
+                }
+            },
+            error:function(res){
+                console.log('系统异常');
+            }
+        })
+    }
+
+    var myChart = echarts.init(document.getElementById('main'));
+     function getChartdata(data){
+         var xdata = [];
+         var apply = [];
+         var authorizer =[];
+         var effAuthorizer = [];
+         var descriptions = [];
+         descriptions[0]=data.applyCountName;
+         descriptions[1]=data.authorizerCountName;
+         descriptions[2]=data.authorizerCountName;
+            if(data.length==null){
+                xdata[0]=data.name;
+                apply[0]=data.applyCount;
+                authorizer[0] = data.authorizerCount;
+                effAuthorizer[0]=data.effAuthorizerCount;
+
+            }else{
+                for(var i=0;i<data.length;i++){
+                    xdata[i]=data[i].name;
+                    apply[i]=data[i].applyCount;
+                    authorizer[i] = data[i].authorizerCount;
+                    effAuthorizer[i]=data[i].effAuthorizerCount;
+                }
+            }
+         var option = {
+             title: {
+                 text: '专利数据分布图'
+             },
+             tooltip: {},
+             legend: {
+                 data:descriptions
+             },
+             xAxis: {
+                 data: xdata
+             },
+             yAxis: {},
+//            series:series
+             series: [{
+                 name: '申请量',
+                 type: 'bar',
+                 barGap: 0,
+                 data: apply
+             },{
+                 name: '授权量',
+                 type: 'bar',
+                 data: authorizer
+             },{
+                 name: '有效授权量',
+                 type: 'bar',
+                 data: effAuthorizer
+             }]
+         };
+         myChart.setOption(option);
+    }
 </script>
 </body>
 </html>

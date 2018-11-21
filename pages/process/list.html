@@ -53,8 +53,8 @@
             page: false, //开启分页
             id:id,
             cols: [[ //表头
-                {field: 'typeName', title: '类型名称'},
-                {field: 'name', title: '流程名称'},
+                {field: 'typeName', title: '类型名称',width:100,},
+                {field: 'name', title: '流程名称',width:140,},
                 {field: 'nodeList',templet:function(d){
                         var html = '';
                         var data = d.nodeList;
@@ -71,7 +71,7 @@
                         html += '</div>';
                         return html;
                     },title: '流程节点'},
-                {field:'',title:'操作',templet:'#processAction'},
+                {field:'',title:'操作',templet:'#processAction',width:80},
             ]],
             done: function (res,cuur,count) {
                 layer.closeAll('loading');
