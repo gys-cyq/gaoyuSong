@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -8,164 +9,137 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <title>崇川科技局项目管理系统</title>
-    <link rel="stylesheet" href="../../static/css/font.css"  />
+    <link rel="stylesheet" href="../../static/css/font.css" />
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
-    <link rel="stylesheet" href="../../css/style.css"  />
+    <link rel="stylesheet" href="../../css/style.css" />
     <script type="text/javascript" src="../../js/main.js"></script>
 </head>
+
 <body>
-<div class="layui-tab-brief">
-    <form class="layui-form" id="patentform" style="margin-top:10px;">
-        <input type="hidden" id="id" name="id"/>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">用户姓名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="username"id="username"  autocomplete="off" class="layui-input" readonly="readonly">
+    <div class="layui-tab-brief">
+        <form class="layui-form" id="patentform" style="margin-top:10px;" lay-filter="formTest">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">申请人/单位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="applyName" autocomplete="off" class="layui-input" readonly="readonly">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">身份证号</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="idcard"id="idcard"  readonly="readonly" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="linkUser" readonly="readonly" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="address"id="address"  readonly="readonly" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">手机号</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="phone"id="phone"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">工作单位</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="company" id="company"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">注册时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="registerTime" id="registerTime"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <!--<input type="text" name="status" id="status" autocomplete="off" class="layui-input" readonly="readonly">-->
-                    <select  name="isApprove" id="isApprove">
-                        <option value="0">新注册</option>
-                        <option value="1">通过</option>
-                        <option value="2">不通过</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn layui-btn-primary" onclick="testsub()">确定</button>
-                <button class="layui-btn layui-btn-primary" onclick="cancel()">关闭</button>
-            </div>
-        </div>
-    </form>
-</div>
-<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../../js/jquery.form.js"></script>
-<script type="text/javascript" src="../../lib/layui/layui.js"></script>
-<script type="text/javascript">
-    token = localStorage.getItem('token');
-    var form;
-    layui.use(['form','layer'],function(){
-        var layer = layui.layer;
-            form = layui.form;
 
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="address" id="address" readonly="readonly" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile" autocomplete="off" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">申请时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="applyTimeStr" id="company" autocomplete="off" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="status" autocomplete="off" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+           
+        </form>
+        <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                    <button class="layui-btn" lay-submit="" lay-filter="submit" id="yes">通过</button>
+                    <button class="layui-btn" id="no">不通过</button>
+                    <!-- <button class="layui-btn layui-btn-primary" onclick="cancel()">关闭</button> -->
+                </div>
+            </div>
+    </div>
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript">
+        var layer;
+        var id;
+        function child(obj) {
+            obj = JSON.stringify(obj);
+            var data = JSON.parse(obj);
+            id=data.id;
+            var status = ''
+            if (data.status == 0) {
+                status = '未审核'
+            } else if (obj.status == 1) {
+                status = '通过'
+            } else if (data.status == 2) {
+                status = '不通过'
+            }
+            data.status = status;
+            layui.use(['form', 'layer'], function () {
+                layer = layui.layer,
+                form = layui.form;
+                form.val('formTest', data)
+            });
+            $('#yes').click(function(){
+                layer.confirm('确定通过?',function(){
+                    approvePatentFunding(1);
+                })
+
+            });
+            $('#no').click(function(){
+                layer.confirm('确定不通过?',function(){
+                    approvePatentFunding(2);
+                    
+                })
+            });
         }
-
-        window.testsub=function(){
-            var url = baseUrl + "/register/approvePerson";
-            var options = {
-                url: url,
-                type: 'post',
+        function approvePatentFunding(isApprove){
+            $.ajax({
+                url:baseUrl+'/patentFunding/approvePatentFunding',
+                type:'post',
                 dataType:'json',
-                resetForm: true,
-                timeout: 10000,
-                data: {token: token},
-                success: function (res) {
-                    if (res.status == 1) {
+                timeout:10000,
+                data:{
+                    token:localStorage.getItem('token'),
+                    id:id,
+                    isApprove:isApprove
+                },success:function(res){
+                    if(res.status==1){
                         layer.alert("成功", function () {
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                             parent.location.reload();
                         });
-                    } else {
-//                        errmsg(res);
-                        console.log(res);
+                    }else{
+                        errmsg(res)
                     }
-                },
-                error: function (data) {
-                    //未登陆
-                    layer.msg("系统异常");
-                }
-            };
-            $("#patentform").ajaxForm(options);
-            $("#patentform").submit();
-        }
-    })
-    function child(obj){
-        $('#id').val(obj.id);
-        $('#username').val(obj.username);
-        $('#idcard').val(obj.idcard);
-        $('#address').val(obj.address);
-        $('#phone').val(obj.phone);
-        $('#company').val(obj.company);
-        $('#registerTime').val(obj.registerTime);
-        $('#isApprove').val(obj.status);
-    }
 
-//    function getStstusType(obj){
-//        $.ajax({
-//            url:baseUrl + '/register/findRegisterPersonById',
-//            data:'get',
-//            datatype:'json',
-//            data:{token:token,id:obj.id},
-//            success:function(res){
-//                if(res.status==1){
-//                    var data = res.data;
-//                    var html = '<option value="">'+'请选择'+'</option>';
-//                    console.log(data);
-//                    for(var i=0;i<data.length;i++){
-////                        var id = data[i].id;
-//                        var typeName = data[i].status;
-//                        html += '<option value=' + typeName + '>'+typeName+'</option>';
-//                    }
-//                    $('#status').html(html);
-//                    if(obj.status==0){
-//                        $('#status').val('新注册');
-//                    }else if(obj.status==1){
-//                        $('#status').val('通过');
-//                    }else{
-//                        $('#status').val('不通过');
-//                    }
-//                    form.render();
-//                }else{
-//                    console.log(res.msg);
-//                }
-//            },
-//            error:function(res){
-//
-//            }
-//        })
-//    }
-</script>
+                },error:function(){
+
+                }
+            })
+
+        }
+        window.cancel = function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    </script>
 </body>
+
 </html>

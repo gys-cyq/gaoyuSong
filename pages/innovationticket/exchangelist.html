@@ -142,7 +142,19 @@
                         { field: 'declareDateStr', title: '申报日期' },
                         
                             
-                        { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
+                        // { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
+                        {
+                            field: 'isExpert', title: '操作', width: 165, align: 'center', templet: function (e) {
+                                var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+                                if (e.isExpert == 1) {
+
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
+
+
+                                }
+                                return html
+                            }
+                        }
                     ]
                 ], done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -168,7 +180,25 @@
 
                     });
 
-                } 
+                } else if (layEvent == 'audit') {
+                    layer.open({
+                        type: 2,
+                        area: ['460px', '500px'],
+                        fix: true,
+                        title: '专家送审',
+                        content: '../project/list_audit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res);
+
+
+                        }, error: function (layero, index) {
+
+                        }
+
+                    });
+                }
+                
             });
             form.on('select(type)', function (data) {
                 typeId = data.value;

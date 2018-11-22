@@ -79,6 +79,8 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" name="companyName" class="layui-input" lay-verify='required' id="companyName"  />
+                        <input type="hidden" name="declareCompany" class="layui-input"   />
+
 
                     </div>
                 </div>
@@ -101,6 +103,14 @@
                         <input type="tel" name="linkTel" class="layui-input" lay-verify='required' />
 
                     </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">申报日期
+                </label>
+                <div class="layui-input-inline">
+                    <input id="declareDate" name="declareDate" class="layui-input" readonly='readonly' />
+
                 </div>
             </div>
             <div class="layui-form-item" style="width: 1000px;">
@@ -174,12 +184,17 @@
             yutons_sug: 'yutons_sug'
         });
 
-        layui.use(['form', 'layer', 'upload', 'yutons_sug'], function () {
+        layui.use(['form', 'layer', 'upload', 'yutons_sug','laydate'], function () {
             form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
-            //var autocomplete = layui.autocomplete;
+           
             var yutons_sug = layui.yutons_sug;
+            var laydate=layui.laydate;
+            laydate.render({
+                elem:'#declareDate'
+            });
+
             //console.log(yutons_sug)
             //初始化部门输入提示框
             yutons_sug.render({
@@ -189,6 +204,7 @@
                 url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
                 onselect: function (data) {
                     console.log(data)
+                    $("input[name='declareCompany']").val(data.id);
                 }
             });
             //console.log(autocomplete)

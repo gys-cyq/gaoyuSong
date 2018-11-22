@@ -42,8 +42,8 @@
             var layer = layui.layer;
             table.render({
                 elem: '#demo',
-                url: baseUrl + '/tcb/unexamineTongchuangbi',
-                where: { token: localStorage.getItem('token'), type: "C101001" },
+                url: baseUrl + '/ticket/unexamineInnovationTicket',
+                where: { token: localStorage.getItem('token'), type: "C102002" },
                 parseData: function (res) {
 
                     return {
@@ -75,6 +75,7 @@
                             }
                         },
                         { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
+                       
                     ]
                 ], done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -92,7 +93,7 @@
                         area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '详细信息',
-                        content: 'apply_detail.html',
+                        content: '../tongchuang/apply_detail.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
@@ -106,7 +107,7 @@
                         area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '审核',
-                        content: 'apply_audit.html',
+                        content: '../tongchuang/apply_audit.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);

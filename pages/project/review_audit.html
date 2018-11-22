@@ -161,6 +161,10 @@
                     status = "不通过";
                 } else if (response.status == 4) {
                     status = "退回";
+                }else if(response.status==7){
+                    status="专家审批结束"
+                }else if(response.status==8){
+                    status='未匹配审批流程'
                 }
 
                 statusTV.val(status);
