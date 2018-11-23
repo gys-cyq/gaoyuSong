@@ -1,3 +1,4 @@
+document.write("<script language=javascript src='/static/js/admin.js'></script>");
 var baseUrl = 'http://192.168.10.99:8090', //',http://58.221.146.166:9200
      token = '',
      nickname='',
@@ -10,6 +11,12 @@ var baseUrl = 'http://192.168.10.99:8090', //',http://58.221.146.166:9200
 function errmsg(res){
     if(res.errcode=='10007'){
         //跳转到登录页
+        var tabtitle = $(".layui-tab-title li");
+        var ids = new Array();
+        $.each(tabtitle, function(i) {
+            ids[i] = $(this).attr("lay-id");
+        })
+        tab.tabDeleteAll(ids);
         parent.parent.location.href=localPage+"/Login.html";
     }else{
         layer.msg(res.msg);
