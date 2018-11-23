@@ -135,15 +135,14 @@
                     }
                 })
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除' + data.name + '吗', function (index) {
+                layer.confirm('真的删除' + data.title + '吗', function (index) {
                     var rowId = data.id;
-                    var url = baseUrl + "/carrierInfo/delete";
+                    var url = baseUrl + "/announcement/delete";
                     $.ajax({
                         url: url,
                         type: "post",
                         resetForm: true,
                         timeout: 10000,
-                        maxmin: true,
                         data: {token: token, id: rowId},
                         success: function (res) {
                             if (res.status == 1) {

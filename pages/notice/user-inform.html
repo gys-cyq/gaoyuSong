@@ -16,6 +16,12 @@
         .layui-form .layui-border-box .layui-table-view{
             float:left;
         }
+        img{
+            width:18px;
+            height:15px;
+            margin-left:10px;
+            cursor:pointer;
+        }
     </style>
 </head>
 
@@ -124,7 +130,7 @@
             var html3 = "";
             var obj = document.getElementsByTagName('input');
             if(obj.length>4){
-                html3 += '<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<span>'+'删除'+'</span>'+'</div>';
+                html3 += '<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<img src="../../img/iconfont-del.png" />'+'</div>';
                 for(var i=3;i<obj.length-1;i++){
                     if(obj[i].value==data.id){
                         layer.msg("此用户已添加,请选择其他用户");
@@ -133,7 +139,7 @@
                 }
                 $('#test2').html(html2+html3);
             }else{
-                html +='<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<span>'+'删除'+'</span>'+'</div>';
+                html +='<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<img src="../../img/iconfont-del.png" />'+'</div>';
                 $('#test2').html(html2+html);
             }
 
@@ -158,10 +164,10 @@
 
     });
     function del(obj){
-        var x=document.getElementById("obj")
-        console.log(obj)
-//        x.remove();
-
+        layer.confirm('确定删除吗？',function(index){
+            $('#'+obj).remove();
+            layer.close(index);
+        })
     }
 
 

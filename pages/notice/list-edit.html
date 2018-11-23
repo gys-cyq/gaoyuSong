@@ -7,48 +7,48 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css"  />
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
-    <style>
-        .layui-form-radio>i:hover, .layui-form-radioed>i{
-            color:#2fa4e7;
-        }
-    </style>
 </head>
 <body>
 <div class="layui-tab-brief">
     <form class="layui-form" id="expertform" style="margin-top:10px;">
+        <input type="hidden" id="id" name="id" />
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">标题<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="title" id="title"  lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" name="title"id="title"  lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">类型<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <select name="type" lay-filter="type" id="type" lay-verify="required">
-                        <option value="">所有</option>
-                        <option value="1">公告</option>
-                        <option value="2">通知</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">内容<span style="color:red;">*</span></label>
+                <label class="layui-form-label">内容</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="content" id="content"  autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="content"id="content"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">作者</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="author" name="author" autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">通知全员<span style="color:red;">*</span></label>
             <div class="layui-input-block" id="isAll">
-                <input type="radio" name="isAll" value="1" title="通知全员" checked="checked">
+                <input type="radio" name="isAll" value="1" title="通知全员">
                 <input type="radio" name="isAll" value="2" title="非全员" id="notAll">
             </div>
         </div>
@@ -61,7 +61,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                <button class="layui-btn" lay-submit="" lay-filter="submit">确定</button>
                 <button type="reset" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -70,23 +70,43 @@
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
-    token = localStorage.getItem('token');
-    layui.use(['form','layer','upload'],function(){
-        var form = layui.form,
-            layer = layui.layer,
-            upload = layui.upload;
+    token = localStorage.getItem("token");
+    var form;
+    layui.use(['layer','form'],function(){
+        form = layui.form;
+        var layer = layui.layer;
 
+        window.child = function(obj){
+            console.log(obj);
+            $("#id").val(obj.id);
+            $("#title").val(obj.title);
+            $('#type').val(obj.type);
+            $('#content').val(obj.content);
+            $("#author").val(obj.author);
+            $(":radio[name='isAll'][value="+ obj.isAll +"]").prop("checked", "checked");
+            getuserIdcontent(obj);
+            getsex(obj);
+        }
+
+        $('#isAll').on('click',function(){
+            if($('input:radio:checked').val()==2){
+                $('#userIds').css('display','block');
+            }else{
+                $('#userIds').css('display','none');
+            }
+            console.log($(':radio[name="isAll"]:checked').val());
+        })
 
         form.on('submit(submit)', function(data){
-            var url = baseUrl + "/announcement/add";
+            var url = baseUrl + "/announcement/update";
             var options = {
                 url: url,
                 type: 'post',
-                dataType:'json',
-                clearForm:true,
+                //clearForm:true,
                 resetForm: true,
                 timeout: 10000,
                 data: {token: token},
+//            beforeSubmit: validateForm,
                 success: function (res) {
                     if (res.status == 1) {
                         layer.alert("成功", function () {
@@ -96,7 +116,6 @@
                         });
                     } else {
                         errmsg(res);
-//                        errmsg(res);
                     }
                 },
                 error: function (data) {
@@ -106,21 +125,55 @@
             };
             $("#expertform").ajaxForm(options);
             $("#expertform").submit();
-            return false;
         })
+
         window.cancel = function(){
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         }
     })
 
-    $('#isAll').on('click',function(){
-        if($('input:radio:checked').val()==2){
-            $('#userIds').css('display','block');
-        }else{
-            $('#userIds').css('display','none');
-        }
-    })
+    function getsex(obj){
+        var html = '';
+        html += '<option value="">'+'请选择'+'</option>';
+        html += '<option value="1">'+'通知'+'</option>';
+        html += '<option value="2">'+'公告'+'</option>';
+        $('#type').html(html);
+        $("#type").val(obj.type);
+        form.render();
+    }
+
+//    $('#isAll').on('click',function(){
+//        var userType=$('input:radio:checked');
+//        if(userType.val()==2){
+//            $('#userIds').css('display','block');
+////            $(":radio[name='isAll'][value="+ userType.val() +"]").prop("checked", "checked");
+//        }else{
+//            $('#userIds').css('display','none');
+////            $(":radio[name='isAll'][value="+ userType.val() +"]").prop("checked", "checked");
+//            $('#userIdcontent').val("");
+//        }
+//    })
+
+   function getuserIdcontent(obj){
+       if(obj.isAll==2){
+           $('#userIds').css('display','block');
+           var userIds = obj.attList;
+           var userInform='';
+           for(var i=0;i<userIds.length;i++){
+               if(userInform==''){
+                   userInform=userIds[i].nickName;
+               }else{
+                   userInform=userInform +','+ userIds[i].nickName;
+               }
+           }
+           $('#userIdcontent').val(userInform);
+       }else{
+           $('#userIds').css('display','none');
+           $('#userIdcontent').val("");
+       }
+   }
+
     function openUserList() {
         layer.open({
             type: 2,
@@ -140,6 +193,7 @@
     }
     function GetValue(obj) {
         var data='';
+        var userInforms = '';
         console.log(obj);
         for(var i=0;i<obj.length;i++){
             if(data==''){
@@ -150,6 +204,7 @@
         }
         $('#userIdcontent').val(data);
     }
+
 </script>
 </body>
 </html>
