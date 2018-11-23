@@ -10,6 +10,15 @@
     <meta name="format-detection" content="telephone=no">
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <style>
+        .delImage {
+            width: 18px;
+            height: 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            align-items: right;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,45 +56,51 @@
         var layer;
         var conditions = [];
         var html = '';
-        function child(obj){
+        function child(obj) {
             $("input[name='statusId']").val(obj.statusId)
             layui.use(['layer', 'form'], function () {
-            layer = layui.layer;
-            var form = layui.form;
-            form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
-                var options = {
-                    url: baseUrl + '/expert/choose',
-                    type: 'POST',
-                    dataType: "json",
-                    data: { token: localStorage.getItem('token') },
-                    // clearForm: true,
-                    // resetForm: true,
-                    async: false,
-                    timeout: 10000,
-                    success: function (res) {
-                        if (res.status == 1) {
-                            layer.alert("成功", function () {
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                                parent.location.reload();
-                            });
-                        } else {
-                            errmsg(res)
+                layer = layui.layer;
+                var form = layui.form;
+                form.on('submit(submit)', function (data) {
+                    console.log(JSON.stringify(data.field));
+                    var options = {
+                        url: baseUrl + '/expert/choose',
+                        type: 'POST',
+                        dataType: "json",
+                        data: { token: localStorage.getItem('token') },
+                        // clearForm: true,
+                        // resetForm: true,
+                        async: false,
+                        timeout: 10000,
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.alert("成功", function () {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    parent.location.reload();
+                                });
+                            } else {
+                                errmsg(res)
 
+                            }
+                        },
+                        error: function (data) {
+                            alert('error');
                         }
-                    },
-                    error: function (data) {
-                        alert('error');
-                    }
 
-                };
-                $('#demofrom').ajaxForm(options);
-                $('#demofrom').submit();
-                return false;
-            })
-        });
+                    };
+                    $('#demofrom').ajaxForm(options);
+                    $('#demofrom').submit();
+                    return false;
+                })
+            });
+
+
+
+
         }
+
+
         function addPro() {
             layer.open({
                 type: 2,
@@ -102,20 +117,37 @@
 
             });
         }
-        
-        
+
+
         function cancel() {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
 
         }
+
         function setChooseValues(messageId, message) {
             conditions.push(messageId)
             $("input[name='conditions']").val(conditions);
-            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '</li>';
+            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '<img src="../../img/iconfont-del.png" class="delImage" onclick="del()"/>' + '</li>';
             $('#conditions').append(html);
-            console.log(messageId + '\n' + message);
+
         }
+
+        function del() {
+            div = document.getElementsByClassName("delImage");
+            ul = document.querySelector("#conditions");
+            list = ul.querySelectorAll("li");
+            for (var i = 0; i < div.length; i++) {
+
+
+                list[i].remove();
+                conditions.splice(i,1);
+                $("input[name='conditions']").val(conditions);
+
+
+            }
+        }
+
     </script>
 </body>
 
