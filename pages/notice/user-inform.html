@@ -132,7 +132,6 @@
                 var html3 = "";
                 var obj = document.getElementsByTagName('input');
                 if (obj.length > 4) {
-                    html3=''
                     html3 += '<div onclick="del(' + data.id + ')" id=' + data.id + '>' + data.nickname + '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
                     for (var i = 3; i < obj.length - 1; i++) {
                         if (obj[i].value == data.id) {
@@ -140,11 +139,6 @@
                             html3 = "";
                         }
                         message.push(data.nickname);
-                        // if(message!=''){
-                        //     message=message+','+data.nickname;
-                        // }else{
-                        //     message=data.nickname;
-                        // }
                     }
                     $('#test2').html(html2 + html3);
                 } else {
