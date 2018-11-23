@@ -68,7 +68,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
 
@@ -84,14 +84,14 @@
         layui.use(['form', 'upload'], function () {
             var form = layui.form;
             var upload = layui.upload;
-            var layer=layui.layer;
+            var layer = layui.layer;
             upload.render({
                 elem: '#upload',
                 url: baseUrl + '/file/uploadByCode',
-                data:{token:localStorage.getItem('token'),code:'C200000'},
-                accept:'images',
-                exts:'png|gif|jpeg|jpg',
-                method:'post',
+                data: { token: localStorage.getItem('token'), code: 'C200000' },
+                accept: 'images',
+                exts: 'png|gif|jpeg|jpg',
+                method: 'post',
                 before: function (obj) {
                     //预读本地文件示例，不支持ie8
                     obj.preview(function (index, file, result) {
@@ -99,23 +99,23 @@
                     });
                     layer.load();
                 },
-                done:function(res){
+                done: function (res) {
                     layer.closeAll('loading'); //关闭loading
                     console.log(res);
-                    try{
-                        if(res.status==1){
-                            var data=res.data;
+                    try {
+                        if (res.status == 1) {
+                            var data = res.data;
                             $("input[name='image']").val(data[0]);
 
-                        }else{
+                        } else {
                             layer.msg(res.msg);
                         }
-                    }catch(e){
+                    } catch (e) {
 
                     }
 
                 },
-                error:function(res){
+                error: function (res) {
                     console.log(res)
                     // layer.msg("上传失败")
                 }
@@ -133,8 +133,8 @@
                         data: {
                             token: localStorage.getItem('token'),
                             number: value,
-                            id:typeId
-                            
+                            id: typeId
+
                         },
                         success: function (response) {
                             if (response.status != 1) {
@@ -150,29 +150,29 @@
                 }
 
             });
-            form.on('submit(submit)',function(data){
+            form.on('submit(submit)', function (data) {
                 console.log(JSON.stringify(data.field));
-                var url=baseUrl+'/companytype/update';
-                var options={
-                    url:url,
-                    type:'post',
-                    dataType:'json',
-                    data:{token:localStorage.getItem('token')},
-                    clearForm:true,
-                    resetForm:true,
-                    timeout:10000,
-                    
-                    success:function(res){
-                        if(res.status==1){
-                            layer.alert(res.msg,function(){
+                var url = baseUrl + '/companytype/update';
+                var options = {
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: { token: localStorage.getItem('token') },
+                    clearForm: true,
+                    resetForm: true,
+                    timeout: 10000,
+
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert(res.msg, function () {
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                                 parent.location.reload();
                             });
-                        }else{
+                        } else {
                             errmsg(res);
                         }
-                    },error:function(data){
+                    }, error: function (data) {
 
                     }
 
@@ -180,23 +180,27 @@
                 $('#demofrom').ajaxForm(options);
                 $('#demofrom').submit();
                 return false;
-                
+
             });
 
         });
-        function child(obj){
-            typeId=obj.id;
+        function child(obj) {
+            typeId = obj.id;
             $("input[name='id']").val(obj.id);
             $("input[name='typeName']").val(obj.typeName);
             $("input[name='number']").val(obj.number);
             $("input[name='year']").val(obj.year);
             $("input[name='image']").val(obj.image);
             var image = baseUrl + '/file/getImg?path=' + obj.image;
-            if(obj.image!=''){
+            if (obj.image != '') {
                 $('#demo1').attr('src', image);
             }
-           
 
+
+        }
+        function cancel() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         }
     </script>
 </body>

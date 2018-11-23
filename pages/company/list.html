@@ -43,15 +43,15 @@
 
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">企业地址
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="address" autocomplete="off" class="layui-input" value="">
-                        </div>
-    
-    
-                 </div>
+                    <label class="layui-form-label">企业地址
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="address" autocomplete="off" class="layui-input" value="">
+                    </div>
+
+
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">企业类型
 
@@ -61,27 +61,27 @@
                         </select>
                     </div>
                 </div>
-              
+
                 <div class="layui-inline">
-                        <label class="layui-form-label">街道
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId" >
-                            </select>
-                        </div>
+                    <label class="layui-form-label">街道
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="streetId" id="streetId">
+                        </select>
                     </div>
-              
-                    <div class="layui-inline">
-                            <label class="layui-form-label">园区
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <select lay-filter="parkId" id="parkId">
-                                </select>
-                            </div>
-                        </div>
-                      
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="parkId" id="parkId">
+                        </select>
+                    </div>
+                </div>
+
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
 
 
@@ -284,8 +284,8 @@
                             legalPerson: $('#legalPerson').val(),
                             address: $('#address').val(),
                             companyTypeId: companyTypeId,
-                            streetId:streetId,
-                            parkId:parkId
+                            streetId: streetId,
+                            parkId: parkId
                         }
                     })
                 }
@@ -301,13 +301,20 @@
                 companyTypeId = data.value;
 
             });
-            form.on('select(streetId)',function(data){
-                streetId=data.value;
+            form.on('select(streetId)', function (data) {
+                streetId = data.value;
+                if (streetId == '' || streetId == undefined) {
+                    parkId = '';
+                    $('#parkId').html("");
+                    form.render();
+                    return
+
+                }
                 getParkList();
-            });   
+            });
             form.on('select(parkId)', function (data) {
                 parkId = data.value;
-            });  
+            });
             // 导入
             var files;
             var uploadInst = upload.render({
@@ -372,11 +379,11 @@
             if (companyTypeId != undefined) {
                 url += '&companyTypeId=' + companyTypeId;
             }
-            if(streetId!=undefined){
+            if (streetId != undefined) {
                 url += '&streetId=' + streetId;
 
             }
-            if(parkId!=undefined){
+            if (parkId != undefined) {
                 url += '&parkId=' + parkId;
 
             }
@@ -418,7 +425,7 @@
             });
 
         }
-        
+
         function getStreetList() {
             $.ajax({
                 url: baseUrl + '/street/getStreetList',
@@ -458,7 +465,7 @@
             });
 
         }
-        function getParkList(){
+        function getParkList() {
             $.ajax({
                 url: baseUrl + "/park/getParkList",
                 type: 'get',
@@ -481,7 +488,7 @@
 
                             $('#parkId').html(html);
                             form.render();
-                          
+
                         }
 
                     } catch (e) {

@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
 
     <style>
-    /* applySeniorCompany */
+        /* applySeniorCompany */
+
         /* .item {
             width: 100%;
             height: auto;
@@ -20,6 +21,7 @@
             float: left;
             align-items: center
         } */
+
         .layui-form-checkbox[lay-skin="primary"]:hover i {
             border-color: #2fa4e7;
         }
@@ -69,15 +71,14 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="password" lay-verify="required"  class="layui-input" autocomplete="off" placeholder="请输入密码"
-                        />
+                        <input type="text" name="password" lay-verify="required" class="layui-input" autocomplete="off" placeholder="请输入密码" />
                     </div>
                 </div>
 
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">用户类型</label>
                     <div class="layui-input-inline">
-                        <select  lay-filter="type" name="type">
+                        <select lay-filter="type" name="type">
                             <option value="1">普通用户</option>
                             <option value="2">科技局用户</option>
                             <option value="3">街道/园区用户</option>
@@ -91,7 +92,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <select  lay-filter="street" name="streetId" lay-verify="type" id="streetId">
+                        <select lay-filter="street" name="streetId" lay-verify="type" id="streetId">
                         </select>
                     </div>
                 </div>
@@ -109,7 +110,7 @@
                     <span style="color:red;">*</span>
                 </label>
                 <div class="layui-fluid">
-                    <ul id="rolesul" lay-verify="isCheckd" style="display: fl"></ul>
+                    <ul id="rolesul" lay-verify="isCheckd" style="display: flex"></ul>
                 </div>
 
             </div>
@@ -134,18 +135,18 @@
 
 
 
-    
 
 
 
-    <div class="layui-form-item">
-        <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
 
-    </form>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+
+        </form>
 
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -163,21 +164,21 @@
             form = layui.form;
             getRoleList();
             $('#second').hide();
-            var userId=localStorage.getItem('userId');
-            if(userId==1){
+            var userId = localStorage.getItem('userId');
+            if (userId == 1) {
                 $("#type").show();
-            }else{
+            } else {
                 $("#type").hide();
-                
+
             }
             form.on('select(type)', function (data) {
                 // console.log(data.value); //得到被选中的值
-                type=data.value;
+                type = data.value;
                 if (data.value == 1) {
                     $('#second').hide();
-                }else if(data.value==2){
+                } else if (data.value == 2) {
                     $('#second').hide();
-                } 
+                }
                 else if (data.value == 3) {
                     getStreetList();
                     $('#second').show();
@@ -186,6 +187,12 @@
             });
             form.on('select(street)', function (data) {
                 streetId = data.value;
+                if (streetId == '' || streetId == undefined) {
+                    parkId = '';
+                    $('#parkId').html('');
+                    form.render();
+                    return;
+                }
                 getParkList();
 
             });
@@ -193,7 +200,7 @@
                 parkId = data.value;
             });
             form.on('checkbox', function (data) {
-                
+
             });
             form.on('switch(status)', function (data) {
                 if (this.checked) {
@@ -221,7 +228,7 @@
                             if (response.status != 1) {
                                 msg = response.msg;
 
-                            }else{
+                            } else {
                                 errmsg(response)
                             }
 
@@ -247,8 +254,8 @@
                         return "请选择用户角色";
                     }
 
-                },type:function(value){
-                    if(localStorage.getItem('userId')==1 && value==null && type==3){
+                }, type: function (value) {
+                    if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
                         return "街道不能为空";
                     }
                 }
@@ -315,7 +322,7 @@
                             $('#rolesul').html(html);
                             form.render();
 
-                        }else{
+                        } else {
                             errmsg(response)
                         }
 
@@ -390,7 +397,7 @@
 
                             $('#parkId').html(html);
                             form.render();
-                           
+
                         }
 
                     } catch (e) {

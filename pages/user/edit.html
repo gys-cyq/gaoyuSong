@@ -70,8 +70,7 @@
 						<span style="color:red;">*</span>
 					</label>
 					<div class="layui-input-inline">
-						<input type="password" name="password" lay-verify="required"  class="layui-input" autocomplete="off" placeholder="请输入密码"
-						/>
+						<input type="password" name="password" lay-verify="required" class="layui-input" autocomplete="off" placeholder="请输入密码" />
 					</div>
 				</div>
 
@@ -79,7 +78,7 @@
 					<label class="layui-form-label">用户类型</label>
 					<div class="layui-input-inline">
 						<div class="layui-input-inline">
-							<input id="type"  class="layui-input" autocomplete="off" readonly='readonly' />
+							<input id="type" class="layui-input" autocomplete="off" readonly='readonly' />
 						</div>
 						<!-- <select id="type" lay-filter="type" name="type">
 							<option value="1">普通用户</option>
@@ -137,14 +136,14 @@
 			</div>
 
 
-	<div class="layui-form-item">
-		<div class="layui-input-block" style="text-align:center;margin:0 auto;">
-			<button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-			<button type="reset" class="layui-btn layui-btn-primary" type="reset">重置</button>
-		</div>
-	</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block" style="text-align:center;margin:0 auto;">
+					<button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+					<button class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+				</div>
+			</div>
 
-	</form>
+		</form>
 
 	</div>
 	<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -162,15 +161,21 @@
 			form = layui.form;
 			// getRoleList();
 
-		
-			// form.on('select(street)', function (data) {
-			// 	streetId = data.value;
-			// 	getParkList();
 
-			// });
-			// form.on('select(park)', function (data) {
-			// 	parkId = data.value;
-			// });
+			form.on('select(street)', function (data) {
+				streetId = data.value;
+				if (streetId == '' || streetId == undefined) {
+					parkId = '';
+					$('#parkId').html('');
+					form.render();
+					return;
+				}
+				getParkList();
+
+			});
+			form.on('select(park)', function (data) {
+				parkId = data.value;
+			});
 			// form.on('checkbox', function (data) {
 
 			// });
@@ -197,14 +202,14 @@
 					}
 
 				}, type: function (value) {
-					if (localStorage.getItem('userId') == 1 && value == null && type ==3) {
+					if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
 						return "街道不能为空";
 					}
 				}
 
 			});
 			form.on('submit(submit)', function (data) {
-				console.log("表单提交"+JSON.stringify(data.field));
+				console.log("表单提交" + JSON.stringify(data.field));
 				var url = baseUrl + '/user/update';
 				var options = {
 					url: url,
@@ -217,13 +222,15 @@
 					timeout: 10000,
 					success: function (res) {
 						if (res.status == 1) {
-							layer.msg(res.msg);
-							var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);
-							parent.location.reload();
+							layer.alert(res.msg, function () {
+								var index = parent.layer.getFrameIndex(window.name);
+								parent.layer.close(index);
+								parent.location.reload();
+
+							});
 
 						} else {
-							layer.msg(res.msg);
+							errmsg(response)
 
 						}
 					},
@@ -252,7 +259,7 @@
 			}
 			var typeEt = $("#type");
 			var secondSL = $('#second');
-			type=obj.type;
+			type = obj.type;
 			streetId = obj.streetId;
 			parkId = obj.parkId;
 			switch (obj.type) {
@@ -271,7 +278,7 @@
 					break
 			}
 
-			
+
 
 
 			var roleNames = obj.roleNames.split(',');
@@ -333,7 +340,7 @@
 					try {
 						if (response.status == 1) {
 							var data = response.data;
-							var html = ' <option value="">' + '请选择街道' + '</option>';
+							var html = ' <option value="0">' + '请选择街道' + '</option>';
 							for (var i in data) {
 								var id = data[i].id;
 								var name = data[i].name;
@@ -344,11 +351,9 @@
 							$('#streetId').html(html);
 							$("#streetId").val(streetId);
 							form.render();
-							
-
-
-
-
+							if (streetId != '' && streetId != undefined) {
+								getParkList();
+							}
 
 						}
 					} catch (e) {
@@ -377,7 +382,7 @@
 						response = eval(response);
 						if (response.status == 1) {
 							var data = response.data;
-							var html = ' <option value="">' + "请选择园区" + '</option>';
+							var html = ' <option value="0">' + "请选择园区" + '</option>';
 							for (var i in data) {
 								var id = data[i].id;
 								var name = data[i].name;
@@ -387,7 +392,7 @@
 							$('#parkId').html(html);
 							$("#parkId").val(parkId);
 							form.render();
-							
+
 
 						}
 
@@ -404,6 +409,11 @@
 			});
 
 
+		}
+		function cancel() {
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		
 		}
 	</script>
 </body>

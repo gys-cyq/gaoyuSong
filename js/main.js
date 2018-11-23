@@ -38,3 +38,11 @@ function GetQueryString(name) {
     if (r != null) return unescape(r[2]); return null;
 }
 
+function checkMolie(str) {
+    var re=/^((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+(\d{8})$/;
+    if(re.test(str)){
+       return true
+    }else{
+        return false;
+    }
+}

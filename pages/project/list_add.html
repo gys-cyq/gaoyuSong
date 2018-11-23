@@ -31,8 +31,7 @@
     <div class="layui-table-brief" style="margin: 20px">
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <div class="layui-form-item" style="display: none">
-                <input class="layui-input" name="userId">
-                <input class="layui-input" name="declareCompany">
+                <input class="layui-input" name="userId">             
                 <input class="layui-input" name="projectIndustry">
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
@@ -78,7 +77,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="companyName" class="layui-input" lay-verify='required' id="companyName"  />
+                        <input type="text" name="companyName" class="layui-input" lay-verify='required' id="companyName" autocomplete="off" />
                         <input type="hidden" name="declareCompany" class="layui-input"   />
 
 
@@ -86,30 +85,31 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人姓名
-                        <span style="color:red;">*</span>
+
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="linkName" class="layui-input" lay-verify='required' />
+                        <input type="text" name="linkName" class="layui-input"  />
 
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
-                        <span style="color:red;">*</span>
+                       
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" lay-verify='required' />
+                        <input type="tel" name="linkTel" class="layui-input"  />
 
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">申报日期
+                        <span style="color:red;">*</span>
                 </label>
                 <div class="layui-input-inline">
-                    <input id="declareDate" name="declareDate" class="layui-input" readonly='readonly' />
+                    <input id="declareDate" name="declareDateStr" class="layui-input" readonly='readonly' lay-verify='required' />
 
                 </div>
             </div>
@@ -312,7 +312,7 @@
                     timeout: 10000,
                     success: function (res) {
                         if (res.status == 1) {
-                            layer.alert(res.message, function () {
+                            layer.alert(res.msg, function () {
                                 demoListView.html('')
                                 $("input[name='userId']").val(user.id);
                                 

@@ -67,7 +67,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="number" id="contactsTel" autocomplete="off" class="layui-input" value="">
+                        <input type="tel" id="contactsTel" autocomplete="off" class="layui-input" value="">
                     </div>
 
 
@@ -313,6 +313,13 @@
             });
             form.on('select(streetId)',function(data){
                 streetId=data.value;
+               
+                if(streetId==''||streetId==undefined){
+                    parkId='';
+                    $('#parkId').html('');
+                    form.render();
+                    return;
+                }
                 getParkList();
             });
             form.on('select(parkId)',function(data){
