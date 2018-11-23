@@ -13,166 +13,177 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
-        .layui-form .layui-border-box .layui-table-view{
-            float:left;
+        .layui-form .layui-border-box .layui-table-view {
+            float: left;
         }
-        img{
-            width:18px;
-            height:15px;
-            margin-left:10px;
-            cursor:pointer;
+
+        img {
+            width: 18px;
+            height: 15px;
+            margin-left: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-<div class="layui-tab-brief">
-    <div style="margin:10px;">
-        <label class="searchTitle">用户名称</label>
-        <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" id="username" autocomplete="off">
+    <div class="layui-tab-brief">
+        <div style="margin:10px;">
+            <label class="searchTitle">用户名称</label>
+            <div class="layui-input-inline">
+                <input type="text" placeholder="请输入关键字" class="layui-input search_input" id="username" autocomplete="off">
+            </div>
+            <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
         </div>
-        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box" style="float:left;border-right:1px solid #ccc;text-align:center">
+                <table class="style-table" id="demo" lay-filter="test">
+                </table>
+                <input type="button" class="layui-btn" value="确定" onclick="getInform()" />
+            </div>
+            <div style="width:150px;float:left;padding: 10px 15px;">
+                <form>
+                    <div class="layui-form-item" style="text-align:center;" id="test2">
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <div style="text-align:center;margin-bottom:10px;">
+            <input type="button" class="layui-btn" value="确定提交" onclick="submit()" />
+        </div>
     </div>
-    <fieldset class="layui-elem-field">
-        <div class="layui-field-box" style="float:left;border-right:1px solid #ccc;text-align:center" >
-            <table class="style-table" id="demo" lay-filter="test">
-            </table>
-            <input type="button" class="layui-btn"  value="确定" onclick="getInform()" />
-        </div>
-        <div style="width:150px;float:left;padding: 10px 15px;">
-            <form>
-                <div class="layui-form-item" style="text-align:center;" id="test2">
-                </div>
-            </form>
-        </div>
-    </fieldset>
-    <div style="text-align:center;margin-bottom:10px;">
-        <input type="button" class="layui-btn"  value="确定提交" onclick="submit()" />
-    </div>
-</div>
 
-<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../../js/jquery.form.js"></script>
-<script type="text/javascript" src="../../lib/layui/layui.js"></script>
-<script type="text/javascript" src="../../js/main.js"></script>
-<script type="text/javascript">
-    var layer;
-    var index = parent.layer.getFrameIndex(window.name);
-    var userIds = [];
-    layui.use(['table', 'form','layer'], function () {
-        var table = layui.table;
-        var layer = layui.layer,
-        form = layer.form;
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.form.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript">
+        var layer;
+        var index = parent.layer.getFrameIndex(window.name);
+        var userIds = [];
+        var message =[];
+        layui.use(['table', 'form', 'layer'], function () {
+            var table = layui.table;
+            var layer = layui.layer,
+                form = layer.form;
 
-        table.render({
-            elem: '#demo'
-            // , height: 420
-            , id: id
-            , url: baseUrl + '/user/select' //数据接口
-            , where: { token: localStorage.getItem('token') }
-            , parseData: function (res) {
+            table.render({
+                elem: '#demo'
+                // , height: 420
+                , id: id
+                , url: baseUrl + '/user/select' //数据接口
+                , where: { token: localStorage.getItem('token') }
+                , parseData: function (res) {
 
-                return {
-                    "code": 0,
-                    "msg": res.msg,
-                    "count": res.data.total,
-                    "data": res.data.list
-                }
-            }
-            ,
-            width:460,
-            page: true //开启分页
-            , cols: [[ //表头
-                { field: 'username', title: '用户名',width:230 },
-                { field: 'nickname', title: '昵称',width:230 },
-            ]], done: function (res, cuur, count) {
-                layer.closeAll('loading');
-            }
-        });
-        var active = {
-            reload :function(){
-                var url = baseUrl + '/user/select';
-                var user = $('#username').val();
-                table.reload(id,{
-                    url:url,
-                    method:'get',
-                    dataType:'json',
-                    page:{
-                        curr:'1'
-                    },
-                    where:{
-                        token:token,
-                        username:user
-                    },
-                })
-            }
-        }
-
-        $("#Search").on('click',function(){
-            var type = $(this).data('type');
-            if( $('#username').val().trim()==""){
-                layer.msg('查询名称不能为空');
-                return false;
-            }
-            active[type] ? active[type].call(this) : '';
-        })
-
-        var data;
-        table.on('row(test)', function(obj){
-            data = obj.data;
-            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-        });
-
-        window.getInform=function(){
-            var html = '';
-            var html2 = $('#test2').html();
-            var html3 = "";
-            var obj = document.getElementsByTagName('input');
-            if(obj.length>4){
-                html3 += '<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<img src="../../img/iconfont-del.png" />'+'</div>';
-                for(var i=3;i<obj.length-1;i++){
-                    if(obj[i].value==data.id){
-                        layer.msg("此用户已添加,请选择其他用户");
-                        html3 ="";
+                    return {
+                        "code": 0,
+                        "msg": res.msg,
+                        "count": res.data.total,
+                        "data": res.data.list
                     }
                 }
-                $('#test2').html(html2+html3);
-            }else{
-                html +='<div onclick="del('+data.id+')" id='+data.id+'>'+data.nickname+'<input type="hidden" value='+data.id+' name='+data.id+' />'+'<img src="../../img/iconfont-del.png" />'+'</div>';
-                $('#test2').html(html2+html);
-            }
-
-        }
-
-        window.submit = function(){
-            var j=0;
-            var obj = $('#test2 input');
-            if(obj.length>0){
-                for(var i=0;i<obj.length;i++){
-                    userIds[j]=obj[i].value;
-                    j++
+                ,
+                width: 460,
+                page: true //开启分页
+                , cols: [[ //表头
+                    { field: 'username', title: '用户名', width: 230 },
+                    { field: 'nickname', title: '昵称', width: 230 },
+                ]], done: function (res, cuur, count) {
+                    layer.closeAll('loading');
                 }
-            }else{
-                layer.msg('请确定选择后再提交');
+            });
+            var active = {
+                reload: function () {
+                    var url = baseUrl + '/user/select';
+                    var user = $('#username').val();
+                    table.reload(id, {
+                        url: url,
+                        method: 'get',
+                        dataType: 'json',
+                        page: {
+                            curr: '1'
+                        },
+                        where: {
+                            token: token,
+                            username: user
+                        },
+                    })
+                }
             }
-//            var dataObj = data.field;
-            parent.layer.close(index);
-            parent.GetValue(userIds);
+
+            $("#Search").on('click', function () {
+                var type = $(this).data('type');
+                if ($('#username').val().trim() == "") {
+                    layer.msg('查询名称不能为空');
+                    return false;
+                }
+                active[type] ? active[type].call(this) : '';
+            })
+
+            var data;
+            table.on('row(test)', function (obj) {
+                data = obj.data;
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+            });
+
+            window.getInform = function () {
+                var html = '';
+                var html2 = $('#test2').html();
+                var html3 = "";
+                var obj = document.getElementsByTagName('input');
+                if (obj.length > 4) {
+                    html3=''
+                    html3 += '<div onclick="del(' + data.id + ')" id=' + data.id + '>' + data.nickname + '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
+                    for (var i = 3; i < obj.length - 1; i++) {
+                        if (obj[i].value == data.id) {
+                            layer.msg("此用户已添加,请选择其他用户");
+                            html3 = "";
+                        }
+                        message.push(data.nickname);
+                        // if(message!=''){
+                        //     message=message+','+data.nickname;
+                        // }else{
+                        //     message=data.nickname;
+                        // }
+                    }
+                    $('#test2').html(html2 + html3);
+                } else {
+                    message.push(data.nickname);
+                    html += '<div onclick="del(' + data.id + ')" id=' + data.id + '>' + data.nickname + '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
+                    $('#test2').html(html2 + html);
+                }
+
+            }
+
+            window.submit = function () {
+                var j = 0;
+                var obj = $('#test2 input');
+
+                if (obj.length > 0) {
+                    for (var i = 0; i < obj.length; i++) {
+                        userIds[j] = obj[i].value;
+                        j++
+                    }
+                } else {
+                    layer.msg('请确定选择后再提交');
+                }
+                //            var dataObj = data.field;
+                parent.layer.close(index);
+                parent.GetValue(userIds,message);
+            }
+
+
+        });
+        function del(obj) {
+            layer.confirm('确定删除吗？', function (index) {
+                $('#' + obj).remove();
+                layer.close(index);
+            })
         }
 
 
-    });
-    function del(obj){
-        layer.confirm('确定删除吗？',function(index){
-            $('#'+obj).remove();
-            layer.close(index);
-        })
-    }
 
-
-
-</script>
+    </script>
 </body>
 
 </html>

@@ -55,7 +55,8 @@
         <div class="layui-form-item" id="userIds" style="display:none;">
             <label class="layui-form-label">通知人信息<span style="color:red;">*</span></label>
             <div class="layui-input-inline">
-                <input type="text" name="userIds"  class="layui-input" id="userIdcontent">
+                <input type="text"   class="layui-input" id="userIdcontent">
+                <input type="hidden" class="layui-input" name="userIds">
             </div>
             <input type="button" class="layui-btn layui-btn-normal" onclick="openUserList()" value="选择">
         </div>
@@ -93,6 +94,7 @@
                 $('#userIds').css('display','block');
             }else{
                 $('#userIds').css('display','none');
+                $('#userIdcontent').val("");
             }
             console.log($(':radio[name="isAll"]:checked').val());
         })
@@ -125,6 +127,7 @@
             };
             $("#expertform").ajaxForm(options);
             $("#expertform").submit();
+            return false;
         })
 
         window.cancel = function(){
@@ -156,18 +159,26 @@
 //    })
 
    function getuserIdcontent(obj){
+       var userIdList='';
        if(obj.isAll==2){
            $('#userIds').css('display','block');
            var userIds = obj.attList;
            var userInform='';
            for(var i=0;i<userIds.length;i++){
+            //    userIdList.push(userIds[i].userId)
                if(userInform==''){
                    userInform=userIds[i].nickName;
                }else{
                    userInform=userInform +','+ userIds[i].nickName;
                }
+               if(userIdList==''){
+                   userIdList=userIds[i].userId
+               }else{
+                   userIdList=userIdList+','+userIds[i].userId
+               }
            }
            $('#userIdcontent').val(userInform);
+           $("input[name='userIds']").val(userIdList)
        }else{
            $('#userIds').css('display','none');
            $('#userIdcontent').val("");
@@ -191,7 +202,8 @@
             }
         })
     }
-    function GetValue(obj) {
+    function GetValue(obj,message) {
+        console.log("message:"+message)
         var data='';
         var userInforms = '';
         console.log(obj);
@@ -202,7 +214,9 @@
                 data=data+','+obj[i];
             }
         }
-        $('#userIdcontent').val(data);
+
+        $('#userIdcontent').val(message);
+        $("input[name='userIds']").val(data);
     }
 
 </script>
