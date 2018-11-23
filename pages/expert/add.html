@@ -18,7 +18,7 @@
     <form class="layui-form" id="expertform" style="margin-top:10px;">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">名称<span style="color:red;">*</span></label>
+                <label class="layui-form-label">姓名<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="name"id="name"  lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
@@ -26,7 +26,12 @@
             <div class="layui-inline">
                 <label class="layui-form-label">性别<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="sex"id="sex"  lay-verify="required" autocomplete="off" class="layui-input">
+                    <!--<input type="text" name="sex"id="sex"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                    <select name="sex" lay-filter="sex" id="sex">
+                        <option value="">所有</option>
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
@@ -35,25 +40,43 @@
                     <input type="text" name="company"id="company"  autocomplete="off" class="layui-input">
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">学校所学专业</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="schoolMajor"id="schoolMajor"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">从事专业</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="workMajor" id="workMajor" autocomplete="off" class="layui-input">
-                </div>
-            </div>
             <div class="layui-inline">
                 <label class="layui-form-label">职务</label>
                 <div class="layui-input-inline">
                     <input type="text" name="position" id="position"  autocomplete="off" class="layui-input">
                 </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <img class="layui-upload-img" id="headImg">
+                    <button type="button" class="layui-btn" id="upload">上传图片</button>
+                    <!-- <input type="button" class="layui-btn" value="上传图片" id="upload" /> -->
+                    <input type="hidden" name="headImg" class="layui-input" />
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所学专业</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="schoolMajorName" name="schoolMajorName" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="schoolMajor"id="schoolMajor" >
+                </div>
+                <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">从事专业<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="workMajorName" id="workMajorName" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="workMajor"id="workMajor" >
+                </div>
+                <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare2()" value="选择">
             </div>
         </div>
         <div class="layui-form-item">
@@ -71,32 +94,23 @@
             <div class="layui-inline">
                 <label class="layui-form-label">手机号<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="mobile" id="mobile"  autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="mobile" id="mobile"  autocomplete="off" class="layui-input" lay-verify="required|phone|mobile">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">所在地区</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="area" id="area" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">更新时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="updateTime" id="updateTime"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">创建时间<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input">
+                    <!--<input type="text" name="area" id="area" autocomplete="off" class="layui-input">-->
+                    <select name="area" lay-filter="area" id="area">
+                        <option value="">请选择</option>
+                        <option value="1">市内</option>
+                        <option value="2">市外</option>
+                    </select>
                 </div>
             </div>
         </div>
         <div style="padding:9px 15px;">
-            <span style="color:red;">手机号不能为空，添加专家成功后会自动生成专家账号，相关专家可通过手机号登陆</span>
+            <span style="color:red;">注：手机号即为登录账号，默认密码为111111</span>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
@@ -110,9 +124,49 @@
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem('token');
-    layui.use(['form','layer'],function(){
+    layui.use(['form','layer','upload'],function(){
         var form = layui.form,
-            layer = layui.layer;
+            layer = layui.layer,
+            upload = layui.upload;
+        upload.render({
+            elem: '#upload',
+            url: baseUrl + '/file/uploadByCode',
+            data:{token:localStorage.getItem('token'),code:'C200000'},
+            accept:'images',
+            exts:'png|gif|jpeg|jpg',
+            method:'post',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#headImg').attr('src', result); //图片链接（base64）
+                });
+                layer.load();
+            },
+            done:function(res){
+                layer.closeAll('loading'); //关闭loading
+                console.log(res);
+                try{
+                    if(res.status==1){
+                        var data=res.data;
+                        $("input[name='headImg']").val(data[0]);
+
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }catch(e){
+
+                }
+
+            },
+            error:function(res){
+                console.log(res)
+                // layer.msg("上传失败")
+            }
+
+        })
+        form.verify({
+            mobile: [/^1[34578]\d{9}$/, '手机号有误']
+        });
 
         form.on('submit(submit)', function(data){
             var url = baseUrl + "/expert/add";
@@ -132,7 +186,7 @@
                             parent.location.reload();
                         });
                     } else {
-                        console.log(res.msg);
+                        errmsg(res);
 //                        errmsg(res);
                     }
                 },
@@ -150,6 +204,47 @@
             parent.layer.close(index);
         }
     })
+
+    function openDeclare() {
+        layer.open({
+            type: 2,
+            title: '选择所学专业',
+            area: ['250px', '360px'],
+            fix: false,
+            content: 'expertMajor.html',
+            success: function (layero, index) {
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.child("schoolMajor");
+            },
+            error: function (layero, index) {
+
+            }
+        })
+    }
+    function openDeclare2() {
+        layer.open({
+            type: 2,
+            title: '选择从事专业',
+            area: ['250px', '360px'],
+            fix: false,
+            content: 'expertMajor.html',
+            success: function (layero, index) {
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.child("workMajor");
+            },
+            error: function (layero, index) {
+
+            }
+        })
+    }
+    function setChooseValues(message,data) {
+        var data2=data+'Name';
+        $("input[name="+data2+"]").val(message.name)
+        $("input[name="+data+"]").val(message.id);
+        $("input[name="+data2+"]").val(message.name)
+        $("input[name="+data+"]").val(message.id);
+
+    }
 </script>
 </body>
 </html>

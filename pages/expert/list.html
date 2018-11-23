@@ -21,19 +21,13 @@
         <form class="layui-form" id="expertform" style="margin-top:10px;">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">名称</label>
+                    <label class="layui-form-label">姓名</label>
                     <div class="layui-input-inline">
                         <input type="text" name="name" id="expertname"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">联系电话</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="mobile" id="expertmobile"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">所学专业</label>
+                    <label class="layui-form-label">行业</label>
                     <div class="layui-input-inline">
                         <select lay-filter="schoolMajor" id="schoolMajor">
                         </select>
@@ -111,12 +105,28 @@
             id:'expertId',
             cols: [[ //表头
                 {field: 'name', title: '专家姓名'},
-                {field: 'sex', title: '性别'},
+                {field: 'sex', title: '性别',templet:function(d){
+                    if(d.sex=='M'){
+                        return '男';
+                    }else if(d.sex=='F'){
+                        return '女';
+                    }
+                }},
+                {field: 'headImg', templet: function (data) {
+                    if (data.headImg != "") {
+                        var image = baseUrl + '/file/getImg?path=' + data.headImg;
+                        var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" >' + '</img>' + '</div>';
+                        return html;
+                    } else {
+                        return ''
+                    }
+
+                }, title: '头像'},
                 {field: 'position', title: '职务'},
                 {field: 'jobTitle',templet:function(d){
                     if(d.jobTitle==1){
                         return '正高';
-                    }else{
+                    }else if(d.jobTitle==2){
                         return '副高';
                     }
                 }, title: '职称'},
@@ -124,7 +134,7 @@
                 {field: 'area',templet:function(d){
                     if(d.area==1){
                         return '市内';
-                    }else{
+                    }else if(d.area==2){
                         return '市外';
                     }
                 }, title: '所在地区'},
@@ -170,7 +180,6 @@
                     where:{
                         token:token,
                         name:$('#expertname').val(),
-                        mobile:$('#expertmobile').val(),
                         jobTitle:$('#jobTitle').val(),
                         area:$('#area').val(),
                         schoolMajor:schoolMajor,
@@ -184,13 +193,6 @@
 
         $("#Search").on('click',function(){
             var type = $(this).data('type');
-//            var url = baseUrl + '/expert/findExpertAll';
-//            if( $('#expertname').val().trim()==""){
-//                layer.msg('查询的专家名称不能为空');
-//                return false;
-//            }else{
-//                active[type] ? active[type].call(this) : '';
-//            }
             active[type] ? active[type].call(this) : '';
         })
 
@@ -258,7 +260,6 @@
 
                 if (res.status == 1) {
                     var data = res.data;
-                    console.log(data);
                     var html = ' <option value="">' + '所有' + '</option>';
 
                     for (var i in data) {

@@ -26,7 +26,8 @@
             <div class="layui-inline">
                 <label class="layui-form-label">性别<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="sex"id="sex"  lay-verify="required" autocomplete="off" class="layui-input">
+                    <select name="sex" lay-filter="sex" id="sex" lay-verify="required">
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
@@ -38,21 +39,49 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">学校所学专业</label>
+                <label class="layui-form-label">图片</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="schoolMajor"id="schoolMajor"  autocomplete="off" class="layui-input">
+                    <img class="layui-upload-img" id="headImg">
+                    <button type="button" class="layui-btn" id="upload">上传图片</button>
+                    <!-- <input type="button" class="layui-btn" value="上传图片" id="upload" /> -->
+                    <input type="hidden" name="headImg" class="layui-input" />
+
                 </div>
             </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所学专业</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="schoolMajorName" name="schoolMajorName" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="schoolMajor"id="schoolMajor">
+                </div>
+                <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="重选">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">从事专业</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="workMajor" id="workMajor" autocomplete="off" class="layui-input">
+                    <input type="text" name="workMajorName" id="workMajorName" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="hidden" name="workMajor" id="workMajor">
                 </div>
+                <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare2()" value="重选">
             </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">职务</label>
                 <div class="layui-input-inline">
                     <input type="text" name="position" id="position"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">职称</label>
+                <div class="layui-input-inline">
+                    <!--<input type="text" name="jobTitle" id="jobTitle"  autocomplete="off" class="layui-input">-->
+                    <select name="jobTitle" lay-filter="jobTitle" id="jobTitle">
+                    </select>
                 </div>
             </div>
         </div>
@@ -60,27 +89,15 @@
             <div class="layui-inline">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="mobile" id="mobile"  autocomplete="off" class="layui-input">
+                    <input type="text" name="mobile" id="mobile"  autocomplete="off" class="layui-input" lay-verify="required|phone|mobile">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">所在地区</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="workMajor" id="area" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">更新时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="updateTime" id="updateTime"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">创建时间<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input">
+                    <!--<input type="text" name="workMajor" id="area" autocomplete="off" class="layui-input">-->
+                    <select name="area" lay-filter="area" id="area">
+                    </select>
                 </div>
             </div>
         </div>
@@ -96,22 +113,68 @@
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
-    layui.use(['layer','form'],function(){
-        var form = layui.form,
-            layer = layui.layer;
+    var form;
+    layui.use(['layer','form','upload'],function(){
+         form = layui.form;
+        var layer = layui.layer,
+            upload = layui.upload;
 
+        upload.render({
+            elem: '#upload',
+            url: baseUrl + '/file/uploadByCode',
+            data:{token:token,code:'C200000'},
+            accept:'images',
+            exts:'png|gif|jpeg|jpg',
+            method:'post',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#headImg').attr('src', result); //图片链接（base64）
+                });
+                layer.load();
+            },
+            done:function(res){
+                layer.closeAll('loading'); //关闭loading
+                console.log(res);
+                try{
+                    if(res.status==1){
+                        var data=res.data;
+                        $("input[name='headImg']").val(data[0]);
+
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }catch(e){
+
+                }
+
+            },
+            error:function(res){
+                console.log(res)
+                // layer.msg("上传失败")
+            }
+
+        })
+
+        form.verify({
+            mobile: [/^1[34578]\d{9}$/, '手机号有误']
+        });
         window.child = function(obj){
             $("#id").val(obj.id);
             $("#name").val(obj.name);
-            $("#sex").val(obj.sex);
+            $('#schoolMajorName').val(obj.schoolMajorName);
+            $('#workMajorName').val(obj.workMajorName);
             $("#company").val(obj.company);
             $("#schoolMajor").val(obj.schoolMajor);
             $("#workMajor").val(obj.workMajor);
             $("#position").val(obj.position);
             $("#mobile").val(obj.mobile);
-            $("#area").val(obj.area);
-            $("#updateTime").val(obj.updateTime);
-            $("#createTime").val(obj.createTime);
+            $("input[name='headImg']").val(obj.headImg);
+            var image = baseUrl + '/file/getImg?path=' + obj.headImg;
+            if(obj.headImg!=''){
+                $('#headImg').attr('src', image);
+            }
+            getsex(obj);
         }
 
         form.on('submit(submit)', function(data){
@@ -149,6 +212,68 @@
             parent.layer.close(index);
         }
     })
+
+    function getsex(obj){
+        var html = '';
+        html += '<option value="">'+'请选择'+'</option>';
+        html += '<option value="M">'+'男'+'</option>';
+        html += '<option value="F">'+'女'+'</option>';
+        $('#sex').html(html);
+        $("#sex").val(obj.sex);
+
+        var html2 = '<option value="">'+'请选择'+'</option>';
+        html2 += '<option value="1">'+'正高'+'</option>';
+        html2 += '<option value="2">'+'副高'+'</option>';
+        $('#jobTitle').html(html2);
+        $("#jobTitle").val(obj.jobTitle);
+
+        var html3 = '<option value="">'+'请选择'+'</option>';
+        html3 += '<option value="1">'+'市内'+'</option>';
+        html3 += '<option value="2">'+'市外'+'</option>';
+        $('#area').html(html3);
+        $("#area").val(obj.area);
+        form.render();
+    }
+    function openDeclare() {
+        layer.open({
+            type: 2,
+            title: '选择所学专业',
+            area: ['250px', '360px'],
+            fix: false,
+            content: 'expertMajor.html',
+            success: function (layero, index) {
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.child("schoolMajor");
+            },
+            error: function (layero, index) {
+
+            }
+        })
+    }
+    function openDeclare2() {
+        layer.open({
+            type: 2,
+            title: '选择从事专业',
+            area: ['250px', '360px'],
+            fix: false,
+            content: 'expertMajor.html',
+            success: function (layero, index) {
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.child("workMajor");
+            },
+            error: function (layero, index) {
+
+            }
+        })
+    }
+    function setChooseValues(message,data) {
+        var data2=data+'Name';
+        $("input[name="+data2+"]").val(message.name)
+        $("input[name="+data+"]").val(message.id);
+        $("input[name="+data2+"]").val(message.name)
+        $("input[name="+data+"]").val(message.id);
+
+    }
 </script>
 </body>
 </html>

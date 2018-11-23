@@ -76,7 +76,7 @@
                     url:baseUrl + '/role/getRoleList',
                     type:'get',
                     dataType:'json',
-                    data:{token:token},
+                    data:{token:token,limit:9999},
                     success:function(res){
                         if(res.status==1){
                             var data = res.data;
@@ -111,7 +111,7 @@
                     url:baseUrl + '/user/select',
                     type:'get',
                     dataType:'json',
-                    data:{token:token},
+                    data:{token:token,limit:9999},
                     success:function(res){
                         if(res.status==1){
                             var data = res.data.list;
