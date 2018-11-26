@@ -71,7 +71,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="password" lay-verify="required" class="layui-input" autocomplete="off" placeholder="请输入密码" />
+                        <input type="password" name="password" lay-verify="required" class="layui-input" autocomplete="off" placeholder="请输入密码" />
                     </div>
                 </div>
 
@@ -84,6 +84,21 @@
                             <option value="3">街道/园区用户</option>
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="first">
+                <div class="layui-inline">
+                    <label class="layui-form-label">部门
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="deptName" class="layui-input" lay-verify='deptId' readonly='readonly' />
+                        <input type="hidden" name="deptId" class="layui-input"  />
+
+
+                    </div>
+                    <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
+
                 </div>
             </div>
             <div class="layui-form-item" id="second">
@@ -133,12 +148,6 @@
                 </div>
             </div>
 
-
-
-
-
-
-
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
@@ -164,6 +173,7 @@
             form = layui.form;
             getRoleList();
             $('#second').hide();
+            $('#first').hide();
             var userId = localStorage.getItem('userId');
             if (userId == 1) {
                 $("#type").show();
@@ -176,12 +186,15 @@
                 type = data.value;
                 if (data.value == 1) {
                     $('#second').hide();
+                    $('#first').hide();
                 } else if (data.value == 2) {
                     $('#second').hide();
+                    $('#first').show();
                 }
                 else if (data.value == 3) {
                     getStreetList();
                     $('#second').show();
+                    $('#first').hide();
 
                 }
             });
@@ -257,6 +270,10 @@
                 }, type: function (value) {
                     if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
                         return "街道不能为空";
+                    }
+                },deptId:function(value){
+                    if(type==2&&value==null){
+                        return "部门不能为空"
                     }
                 }
 
@@ -412,6 +429,27 @@
 
             });
 
+
+        }
+        function openDeclare(){
+            layer.open({
+                type: 2,
+                title: '选择项目行业',
+                area: ['360px', '360px'],
+                fix: false,
+                content: 'user_declare.html',
+                success: function (layero, index) {
+
+                },
+                error: function (layero, index) {
+
+                }
+            })
+        }
+        function setChooseValues(message){
+            console.log(message)
+            $("input[name='deptName']").val(message.name);
+            $("input[name=deptId]").val(message.id);
 
         }
     </script>
