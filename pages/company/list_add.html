@@ -120,7 +120,7 @@
                                 <span style="color:red;">*</span>
                         </label>
                         <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId" name="streetId">
+                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId|required" name="streetId">
                             </select>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary" type="reset">重置</button>
+                    <button  class="layui-btn layui-btn-primary" onclick="cancel()" >取消</button>
                 </div>
             </div>
         </form>
@@ -266,8 +266,8 @@
                         if (res.status == 1) {
                             layer.alert("成功", function () {
                                 var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                                parent.location.reload();
+                                layer.closeAll();
+                               
                             });
                         }else{
                             errmsg(res);

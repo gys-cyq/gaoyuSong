@@ -19,7 +19,10 @@
             float: left;
             align-items: center
         } */
-
+		img{
+            max-width: 100px;
+            max-height: 100px
+        }
 		.layui-form-checkbox[lay-skin="primary"]:hover i {
 			border-color: #2fa4e7;
 		}
@@ -88,7 +91,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="layui-form-item" id="second">
+			<div class="layui-form-item" id="second" style="display: none">
 				<div class="layui-inline">
 					<label class="layui-form-label">街道
 						<span style="color:red;">*</span>
@@ -106,24 +109,24 @@
 					</div>
 				</div>
 			</div>
+ 
+			<div class="layui-form-item" id="first" style="display: none">
+				<div class="layui-inline">
+					<label class="layui-form-label">部门
+						<span style="color:red;">*</span>
+					</label>
+					<div class="layui-input-inline">
+						<input type="text" name="deptName" class="layui-input" lay-verify='deptId' readonly='readonly' />
+						<input type="hidden" name="deptId" class="layui-input" />
 
-			<div class="layui-form-item" id="first">
-                <div class="layui-inline">
-                    <label class="layui-form-label">部门
-                        <span style="color:red;">*</span>
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="deptName" class="layui-input" lay-verify='deptId' readonly='readonly' />
-                        <input type="hidden" name="deptId" class="layui-input"  />
 
+					</div>
+					<input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
 
-                    </div>
-                    <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
+				</div>
+			</div>
 
-                </div>
-            </div>
-
-			<div class="layui-form-item">
+			<div class="layui-form-item" id="rolell" style="display: none">
 				<label class="layui-form-label">角色
 					<span style="color:red;">*</span>
 				</label>
@@ -139,7 +142,7 @@
                 <input type="text" class="layui-input-iframe" id="department" />
             </div> -->
 
-			<div class="layui-form-item">
+			<div class="layui-form-item" >
 				<div class="layui-inline">
 					<label class="layui-form-label">状态</label>
 					<div class="layui-input-block">
@@ -221,8 +224,8 @@
 					if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
 						return "街道不能为空";
 					}
-				},deptId:function(value){
-					if(type==2&&value==null){
+				}, deptId: function (value) {
+					if (type == 2 && value == null) {
 						return "部门不能为空";
 					}
 				}
@@ -245,8 +248,6 @@
 							layer.alert(res.msg, function () {
 								var index = parent.layer.getFrameIndex(window.name);
 								parent.layer.close(index);
-								parent.location.reload();
-
 							});
 
 						} else {
@@ -281,7 +282,7 @@
 			}
 			var typeEt = $("#type");
 			var secondSL = $('#second');
-			var firstLL=$('#first');
+			var firstLL = $('#first');
 			type = obj.type;
 			streetId = obj.streetId;
 			parkId = obj.parkId;
@@ -290,17 +291,20 @@
 					typeEt.val("普通用户");
 					firstLL.hide();
 					secondSL.hide();
+					$("#rolell").show();
 					break;
 				case 2:
 					typeEt.val("科技局用户");
 					secondSL.hide();
 					firstLL.show();
+					$("#rolell").show();
 					break;
 				case 3:
 					getStreetList();
 					typeEt.val("街道/园区用户");
 					secondSL.show();
 					firstLL.hide();
+					$("#rolell").hide();
 					break
 			}
 
@@ -439,28 +443,28 @@
 		function cancel() {
 			var index = parent.layer.getFrameIndex(window.name);
 			parent.layer.close(index);
-		
+
 		}
-		function openDeclare(){
-            layer.open({
-                type: 2,
-                title: '选择项目行业',
-                area: ['360px', '360px'],
-                fix: false,
-                content: 'user_declare.html',
-                success: function (layero, index) {
+		function openDeclare() {
+			layer.open({
+				type: 2,
+				title: '选择项目行业',
+				area: ['360px', '360px'],
+				fix: false,
+				content: 'user_declare.html',
+				success: function (layero, index) {
 
-                },
-                error: function (layero, index) {
+				},
+				error: function (layero, index) {
 
-                }
-            })
-        }
-        function setChooseValues(message){
-            $("input[name='deptName']").val(message.name);
-            $("input[name=deptId]").val(message.id);
+				}
+			})
+		}
+		function setChooseValues(message) {
+			$("input[name='deptName']").val(message.name);
+			$("input[name=deptId]").val(message.id);
 
-        }
+		}
 	</script>
 </body>
 

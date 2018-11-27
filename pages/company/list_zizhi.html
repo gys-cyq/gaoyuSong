@@ -74,24 +74,24 @@
                 </div>
 
                 <div class="layui-inline">
-                        <label class="layui-form-label">街道
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId" >
-                            </select>
-                        </div>
+                    <label class="layui-form-label">街道
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="streetId" id="streetId">
+                        </select>
                     </div>
-              
-                    <div class="layui-inline">
-                            <label class="layui-form-label">园区
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <select lay-filter="parkId" id="parkId">
-                                </select>
-                            </div>
-                 </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="parkId" id="parkId">
+                        </select>
+                    </div>
+                </div>
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
 
 
@@ -129,12 +129,13 @@
         var pid;
         var streetId;
         var parkId;
+        var table
         layui.use(['form', 'table', 'layer', 'upload', 'laydate'], function () {
             pid = GetQueryString('pid');
             console.log('pid:' + pid)
             var layer = layui.layer;
-             form= layui.form;
-            var table = layui.table;
+            form = layui.form;
+            table = layui.table;
             var upload = layui.upload;
             var laydate = layui.laydate;
             getStreetList();
@@ -189,8 +190,8 @@
                             address: $('#address').val(),
                             contactsTel: $('#contactsTel').val(),
                             year: $('#year').val(),
-                            streetId:streetId,
-                            parkId:parkId
+                            streetId: streetId,
+                            parkId: parkId
                         }
                     });
                 }
@@ -215,7 +216,7 @@
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
                         },
-                        error:function(){
+                        error: function () {
 
                         }
 
@@ -232,6 +233,8 @@
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
 
+                        }, end: function () {
+                            table.reload('demo');
                         }
 
                     });
@@ -245,10 +248,14 @@
                             data: { token: localStorage.getItem('token'), id: res.id },
                             success: function (res) {
                                 if (res.status == 1) {
-                                    layer.msg(res.msg);
-                                    obj.del();
-                                    layer.close(index);
-                                    parent.location.reload();
+                                    layer.alert(res.msg, function () {
+                                        obj.del();
+                                        layer.closeAll();
+                                        table.reload('demo')
+
+
+                                    });
+
                                 } else {
                                     errmsg(res);
                                 }
@@ -290,7 +297,7 @@
                 data: {
                     token: localStorage.getItem('token'),
                     myfile: 'myfile',
-                    number:pid
+                    number: pid
                 },
                 choose: function (obj) {
                     //将文件放在队列里面
@@ -311,19 +318,19 @@
                     layer.closeAll('loading');
                 }
             });
-            form.on('select(streetId)',function(data){
-                streetId=data.value;
-               
-                if(streetId==''||streetId==undefined){
-                    parkId='';
+            form.on('select(streetId)', function (data) {
+                streetId = data.value;
+
+                if (streetId == '' || streetId == undefined) {
+                    parkId = '';
                     $('#parkId').html('');
                     form.render();
                     return;
                 }
                 getParkList();
             });
-            form.on('select(parkId)',function(data){
-                parkId=data.value;
+            form.on('select(parkId)', function (data) {
+                parkId = data.value;
             });
         });
         function add() {
@@ -332,7 +339,10 @@
                 area: ['1050px', '560px'],
                 fix: false,//不固定
                 title: '修改信息',
-                content: 'list_zizhi_add.html?pid='+pid,
+                content: 'list_zizhi_add.html?pid=' + pid,
+                end:function(){
+                    table.reload('demo')
+                }
 
             });
         }
@@ -341,8 +351,8 @@
 
 
         }
-        function exportFile(){
-            var url = baseUrl + '/company/exportExcel?token=' + localStorage.getItem('token')+'&number='+pid;
+        function exportFile() {
+            var url = baseUrl + '/company/exportExcel?token=' + localStorage.getItem('token') + '&number=' + pid;
             if ($('#name').val() != '') {
                 url += '&name=' + $('#name').val();
             }
@@ -352,23 +362,23 @@
             if ($("#address").val() != '') {
                 url += '&address=' + $("#address").val();
             }
-            if($('#contactsTel').val()!=''){
+            if ($('#contactsTel').val() != '') {
                 url += '&contactsTel=' + $("#contactsTel").val();
 
             }
-          
-            if(streetId!=undefined){
+
+            if (streetId != undefined) {
                 url += '&streetId=' + streetId;
 
             }
-            if(parkId!=undefined){
+            if (parkId != undefined) {
                 url += '&parkId=' + parkId;
 
             }
             window.location.href = url;
 
         }
-         function getStreetList() {
+        function getStreetList() {
             $.ajax({
                 url: baseUrl + '/street/getStreetList',
                 type: 'get',
@@ -407,7 +417,7 @@
             });
 
         }
-        function getParkList(){
+        function getParkList() {
             $.ajax({
                 url: baseUrl + "/park/getParkList",
                 type: 'get',
@@ -430,7 +440,7 @@
 
                             $('#parkId').html(html);
                             form.render();
-                          
+
                         }
 
                     } catch (e) {

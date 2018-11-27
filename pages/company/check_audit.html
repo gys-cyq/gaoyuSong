@@ -132,9 +132,8 @@
                 success: function (response) {
                     if (response.status == 1) {
                         layer.alert(response.msg, function () {
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                            parent.location.reload();
+                           layer.closeAll();
+                            
                         })
 
 

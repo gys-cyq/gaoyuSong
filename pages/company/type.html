@@ -17,6 +17,7 @@
             width: 80px;
             height: 80px;
         }
+
         .layui-table-cell {
             height: auto;
             white-space: normal;
@@ -27,6 +28,7 @@
 
 </head>
 <!-- https://pro.modao.cc/app/JeGI5hEDkXOiwAKf9wh3XIf4G5cOQ26 -->
+
 <body>
     <div class="layui-tab-brief">
         <div style="margin:10px;">
@@ -51,8 +53,9 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
+        var table;
         layui.use(['table', 'layer'], function () {
-            var table = layui.table;
+            table = layui.table;
             var layer = layui.layer;
             var pid = GetQueryString('pid')
             var actions = parent.GetPageData(pid)
@@ -96,11 +99,11 @@
                                 return ''
                             }
 
-                        }, title: '图标', width:100
+                        }, title: '图标', width: 100
                     },
                     { field: 'number', title: '编号' },
                     { field: 'typeName', title: '企业类型名称（资质）' },
-                    { field: 'year', title: '有效年限' },
+                    { field: 'year', title: '有效年限',width:165 },
                     { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
                     ]
                 ]
@@ -126,6 +129,8 @@
 
                         }, error: function (layero, index) {
 
+                        }, end: function () {
+                            table.reload('demo');
                         }
                     });
 
@@ -133,7 +138,7 @@
                 } else if (layEvent == 'del') {
                     layer.confirm("确定删除吗？", function (index) {
                         $.ajax({
-                            url: baseUrl+'/companytype/delete',
+                            url: baseUrl + '/companytype/delete',
                             type: 'post',
                             dataType: "json",
                             timeout: 10000,
@@ -142,13 +147,16 @@
                                 id: data.id
                             }, success: function (res) {
                                 if (res.status == 1) {
-                                    layer.msg(res.msg);
-                                    obj.del();
-    
-                                    parent.layer.close(index);
-                                    parent.location.reload();
+                                    layer.alert(res.msg, function () {
+                                        obj.del();
+
+                                       layer.closeAll();
+                                        table.reload('demo');
+                                    })
+
                                 } else {
                                     layer.msg(res.msg);
+
                                 }
                             },
                             error: function (xhr, type, errorThrown) {
@@ -171,6 +179,9 @@
                 area: ['450px', '360px'],
                 fix: false,
                 maxmin: true,
+                end:function(){
+                    table.reload('demo');
+                }
             });
 
 

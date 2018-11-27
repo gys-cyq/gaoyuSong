@@ -93,7 +93,7 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" name="deptName" class="layui-input" lay-verify='deptId' readonly='readonly' />
-                        <input type="hidden" name="deptId" class="layui-input"  />
+                        <input type="hidden" name="deptId" class="layui-input" />
 
 
                     </div>
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="rolell">
                 <label class="layui-form-label">角色
                     <span style="color:red;">*</span>
                 </label>
@@ -151,7 +151,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
 
@@ -167,7 +167,7 @@
         var streetId;
         var parkId;
         var locked;
-        var type;
+        var type=1;
         layui.use(['form', 'layer', 'laydate'], function () {
             var layer = layui.layer;
             form = layui.form;
@@ -175,6 +175,8 @@
             $('#second').hide();
             $('#first').hide();
             var userId = localStorage.getItem('userId');
+            var user=JSON.parse(localStorage.getItem("user"));
+            console.log(user)
             if (userId == 1) {
                 $("#type").show();
             } else {
@@ -187,14 +189,17 @@
                 if (data.value == 1) {
                     $('#second').hide();
                     $('#first').hide();
+                    $('#rolell').show();
                 } else if (data.value == 2) {
                     $('#second').hide();
                     $('#first').show();
+                    $('#rolell').show();
                 }
                 else if (data.value == 3) {
                     getStreetList();
                     $('#second').show();
                     $('#first').hide();
+                    $('#rolell').hide();
 
                 }
             });
@@ -241,10 +246,7 @@
                             if (response.status != 1) {
                                 msg = response.msg;
 
-                            } else {
-                                errmsg(response)
                             }
-
                         },
                         error: function (xhr, type, errorThrown) {
 
@@ -256,23 +258,23 @@
 
                 }, isCheckd: function (value) {
                     var isCheckd = false;
-                    $("input:checkbox").each(function (i) {
+                    $("input[name='roles']").each(function (i) {
                         if ($(this).prop("checked") == true) {
                             isCheckd = true;
                         }
 
                     });
-                    console.log(isCheckd)
-                    if (!isCheckd) {
+                    console.log(isCheckd+'\n'+type)
+                    if (!isCheckd&&type!=3) {
                         return "请选择用户角色";
                     }
 
                 }, type: function (value) {
-                    if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
+                    if (localStorage.getItem('userId') == 1 && value.length==0 && type == 3) {
                         return "街道不能为空";
                     }
-                },deptId:function(value){
-                    if(type==2&&value==null){
+                }, deptId: function (value) {
+                    if (type == 2 && value .length==0) {
                         return "部门不能为空"
                     }
                 }
@@ -293,10 +295,9 @@
                     timeout: 10000,
                     success: function (res) {
                         if (res.status == 1) {
-                            layer.alert("成功", function () {
+                            layer.alert(res.msg, function () {
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
-                                parent.location.reload();
                             });
                         } else {
                             errmsg(res)
@@ -431,7 +432,7 @@
 
 
         }
-        function openDeclare(){
+        function openDeclare() {
             layer.open({
                 type: 2,
                 title: '选择项目行业',
@@ -446,11 +447,15 @@
                 }
             })
         }
-        function setChooseValues(message){
+        function setChooseValues(message) {
             console.log(message)
             $("input[name='deptName']").val(message.name);
             $("input[name=deptId]").val(message.id);
 
+        }
+        function cancel() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         }
     </script>
 </body>

@@ -109,32 +109,28 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">街道
-
+                        <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="streetName" class="layui-input" readonly='readonly' />
-
+                        <select lay-filter="streetId" id="streetId" lay-verify="streetId" name="streetId">
+                        </select>
                     </div>
                 </div>
-
-
             </div>
             <div class="layui-form-item">
+
+
+
                 <div class="layui-inline">
                     <label class="layui-form-label">园区
-
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="parkName" class="layui-input" readonly='readonly' />
 
+                        <select lay-filter="parkId" id="parkId" name="parkId">
+                        </select>
                     </div>
                 </div>
-                <input type="hidden" name="streetId" class="layui-input"  />
-                <input type="hidden" name="parkId" class="layui-input"  />
-
-
             </div>
-
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">经营范围
@@ -147,6 +143,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
 
                 <div class="layui-inline">
@@ -163,6 +160,7 @@
 
 
             </div>
+
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
@@ -181,17 +179,20 @@
         var form;
         var layer;
         var historyId;
+        var data;
+        var streetId;
         layui.use(['form', 'layer', 'laydate'], function () {
             layer = layui.layer;
             form = layui.form;
             var laydate = layui.laydate;
             findCompany();
+
             laydate.render({
                 elem: '#time'
             });
             form.verify({
-                checkMolie:function(value){
-                    if(!checkMolie(value)){
+                checkMolie: function (value) {
+                    if (!checkMolie(value)) {
                         return "请输入正确的手机号码"
                     }
                 }
@@ -222,9 +223,20 @@
                 $('#demofrom').submit();
                 return false;
             });
+            form.on('select(streetId)', function (data) {
+                    streetId = data.value;
+                    
+                    if (streetId == '' || streetId == undefined) {
+                        $('#parkId').html('');
+                        form.render();
+                        return;
+                    }
+                    getParkList(undefined);
+                });
             $('#applySeniorCompany').click(function () {
                 applySeniorCompany();
             });
+            
         });
 
         function findCompany() {
@@ -238,9 +250,12 @@
                 },
                 success: function (res) {
                     if (res.status == 1) {
-                        var data = res.data;
+                        data = res.data;
                         historyId = data.id;
+                        streetId=data.streetId;
                         form.val("formTest", data);
+                        getStreetList(data);
+                        getParkList(data);
                     } else {
                         layer.msg(res.msg);
                     }
@@ -250,22 +265,7 @@
                 }
             });
         }
-        function only_num(obj) {
-            //得到第一个字符是否为负号
-            var num = obj.value.charAt(0);
-            //先把非数字的都替换掉，除了数字和.
-            obj.value = obj.value.replace(/[^\d\.]/g, '');
-            //必须保证第一个为数字而不是.
-            obj.value = obj.value.replace(/^\./g, '');
-            //保证只有出现一个.而没有多个.
-            obj.value = obj.value.replace(/\.{2,}/g, '.');
-            //保证.只出现一次，而不能出现两次以上
-            obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
-            //如果第一位是负号，则允许添加
-            if (num == '-') {
-                obj.value = '-' + obj.value;
-            }
-        }
+
         function applySeniorCompany() {
             layer.open({
                 type: 2,
@@ -274,8 +274,6 @@
                 title: '资质申报',
                 content: 'applySenior.html',
                 success: function (layero, index) {
-
-
 
                 }, error: function (layero, index) {
 
@@ -301,6 +299,92 @@
 
             });
         }
+        function getStreetList(res) {
+            $.ajax({
+                url: baseUrl + '/street/getStreetList',
+                type: 'get',
+                dataType: 'json',
+                data: { token: localStorage.getItem('token') },
+                success: function (response) {
+                    response = eval(response);
+                    try {
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + '请选择街道' + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+
+                            }
+
+                            $('#streetId').html(html);
+                            $('#streetId').val(res.streetId);
+                            // form.val("formTest",{"streetId":data.streetId})
+                            form.render();
+
+
+
+                        } else {
+                            errmsg(response);
+                        }
+                    } catch (e) {
+
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
+        function getParkList(obj) {
+            $.ajax({
+                url: baseUrl + "/park/getParkList",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    token: localStorage.getItem('token'),
+                    street: streetId
+                },
+                success: function (response) {
+                    try {
+                        response = eval(response);
+                        if (response.status == 1) {
+                            var data = response.data;
+                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            for (var i in data) {
+                                var id = data[i].id;
+                                var name = data[i].name;
+                                html += ' <option value=' + id + '>' + name + '</option>';
+                            }
+
+                            $('#parkId').html(html);
+                            if (obj != undefined) {
+                                $('#parkId').val(obj.parkId);
+                            }
+
+                            form.render();
+
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+
+
+            });
+
+
+        }
+
     </script>
 </body>
 

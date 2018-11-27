@@ -62,12 +62,11 @@
             var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
             if (r != null) return unescape(r[2]); return null;
         }
-
+        var table;
         layui.use('table', function () {
             var pid = GetQueryString('pid')
             var getdata = parent.GetPageData(pid)
-            console.log(getdata)
-            var table = layui.table;
+            table = layui.table;
             table.render({
                 elem: '#demo'
                 // , height: 420
@@ -134,6 +133,9 @@
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
+
+                        },end:function(){
+                            table.reload('demo');
 
                         }
 

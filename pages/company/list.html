@@ -119,10 +119,10 @@
         var companyTypeId;
         var streetId;
         var parkId;
-
+        var table;
 
         layui.use(['table', 'layer', 'form', 'upload'], function () {
-            var table = layui.table;
+            table = layui.table;
             var layer = layui.layer;
             form = layui.form;
             var upload = layui.upload;
@@ -220,6 +220,8 @@
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
 
+                        }, end: function () {
+                            table.reload('demo')
                         }
 
                     });
@@ -234,10 +236,13 @@
                             data: { token: localStorage.getItem('token'), id: res.id },
                             success: function (res) {
                                 if (res.status == 1) {
-                                    layer.msg(res.msg);
-                                    obj.del();
-                                    layer.close(index);
-                                    parent.location.reload();
+                                    layer.alert(res.msg, function () {
+                                        obj.del();
+                                        layer.close(index);
+                                        table.reload("demo")
+                                    });
+
+
                                 } else {
                                     errmsg(res);
                                 }

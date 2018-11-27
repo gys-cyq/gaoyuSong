@@ -78,8 +78,9 @@
     <script type="text/javascript">
         var companyType;
         var form;
+        var table
         layui.use(['table', 'layer', 'laydate', 'form'], function () {
-            var table = layui.table;
+            table = layui.table;
             var layer = layui.layer;
             var laydate = layui.laydate;
             form = layui.form;
@@ -157,6 +158,8 @@
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(res);
 
+                        },end:function(){
+                            table.reload('demo');
                         }
 
                     });

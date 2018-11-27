@@ -71,76 +71,51 @@
                     </div>
                 </div>
             </div>
-          
+
+
             <div class="layui-form-item">
+
                 <div class="layui-inline">
-                    <label class="layui-form-label">企业类型
+                    <label class="layui-form-label">员工人数
 
                     </label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" name="typeName" readonly="readonly"></input>
+                        <input type="text" name="staffNumber" class="layui-input" readonly="readonly" />
 
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">账号
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="account" class="layui-input" />
-    
-                        </div>
+                    <label class="layui-form-label">街道
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="streetName" class="layui-input" readonly="readonly" />
+
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">密码
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="password" class="layui-input" />
-    
-                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="parkName" class="layui-input" readonly="readonly" />
+
                     </div>
+                </div>
             </div>
             <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">注册资金
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="registerCapital" class="layui-input" readonly="readonly" />
-    
-                        </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">注册资金
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="registerCapital" class="layui-input" readonly="readonly" />
+
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">员工人数
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="staffNumber" class="layui-input" readonly="readonly" />
-    
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                            <label class="layui-form-label">街道
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="streetName" class="layui-input" readonly="readonly" />
-        
-                            </div>
-                        </div>    
                 </div>
-                <div class="layui-form-item">
-                        <div class="layui-inline">
-                                <label class="layui-form-label">园区
-            
-                                </label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="parkName" class="layui-input" readonly="readonly" />
-            
-                                </div>
-                            </div>
-                </div>
+            </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">经营范围
@@ -181,8 +156,8 @@
             layui.use(['form', 'layer'], function () {
                 var form = layui.form;
                 var layer = layui.layer;
-                var data=JSON.stringify(obj);
-                form.val('formTest',JSON.parse(data));
+                var data = JSON.stringify(obj);
+                form.val('formTest', JSON.parse(data));
             });
         }
     </script>

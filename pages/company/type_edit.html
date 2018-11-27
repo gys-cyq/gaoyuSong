@@ -18,6 +18,10 @@
         .layui-form-label {
             width: 150px
         }
+        img{
+            max-width: 100px;
+            max-height: 100px
+        }
     </style>
 
 </head>
@@ -167,7 +171,7 @@
                             layer.alert(res.msg, function () {
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
-                                parent.location.reload();
+                               
                             });
                         } else {
                             errmsg(res);
