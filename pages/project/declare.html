@@ -98,7 +98,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" lay-verify='required' />
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify='required｜checkMolie' />
 
                     </div>
                 </div>
@@ -253,6 +253,10 @@
 
                     if (!isUpload) {
                         return '请上传附件'
+                    }
+                },checkMolie:function(value){
+                    if(!checkMolie(value)){
+                        return "请输入正确的手机号码"
                     }
                 }
             });
