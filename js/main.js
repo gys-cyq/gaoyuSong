@@ -1,4 +1,4 @@
-document.write("<script language=javascript src='/static/js/admin.js'></script>");
+//document.write("<script language=javascript src='/static/js/admin.js'></script>");
 var baseUrl = 'http://192.168.10.99:8090', //',http://58.221.146.166:9200
      token = '',
      nickname='',

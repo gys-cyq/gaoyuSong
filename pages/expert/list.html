@@ -14,6 +14,14 @@
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
+    <style>
+        .layui-table-cell{
+            height:auto;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all
+        }
+    </style>
 </head>
 <body>
 <div class="layui-tab-brief">
@@ -29,7 +37,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">行业</label>
                     <div class="layui-input-inline">
-                        <select lay-filter="schoolMajor" id="schoolMajor">
+                        <select lay-filter="schoolMajor" id="schoolMajor" name="schoolMajorName">
                         </select>
                     </div>
                 </div>
@@ -115,7 +123,7 @@
                 {field: 'headImg', templet: function (data) {
                     if (data.headImg != "") {
                         var image = baseUrl + '/file/getImg?path=' + data.headImg;
-                        var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" >' + '</img>' + '</div>';
+                        var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
                         return html;
                     } else {
                         return ''
@@ -128,6 +136,8 @@
                         return '正高';
                     }else if(d.jobTitle==2){
                         return '副高';
+                    }else{
+                        return '';
                     }
                 }, title: '职称'},
                 {field: 'mobile', title: '联系电话'},
@@ -136,6 +146,8 @@
                         return '市内';
                     }else if(d.area==2){
                         return '市外';
+                    }else{
+                        return '';
                     }
                 }, title: '所在地区'},
                 {field: 'updateTime', title: '更新时间'},

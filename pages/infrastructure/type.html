@@ -120,7 +120,7 @@
         $("#Search").on('click',function(){
             var type = $(this).data('type');
             if( $('#name').val().trim()==""){
-                layer.msg('查询的街道名称不能为空');
+                layer.msg('查询的设施类型名称不能为空');
                 return false;
             }else{
                 active[type] ? active[type].call(this) : '';

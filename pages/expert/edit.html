@@ -41,7 +41,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">图片</label>
                 <div class="layui-input-inline">
-                    <img class="layui-upload-img" id="headImg">
+                    <img class="layui-upload-img" id="headImg" style="width:100px;height:auto;">
                     <button type="button" class="layui-btn" id="upload">上传图片</button>
                     <!-- <input type="button" class="layui-btn" value="上传图片" id="upload" /> -->
                     <input type="hidden" name="headImg" class="layui-input" />
@@ -135,7 +135,6 @@
             },
             done:function(res){
                 layer.closeAll('loading'); //关闭loading
-                console.log(res);
                 try{
                     if(res.status==1){
                         var data=res.data;
