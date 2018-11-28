@@ -50,7 +50,7 @@
             id: 'infrastId',
             page: true, //开启分页
             cols: [[ //表头
-                {field: 'title', title: '标题',width:120,},
+                {field: 'title', title: '标题',width:180,},
                 {field: 'type', title: '类型',width:80,templet:function(obj){
                     if(obj.type==1){
                         return "公告";
@@ -59,30 +59,7 @@
                     }
                 }},
                 {field: 'content', title: '内容'},
-                {field: 'author', title: '作者',width:100,},
-                {field: 'isAll', title: '是否通知全员',width:100,templet:function(obj){
-                    if(obj.isAll==1){
-                        return "通知全员";
-                    }else if(obj.isAll==2){
-                        return "非全员";
-                    }
-                }},
-                {field: 'attList', title: '通知人信息',width:350,templet:function(d){
-                    var obj = d.attList;
-                    if(obj!=null){
-                        var data = '';
-                        for(var i=0;i<obj.length;i++){
-                            if(data==''){
-                                data=obj[i].nickName;
-                            }else{
-                                data = data+','+obj[i].nickName;
-                            }
-                        }
-                        return data;
-					}else{
-                        return "所有用户";
-					}
-                }},
+                {field: 'author', title: '作者',width:150,},
             ]],
             done: function (res, cuur, count) {
                 layer.closeAll('loading');

@@ -23,11 +23,19 @@
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
-        <label class="searchTitle">角色名称</label>
-        <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="role" id="roleSearch" autocomplete="off">
-        </div>
-        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="role" id="roleSearch" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
         <div>
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
                 <i class="layui-icon"></i> 添加角色
@@ -82,7 +90,7 @@ layui.use(['table','layer','jquery'], function(){
             }
         },
         page: true, //开启分页
-        id:id,
+        id:'roleId',
         cols: [[ //表头
             {field: 'role', title: '角色名称'},
             {field: 'description', title: '角色描述'},
@@ -109,9 +117,9 @@ layui.use(['table','layer','jquery'], function(){
 
     var active = {
         reload :function(){
-            url = baseUrl + '/role/getRoleList';
+            url = baseUrl + '/role/select';
             var Srole = $('#roleSearch').val();
-            table.reload(id,{
+            table.reload('roleId',{
                 url:url,
                 method:'get',
                 dataType:'json',
@@ -119,6 +127,7 @@ layui.use(['table','layer','jquery'], function(){
                     curr:'1'
                 },
                 where:{
+                    token:token,
                     role:Srole
                 }
             })

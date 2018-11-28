@@ -72,6 +72,10 @@
         var layer = layui.layer,
             form = layui.form;
         token = localStorage.getItem("token");
+        window.cancel = function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
     })
     function edit(){
         var url = baseUrl + "/role/update";
