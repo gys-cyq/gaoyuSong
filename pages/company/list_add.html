@@ -11,7 +11,21 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
+    <style>
+        .layui-form-checkbox[lay-skin="primary"]:hover i {
+            border-color: #2fa4e7;
+        }
 
+        .layui-form-checked[lay-skin="primary"] i {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
+
+        .layui-form-onswitch {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
+    </style>
 
 </head>
 
@@ -111,35 +125,35 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="number" name="staffNumber" class="layui-input" />
+                        <input type="text" name="staffNumber" class="layui-input" onkeyup="num(this)" onblur="num(this)" />
 
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">街道
-                                <span style="color:red;">*</span>
-                        </label>
-                        <div class="layui-input-inline">
-                            <select lay-filter="streetId" id="streetId"  lay-verify="streetId|required" name="streetId">
-                            </select>
-                        </div>
+                    <label class="layui-form-label">街道
+                        <span style="color:red;">*</span>
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="streetId" id="streetId" lay-verify="streetId|required" name="streetId">
+                        </select>
                     </div>
-                    <div class="layui-inline">
-                            <label class="layui-form-label">园区
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <select lay-filter="parkId" id="parkId" name="parkId">
-                                </select>
-                            </div>
-                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="parkId" id="parkId" name="parkId">
+                        </select>
+                    </div>
+                </div>
 
 
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业类型
-                            <span style="color:red;">*</span>
+                        <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
                         <!-- <input class="layui-input" name="typeName"></input> -->
@@ -153,7 +167,7 @@
                     <label class="layui-form-label">经营范围
                     </label>
                     <div class="layui-input-inline" style="width: 850px">
-                        <input class="layui-input" name="operationScope" ></input>
+                        <input class="layui-input" name="operationScope"></input>
 
                     </div>
                 </div>
@@ -176,7 +190,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-                    <button  class="layui-btn layui-btn-primary" onclick="cancel()" >取消</button>
+                    <button class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
         </form>
@@ -190,17 +204,18 @@
         var form;
         var typeName;
         var streetId;
+        var layer;
         layui.use(['form', 'layer', 'laydate'], function () {
             form = layui.form;
-            var layer = layui.layer;
+            layer = layui.layer;
             var laydate = layui.laydate;
             laydate.render({
                 elem: '#registerDate'
             });
             findcompanyTypeAll();
             getStreetList();
-            form.on('select(streetId)',function(data){
-                streetId=data.value;
+            form.on('select(streetId)', function (data) {
+                streetId = data.value;
                 getParkList();
             });
             form.verify({
@@ -220,7 +235,7 @@
                             if (response.status != 1) {
                                 msg = response.msg;
 
-                            }else{
+                            } else {
                                 errmsg(response)
                             }
 
@@ -233,11 +248,11 @@
                     return msg;
 
 
-                },streetId:function(value){
-                    if(value==null){
+                }, streetId: function (value) {
+                    if (value == null) {
                         return "街道不能为空";
                     }
-                },isCheckd:function(value){
+                }, isCheckd: function (value) {
                     var isCheckd = false;
                     $("input:checkbox").each(function (i) {
                         if ($(this).prop("checked") == true) {
@@ -266,12 +281,12 @@
                         if (res.status == 1) {
                             layer.alert("成功", function () {
                                 var index = parent.layer.getFrameIndex(window.name);
-                                layer.closeAll();
-                               
+                                parent.layer.close(index);
+
                             });
-                        }else{
+                        } else {
                             errmsg(res);
-                            
+
                         }
 
                     },
@@ -306,7 +321,7 @@
                             html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + typeName + ' lay-skin="primary" name="typeIds" > ' + '</li>';
 
                         }
-                       
+
                         $('#typeName').html(html);
 
 
@@ -389,7 +404,7 @@
 
                             $('#parkId').html(html);
                             form.render();
-                           
+
                         }
 
                     } catch (e) {

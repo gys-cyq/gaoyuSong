@@ -132,13 +132,14 @@
                 success: function (response) {
                     if (response.status == 1) {
                         layer.alert(response.msg, function () {
-                           layer.closeAll();
+                            var index = parent.layer.getFrameIndex(window.name);
+						    parent.layer.close(index);
                             
                         })
 
 
                     } else {
-                        errmsg(res);
+                        errmsg(response);
                     }
 
                 },

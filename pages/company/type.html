@@ -76,6 +76,7 @@
 
             table.render({
                 elem: '#demo',
+                id:'testReload',
                 url: baseUrl + '/companytype/findcompanyTypeByPage',
                 where: { token: localStorage.getItem('token') },
                 parseData: function (res) {
@@ -130,7 +131,7 @@
                         }, error: function (layero, index) {
 
                         }, end: function () {
-                            table.reload('demo');
+                            table.reload('testReload');
                         }
                     });
 
@@ -180,7 +181,7 @@
                 fix: false,
                 maxmin: true,
                 end:function(){
-                    table.reload('demo');
+                    table.reload('testReload');
                 }
             });
 

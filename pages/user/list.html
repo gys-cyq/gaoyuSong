@@ -163,7 +163,7 @@
                                     layer.alert("成功", function () {
                                         obj.del();
                                         layer.closeAll();
-                                        table.reload('demo');
+                                        table.reload('testReload');
 
                                         // parent.location.reload();
 
@@ -240,7 +240,7 @@
                 }, error: function (layero, index) {
 
                 },end:function(){
-                    table.reload('demo');
+                    table.reload('testReload');
                 }
             });
 
@@ -261,7 +261,7 @@
 
                 },
                 end: function () {
-                    table.reload('demo');
+                    table.reload('testReload');
                 }
 
             });

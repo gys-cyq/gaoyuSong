@@ -221,7 +221,7 @@
                             iframe.child(res);
 
                         }, end: function () {
-                            table.reload('demo')
+                            table.reload('testReload')
                         }
 
                     });
@@ -238,8 +238,8 @@
                                 if (res.status == 1) {
                                     layer.alert(res.msg, function () {
                                         obj.del();
-                                        layer.close(index);
-                                        table.reload("demo")
+                                        layer.closeAll();
+                                        table.reload("testReload")
                                     });
 
 
@@ -359,6 +359,9 @@
                 fix: false,//不固定
                 title: '添加信息',
                 content: 'list_add.html',
+                end:function(){
+                    table.reload('testReload')
+                }
 
             });
 

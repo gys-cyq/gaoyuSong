@@ -11,6 +11,20 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
+    <style>
+        img{
+            width: 60px;
+            height: 60px;
+            margin: 0 10px
+        }
+        .filename {
+            width: 80px;
+            white-space: nowrap;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 
 
 </head>
@@ -118,6 +132,17 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label">企业资质
+
+                    </label>
+
+                    <div class="layui-inline">
+                        <ul id="qualificationsList" style="display: flex;float: left;padding:5px 15px;"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
                     <label class="layui-form-label">经营范围
 
                     </label>
@@ -158,6 +183,18 @@
                 var layer = layui.layer;
                 var data = JSON.stringify(obj);
                 form.val('formTest', JSON.parse(data));
+                var html = '';
+                var qualificationsList = JSON.parse(data).qualificationsList;
+                for (var i in qualificationsList) {
+                    var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
+                    console.log(image)
+                    html += '<div style="width:80px;height:80px;">';
+                    html += '<img src="' + image + '" ></img>';
+                    html += '<div class="filename">' + qualificationsList[i].typeName + '</div>';
+                    html += '</div>';
+                }
+                console.log(html)
+                $('#qualificationsList').html(html)
             });
         }
     </script>
