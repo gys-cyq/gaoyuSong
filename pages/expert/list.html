@@ -123,7 +123,12 @@
                 {field: 'headImg', templet: function (data) {
                     if (data.headImg != "") {
                         var image = baseUrl + '/file/getImg?path=' + data.headImg;
-                        var html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                        var html='';
+                        if(data.headImg==null){
+                            html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                        }else{
+                            html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                        }
                         return html;
                     } else {
                         return ''

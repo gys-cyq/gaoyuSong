@@ -73,7 +73,7 @@
                 $('#choose2').css('display','none');
                 $('#choose1').css('display','block');
                 $.ajax({
-                    url:baseUrl + '/role/getRoleList',
+                    url:baseUrl + '/role/getRoleList2',
                     type:'get',
                     dataType:'json',
                     data:{token:token,limit:9999},
@@ -151,7 +151,7 @@
         form.on('select(role)', function (data) {
             var obj = $('#role').val();
             $.ajax({
-                url: baseUrl + '/role/getRoleList',
+                url: baseUrl + '/role/getRoleList2',
                 type: 'get',
                 dataType: 'json',
                 data: {token: token},

@@ -26,7 +26,7 @@
             <i class="layui-icon"> </i> 新增行业
         </button>
         <button class="layui-btn layui-btn-small" style="margin-left:15px;" id="openAddLayer">
-            <i class="layui-icon"> </i> 新增专业/动作
+            <i class="layui-icon"> </i> 新增专业
         </button>
     </div>
     <fieldset class="layui-elem-field">
@@ -113,8 +113,10 @@
                     success: function (layero, index) {
                         var body = layui.layer.getChildFrame('body', index);
 //                        body.find('#type').val("action");
+
                         body.find("#parentId").val(data.id);
-                        console.log(data.id);
+                        body.find("#parentName").val(data.name);
+                        body.find("#menuParent").css('display','block');
                     },
                     error: function (layero, index) {
                         //                                errmsg(res);
@@ -133,6 +135,7 @@
                     var body = layui.layer.getChildFrame('body', index);
 //                        body.find('#type').val("action");
                         body.find("#parentId").val(0);
+                    body.find("#menuParent").css('display','none');
                 },
                 error: function (layero, index) {
                     //                                errmsg(res);

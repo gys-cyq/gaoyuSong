@@ -82,11 +82,11 @@
                                 </select>
                             </div>
                             <div class="layui-input-inline3">
-                                <select name="street" lay-filter="street" id="streetList" lay-verify="required">
+                                <select name="streetId" lay-filter="street" id="streetList" lay-verify="required">
                                 </select>
                             </div>
                             <div class="layui-input-inline3">
-                                <select name="park" lay-filter="park" id="parkList">
+                                <select name="parkId" lay-filter="park" id="parkList">
                                 </select>
                             </div>
                     </div>
@@ -120,7 +120,7 @@
                         <div class="layui-inline2">
                             <lable class="layui-form-label">员工人数</lable>
                             <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="staffNumber" />
+                                <input type="text"  class="layui-input" name="staffNumber"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                             </div>
                         </div>
                         <div class="layui-inline2">
@@ -172,7 +172,7 @@
                         <div class="layui-inline2">
                             <lable class="layui-form-label">身份证号<span class="judgeNull">*</span></lable>
                             <div class="layui-input-inline2">
-                                <input type="text" class="layui-input" name="idcard" lay-verify="required"/>
+                                <input type="text" class="layui-input" name="idcard" lay-verify="required|IDcard"/>
                             </div>
                         </div>
                     </div>
@@ -246,14 +246,13 @@
                 resetForm: true,
                 timeout: 10000,
                 success: function (res) {
-                    console.log(res);
                     if (res.status == 1) {
                         layer.alert("注册成功,等待1-3个工作日审核通过后可用于登录", function (index) {
                             layer.close(index);
                         });
                     } else {
-//                        errmsg(res);
-                        console.log(res.msg);
+                        errmsg(res);
+//                        console.log(res.msg);
                     }
                 },
                 error: function (data) {
@@ -266,7 +265,9 @@
             return false;
         })
         form.verify({
-            mobile: [/^1[34578]\d{9}$/, '手机号有误']
+            mobile: [/^1[34578]\d{9}$/, '手机号有误'],
+            number:[/[^1-9]/g,'该项只能输入正整数'],
+            IDcard:[/^[1-9]\d{7}((0[1-9])|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/,'身份证号不合法'],
         });
         form.on('submit(registerP)', function(data){
             var url = baseUrl + "/registerPerson";
@@ -278,14 +279,13 @@
                 resetForm: true,
                 timeout: 10000,
                 success: function (res) {
-                    console.log(res);
                     if (res.status == 1) {
                         layer.alert("注册成功,等待1-3个工作日审核通过后可用于登录", function (index) {
                             layer.close(index);
                         });
                     } else {
-//                        errmsg(res);
-                        console.log(res.msg);
+                        errmsg(res);
+//                        console.log(res.msg);
                     }
                 },
                 error: function (data) {
