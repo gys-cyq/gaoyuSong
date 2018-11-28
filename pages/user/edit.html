@@ -19,10 +19,12 @@
             float: left;
             align-items: center
         } */
-		img{
-            max-width: 100px;
-            max-height: 100px
-        }
+
+		img {
+			max-width: 100px;
+			max-height: 100px
+		}
+
 		.layui-form-checkbox[lay-skin="primary"]:hover i {
 			border-color: #2fa4e7;
 		}
@@ -109,7 +111,7 @@
 					</div>
 				</div>
 			</div>
- 
+
 			<div class="layui-form-item" id="first" style="display: none">
 				<div class="layui-inline">
 					<label class="layui-form-label">部门
@@ -130,6 +132,7 @@
 				<label class="layui-form-label">角色
 					<span style="color:red;">*</span>
 				</label>
+				<span id="rolespan"></span>
 				<div class="layui-fluid">
 					<ul id="rolesul" lay-verify="isCheckd" style="display: flex"></ul>
 				</div>
@@ -142,12 +145,12 @@
                 <input type="text" class="layui-input-iframe" id="department" />
             </div> -->
 
-			<div class="layui-form-item" >
+			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">状态</label>
 					<div class="layui-input-block">
 						<input type="checkbox" lay-skin="switch" lay-text="开启|锁定" lay-filter='status' value="1" id="status">
-						<input lay-skin="switch" lay-filter='status' value="1" name="locked" id="locked" type="hidden">
+						<input lay-skin="switch" lay-filter='status' value="0" name="locked" id="locked" type="hidden">
 
 
 					</div>
@@ -176,100 +179,94 @@
 		var locked;
 		var type;
 		layui.use(['form', 'layer', 'laydate'], function () {
-			var layer = layui.layer;
-			form = layui.form;
-			// getRoleList();
+				var layer = layui.layer;
+				form = layui.form;
+				form.on('select(street)', function (data) {
+					streetId = data.value;
+					if (streetId == '' || streetId == undefined) {
+						parkId = '';
+						$('#parkId').html('');
+						form.render();
+						return;
+					}
+					getParkList();
 
+				});
+				form.on('select(park)', function (data) {
+					parkId = data.value;
+				});
+				form.on('switch(status)', function (data) {
+					if (this.checked) {
+						$('#locked').val(0)
 
-			form.on('select(street)', function (data) {
-				streetId = data.value;
-				if (streetId == '' || streetId == undefined) {
-					parkId = '';
-					$('#parkId').html('');
-					form.render();
-					return;
-				}
-				getParkList();
+					} else {
+						$('#locked').val(1)
+					}
+				});
+				form.verify({
+					isCheckd: function (value) {
+						var isCheckd = false;
+						$("input:checkbox").each(function (i) {
+							if ($(this).prop("checked") == true) {
+								isCheckd = true;
+							}
 
-			});
-			form.on('select(park)', function (data) {
-				parkId = data.value;
-			});
-			// form.on('checkbox', function (data) {
-
-			// });
-			form.on('switch(status)', function (data) {
-				if (this.checked) {
-					$('#locked').val(0)
-
-				} else {
-					$('#locked').val(0)
-				}
-			});
-			form.verify({
-				isCheckd: function (value) {
-					var isCheckd = false;
-					$("input:checkbox").each(function (i) {
-						if ($(this).prop("checked") == true) {
-							isCheckd = true;
+						});
+						console.log(isCheckd)
+						if (!isCheckd) {
+							return "请选择用户角色";
 						}
 
-					});
-					console.log(isCheckd)
-					if (!isCheckd) {
-						return "请选择用户角色";
-					}
-
-				}, type: function (value) {
-					if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
-						return "街道不能为空";
-					}
-				}, deptId: function (value) {
-					if (type == 2 && value == null) {
-						return "部门不能为空";
-					}
-				}
-
-			});
-			form.on('submit(submit)', function (data) {
-				console.log("表单提交" + JSON.stringify(data.field));
-				var url = baseUrl + '/user/update';
-				var options = {
-					url: url,
-					type: 'POST',
-					dataType: "json",
-					data: { token: localStorage.getItem('token') },
-					clearForm: true,
-					resetForm: true,
-					async: false,
-					timeout: 10000,
-					success: function (res) {
-						if (res.status == 1) {
-							layer.alert(res.msg, function () {
-								var index = parent.layer.getFrameIndex(window.name);
-								parent.layer.close(index);
-							});
-
-						} else {
-							errmsg(response)
-
+					}, type: function (value) {
+						if (localStorage.getItem('userId') == 1 && value == null && type == 3) {
+							return "街道不能为空";
 						}
-					},
-					error: function (data) {
-						alert('error');
+					}, deptId: function (value) {
+						if (type == 2 && value == null) {
+							return "部门不能为空";
+						}
 					}
 
-				};
-				$('#demofrom').ajaxForm(options);
-				$('#demofrom').submit();
-				return false;
+				});
+				form.on('submit(submit)', function (data) {
+					console.log("表单提交" + JSON.stringify(data.field));
+					var url = baseUrl + '/user/update';
+					var options = {
+						url: url,
+						type: 'POST',
+						dataType: "json",
+						data: { token: localStorage.getItem('token') },
+						clearForm: true,
+						resetForm: true,
+						async: false,
+						timeout: 10000,
+						success: function (res) {
+							if (res.status == 1) {
+								layer.alert(res.msg, function () {
+									var index = parent.layer.getFrameIndex(window.name);
+									parent.layer.close(index);
+								});
+
+							} else {
+								errmsg(response)
+
+							}
+						},
+						error: function (data) {
+							alert('error');
+						}
+
+					};
+					$('#demofrom').ajaxForm(options);
+					$('#demofrom').submit();
+					return false;
+
+				});
+
 
 			});
-
-
-		});
-
 		function child(obj) {
+			
 			$("input[name='id']").val(obj.id)
 			$('#username').val(obj.username);
 			$("input[name='nickname']").val(obj.nickname);
@@ -278,8 +275,13 @@
 			$("input[name='deptName']").val(obj.deptName);
 			$("input[name='deptId']").val(obj.deptId);
 			if (obj.locked == 0) {
-				$("#status").prop("checked", true);
+				$("#status").attr("checked", true)
+				$("#status").val(0)
+			} else {
+				$("#status").val(1);
+				$("#status").attr("checked", false)
 			}
+			form.render();
 			var typeEt = $("#type");
 			var secondSL = $('#second');
 			var firstLL = $('#first');
@@ -291,26 +293,38 @@
 					typeEt.val("普通用户");
 					firstLL.hide();
 					secondSL.hide();
-					$("#rolell").show();
+
 					break;
 				case 2:
 					typeEt.val("科技局用户");
 					secondSL.hide();
 					firstLL.show();
-					$("#rolell").show();
+
 					break;
 				case 3:
 					getStreetList();
 					typeEt.val("街道/园区用户");
 					secondSL.show();
 					firstLL.hide();
-					$("#rolell").hide();
+
 					break
 			}
-
-
-
-
+			var isSelect = true;
+			var roles = [];
+			for (var i in obj.roleList) {
+				roles.push(obj.roleList[i].id)
+				if (obj.roleList[i].id < 6) {
+					isSelect = false;
+				}
+			}
+			if (!isSelect) {
+				$("#rolell").hide();
+				var html = '<input type="hidden" name="roles"/>';
+				$("#rolespan").append(html);
+				$("input[name='roles']").val(roles);
+			} else {
+				$("#rolell").show();
+			}
 			var roleNames = obj.roleNames.split(',');
 			getRoleList(roleNames);
 
@@ -338,7 +352,7 @@
 							for (var i in roleNames) {
 								$("input[name='roles']").each(function (index, element) {
 									if (data[index].description == roleNames[i]) {
-										$(this).prop("checked", true);
+										$(this).attr("checked", true);
 
 									}
 								});

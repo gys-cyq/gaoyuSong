@@ -225,7 +225,7 @@
                     $('#locked').val(0)
 
                 } else {
-                    $('#locked').val(0)
+                    $('#locked').val(1)
                 }
             });
             form.verify({
@@ -270,7 +270,7 @@
                     }
 
                 }, type: function (value) {
-                    if (localStorage.getItem('userId') == 1 && value.length==0 && type == 3) {
+                    if (localStorage.getItem('userId') == 1 && value==null && type == 3) {
                         return "街道不能为空";
                     }
                 }, deptId: function (value) {
