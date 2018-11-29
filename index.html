@@ -148,16 +148,16 @@
                             if($(this).children('.layui-nav-child').length) {
                                 if ($(this).hasClass('open')) {
                                     $(this).removeClass('open');
-                                    $(this).find('.nav_right').html('&#xe697;');
+//                                    $(this).find('.layui-nav-more').html('&#xe697;');
                                     $(this).children('.layui-nav-child').stop().slideUp();
-                                    $(this).siblings().children('.layui-nav-child').slideUp();
+//                                    $(this).siblings().children('.layui-nav-child').slideUp();
                                 } else {
                                     $(this).addClass('open');
-                                    $(this).children('a').find('.nav_right').html('&#xe6a6;');
+//                                    $(this).children('a').find('.layui-nav-more').html('&#xe6a6;');
                                     $(this).children('.layui-nav-child').stop().slideDown();
-                                    $(this).siblings().children('.layui-nav-child').stop().slideUp();
-                                    $(this).siblings().find('.nav_right').html('&#xe697;');
-                                    $(this).siblings().removeClass('open');
+//                                    $(this).siblings().children('.layui-nav-child').stop().slideUp();
+//                                    $(this).siblings().find('.layui-nav-more').html('&#xe697;');
+//                                    $(this).siblings().removeClass('open');
                                 }
                             }
                             event.stopPropagation();
