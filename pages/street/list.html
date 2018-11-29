@@ -18,11 +18,19 @@
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
-        <label class="searchTitle">街道名称</label>
-        <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="streetSearch" autocomplete="off">
-        </div>
-        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">街道名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="streetSearch" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
         <div>
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
                 <i class="layui-icon"></i> 添加
@@ -138,12 +146,8 @@
                 area:['450px','360px'],
                 fix:false,
                 content:'add.html',
-                success:function(layero,index){
-//                    var iframe = window['layui-layer-iframe' + index];
-//                    iframe.child(data);
-                },
-                error:function(layero,index){
-
+                end:function(){
+                    table.reload('testid')
                 }
             })
         }
@@ -154,16 +158,17 @@
                 layer.open({
                     type:2,
                     title:'编辑街道信息',
-                    area:['480px','360px'],
+                    area:['600px','450px'],
                     fix:false,
                     content:'edit.html',
-                    maxmin:true,
                     success:function(layero,index){
                         var iframe = window['layui-layer-iframe' + index];
                         iframe.child(data);
                     },
                     error:function(layero,index){
 
+                    },end:function(){
+                        table.reload('testid')
                     }
                 })
             }else if(obj.event==='del'){
@@ -182,10 +187,7 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-//                            errmsg(res);
-                                console.log(res.msg);
-//                            location.reload();
-
+                                errmsg(res);
                             }
                         },
                         error: function (res) {

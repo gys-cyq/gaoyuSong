@@ -16,11 +16,19 @@
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
-        <label class="parkTitle">园区名称</label>
-        <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="parkSearch" autocomplete="off">
-        </div>
-        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">园区名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="parkSearch" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
         <div>
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
                 <i class="layui-icon"></i> 添加
@@ -50,7 +58,6 @@
 
         var pid = GetQueryString('pid');
         var actions = parent.GetPageData(pid);
-        console.log(actions);
         if(actions.indexOf('park:add')!=-1){
             $('#addbutton').css('display','inline-block');
         }else{
@@ -132,12 +139,8 @@
                 area:['450px','360px'],
                 fix:false,
                 content:'add.html',
-                success:function(layero,index){
-//                    var iframe = window['layui-layer-iframe' + index];
-//                    iframe.child(data);
-                },
-                error:function(layero,index){
-
+                end:function(){
+                    table.reload('parkid')
                 }
             })
         }
@@ -158,6 +161,8 @@
                     },
                     error:function(layero,index){
 
+                    },end:function(){
+                        table.reload('parkid')
                     }
                 })
             }else if(obj.event==='del'){
@@ -175,10 +180,7 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-//                            errmsg(res);
-                                console.log(res.msg);
-//                            location.reload();
-
+                                errmsg(res);
                             }
                         },
                         error: function (res) {

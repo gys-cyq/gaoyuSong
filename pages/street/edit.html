@@ -23,21 +23,21 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">地址<span style="color:red;">*</span></label>
-            <div class="layui-input-inline">
-                <select  lay-filter="province" lay-verify="required" id="provinceList" name="province">
-                </select>
-            </div>
-            <div class="layui-input-inline">
-                <select  lay-filter="city" lay-verify="required" id="cityList" name="city">
-                    <option selected="" id="city"></option>
-                </select>
-            </div>
-            <div class="layui-input-inline">
-                <select  lay-filter="country"  lay-verify="required" id="countryList" name="country">
-                    <option selected="" id="country"></option>
-                </select>
-            </div>
+                <label class="layui-form-label">地址<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <select  lay-filter="province" lay-verify="required" id="provinceList" name="province">
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select  lay-filter="city" lay-verify="required" id="cityList" name="city">
+                        <option selected="" id="city"></option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="margin-left:110px;margin-top:10px;">
+                    <select  lay-filter="country"  lay-verify="required" id="countryList" name="country">
+                        <option selected="" id="country"></option>
+                    </select>
+                </div>
         </div>
         <div class="layui-form-item">
             <div  class="layui-inline">
@@ -59,13 +59,13 @@
             <div  class="layui-inline">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-block">
-                    <input type="text" name="linkTel" class="layui-input" id="linkTel">
+                    <input type="text" name="linkTel" class="layui-input" id="linkTel" lay-verify="mobile">
                 </div>
             </div>
         </div>
         <div class="layui-form-item" style="text-align:center;">
             <div class="layui-inline">
-                <button class="layui-btn" lay-submit=""  id="streetEdit">确定</button>
+                <button class="layui-btn" lay-submit=""  id="streetEdit" lay-filter="streetEdit">确定</button>
                 <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -95,6 +95,40 @@
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         }
+        form.verify({
+            mobile: [/^$|^1[34578]\d{9}$|^0?1[3|4|5|8][0-9]\d{8}$/, '联系方式有误'],
+//            isPhone:[/^0?1[3|4|5|8][0-9]\d{8}$/,'座机号有误'],
+        });
+
+        form.on('submit(streetEdit)', function(data){
+            var url = baseUrl + "/street/update";
+            var options = {
+                url: url,
+                type: 'post',
+                dataType:'json',
+                resetForm: true,
+                timeout: 10000,
+                data: {token: token},
+                success: function (res) {
+                    if (res.status == 1) {
+                        layer.alert("成功", function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+//                            parent.location.reload();
+                        });
+                    } else {
+                        errmsg(res);
+                    }
+                },
+                error: function (data) {
+                    //未登陆
+                    layer.msg("系统异常");
+                }
+            };
+            $("#streetForm").ajaxForm(options);
+            $("#streetForm").submit();
+            return false;
+        })
     })
 
     function child(obj) {
@@ -110,35 +144,35 @@
         getProvinceList(obj);
     }
 
-    $('#streetEdit').on('click',function(){
-        var url = baseUrl + "/street/update";
-        var options = {
-            url: url,
-            type: 'post',
-            dataType:'json',
-            resetForm: true,
-            timeout: 10000,
-            data: {token: token},
-            success: function (res) {
-                if (res.status == 1) {
-                    layer.alert("成功", function () {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    });
-                } else {
-                        errmsg(res);
-                }
-            },
-            error: function (data) {
-                //未登陆
-                layer.msg("系统异常");
-            }
-        };
-        $("#streetForm").ajaxForm(options);
-        $("#streetForm").submit();
-
-    })
+//    $('#streetEdit').on('click',function(){
+//        var url = baseUrl + "/street/update";
+//        var options = {
+//            url: url,
+//            type: 'post',
+//            dataType:'json',
+//            resetForm: true,
+//            timeout: 10000,
+//            data: {token: token},
+//            success: function (res) {
+//                if (res.status == 1) {
+//                    layer.alert("成功", function () {
+//                        var index = parent.layer.getFrameIndex(window.name);
+//                        parent.layer.close(index);
+//                        parent.location.reload();
+//                    });
+//                } else {
+//                        errmsg(res);
+//                }
+//            },
+//            error: function (data) {
+//                //未登陆
+//                layer.msg("系统异常");
+//            }
+//        };
+//        $("#streetForm").ajaxForm(options);
+//        $("#streetForm").submit();
+//
+//    })
 
     function getProvinceList(data){
         var provinceName = data.provinceName;
