@@ -26,7 +26,7 @@
             <i class="layui-icon"> </i> 新增行业
         </button>
         <button class="layui-btn layui-btn-small" style="margin-left:15px;" id="openAddLayer">
-            <i class="layui-icon"> </i> 新增专业/动作
+            <i class="layui-icon"> </i> 新增专业
         </button>
     </div>
     <fieldset class="layui-elem-field">
@@ -68,7 +68,6 @@
                 url: baseUrl + '/profession/select',
                 dataType: 'json',
                 parseData: function (res) {
-                    console.log(res);
                     return {
                         "code": 0,
                         "msg": res.msg,
@@ -113,8 +112,10 @@
                     success: function (layero, index) {
                         var body = layui.layer.getChildFrame('body', index);
 //                        body.find('#type').val("action");
+
                         body.find("#parentId").val(data.id);
-                        console.log(data.id);
+                        body.find("#parentName").val(data.name);
+                        body.find("#menuParent").css('display','block');
                     },
                     error: function (layero, index) {
                         //                                errmsg(res);
@@ -133,6 +134,7 @@
                     var body = layui.layer.getChildFrame('body', index);
 //                        body.find('#type').val("action");
                         body.find("#parentId").val(0);
+                    body.find("#menuParent").css('display','none');
                 },
                 error: function (layero, index) {
                     //                                errmsg(res);
@@ -144,7 +146,7 @@
         table.on('tool(profession)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('删除操作会连同此行业下的其它子类一同删除，您确定删除吗？', function (index) {
+                layer.confirm('删除操作会级联删除子类，您确定删除吗？', function (index) {
                     var crowId = data.id;
                     var url = baseUrl + "/profession/delete";
                     $.ajax({

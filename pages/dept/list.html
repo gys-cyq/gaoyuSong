@@ -61,11 +61,11 @@
 //                            nodes:[{name:res.data.name,children:getdept(res.data.children)}],
                             nodes:res.data.children,
                             click:function(node){
-//                                node.li.addClass('layui-table-click2').siblings().removeClass('layui-table-click2');
+                                $("#dept ul li>a").removeClass('layui-table-click2');     //清除旧的样式
+                                $("#dept ul li cite:contains(" + node.name + ")").parent().addClass('layui-table-click2');
                                 data=node;
                             }
                         });
-                        console.log(res.data);
                     }
                 },
                 error:function(res){
@@ -86,8 +86,8 @@
                         content: 'add.html',
                         success: function (layero, index) {
                             var body = layui.layer.getChildFrame('body', index);
-//                        body.find('#type').val("action");
                             body.find("#parentId").val(data.id);
+                            body.find("#parentName").val(data.name);
                         },
                         error: function (layero, index) {
                             //                                errmsg(res);
