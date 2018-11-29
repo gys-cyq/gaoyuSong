@@ -138,6 +138,10 @@
             table = layui.table;
             var upload = layui.upload;
             var laydate = layui.laydate;
+            laydate.render({
+                elem: '#year',
+                type: 'year'
+            });
             getStreetList();
             table.render({
                 elem: '#demo',
@@ -169,10 +173,7 @@
 
 
             });
-            laydate.render({
-                elem: '#year',
-                type: 'year'
-            });
+            
             var active = {
                 reload: function () {
 

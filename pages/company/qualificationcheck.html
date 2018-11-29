@@ -179,7 +179,8 @@
                         where: {
                             token: localStorage.getItem('token'),
                             companyName: $('#name').val(),
-                            companyType: companyType
+                            companyType: companyType,
+                            applyDate:$('#time').val()
 
                         }
                     })
