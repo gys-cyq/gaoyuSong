@@ -208,16 +208,8 @@ layui.use(['table','layer','jquery'], function(){
                 content:'edit.html',
                 maxmin:true,
                 success:function(layero,index){
-                    var body = layui.layer.getChildFrame('body', index);
-                    body.find('#id').val(data.id);
-                    body.find('#roleName').val(data.role);
-                    body.find('#roleDes').val(data.description);
-                    body.find("#roleab").val(data.available);
-//                    if(data.available==1){
-//                        body.find("#roleab2").val("正常");
-//                    }else{
-//                        body.find("#roleab2").val("禁用");
-//                    }
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(data);
                 },
                 error:function(layero,index){
 

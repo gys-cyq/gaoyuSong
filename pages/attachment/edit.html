@@ -77,27 +77,13 @@
                 console.log(obj.successful); //请求成功的文件数
                 console.log(obj.aborted); //请求失败的文件数
             },
-//                done: function(res){
-//                //上传完毕回调
-//                if(res.status==1){
-//                    var data=res.data;
-//                    if(data!=null){
-//                        $("#filesspan").html('');
-//                        for(var i=0;i<data.length;i++){
-//                            $("#filesspan").append('<input name="files" value="'+data[i]+'" />');
-//                        }
-//                    }
-//
-//                }else{
-//                    layer.msg(res.msg);
-//                }
-//            },
             done: function(res, index, upload){
                 if(res.status==1){
                      var data = res.data;
                      if(data!=null){
 //                         $('#filesspan').html('');
                          $("#filesspan").append('<input name="files" value="'+data[0]+'" type="hidden"/>');
+
                      }
                 }
             },

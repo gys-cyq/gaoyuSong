@@ -9,7 +9,6 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="../../lib/layui/css/layui.css"/>
     <script type="text/javascript" src="../../js/main.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <title>南通科技局</title>
     <style>
         .layui-form-label{
@@ -52,8 +51,11 @@
             <div class="layui-inline">
                 <label class="layui-form-label">是否可用</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="available" id="roleab" class="layui-input" />
-                    <!--<input type="text" class="layui-input" id="roleab2"/>-->
+                    <!--<input type="text" name="available" id="roleab" class="layui-input" />-->
+                    <select name="available" lay-filter="available" id="roleab">
+                        <!--<option value="1">正常</option>-->
+                        <!--<option value="2">禁用</option>-->
+                    </select>
                 </div>
             </div>
         </div>
@@ -67,44 +69,64 @@
 </div>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
+<script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['form','layer'],function(){
-        var layer = layui.layer,
-            form = layui.form;
-        token = localStorage.getItem("token");
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
-    })
-    function edit(){
-        var url = baseUrl + "/role/update";
-        var options = {
-            url: url,
-            type: 'post',
-            resetForm: true,
-            timeout: 10000,
-            data: {token: token},
-            success: function (res) {
-                if (res.status == 1) {
-                    layer.alert("成功", function () {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    });
-                } else {
-                    console.log(222);
-//                        errmsg(res);
-                }
-            },
-            error: function (data) {
-                //未登陆
-                layer.msg("系统异常");
-            }
-        };
-        $("#roleEdit").ajaxForm(options);
-        $("#roleEdit").submit();
+    var form;
+    token = localStorage.getItem("token");
 
+    function child(data){
+        layui.use(['form','layer'],function(){
+            form = layui.form;
+            var layer = layui.layer;
+
+            window.edit = function(){
+                var url = baseUrl + "/role/update";
+                var options = {
+                    url: url,
+                    type: 'post',
+                    resetForm: true,
+                    timeout: 10000,
+                    data: {token: token},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        } else {
+                            console.log(222);
+//                        errmsg(res);
+                        }
+                    },
+                    error: function (data) {
+                        //未登陆
+                        layer.msg("系统异常");
+                    }
+                };
+                $("#roleEdit").ajaxForm(options);
+                $("#roleEdit").submit();
+                return false;
+            }
+            window.cancel = function(){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+
+            $('#id').val(data.id);
+            $('#roleName').val(data.role);
+            $('#roleDes').val(data.description);
+//            $("#roleab").val(data.available);
+            getavailable(data);
+        })
+    }
+    function getavailable(obj){
+        var html = '<option value="">'+'请选择'+'</option>';
+        html += '<option value="1">'+'正常'+'</option>';
+        html += '<option value="2">'+'禁用'+'</option>';
+        $('#roleab').html(html);
+        $('#roleab').val(obj.available);
+        form.render();
     }
 </script>
 </body>

@@ -166,7 +166,7 @@
                     }
                 })
             }else if(obj.event==='del'){
-                layer.confirm('真的删除此园区吗', function (index) {
+                layer.confirm('真的删除'+'<span style="color:red;">'+data.name+'</span>'+'吗？', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/park/delete";
                     $.ajax({

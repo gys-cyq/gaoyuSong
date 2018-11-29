@@ -57,17 +57,18 @@
     <!--</script>-->
 
 
-    <script>
+    <script type="text/javascript">
+        var table;
         layui.config({
             base: '../../module/'
         }).extend({
             treetable: 'treetable-lay/treetable'
         }).use(['table', 'form', 'jquery', 'element', 'treetable'], function () {
             var $ = layui.jquery;
-            var table = layui.table;
             var form = layui.form;
             var element = layui.element;
             var treetable = layui.treetable;
+            table = layui.table;
 
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
@@ -90,7 +91,6 @@
 
             // 渲染表格
             var renderTable = function () {
-
                 layer.load(2);
                 token = localStorage.getItem("token");
                 treetable.render({
@@ -101,6 +101,7 @@
                     treeDefaultClose: true,
                     treeLinkage: false,
                     elem: '#table1',
+                    id:'menuId',
                     url: baseUrl + '/menu/select',
                     dataType: 'json',
                     parseData: function (res) {
@@ -173,9 +174,8 @@
                                 var body = layui.layer.getChildFrame('body', index);
                                 body.find('#type').val("action");
                                 body.find("#parentId").val(data.id);
-                            },
-                            error: function (layero, index) {
-                                //                                errmsg(res);
+                            },end: function () {
+                                table.reload('menuId')
                             }
                         })
                     } else {
@@ -189,9 +189,6 @@
                                 var body = layui.layer.getChildFrame('body', index);
                                 body.find('#type').val("menu");
                                 body.find("#parentId").val(data.id);
-                            },
-                            error: function (layero, index) {
-                                //                                errmsg(res);
                             }
                         })
                     }
@@ -211,9 +208,8 @@
                         var body = layui.layer.getChildFrame('body', index);
                         body.find('#type').val("column");
                         body.find("#parentId").val(0);
-                    },
-                    error: function (layero, index) {
-
+                    },end:function(){
+                        table.reload('menuId');
                     }
                 })
             }
@@ -222,7 +218,7 @@
             table.on('tool(table1)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'del') {
-                    layer.confirm('真的删除行么', function (index) {
+                    layer.confirm('真的删除'+'<span style="color:red;">'+data.name+'</span>'+'及它的级联子类吗？', function (index) {
                         var crowId = data.id;
                         var url = baseUrl + "/menu/delete";
                         $.ajax({
@@ -262,9 +258,8 @@
                             body.find('#permission').val(data.permission);
                             body.find('#sort').val(data.sort);
                             body.find('#type').val(data.type);
-                        },
-                        error: function (layero, index) {
-
+                        },end:function(){
+                            table.reload('menuId');
                         }
                     })
                 }

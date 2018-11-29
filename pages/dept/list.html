@@ -125,7 +125,7 @@
                     layer.close(index);
                 })
             }else{
-                layer.confirm('您确定删除吗？', function (index) {
+                layer.confirm('您确定删除'+'<span style="color:red">'+data.name+'</span>'+'及其级联子类吗？', function (index) {
                     var url = baseUrl + "/dept/delete";
 
 
