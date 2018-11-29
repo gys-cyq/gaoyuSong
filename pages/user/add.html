@@ -207,7 +207,8 @@
                 streetId = data.value;
                 if (streetId == '' || streetId == undefined) {
                     parkId = '';
-                    $('#parkId').html('');
+                    var html = ' <option value="0">' + "请选择园区" + '</option>';
+                    $('#parkId').html(html);
                     form.render();
                     return;
                 }
@@ -406,7 +407,7 @@
                         response = eval(response);
                         if (response.status == 1) {
                             var data = response.data;
-                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            var html = ' <option value="0">' + "请选择园区" + '</option>';
                             for (var i in data) {
                                 var id = data[i].id;
                                 var name = data[i].name;

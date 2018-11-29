@@ -179,8 +179,8 @@
         var form;
         var layer;
         var historyId;
-        var data;
         var streetId;
+        var data;
         layui.use(['form', 'layer', 'laydate'], function () {
             layer = layui.layer;
             form = layui.form;
@@ -224,19 +224,19 @@
                 return false;
             });
             form.on('select(streetId)', function (data) {
-                    streetId = data.value;
-                    
-                    if (streetId == '' || streetId == undefined) {
-                        $('#parkId').html('');
-                        form.render();
-                        return;
-                    }
-                    getParkList(undefined);
-                });
+                streetId = data.value;
+
+                if (streetId == '' || streetId == undefined) {
+                    $('#parkId').html('');
+                    form.render();
+                    return;
+                }
+                getParkList(undefined);
+            });
             $('#applySeniorCompany').click(function () {
                 applySeniorCompany();
             });
-            
+
         });
 
         function findCompany() {
@@ -251,11 +251,14 @@
                 success: function (res) {
                     if (res.status == 1) {
                         data = res.data;
-                        historyId = data.id;
-                        streetId=data.streetId;
-                        form.val("formTest", data);
-                        getStreetList(data);
-                        getParkList(data);
+                        if (data != null) {
+                            historyId = data.id;
+                            streetId = data.streetId;
+                            form.val("formTest", data);
+                            getStreetList(data);
+                            getParkList(data);
+                        }
+
                     } else {
                         layer.msg(res.msg);
                     }
