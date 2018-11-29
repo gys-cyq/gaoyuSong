@@ -146,13 +146,7 @@
                 area:['450px','360px'],
                 fix:false,
                 content:'add.html',
-                success:function(layero,index){
-//                    var iframe = window['layui-layer-iframe' + index];
-//                    iframe.child(data);
-                },
-                error:function(layero,index){
-
-                },end:function(){
+                end:function(){
                     table.reload('testid')
                 }
             })
@@ -193,10 +187,7 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-//                            errmsg(res);
-                                console.log(res.msg);
-//                            location.reload();
-
+                                errmsg(res);
                             }
                         },
                         error: function (res) {
