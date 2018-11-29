@@ -68,7 +68,6 @@
                 url: baseUrl + '/profession/select',
                 dataType: 'json',
                 parseData: function (res) {
-                    console.log(res);
                     return {
                         "code": 0,
                         "msg": res.msg,
@@ -147,7 +146,7 @@
         table.on('tool(profession)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('删除操作会连同此行业下的其它子类一同删除，您确定删除吗？', function (index) {
+                layer.confirm('删除操作会级联删除子类，您确定删除吗？', function (index) {
                     var crowId = data.id;
                     var url = baseUrl + "/profession/delete";
                     $.ajax({

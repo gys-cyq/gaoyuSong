@@ -50,7 +50,13 @@
                 {field: 'content', title: '操作内容'},
                 {field: 'time',templet:function(d){
                     var date = new Date(d.time);
-                    return date;
+                    var year = date.getFullYear();
+                    var month = date.getMonth()+1;
+                    var day = date.getDate();
+                    var h = date.getHours();
+                    var m = date.getMinutes();
+                    var s = date.getSeconds();
+                    return year+'-'+month+'-'+day+'  '+h+':'+m+':'+s;
                 },title: '操作时间'},
             ]],
             done: function (res,cuur,count) {
