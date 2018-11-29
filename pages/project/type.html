@@ -44,11 +44,13 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
+        var table;
         layui.use(['table','layer'],function(){
-            var table=layui.table;
+            table=layui.table;
             var layer=layui.layer;
             table.render({
                 elem: '#demo',
+                id:'testReload',
                 url: baseUrl + '/projectType/findprojectTypeByPage',
                 where: { token: localStorage.getItem('token') },
                 parseData: function (res) {
@@ -92,6 +94,8 @@
 
                         }, error: function (layero, index) {
 
+                        },end:function(){
+                            table.reload('testReload');
                         }
                     });
 
@@ -110,7 +114,7 @@
                                     layer.msg(res.msg);
                                     obj.del();
                                     parent.layer.close(index);
-                                    parent.location.reload();
+                                    table.reload('testReload');
                                 } else {
                                     layer.msg(res.msg);
                                 }
@@ -130,11 +134,15 @@
         function openAddLayer(){
             layer.open({
                 type: 2,
-                title: '添加企业类型',
+                title: '添加',
                 content: 'type_add.html',
                 area: ['300px', '200px'],
                 fix: false,
                 maxmin: true,
+                end:function(){
+                    table.reload('testReload');
+
+                }
             });
         }
     </script>

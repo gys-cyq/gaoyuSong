@@ -159,7 +159,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
-
+                    <button type="cancel" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
 
@@ -322,7 +322,7 @@
                                 
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
-                                parent.location.reload();
+                                // parent.location.reload();
                             })
 
 
