@@ -136,10 +136,10 @@ layui.use(['table','layer','jquery'], function(){
 
     $("#Search").on('click',function(){
         var type = $(this).data('type');
-        if( $('#roleSearch').val().trim()==""){
-            layer.msg('查询角色名称不能为空');
-            return false;
-        }
+//        if( $('#roleSearch').val().trim()==""){
+//            layer.msg('查询角色名称不能为空');
+//            return false;
+//        }
         active[type] ? active[type].call(this) : '';
     })
 

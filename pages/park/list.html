@@ -123,13 +123,14 @@
 
         $("#Search").on('click',function(){
             var type = $(this).data('type');
-            var url = baseUrl + '/park/getParkList';
-            if( $('#parkSearch').val().trim()==""){
-                layer.msg('查询的园区名称不能为空');
-                return false;
-            }else{
-                active[type] ? active[type].call(this) : '';
-            }
+//            var url = baseUrl + '/park/getParkList';
+//            if( $('#parkSearch').val().trim()==""){
+//                layer.msg('查询的园区名称不能为空');
+//                return false;
+//            }else{
+//                active[type] ? active[type].call(this) : '';
+//            }
+            active[type] ? active[type].call(this) : '';
         })
 
         window.openAddLayer = function(){

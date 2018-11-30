@@ -168,6 +168,7 @@
 
         window.openAddLayer = function(){
           layer.open({
+              title:'添加信息',
               type:2,
               area:['800px','510px'],
               content:'add.html',
@@ -220,7 +221,7 @@
             if(obj.event==='edit'){
                 layer.open({
                     type:2,
-                    title:'编辑专家信息',
+                    title:'编辑信息',
                     area:['800px','500px'],
                     fix:false,
                     content:'edit.html',
@@ -235,7 +236,7 @@
                 })
             }else if(obj.event==='del'){
                 console.log(data);
-                layer.confirm('真的删除吗', function (index) {
+                layer.confirm('真的删除'+'<span style="color:red;">'+data.name+'</span>'+'吗', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/expert/delete";
                     $.ajax({
@@ -249,8 +250,8 @@
                             if (res.status == 1) {
                                 location.reload();
                             } else {
-//                            errmsg(res);
-                                console.log(res.msg);
+                            errmsg(res);
+//                                console.log(res.msg);
 //                            location.reload();
 
                             }

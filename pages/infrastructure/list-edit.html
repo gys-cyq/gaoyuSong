@@ -38,13 +38,15 @@
             <div class="layui-inline">
                 <label class="layui-form-label">项目级别</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="projectLevel"id="projectLevel"  autocomplete="off" class="layui-input">
+                    <!--<input type="text" name="projectLevel"id="projectLevel"  autocomplete="off" class="layui-input">-->
+                    <select lay-filter="projectLevel" name="projectLevel" id="projectLevel">
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">立项日期</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="projectLevel" id="projectSetupTime" autocomplete="off" class="layui-input">
+                    <input type="text" name="projectSetupTime" id="projectSetupTime" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -63,27 +65,43 @@
 <script type="text/javascript">
     token = localStorage.getItem("token");
     var form;
-    layui.use(['form','layer','laydate'],function(){
-        form = layui.form;
-        var layer = layui.layer,
-            laydate = layui.laydate;
-        laydate.render({
-            elem: '#projectSetupTime'
-        });
-
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
-    })
+//    layui.use(['form','layer','laydate'],function(){
+//        form = layui.form;
+//        var layer = layui.layer,
+//            laydate = layui.laydate;
+//        laydate.render({
+//            elem: '#projectSetupTime'
+//        });
+//
+//        window.cancel = function(){
+//            var index = parent.layer.getFrameIndex(window.name);
+//            parent.layer.close(index);
+//        }
+//    })
 
     function child(obj){
-        $('#id').val(obj.id);
-        $('#number').val(obj.number);
-        $('#companyName').val(obj.companyName);
-        $('#projectName').val(obj.projectName);
-        $('#projectLevel').val(obj.projectLevel);
-        $('#projectSetupTime').val(obj.projectSetupTime);
+        layui.use(['form','layer','laydate'],function(){
+            form = layui.form;
+            var layer = layui.layer,
+                laydate = layui.laydate;
+            laydate.render({
+                elem: '#projectSetupTime'
+            });
+
+
+            window.cancel = function(){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+
+            $('#id').val(obj.id);
+            $('#number').val(obj.number);
+            $('#companyName').val(obj.companyName);
+            $('#projectName').val(obj.projectName);
+//        $('#projectLevel').val(obj.projectLevel);
+            $('#projectSetupTime').val(obj.projectSetupTime);
+            getLevel(obj);
+        })
     }
 
     $('#patentEdit').on('click',function(){
@@ -115,6 +133,18 @@
         $("#patentEditform").submit();
 
     })
+
+    function getLevel(data){
+        var html = '';
+        html += '<option value="">'+'请选择'+'</option>';
+        html += '<option value="国家">'+'国家'+'</option>';
+        html += '<option value="省">'+'省'+'</option>';
+        html += '<option value="市">'+'市'+'</option>';
+        html += '<option value="区">'+'区'+'</option>';
+        $('#projectLevel').html(html);
+        $("#projectLevel").val(data.projectLevel);
+        form.render();
+    }
 
 </script>
 </body>

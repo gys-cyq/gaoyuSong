@@ -57,9 +57,13 @@
 <script type="text/javascript">
     token = localStorage.getItem('token');
     var form;
-    layui.use(['form','layer'],function(){
+    layui.use(['form','layer','laydate'],function(){
         form = layui.form;
-        var layer = layui.layer;
+        var layer = layui.layer,
+            laydate = layui.laydate;
+        laydate.render({
+            elem: '#cognizanceTime'
+        });
 
         form.on('submit(submit)', function(){
             var url = baseUrl + "/carrierInfo/add";

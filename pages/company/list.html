@@ -227,7 +227,7 @@
                     });
 
                 } else if (layEvent == 'del') {
-                    layer.confirm('确定删除吗？', function (index) {
+                    layer.confirm('确定删除'+'<span style="color:red;">'+res.name+'</span>'+'吗？', function (index) {
                         $.ajax({
                             url: baseUrl + '/company/delete',
                             type: 'post',

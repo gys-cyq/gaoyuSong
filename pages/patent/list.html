@@ -85,6 +85,7 @@
             url:baseUrl+'/patent/findPatentByPage',
             where:{token:token},
             parseData: function(res){
+                console.log(res.data.list);
                 return {
                     "code" : 0,
                     "msg" : res.msg,
@@ -96,11 +97,11 @@
             page: true, //开启分页
             cols: [[ //表头
 //                {field: 'id', title: '专家名称'},
-                {field: 'type', title: '专利类型',width:60,},
+                {field: 'typeName', title: '专利类型'},
                 {field: 'number', title: '专利号'},
                 {field: 'name', title: '专利名称'},
                 {field: 'applyUserName', title: '申请人'},
-                {field: 'authorizerUserName', title: '专利权人'},
+                {field: 'authorizerUserName', title: '专利权人',width:80},
                 {field: 'applyDate', title: '申请日期'},
                 {field: 'authorizerDate', title: '授权日期'},
                 {field: 'tel', title: '电话'},
@@ -115,7 +116,7 @@
         window.openAddLayer = function(){
             layer.open({
                 type:2,
-                title:'新增专利类型',
+                title:'新增信息',
                 area:['800px','450px'],
                 fix:false,
                 content:'list-add.html',
@@ -125,6 +126,8 @@
                 },
                 error:function(layero,index){
 
+                },end:function(){
+                    table.reload('patentId');
                 }
             })
         }
@@ -163,7 +166,7 @@
             if(obj.event==='edit'){
                 layer.open({
                     type:2,
-                    title:'编辑专利类型',
+                    title:'编辑信息',
                     area:['800px','500px'],
                     fix:false,
                     content:'list-edit.html',
@@ -174,10 +177,12 @@
                     },
                     error:function(layero,index){
 
+                    },end:function(){
+                        table.reload('patentId');
                     }
                 })
             }else if(obj.event==='del'){
-                layer.confirm('真的删除专利号为'+data.number+'的专利吗', function (index) {
+                layer.confirm('真的删除专利号为'+'<span style="color:red;">'+data.number+'</span>'+'的专利吗', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/patent/delete";
                     $.ajax({

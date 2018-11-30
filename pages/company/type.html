@@ -137,7 +137,7 @@
 
 
                 } else if (layEvent == 'del') {
-                    layer.confirm("确定删除吗？", function (index) {
+                    layer.confirm("确定删除"+'<span style="color:red;">'+data.typeName+'</span>'+"吗？", function (index) {
                         $.ajax({
                             url: baseUrl + '/companytype/delete',
                             type: 'post',

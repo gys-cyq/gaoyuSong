@@ -128,14 +128,15 @@
 
         $("#Search").on('click',function(){
             var type = $(this).data('type');
-            var url = baseUrl + '/street/getStreetList';
-//            var sname = $('#streetSearch').val();
-            if( $('#streetSearch').val().trim()==""){
-                layer.msg('查询的街道名称不能为空');
-                return false;
-            }else{
-                active[type] ? active[type].call(this) : '';
-            }
+//            var url = baseUrl + '/street/getStreetList';
+////            var sname = $('#streetSearch').val();
+//            if( $('#streetSearch').val().trim()==""){
+//                layer.msg('查询的街道名称不能为空');
+//                return false;
+//            }else{
+//                active[type] ? active[type].call(this) : '';
+//            }
+            active[type] ? active[type].call(this) : '';
         })
 
 

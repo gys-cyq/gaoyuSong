@@ -29,6 +29,11 @@
                 </div>
             </div>
         </form>
+        <div>
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
+                <i class="layui-icon"></i> 添加
+            </button>
+        </div>
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
@@ -82,7 +87,7 @@
         window.openAddLayer = function () {
             layer.open({
                 type: 2,
-                title: '新增设施',
+                title: '新增信息',
                 area: ['800px', '450px'],
                 fix: false,
                 content: 'list-add.html',
@@ -127,7 +132,7 @@
             if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    title: '编辑专利类型',
+                    title: '编辑信息',
                     area: ['800px', '500px'],
                     fix: false,
                     content: 'list-edit.html',
@@ -141,7 +146,7 @@
                     }
                 })
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除' + data.name + '吗', function (index) {
+                layer.confirm('真的删除' +'<span style="color:red;">'+data.name +'</span>'+ '吗', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/carrierInfo/delete";
                     $.ajax({

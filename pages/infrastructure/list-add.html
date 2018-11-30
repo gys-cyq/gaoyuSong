@@ -40,13 +40,20 @@
             <div class="layui-inline">
                 <label class="layui-form-label">项目级别</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="projectLevel"id="projectLevel"  autocomplete="off" class="layui-input">
+                    <!--<input type="text" name="projectLevel"id="projectLevel"  autocomplete="off" class="layui-input">-->
+                    <select lay-filter="projectLevel" name="projectLevel" id="projectLevel">
+                        <option value="">请选择</option>
+                        <option value="国家">国家</option>
+                        <option value="省">省</option>
+                        <option value="市">市</option>
+                        <option value="区">区</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">立项日期</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="projectLevel" id="projectSetupTime" autocomplete="off" class="layui-input">
+                    <input type="text" name="projectSetupTime" id="projectSetupTime" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>

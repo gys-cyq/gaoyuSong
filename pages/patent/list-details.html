@@ -20,7 +20,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">专利类型</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="type"id="type"  autocomplete="off" class="layui-input" readonly="readonly">
+                    <input type="text" name="typeName"id="type"  autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
             <div class="layui-inline">
@@ -52,7 +52,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">申请人街道</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="applyStreet" id="applyStreet"  autocomplete="off" class="layui-input" readonly="readonly">
+                    <input type="text" name="applyStreetName" id="applyStreet"  autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
             <div class="layui-inline">
@@ -78,7 +78,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">所在街道</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="authorizerStreet" id="authorizerStreet" autocomplete="off" class="layui-input" readonly="readonly">
+                    <input type="text" name="authorizerStreetName" id="authorizerStreet" autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
             <div class="layui-inline">
@@ -107,22 +107,17 @@
                     <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">专利类型名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="typeName" id="typeName" autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">专利类型名称</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" name="typeName" id="typeName" autocomplete="off" class="layui-input" readonly="readonly">-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark"></textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn layui-btn-primary" onclick="cancel()">关闭</button>
+                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark" style="width:80%;"></textarea>
             </div>
         </div>
     </form>
@@ -140,16 +135,16 @@
         }
     })
     function child(obj){
-        $('#type').val(obj.type);
+        $('#type').val(obj.typeName);
         $('#number').val(obj.number);
         $('#name').val(obj.name);
         $('#applyUserName').val(obj.applyUserName);
         $('#applyAddress').val(obj.applyAddress);
-        $('#applyStreet').val(obj.applyStreet);
+        $('#applyStreet').val(obj.applyStreetName);
         $('#authorizerUserName').val(obj.authorizerUserName);
         $('#authorizerDate').val(obj.authorizerDate);
         $('#authorizerAddress').val(obj.authorizerAddress);
-        $('#authorizerStreet').val(obj.authorizerStreet);
+        $('#authorizerStreet').val(obj.authorizerStreetName);
         $('#tel').val(obj.tel);
         $('#validityPeriod').val(obj.validityPeriod);
         $('#remark').val(obj.remark);

@@ -27,6 +27,12 @@
         <div class="layui-form-item" style="margin-left:20px;">
             <button type="button" class="layui-btn" id="uploadFile"><i class="layui-icon"></i>上传多个文件</button>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件名称</label>
+            <div class="layui-inline" id="uploadFileName">
+
+            </div>
+        </div>
         <div class="layui-form-item" style="text-align:center;">
             <div class="layui-inline">
                 <button class="layui-btn" lay-submit=""  id="attachmentEdit" lay-filter="edit">确定</button>
@@ -73,9 +79,9 @@
 //            ,data:{token:token,savepath:purl},
             ,data:{token:token,code:'C900001'},
             allDone: function(obj){ //当文件全部被提交后，才触发
-                console.log(obj.total); //得到总文件数
-                console.log(obj.successful); //请求成功的文件数
-                console.log(obj.aborted); //请求失败的文件数
+//                console.log(obj.total); //得到总文件数
+//                console.log(obj.successful); //请求成功的文件数
+//                console.log(obj.aborted); //请求失败的文件数
             },
             done: function(res, index, upload){
                 if(res.status==1){
@@ -83,7 +89,8 @@
                      if(data!=null){
 //                         $('#filesspan').html('');
                          $("#filesspan").append('<input name="files" value="'+data[0]+'" type="hidden"/>');
-
+                         var filename = data[0].substring(data[0].lastIndexOf('/')+1);
+                         $("#uploadFileName").append('<input value='+filename+' class="layui-input" />');
                      }
                 }
             },

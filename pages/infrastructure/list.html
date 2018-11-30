@@ -144,7 +144,7 @@
             if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    title: '编辑专利类型',
+                    title: '编辑',
                     area: ['800px', '500px'],
                     fix: false,
                     content: 'list-edit.html',
@@ -158,7 +158,7 @@
                     }
                 })
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除设施号为' + data.number + '的基础设施吗', function (index) {
+                layer.confirm('真的删除设施号为' + '<span style="color:red;">'+data.number +'</span>'+ '的基础设施吗', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/infrastructure/infrastructureDelete";
                     $.ajax({
