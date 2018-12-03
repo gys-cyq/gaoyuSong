@@ -60,7 +60,7 @@
                 {field: 'content', title: '内容'},
                 {field: 'isread', title: '是否读取',templet:function(d){
                     if(d.isread==0){
-                        return '未读';
+                        return '<span style="padding:2px 5px;background:#FF5722;color:#fff;border-radius:5px;font-size:12px;">'+'未读'+'</span>';
                     }else if(d.isread==1){
                         return '已读';
                     }

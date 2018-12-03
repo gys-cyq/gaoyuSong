@@ -74,11 +74,6 @@
                 <textarea placeholder="请输入内容" class="layui-textarea" id="description" name="description" style="width:80%;"></textarea>
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn layui-btn-primary" onclick="cancel()">关闭</button>
-            </div>
-        </div>
     </form>
 </div>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -88,10 +83,6 @@
         var layer = layui.layer,
             form = layui.form;
 
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
     })
     function child(obj){
         $('#patentFundingTypeName').val(obj.patentFundingTypeName);

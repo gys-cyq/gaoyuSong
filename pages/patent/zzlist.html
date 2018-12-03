@@ -39,6 +39,7 @@
             url:baseUrl+'/patentFunding/findPatentFundingByPage',
             where:{token:token},
             parseData: function(res){
+                console.log(res.data.list);
                 return {
                     "code" : 0,
                     "msg" : res.msg,
@@ -79,7 +80,7 @@
             if(obj.event==='search'){
                 layer.open({
                     type:2,
-                    title:'编辑',
+                    title:'申报详情',
                     area:['800px','450px'],
                     fix:false,
                     content:'zz-details.html',

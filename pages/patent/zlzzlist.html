@@ -86,7 +86,7 @@
             if(obj.event==='edit'){
                 layer.open({
                     type:2,
-                    title:'编辑',
+                    title:'编辑信息',
                     area:['480px','360px'],
                     fix:false,
                     content:'zlzz-edit.html',
@@ -100,7 +100,7 @@
                     }
                 })
             }else if(obj.event==='del'){
-                layer.confirm('真的删除专利资助类型名称为'+data.typeName+'的专利资助吗', function (index) {
+                layer.confirm('真的删除'+'<span style="color:red">'+data.typeName+'</span>'+'吗', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/patentFundingType/delete";
                     $.ajax({

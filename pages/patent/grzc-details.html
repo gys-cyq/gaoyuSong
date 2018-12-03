@@ -62,11 +62,6 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                    <button class="layui-btn layui-btn-primary" onclick="cancel()">关闭</button>
-                </div>
-            </div>
         </form>
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -84,6 +79,7 @@
             } else if (data.status == 2) {
                 status = '不通过'
             }
+
             data.status = status;
             layui.use(['form', 'layer'], function () {
                 var layer = layui.layer,
@@ -91,10 +87,6 @@
 
                 form.val('formTest',data)
             });
-        }
-        window.cancel = function () {
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
         }
     </script>
 </body>

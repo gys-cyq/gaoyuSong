@@ -216,7 +216,7 @@ layui.use(['table','layer','jquery'], function(){
                 }
             })
         }else if(obj.event === 'del'){
-            layer.confirm('真的删除行么', function (index) {
+            layer.confirm('真的删除'+'<span style="color:red">'+data.role+'</span>'+'吗', function (index) {
                 var rowId = data.id;
                 var url = baseUrl + "/role/delete";
                 $.ajax({
