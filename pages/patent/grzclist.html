@@ -19,7 +19,7 @@
         <form class="layui-form" id="personform" style="margin-top:10px;">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label" style="width:auto;">名称</label>
+                    <label class="layui-form-label" style="width:auto;">用户名</label>
                     <div class="layui-input-inline">
                         <input type="text" name="username" id="username"  autocomplete="off" class="layui-input">
                     </div>
@@ -121,7 +121,7 @@
                     title:'详情',
                     area:['800px','360px'],
                     fix:false,
-                    content:'grzc-details.html',
+                    content:'personal-details.html',
                     maxmin:true,
                     success:function(layero,index){
                         var iframe = window['layui-layer-iframe' + index];
@@ -137,7 +137,7 @@
                     title:'审核',
                     area:['480px','360px'],
                     fix:false,
-                    content:'grzc-check.html',
+                    content:'personal-check.html',
                     maxmin:true,
                     success:function(layero,index){
                         var iframe = window['layui-layer-iframe' + index];

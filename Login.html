@@ -11,8 +11,13 @@
     	<!--<link rel="stylesheet" href="static/css/weadmin.css" />-->
         <link rel="stylesheet" href="lib/layui/css/layui.css"  />
         <link rel="stylesheet" href="css/style.css" />
-    	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <link rel='icon' href='img/icon.png' type='image/x-ico' />
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     	<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+        <!--[if IE 8]>
+             <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+             <script type="text/javascript" src="lib/layui/layui.js"></script>
+        <![endif]-->
         <style>
             html {
                 width: 100%;
@@ -82,8 +87,18 @@
             }
         }
         function login(){
-            var username=document.getElementById('usernameText').value.trim();
-            var password=document.getElementById('passwordText').value.trim();
+//            var username=document.getElementById('usernameText').value.trim();
+//            var password=document.getElementById('passwordText').value.trim();
+            var username;
+            var password;
+            if(String.prototype.trim){
+               username=document.getElementById('usernameText').value.trim();
+               password=document.getElementById('passwordText').value.trim();
+            }else{
+                String.prototype.trim = function () {
+                    return this.replace(/^\s*|\s*$/g, "");
+                }
+            }
             if(username.length == 0){
                 layer.msg('登录用户名不能为空！', function(){});
                 return false;
@@ -92,7 +107,7 @@
                 layer.msg('登录密码不能为空！', function(){});
                 return false;
             }
-            console.log(username+','+password);
+//            console.log(username+','+password);
             $.ajax({
                 type:'post',
                 url:baseUrl+'/login',

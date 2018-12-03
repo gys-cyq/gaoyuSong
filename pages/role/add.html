@@ -50,8 +50,8 @@
             <div  class="layui-inline">
                 <label class="layui-form-label">是否可用</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" class="layui-input" lay-filter="check" checked>
-                    <input type="hidden" name="available" id="available" />
+                    <input type="checkbox" lay-skin="switch" lay-text="正常|禁用" class="layui-input" lay-filter="check" checked>
+                    <input type="hidden" name="available" id="available" lay-filter="check" lay-skin="switch" value="1"/>
                 </div>
             </div>
         </div>
@@ -74,10 +74,16 @@
             element = layui.element;
         token=localStorage.getItem("token");
 
-        $("#available").val(0);
         form.on('switch(check)', function(data) {
-            $("#available").val(this.checked ? 1 : 0);
+            if (this.checked) {
+                $('#available').val(1);
+            } else {
+                $('#available').val(0);
+            }
         })
+        console.log($('#available').val());
+
+
             form.on('submit(addRole)', function(data){
             var url = baseUrl + "/role/add";
             var options = {
@@ -89,7 +95,6 @@
                 timeout: 10000,
                 data: {token: token},
                 success: function (res) {
-                    console.log(res);
                     if (res.status == 1) {
                         layer.alert("成功", function () {
                             var index = parent.layer.getFrameIndex(window.name);
