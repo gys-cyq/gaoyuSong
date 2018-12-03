@@ -21,6 +21,18 @@
             width: 850px;
 
         }
+        img{
+            width: 60px;
+            height: 60px;
+            margin: 0 30px
+        }
+        .filename {
+            width: 120px;
+            white-space: nowrap;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 </head>
@@ -74,7 +86,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="contactsTel" class="layui-input" autocomplete="off" lay-verify="checkMolie" />
+                        <input type="text" name="contactsTel" class="layui-input" autocomplete="off" lay-verify="checkTel" />
 
                     </div>
                 </div>
@@ -162,6 +174,17 @@
             </div>
 
             <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业资质
+
+                    </label>
+
+                    <div class="layui-inline">
+                        <ul id="qualificationsList" style="display: flex;float: left;padding:5px 15px;"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
 
@@ -191,9 +214,9 @@
                 elem: '#time'
             });
             form.verify({
-                checkMolie: function (value) {
-                    if (!checkMolie(value)) {
-                        return "请输入正确的手机号码"
+                checkTel: function (value) {
+                    if (!checkTel(value) && value != null&&value.length!=0) {
+                        return "请输入正确的联系电话"
                     }
                 }
             })
@@ -209,7 +232,9 @@
                     timeout: 10000,
                     success: function (res) {
                         if (res.status == 1) {
-                            layer.msg(res.msg);
+                            layer.alert(res.msg, function () {
+                                layer.closeAll();
+                            })
                         } else {
                             errmsg(res);
                         }
@@ -255,6 +280,16 @@
                             historyId = data.id;
                             streetId = data.streetId;
                             form.val("formTest", data);
+                            var qualificationsList = data.qualificationsList;
+                            var html='';
+                            for (var i in qualificationsList) {
+                                var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
+                                html += '<div style="width:120px;height:80px;">';
+                                html += '<img src="' + image + '" ></img>';
+                                html += '<div class="filename">' +qualificationsList[i].expirationDate+"到期" + '</div>';
+                                html += '</div>';
+                            }
+                            $('#qualificationsList').html(html)
                             getStreetList(data);
                             getParkList(data);
                         }
@@ -264,6 +299,7 @@
                     }
 
                 }, error: function (xhr, type, errorThrown) {
+
 
                 }
             });

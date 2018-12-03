@@ -57,6 +57,15 @@ function checkMolie(str) {
         return false;
     }
 }
+function checkTel(phone) {
+
+    if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone)) {
+       
+        return false;
+    }else{
+        return true;
+    }
+}
 function cancel() {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);

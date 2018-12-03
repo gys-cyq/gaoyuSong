@@ -200,9 +200,7 @@
                                 var html = '';
                                 html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
                                 if (e.status == 2) {
-                                    if (actions.indexOf('project:history') != -1) {
-                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-                                    }
+                                   
                                     if (actions.indexOf('project:contract:apply') != -1) {
                                         html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
                                     }
@@ -213,6 +211,9 @@
                                         html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
                                     }
                                 }
+                                if (actions.indexOf('project:history') != -1) {
+                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+                                    }
                                 if (actions.indexOf('project:edit') != -1 && e.status == 4) {
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
@@ -468,7 +469,7 @@
                 type: 2,
                 area: ['1150px', '500px'],
                 fix: false,//不固定
-                title: '添加信息',
+                title: '添加',
                 content: 'list_add.html',
                 end:function(){
                     table.reload("testReload");

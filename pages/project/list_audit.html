@@ -34,7 +34,7 @@
 
                 <div class="layui-input-inline">
 
-                    <ul id="conditions" style="margin-left: 60px">
+                    <ul id="conditions" style="margin-left: 60px" lay-verify="select">
 
                     </ul>
 
@@ -61,6 +61,15 @@
             layui.use(['layer', 'form'], function () {
                 layer = layui.layer;
                 var form = layui.form;
+                form.verify({
+                    select:function(value){
+                        temp = $('#conditions li');
+                       
+                       if(temp.length==0){
+                           return "请选择专家"
+                       }
+                    }
+                })
                 form.on('submit(submit)', function (data) {
                     console.log(JSON.stringify(data.field));
                     var options = {

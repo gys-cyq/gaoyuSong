@@ -74,7 +74,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="contactsTel" class="layui-input" />
+                        <input type="tel" name="contactsTel" class="layui-input"  lay-verify="checkTel"/>
 
                     </div>
                 </div>
@@ -265,6 +265,10 @@
                         return "请选择企业资质";
                     }
 
+                }, checkTel: function (value) {
+                    if (!checkTel(value)&&value!=null&&value.length!=0) {
+                        return "请输入正确的联系电话"
+                    }
                 }
             });
             form.on('submit(submit)', function (data) {

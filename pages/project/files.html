@@ -18,6 +18,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: center
         }
         .titlename{
             text-align:center;
@@ -35,10 +36,6 @@
             历史申请附件
         </div>
         <fieldset class="layui-elem-field">
-            <!--<div class="layui-field-box">-->
-            <!--<table class="style-table" id="mouldList" lay-filter="mouldList">-->
-            <!--</table>-->
-            <!--</div>-->
             <ul id="template" style="display: flex;float: left;padding:5px 15px;"></ul>
         </fieldset>
     </div>
@@ -66,8 +63,8 @@
                         for (var i in data) {
                             var imgurl = baseUrl + '/images/' + data[i].formats + '.png';
                             var downloadurl = baseUrl + '/file/download?path=' + data[i].path;
-                            html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
-                            html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
+                            html += '<div ><a href="' + downloadurl + '">';
+                            html += '<img src="' + imgurl + '" style="width:60px;height:60px;margin:0px 20px"></img>';
                             html += '<div class="filename">' + data[i].filename + '</div>';
                             html += '</a></div>';
                         }

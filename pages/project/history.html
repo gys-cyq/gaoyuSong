@@ -58,21 +58,23 @@
                     cols: [
                         [
                             { field: 'name', title: '项目名称' },
-                            { field: 'type', title: '申报类型' ,templet:function(e){
-                                 if(e.type=='C100001'){
-                                    return '新项目申报'
-                                }else if(e.type=='C100002'){
-                                    return '合同审核'
-                                }else if(e.type=='C100003'){
-                                    return "中期检查"
-                                }else if(e.type=='C100004'){
-                                    return "项目验收"
-                                }else{
-                                    return ""
+                            {
+                                field: 'type', title: '申报类型', templet: function (e) {
+                                    if (e.type == 'C100001') {
+                                        return '新项目申报'
+                                    } else if (e.type == 'C100002') {
+                                        return '合同审核'
+                                    } else if (e.type == 'C100003') {
+                                        return "中期检查"
+                                    } else if (e.type == 'C100004') {
+                                        return "项目验收"
+                                    } else {
+                                        return ""
+                                    }
                                 }
-                            }},
+                            },
                             // { field: 'companyName', title: '申报单位' },
-                            {field:'timeStr',title:'申请日期'},
+                            { field: 'timeStr', title: '申请日期' },
                             {
                                 field: 'status', templet: function (e) {
                                     if (e.status == 0) {
@@ -85,7 +87,7 @@
                                         return '<span style="color: red;">' + "不通过" + '</span>'
                                     } else if (e.status == 4) {
                                         return '<span style="color: red;">' + "退回" + '</span>'
-                                    }else{
+                                    } else {
                                         return "";
                                     }
 
@@ -115,7 +117,7 @@
                             }
 
                         });
-                    }else if(layEvent=='files'){
+                    } else if (layEvent == 'files') {
                         layer.open({
                             type: 2,
                             area: ['400px', '300px'],
