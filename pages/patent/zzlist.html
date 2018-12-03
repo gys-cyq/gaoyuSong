@@ -39,7 +39,6 @@
             url:baseUrl+'/patentFunding/findPatentFundingByPage',
             where:{token:token},
             parseData: function(res){
-                console.log(res.data.list);
                 return {
                     "code" : 0,
                     "msg" : res.msg,
@@ -51,10 +50,11 @@
             page: true, //开启分页
             cols: [[ //表头
 //                {field: 'id', title: '专家名称'},
-                {field: 'id', title: '专家姓名'},
+//                {field: 'id', title: '专家姓名'},
                 {field: 'patentFundingTypeName', title: '专利资助类型名称'},
-                {field: 'type', title: '专利资助类型'},
+//                {field: 'type', title: '专利资助类型'},
                 {field: 'applyName', title: '申请人名称'},
+                {field: 'mobile', title: '手机号'},
                 {field: 'description', title: '描述'},
                 {field: 'isApprove', templet:function(d){
                     if(d.isApprove==0){

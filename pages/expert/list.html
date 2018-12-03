@@ -69,9 +69,12 @@
             </div>
         </form>
         <div>
-            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
                 <i class="layui-icon"></i> 添加
             </button>
+            <button class="layui-btn" onclick="download()">下载导入模板</button>
+            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
+            <button class="layui-btn" id="upload">导入</button>
         </div>
     </div>
     <fieldset class="layui-elem-field">
@@ -90,10 +93,11 @@
     var areaFind;
     token = localStorage.getItem("token");
     var form;
-    layui.use(['table','layer','jquery'],function(){
+    layui.use(['table','layer','jquery','upload'],function(){
         var layer = layui.layer,
             table = layui.table,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            upload = layui.upload;
         form = layui.form;
         findschoolMajor();
 
@@ -265,7 +269,51 @@
                 });
             }
         })
+
+        var files;
+        var uploadInst = upload.render({
+            elem: '#upload',
+            url: baseUrl + '/expert/importExcel',
+            accept: 'file',
+            exts: 'xls|xlsx',
+            data: {
+                token: token,
+                myfile: 'myfile',
+            },
+            choose: function (obj) {
+                //将文件放在队列里面
+                files = this.files=obj.pushFile();
+                layer.load();
+            },
+            done: function (res, index, upload) {
+                layer.closeAll('loading');
+                if (res.status == 1) {
+                    layer.msg(res.msg);
+                    parent.location.reload();
+                } else {
+                    errmsg(res);
+                }
+                delete files[index]; //删除队列里面的文件
+            },
+            error: function () {
+                layer.closeAll('loading');
+            }
+        });
     })
+
+    function download() {
+        window.location.href = baseUrl + '/template/expert_template.xls';
+    }
+    function exportFile() {
+        var url = baseUrl + '/expert/exportExcel?token=' + token;
+        if ($('#expertname').val() != '') {
+            url += '&name=' + $('#expertname').val();
+        }
+        if ($("#jobTitle").val() != '') {
+            url += '&jobTitle=' + $("#jobTitle").val();
+        }
+        window.location.href = url;
+    }
 
     function findschoolMajor(){
         $.ajax({
