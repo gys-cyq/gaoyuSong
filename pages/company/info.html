@@ -286,6 +286,7 @@
                                 var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
                                 html += '<div style="width:120px;height:80px;">';
                                 html += '<img src="' + image + '" ></img>';
+                                html += '<div class="filename">' +qualificationsList[i].typeName + '</div>';
                                 html += '<div class="filename">' +qualificationsList[i].expirationDate+"到期" + '</div>';
                                 html += '</div>';
                             }

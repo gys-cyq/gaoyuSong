@@ -96,16 +96,18 @@
 
                     </div>
                 </div>
+
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">项目说明
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="description" class="layui-input" readonly='readonly' />
+                        <input type="text" name="description" class="layui-input" readonly='readonly' style="width: 520px" />
 
                     </div>
                 </div>
             </div>
-
             <div class="layui-form-item" style="display: flex">
                 <div class="layui-inline">
                     <label class="layui-form-label">附件
@@ -146,14 +148,16 @@
                     status = "不通过";
                 } else if (data.status == 4) {
                     status = "退回";
-                }else if(data.status==7){
-                    status='专家审批结束';
-                }else if(data.status==8){
-                    status='未匹配审批流程';
-                }else{
-                    status='';
+                } else if (data.status == 7) {
+                    status = '专家审批结束';
+                } else if (data.status == 8) {
+                    status = '流程未匹配';
+                }else if(data.status==9){
+                    status="系统导入"
+                }else {
+                    status = '';
                 }
-               
+
                 statusTV.val(status);
                 var html = '';
                 for (var i in data.attList) {

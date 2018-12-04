@@ -172,20 +172,23 @@
                         {
                             field: 'status', title: '项目审核状态', templet: function (e) {
                                 if (e.status == 0) {
-                                    return '<span style="color: red;">' + "待审核" + '</span>';
+                                    return  "待审核";
                                 } else if (e.status == 1) {
-                                    return '<span style="color: red;">' + '审核中' + '</span>'
+                                    return "审核中"
                                 } else if (e.status == 2) {
-                                    return '<span style="color: red;">' + "通过" + '</span>';
+                                    return  "通过"
                                 } else if (e.status == 3) {
-                                    return '<span style="color: red;">' + "不通过" + '</span>'
+                                    return "不通过"
                                 } else if (e.status == 4) {
-                                    return '<span style="color: red;">' + "退回" + '</span>'
+                                    return "退回" 
                                 } else if (e.status == 7) {
-                                    return '<span style="color: red;">' + "专家审批结束" + '</span>'
+                                    return  "专家审批结束" 
 
                                 } else if (e.status == 8) {
-                                    return '<span style="color: red;">' + "未匹配审批流程" + '</span>'
+                                    return"流程未匹配";
+
+                                }else if(e.status==9){
+                                    return "系统导入"
 
                                 }
                                 else {
@@ -214,7 +217,7 @@
                                 if (actions.indexOf('project:history') != -1) {
                                         html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
                                     }
-                                if (actions.indexOf('project:edit') != -1 && e.status == 4) {
+                                if (actions.indexOf('project:edit') != -1 && (e.status == 4||e.status==8||e.status==9) ){
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
                                 }
