@@ -12,8 +12,6 @@
 		<link rel="stylesheet" href="static/css/weadmin.css" />
 		<link rel="stylesheet" href="lib/layui/css/layui.css" />
 		<link rel='icon' href='img/icon.png' type='image/x-ico' />
-		<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		<style>
 			.layui-nav .layui-nav-child a{
@@ -79,6 +77,8 @@
 			</div>
 		</div>
 		<div class="page-content-bg"></div>
+		<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
 			layui.config({
 			  base: './static/js/',
@@ -125,7 +125,7 @@
                         for (var i = 0; i < len; i++){
                             var menu = menus[i];
                             if(menu.children.length>0){
-                                html += "<li class=\"layui-nav-item\">"+"<a href='javascript:void(0)'><cite>"+menu.name+"</cite></a>";
+                                html += "<li class=\"layui-nav-item\">"+"<a href='javascript:void(0)'><cite>"+menu.name+"</cite><span class='layui-nav-more'></span></a>";
                                 html += "<ul class=\"layui-nav-child\">";
                                 if(menu.children!=null && menu.children.length>0){
                                     var children = menu.children;
@@ -189,6 +189,7 @@
 
 								}						
 								SetPageData(id, res.data);
+
 								if(url2=='pages/company/list_zizhi.html'){
 									tab.tabAdd(title, url2 + "?pid=" + number, id);
 
@@ -206,7 +207,7 @@
 							}
 						},
 						error:function(res){
-                              location.href("Login.html");
+                              self.location.href("Login.html");
 						}
 
 					})
