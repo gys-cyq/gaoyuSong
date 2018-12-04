@@ -137,24 +137,24 @@
         function setChooseValues(messageId, message) {
             conditions.push(messageId)
             $("input[name='conditions']").val(conditions);
-            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '<img src="../../img/iconfont-del.png" class="delImage" onclick="del()"/>' + '</li>';
+            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '<img src="../../img/iconfont-del.png" class="delImage" onclick="del(\''+messageId+'\')"/>' + '</li>';
             $('#conditions').append(html);
 
         }
 
-        function del() {
+        function del(messageId) {
             var div = document.getElementsByClassName("delImage");
             var ul = document.querySelector("#conditions");
             var list = ul.querySelectorAll("li");
             for (var i = 0; i < div.length; i++) {
 
-
-                list[i].remove();
-                conditions.splice(i,1);
-                $("input[name='conditions']").val(conditions);
-
-
+                if(messageId=conditions[i]){
+                    list[i].remove();
+                     conditions.splice(i,1);
+                }
             }
+            $("input[name='conditions']").val(conditions);
+
         }
 
     </script>

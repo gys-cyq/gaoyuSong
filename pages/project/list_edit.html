@@ -169,6 +169,7 @@
         var form;
         var filesList = [];
         var temList = [];
+        var attList = [];
         function child(obj) {
             obj = JSON.stringify(obj);
             var data = JSON.parse(obj);
@@ -202,16 +203,16 @@
 
                 statusTV.val(status);
                 var html = '';
-
+                attList = data.attList;
                 for (var i in data.attList) {
                     filesList.push(data.attList[i].path);
                     var imgurl = baseUrl + '/images/' + data.attList[i].formats + '.png';
                     var downloadurl = baseUrl + '/file/download?path=' + data.attList[i].path;
-                    html +='<li>'+ '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
+                    html += '<li>' + '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
                     //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
-                    html += '<div >' + '<img src="' + imgurl + '" style="width:60px;height:60px"></img></a>' + '<img src="../../img/delete.png" class="delImage" onclick="del()"></img>' + '</div>';
+                    html += '<div >' + '<img src="' + imgurl + '" style="width:60px;height:60px"></img></a>' + '<img src="../../img/delete.png" class="delImage" onclick="del(\'' + data.attList[i].path + '\')"></img>' + '</div>';
                     html += '<div class="filename">' + data.attList[i].filename + '</div>';
-                    html += '</div>'+'</li>';
+                    html += '</div>' + '</li>';
                 }
                 $("input[name='files']").val(filesList)
                 $('#template').html(html);
@@ -279,15 +280,15 @@
                 });
                 findprojectTypeAll(data.type);
                 form.on('submit(submit)', function (data) {
-                    if(temList.length!=0){
+                    if (temList.length != 0) {
                         filesList.push(temList);
                     }
-                    
-                    console.log("上传的时候："+filesList)
+
+                    console.log("上传的时候：" + filesList)
                     $("input[name='files']").val(filesList);
-                    data.field.files=filesList;
+                    data.field.files = filesList;
                     console.log(JSON.stringify(data.field));
-        
+
                     var options = {
                         url: baseUrl + "/project/editProject",
                         type: 'post',
@@ -370,15 +371,19 @@
                 }
             })
         }
-        function del() {
-        
+        function del(imageUrl) {
+
             var div = document.getElementsByClassName("delImage");
             var ul = document.querySelector("#template");
             var list = ul.querySelectorAll("li");
             for (var i = 0; i < div.length; i++) {
-               
-                list[i].remove();
-                filesList.splice(i, 1);
+            
+                if (imageUrl == attList[i].path) {
+                    list[i].remove();
+
+                    filesList.splice(i, 1);
+                }
+
             }
             console.log(filesList);
         }
