@@ -20,7 +20,7 @@
         img {
             width: 18px;
             height: 15px;
-            margin-left: 10px;
+            margin-left: 20px;
             cursor: pointer;
         }
     </style>
@@ -39,11 +39,10 @@
             <div class="layui-field-box" style="float:left;border-right:1px solid #ccc;text-align:center">
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
-                <input type="button" class="layui-btn" value="确定" onclick="getInform()" />
             </div>
             <div style="width:150px;float:left;padding: 10px 15px;">
                 <form>
-                    <div class="layui-form-item" style="text-align:center;" id="test2">
+                    <div class="layui-form-item" id="test2">
                     </div>
                 </form>
             </div>
@@ -62,6 +61,7 @@
         var index = parent.layer.getFrameIndex(window.name);
         var userIds = [];
         var message =[];
+        token=  localStorage.getItem('token');
         layui.use(['table', 'form', 'layer'], function () {
             var table = layui.table;
             var layer = layui.layer,
@@ -70,11 +70,10 @@
             table.render({
                 elem: '#demo'
                 // , height: 420
-                , id: id
+                , id: 'userId'
                 , url: baseUrl + '/user/select' //数据接口
-                , where: { token: localStorage.getItem('token') }
+                , where: { token: token }
                 , parseData: function (res) {
-
                     return {
                         "code": 0,
                         "msg": res.msg,
@@ -95,8 +94,8 @@
             var active = {
                 reload: function () {
                     var url = baseUrl + '/user/select';
-                    var user = $('#username').val();
-                    table.reload(id, {
+//                    var user = $('#username').val();
+                    table.reload('userId', {
                         url: url,
                         method: 'get',
                         dataType: 'json',
@@ -105,7 +104,7 @@
                         },
                         where: {
                             token: token,
-                            username: user
+                            username:  $('#username').val()
                         },
                     })
                 }
@@ -113,10 +112,10 @@
 
             $("#Search").on('click', function () {
                 var type = $(this).data('type');
-                if ($('#username').val().trim() == "") {
-                    layer.msg('查询名称不能为空');
-                    return false;
-                }
+//                if ($('#username').val().trim() == "") {
+//                    layer.msg('查询名称不能为空');
+//                    return false;
+//                }
                 active[type] ? active[type].call(this) : '';
             })
 
@@ -124,16 +123,13 @@
             table.on('row(test)', function (obj) {
                 data = obj.data;
                 obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-            });
-
-            window.getInform = function () {
                 var html = '';
                 var html2 = $('#test2').html();
                 var html3 = "";
                 var obj = document.getElementsByTagName('input');
                 if (obj.length > 4) {
-                    html3 += '<div onclick="del(' + data.id + ')" id=' + data.id + '>' + data.nickname + '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
-                    for (var i = 3; i < obj.length - 1; i++) {
+                    html3 += '<div onclick="del(' + data.id + ')" id=' + data.id + ' style="width:240px"><span>' + data.nickname+'</span>'+ '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
+                    for (var i = 2; i < obj.length - 1; i++) {
                         if (obj[i].value == data.id) {
                             layer.msg("此用户已添加,请选择其他用户");
                             html3 = "";
@@ -143,11 +139,10 @@
                     $('#test2').html(html2 + html3);
                 } else {
                     message.push(data.nickname);
-                    html += '<div onclick="del(' + data.id + ')" id=' + data.id + '>' + data.nickname + '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
+                    html += '<div onclick="del(' + data.id + ')" id=' + data.id + ' style="width:240px"><span>' + data.nickname +'</span>'+ '<input type="hidden" value=' + data.id + ' name=' + data.id + ' />' + '<img src="../../img/iconfont-del.png" />' + '</div>';
                     $('#test2').html(html2 + html);
                 }
-
-            }
+            });
 
             window.submit = function () {
                 var j = 0;
@@ -169,10 +164,7 @@
 
         });
         function del(obj) {
-            layer.confirm('确定删除吗？', function (index) {
-                $('#' + obj).remove();
-                layer.close(index);
-            })
+            $('#' + obj).remove();
         }
 
 

@@ -59,8 +59,8 @@
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
 <script type="text/javascript">
     layui.use(['form','layer'],function(){
-        var layer = layui.layer,
-            form = layui.form;
+        var layer = layui.layer;
+        var form = layui.form;
         token = localStorage.getItem("token");
 
         window.cancel = function(){
@@ -106,41 +106,50 @@
             index++;
 
         }
-    })
+        window.edit = function(){
+            var url = baseUrl + "/process/update";
+            var nodes = $('#processNodes li');
+            if(nodes[nodes.length-1].innerHTML=="专家"){
+                layer.alert('配置的最后流程不能为专家，请重新配置',function(){
+                    $('#processNodes').html("");
+                    layer.close(layer.index);
+                });
+            }else{
+                var options = {
+                    url: url,
+                    type: 'post',
+                    resetForm: true,
+                    timeout: 10000,
+                    data: {token: token},
+                    success: function (res) {
+                        $("#hiddlevalues").html("");
+                        index = 1;
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        } else {
+                            errmsg(res);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        //未登陆
+                        layer.msg("系统异常");
+                        $("#hiddlevalues").html("");
+                        index = 1;
+                    }
+                };
 
-    function edit(){
-        var url = baseUrl + "/process/update";
-        var options = {
-            url: url,
-            type: 'post',
-            resetForm: true,
-            timeout: 10000,
-            data: {token: token},
-            success: function (res) {
-                $("#hiddlevalues").html("");
-                index = 1;
-                if (res.status == 1) {
-                    layer.alert("成功", function () {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    });
-                } else {
-                        errmsg(res);
-                }
-            },
-            error: function (data) {
-                console.log(data);
-                //未登陆
-                layer.msg("系统异常");
-                $("#hiddlevalues").html("");
-                index = 1;
             }
-        };
-        $("#processEdit").ajaxForm(options);
-        $("#processEdit").submit();
+            $("#processEdit").ajaxForm(options);
+            $("#processEdit").submit();
+            return false;
 
-    }
+        }
+    })
     function child(obj){
        var pid = $('#id').val(obj.id);
         $('#name').val(obj.name);

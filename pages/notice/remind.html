@@ -18,11 +18,15 @@
 <body>
 <div class="layui-tab-brief">
     <div style="margin:10px;">
-        <label class="searchTitle">内容</label>
-        <div class="layui-input-inline">
-            <input type="text"  placeholder="请输入关键字" class="layui-input search_input" id="content" name="content" autocomplete="off">
-        </div>
-        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-inline">
+                    <input type="text"  placeholder="请输入关键字" class="layui-input search_input" id="content" name="content" autocomplete="off">
+                </div>
+                <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+            </div>
+        </form>
     </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">

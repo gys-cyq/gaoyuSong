@@ -358,7 +358,7 @@
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
+                layer.msg('系统异常');
             }
         });
     }
@@ -389,17 +389,18 @@
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
+                layer.msg('系统异常');
             }
         })
     }
     function getstreetList(obj){
         $.ajax({
-            url: baseUrl + '/street/getStreetList',
+            url: baseUrl + '/area/getStreetList',
             type: 'get',
             dataType: 'json',
             data: { id:obj},
             success: function (response) {
+                console.log(response);
                 response = eval(response);
 
                 if (response.status == 1) {
@@ -414,18 +415,18 @@
                     $('#streetList').html(html);
                     form.render();
                 }else{
-                    console.log(response.msg);
+                    layer.msg(response.msg);
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
+                layer.msg('系统异常');
             }
         })
     }
     function getparkList(obj){
         $.ajax({
-            url: baseUrl + '/park/getParkList',
+            url: baseUrl + '/area/getParkList',
             type: 'get',
             dataType: 'json',
             data: { id:obj},
@@ -445,12 +446,12 @@
                     $('#parkList').html(html);
                     form.render();
                 }else{
-                    console.log(response.msg);
+                    layer.msg(response.msg)
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
+                layer.msg('系统异常');
             }
         })
     }

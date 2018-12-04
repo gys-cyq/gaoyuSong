@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-form-item" id="urlData" style="display:none">
+        <div class="layui-form-item" id="urlData" style="display:none;">
             <div class="layui-inline">
                 <label class="layui-form-label">路径</label>
                 <div class="layui-input-inline">
@@ -80,8 +80,9 @@
             form = layui.form;
         token = localStorage.getItem("token");
 
-        if($('#type').val()=='menu'){
-            console.log($('#type').val());
+        if($('#type').val()=='action'){
+            $('#urlData').css('display','none');
+        }else{
             $('#urlData').css('display','block');
         }
         window.cancel = function(){

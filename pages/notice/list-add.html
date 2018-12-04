@@ -32,7 +32,7 @@
                 <label class="layui-form-label">类型<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <select name="type" lay-filter="type" id="type" lay-verify="required">
-                        <option value="">所有</option>
+                        <option value="">默认</option>
                         <option value="1">公告</option>
                         <option value="2">通知</option>
                     </select>
@@ -125,7 +125,7 @@
         layer.open({
             type: 2,
             title: '选择需要通知人员',
-            area: ['720px', '400px'],
+            area: ['800px', '500px'],
             fix: false,
             maxmin:true,
             content: 'user-inform.html',
