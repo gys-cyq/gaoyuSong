@@ -148,7 +148,7 @@
             var list = ul.querySelectorAll("li");
             for (var i = 0; i < div.length; i++) {
 
-                if(messageId=conditions[i]){
+                if(messageId==conditions[i]){
                     list[i].remove();
                      conditions.splice(i,1);
                 }
