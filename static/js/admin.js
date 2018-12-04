@@ -175,6 +175,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			var li = $("#WeTabTip li[lay-id=" + id + "]").length;
 			if(li > 0) {
 				element.tabChange('wenav_tab', id); //切换到：用户管理
+                location.reload();
 			} else {
 				//该id不存在，新增一个Tab项
 				element.tabAdd('wenav_tab', {
@@ -274,7 +275,8 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 	 * @todo 重新计算iframe高度
 	 */
 	function FrameWH() {
-		var h = $(window).height() - 164;
+		// var h = $(window).height() - 164;
+        var h = $(window).height()-90;
 		$("iframe").css("height", h + "px");
 	}
 	$(window).resize(function() {
@@ -453,11 +455,11 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		if($(which).attr('data-bit')){
 			return false; //判断页面打开后第一次点击，执行刷新
 		}else{
-			$(which).attr('data-bit',i);  	
+			$(which).attr('data-bit',i);
 			var frame = $('.weIframe[tab-id='+layId+']');
 			frame.attr('src', frame.attr('src'));
 			console.log("reload:"+$(which).attr('data-bit'));
-		} 
+		}
     }
 	/**
 	 *@todo Frame内部的按钮点击打开其他frame的tab

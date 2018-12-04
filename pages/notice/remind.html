@@ -58,13 +58,13 @@
             id:'expertId',
             cols: [[ //表头
                 {field: 'content', title: '内容'},
-                {field: 'isread', title: '是否读取',templet:function(d){
-                    if(d.isread==0){
-                        return '<span style="padding:2px 5px;background:#FF5722;color:#fff;border-radius:5px;font-size:12px;">'+'未读'+'</span>';
-                    }else if(d.isread==1){
-                        return '已读';
-                    }
-                }},
+//                {field: 'isread', title: '是否读取',templet:function(d){
+//                    if(d.isread==0){
+//                        return '<span style="padding:2px 5px;background:#FF5722;color:#fff;border-radius:5px;font-size:12px;">'+'未读'+'</span>';
+//                    }else if(d.isread==1){
+//                        return '已读';
+//                    }
+//                }},
                 {field: 'timeStr', title: '时间'},
             ]],
             done: function (res,cuur,count) {

@@ -90,9 +90,16 @@
             id:'testid',
             cols: [[ //表头
                 {field: 'name', title: '街道名称'},
-                {field: 'provinceName', title: '省'},
-                {field: 'cityName', title: '市'},
-                {field:'countryName',title:'区'},
+                {field: '', title: '地址',templet:function(d){
+                    if(d.provinceName=="北京"||d.provinceName=="上海"||d.provinceName=="天津"||d.provinceName=="重庆"){
+                        return d.cityName+d.countryName;
+                    }else{
+                        return d.provinceName+d.cityName+d.countryName;
+                    }
+                }},
+//                {field: 'provinceName', title: '省'},
+//                {field: 'cityName', title: '市'},
+//                {field:'countryName',title:'区'},
                 {field: 'zipcode', title: '邮编'},
                 {field: 'linkUser', title: '联系人'},
                 {field: 'linkTel', title: '联系电话'},
