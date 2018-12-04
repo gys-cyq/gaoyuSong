@@ -11,7 +11,15 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-
+<style>
+      .filename {
+            width: 120px;
+            white-space: nowrap;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+</style>
 
 </head>
 
@@ -45,19 +53,21 @@
 
                     </div>
                 </div>
+              
+            </div>
+
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">描述
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="description" class="layui-input" readonly="readonly" />
+                        <input type="text" name="description" class="layui-input" readonly="readonly" style="width: 520px"/>
 
                     </div>
                 </div>
 
             </div>
-
-
             <div class="layui-form-item">
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">附件</label>
@@ -95,7 +105,7 @@
                 for (var i in data.attList) {
                     var imgurl = baseUrl + '/images/' + data.attList[i].formats + '.png';
                     var downloadurl = baseUrl + '/file/download?path=' + data.attList[i].path;
-                    html += '<div style="text-align:center;"><a href="' + downloadurl + '">';
+                    html += '<div style="text-align:center;width:120px"><a href="' + downloadurl + '">';
                     html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
                     html += '<div class="filename">' + data.attList[i].filename + '</div>';
                     html += '</a></div>';

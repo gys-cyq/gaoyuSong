@@ -26,8 +26,7 @@
 
                         </label>
                         <div class="layui-input-inline">
-                            <input type="text"  name="name" class="layui-input" autocomplete="off" readonly="readonly"
-                            />
+                            <input type="text" name="name" class="layui-input" autocomplete="off" readonly="readonly" />
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -81,12 +80,7 @@
                         <input type="text" name="staffNumber" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">经营范围</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="operationScope" class="layui-input" readonly='readonly' />
-                    </div>
-                </div>
+               
 
                 <div class="layui-inline">
                     <label class="layui-form-label">账号</label>
@@ -94,15 +88,30 @@
                         <input type="text" name="account" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
-
+                <div class="layui-inline">
+                        <label class="layui-form-label">注册时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="registerTime" class="layui-input" readonly='readonly' />
+                        </div>
+                    </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">注册时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="registerTime" class="layui-input" readonly='readonly' />
-                    </div>
-                </div>
+                    <div class="layui-inline">
+                            <label class="layui-form-label">街道
+        
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="streetName" class="layui-input" readonly='readonly' />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                                <label class="layui-form-label">园区
+            
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="parkName" class="layui-input" readonly='readonly' />
+                                </div>
+                            </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">状态
 
@@ -112,56 +121,48 @@
                     </div>
                 </div>
 
-                <div class="layui-inline">
-                    <label class="layui-form-label">备注</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="remark" class="layui-input" readonly='readonly' />
-                    </div>
-                </div>
+               
             </div>
 
-            <!-- <div class="layout-form">
-                        <label class="layui-form-label">部门</label>
-                        <input type="text" class="layui-input-iframe" id="department" readonly="readonly" />
-                    </div> -->
-
+            <div class="layui-form-item">
+                    <div class="layui-inline">
+                            <label class="layui-form-label">经营范围</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="operationScope" class="layui-input" readonly='readonly' style="width: 840px" />
+                            </div>
+                        </div>
+            </div>
+            <div class="layui-form-item">
+                    <div class="layui-inline">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="remark" class="layui-input" readonly='readonly' style="width: 840px"/>
+                            </div>
+                        </div>
+            </div>
         </form>
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript">
-        layui.use('layer', function () {
-            var layer = layui.layer;
-            form = layui.form;
 
-        });
         function child(obj) {
-            console.log(obj);
-            $("input[name='name']").val(obj.name);
+            var data=JSON.parse(JSON.stringify(obj));
+            layui.use(['form','layer'], function () {
+                var layer = layui.layer;
+                var form = layui.form;
+                if(data.status==0){
+                    data.status='新注册'
+                }else if(data.status==1){
+                    data.status = '通过';
+                }else if(data.status==2){
+                    data.status = '不通过';
+                }
+                form.val('details',data)
+            });
+           
           
-                $("input[name='legalPerson']").val(obj.legalPerson);
-
-          
-            $("input[name='address']").val(obj.address);
-            $("input[name='contacts']").val(obj.contacts);
-            $("input[name='contactsTel']").val(obj.contactsTel);
-            $("input[name='registerCapital']").val(obj.registerCapital);
-            $("input[name='staffNumber']").val(obj.staffNumber);
-            $("input[name='operationScope']").val(obj.operationScope);
-            $("input[name='remark']").val(obj.remark);
-            $("input[name='account']").val(obj.account);
-            $("input[name='registerTime']").val(obj.registerTime);
-            var status;
-            if(obj.status==0){
-                status='新注册'
-
-            }else if(obj.status==1){
-                status='通过';
-            }else{
-                status='不通过'
-            }
-            $("input[name='status']").val(status);
 
         }
     </script>

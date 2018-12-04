@@ -15,10 +15,10 @@
         img{
             width: 60px;
             height: 60px;
-            margin: 0 10px
+            margin: 0 30px
         }
         .filename {
-            width: 80px;
+            width: 120px;
             white-space: nowrap;
             text-align: center;
             overflow: hidden;
@@ -188,9 +188,11 @@
                 for (var i in qualificationsList) {
                     var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
                     console.log(image)
-                    html += '<div style="width:80px;height:80px;">';
+                    html += '<div style="width:120px;height:80px;">';
                     html += '<img src="' + image + '" ></img>';
                     html += '<div class="filename">' + qualificationsList[i].typeName + '</div>';
+                    html += '<div class="filename">' +qualificationsList[i].expirationDate+"到期" + '</div>';
+
                     html += '</div>';
                 }
               
