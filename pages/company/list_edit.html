@@ -53,16 +53,6 @@
                         <input type="text" name="legalPerson" class="layui-input" lay-verify="required">
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">企业地址
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="address" class="layui-input" />
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">联系人</label>
                     <div class="layui-input-inline">
@@ -70,6 +60,9 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
+
                 <div class="layui-inline">
                     <label class="layui-form-label">联系电话
 
@@ -88,9 +81,6 @@
 
                     </div>
                 </div>
-            </div>
-
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">注册资金
 
@@ -100,6 +90,10 @@
 
                     </div>
                 </div>
+            </div>
+
+            <div class="layui-form-item">
+
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数
 
@@ -144,8 +138,18 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label">企业地址
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="address" class="layui-input" style="width: 850px" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="zizhi">
+                <div class="layui-inline">
                     <label class="layui-form-label">企业资质
-                        
+
                     </label>
                     <div class="layui-input-inline">
                         <!-- <input class="layui-input" name="typeName"></input> -->
@@ -154,6 +158,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">经营范围
@@ -198,7 +203,7 @@
         var typeName;
         var streetId;
         var layer;
-
+        var user = JSON.parse(localStorage.getItem("user"));
         function child(obj) {
             layui.use(['form', 'layer', 'laydate'], function () {
                 form = layui.form;
@@ -212,7 +217,12 @@
                 streetId = data.streetId;
                 form.val('formTest', data);
                 form.render();
-                findcompanyTypeAll(data);
+                if (user.type != 3) {
+                    findcompanyTypeAll(data);
+                } else {
+                    $('#zizhi').hide();
+                }
+
                 getStreetList(data);
                 getParkList(data);
 
@@ -301,7 +311,10 @@
                         for (var i in data) {
                             var id = data[i].id;
                             var typeName = data[i].typeName;
+
                             html += '<li>' + '<input type="checkbox" value=' + id + ' title=' + typeName + ' lay-skin="primary" name="typeIds" > ' + '</li>';
+
+
 
                         }
                         $('#typeName').html(html);

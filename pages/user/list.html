@@ -17,34 +17,34 @@
 
 <body>
     <div class="layui-tab-brief">
-            <form class="layui-form">
-                    <div class="layui-form-item" style="margin-top: 10px">
-        
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户名
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="username" class="layui-input" autocomplete="off" value="" />
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">昵称
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="nickname" autocomplete="off" class="layui-input" value="">
-                            </div>
-                        </div>
-                       
-                       
-        
-                        <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
-        
-        
-        
+        <form class="layui-form">
+            <div class="layui-form-item" style="margin-top: 10px">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="username" class="layui-input" autocomplete="off" value="" />
                     </div>
-                </form>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">昵称
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="nickname" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+
+
+
+                <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+
+
+
+            </div>
+        </form>
         <div style="margin:10px;">
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
                 <i class="layui-icon"></i> 添加
@@ -69,25 +69,20 @@
     <script type="text/javascript">
         var layer;
         var table;
-        layui.use(['table', 'layer','form'], function () {
+        layui.use(['table', 'layer', 'form'], function () {
             table = layui.table;
             layer = layui.layer;
-            var form=layui.form;
+            var form = layui.form;
             var pid = GetQueryString('pid')
-            var actions = parent.GetPageData(pid)
+            var actions = parent.GetPageData(pid);
+            var user = JSON.parse(localStorage.getItem('user'))
             if (actions.indexOf('user:add') != -1) {
                 $('#addbutton').show();
             } else {
                 $('#addbutton').hide();
             }
-            var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-            if (actions.indexOf('user:update') != -1) {
-                html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
-            }
-            if (actions.indexOf('user:delete') != -1) {
-                html += ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">' + '删除' + '</a>'
-            }
-            $('#barDemo').html(html);
+
+
 
             table.render({
                 elem: '#demo'
@@ -121,7 +116,24 @@
                             }
                         }, title: '状态'
                     }
-                    , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo', title: '操作' }
+                    , {
+                        field: '', title: '操作', templet: function (e) {
+                            var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+                            if (actions.indexOf('user:update') != -1) {
+                                html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
+                            }
+                            var isDelete=true;
+                            for(var i in e.roleList){
+                                if(e.roleList[i].id==2||e.roleList[i].id==5){
+                                    isDelete=false;
+                                }
+                            }
+                            if (actions.indexOf('user:delete') != -1&&isDelete) {
+                                html += ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">' + '删除' + '</a>'
+                            }
+                            return html;
+                        }
+                    }
 
                 ]], done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -202,8 +214,8 @@
                         where: {
                             token: localStorage.getItem('token'),
                             username: $('#username').val(),
-                            nickname:$("#nickname").val()
-                           
+                            nickname: $("#nickname").val()
+
                         }
                     })
                 }
@@ -239,7 +251,7 @@
                     // body.find("input[name='locked']").val(data.locked);
                 }, error: function (layero, index) {
 
-                },end:function(){
+                }, end: function () {
                     table.reload('testReload');
                 }
             });
@@ -257,7 +269,7 @@
                 success: function (layero, index) {
 
                 },
-                error: function (layero, index) { 
+                error: function (layero, index) {
 
                 },
                 end: function () {

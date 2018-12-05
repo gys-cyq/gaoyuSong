@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="../../css/style.css" />
     <!-- 企业库 -->
     <style>
+        .layui-table-cell {
+            height: auto;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all
+        }
     </style>
 
 </head>
@@ -160,12 +166,12 @@
                 // limit: 20,
                 id: 'testReload',
                 cols: [[
-                    { field: 'name', title: '公司名称' },
-                    { field: 'legalPerson', title: '公司法人' },
-                    { field: 'contactsTel', title: '企业电话' },
+                    { field: 'name', title: '企业名称' ,width:250},
+                    { field: 'legalPerson', title: '企业法人' ,width:100},
+                    { field: 'contactsTel', title: '企业联系电话' ,width:200},
                     { field: 'address', title: '企业地址' },
                     { field: 'operationScope', title: '经营范围' },
-                    { fixed: 'right', width: 300, align: 'center', toolbar: '#barDemo', title: '操作' }
+                    { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
                 ]],
                 done: function (res, curr, count) {
                     layer.closeAll('loading');

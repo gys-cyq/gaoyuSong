@@ -65,32 +65,52 @@
 
                     </label>
                     <div class="layui-input-inline" style="width: 515px">
-                            <textarea class="layui-textarea" name="description"></textarea>
-                        </div>
+                        <textarea class="layui-textarea" name="description"></textarea>
+                    </div>
                 </div>
 
 
             </div>
+            <div class="layui-form-item" style="display: flex">
+                <div class="layui-inline">
+                    <label class="layui-form-label">附件
+                    </label>
 
+                </div>
+
+                <ul id="template" style="display: flex;float: left;"></ul>
+
+
+            </div>
         </form>
     </div>
     <script type="text/javascript">
 
         function child(obj) {
-            obj=JSON.stringify(obj);
-            var data=JSON.parse(obj);
-            if(data.status==0){
-                data.status='待审核';
-            }else if(data.status==1){
-                data.status='通过';
-            }else{
-                data.status='不通过';
+            obj = JSON.stringify(obj);
+            var data = JSON.parse(obj);
+            if (data.status == 0) {
+                data.status = '待审核';
+            } else if (data.status == 1) {
+                data.status = '通过';
+            } else {
+                data.status = '不通过';
             }
             layui.use(['form', 'layer'], function () {
-                var layer=layui.layer;
-                var form=layui.form;
-                form.val('details',data);
-
+                var layer = layui.layer;
+                var form = layui.form;
+                form.val('details', data);
+                var html = '';
+                for (var i in data.attList) {
+                    var imgurl = baseUrl + '/images/' + data.attList[i].formats + '.png';
+                    var downloadurl = baseUrl + '/file/download?path=' + data.attList[i].path;
+                    html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
+                    //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
+                    html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
+                    html += '<div class="filename">' + data.attList[i].filename + '</div>';
+                    html += '</a></div>';
+                }
+                $('#template').html(html);
 
             });
 

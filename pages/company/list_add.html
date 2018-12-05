@@ -52,16 +52,6 @@
                         <input type="text" name="legalPerson" class="layui-input" lay-verify="required">
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">企业地址
-
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="address" class="layui-input" />
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">联系人</label>
                     <div class="layui-input-inline">
@@ -69,12 +59,15 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
+
                 <div class="layui-inline">
                     <label class="layui-form-label">联系电话
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="contactsTel" class="layui-input"  lay-verify="checkTel"/>
+                        <input type="tel" name="contactsTel" class="layui-input" lay-verify="checkTel" />
 
                     </div>
                 </div>
@@ -87,9 +80,6 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-
                 <div class="layui-inline">
                     <label class="layui-form-label">账号
                         <span style="color:red;">*</span>
@@ -99,6 +89,10 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
+
+
                 <div class="layui-inline">
                     <label class="layui-form-label">密码
                         <span style="color:red;">*</span>
@@ -117,9 +111,6 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数
 
@@ -129,6 +120,10 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
+
+
                 <div class="layui-inline">
                     <label class="layui-form-label">街道
                         <span style="color:red;">*</span>
@@ -148,12 +143,20 @@
                     </div>
                 </div>
 
-
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label">企业地址
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="address" class="layui-input" style="width: 850px" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="zizhi">
+                <div class="layui-inline">
                     <label class="layui-form-label">企业资质
-                        <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
                         <!-- <input class="layui-input" name="typeName"></input> -->
@@ -205,6 +208,7 @@
         var typeName;
         var streetId;
         var layer;
+        var user = JSON.parse(localStorage.getItem('user'));
         layui.use(['form', 'layer', 'laydate'], function () {
             form = layui.form;
             layer = layui.layer;
@@ -212,9 +216,14 @@
             laydate.render({
                 elem: '#registerDate'
             });
-            var user=JSON.parse(localStorage.getItem("user"));
-            var parkId=user.parkId;
-            findcompanyTypeAll();
+            var user = JSON.parse(localStorage.getItem("user"));
+            var parkId = user.parkId;
+            if (user.type != 3) {
+                findcompanyTypeAll();
+            } else {
+                $('#zizhi').hide();
+            }
+
             getStreetList();
             form.on('select(streetId)', function (data) {
                 streetId = data.value;
@@ -254,26 +263,26 @@
                     if (value == null) {
                         return "街道不能为空";
                     }
-                },park:function(value){
-                    if(parkId!=0&&(value==null||value.length==0)){
+                }, park: function (value) {
+                    if (parkId != 0 && (value == null || value.length == 0)) {
                         return "园区不能为空";
                     }
 
-                } ,isCheckd: function (value) {
-                    var isCheckd = false;
-                    $("input:checkbox").each(function (i) {
-                        if ($(this).prop("checked") == true) {
-                            isCheckd = true;
-                        }
+                }, isCheckd: function (value) {
+                    // var isCheckd = false;
+                    // $("input:checkbox").each(function (i) {
+                    //     if ($(this).prop("checked") == true) {
+                    //         isCheckd = true;
+                    //     }
 
-                    });
-                    console.log(isCheckd)
-                    if (!isCheckd) {
-                        return "请选择企业资质";
-                    }
+                    // });
+                    // console.log(isCheckd)
+                    // if (!isCheckd) {
+                    //     return "请选择企业资质";
+                    // }
 
                 }, checkTel: function (value) {
-                    if (!checkTel(value)&&value!=null&&value.length!=0) {
+                    if (!checkTel(value) && value != null && value.length != 0) {
                         return "请输入正确的联系电话"
                     }
                 }
