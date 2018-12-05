@@ -49,14 +49,16 @@ function GetQueryString(name) {
     if (r != null) return unescape(r[2]); return null;
 }
 
+//手机号验证
 function checkMolie(str) {
-    var re = /^((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+(\d{8})$/;
+    var re = /^((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(14[0-9]{1})|(17[0-9]{1}))+(\d{8})$/;
     if (re.test(str)) {
         return true
     } else {
         return false;
     }
 }
+//联系电话验证
 function checkTel(phone) {
 
     if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone)) {

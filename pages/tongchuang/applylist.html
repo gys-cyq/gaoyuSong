@@ -54,8 +54,7 @@
                 <i class="layui-icon"></i> 添加
             </button>
 
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
-            <button class="layui-btn" id="upload">导入</button>
+            
         </div>
         <fieldset class="layui-elem-field">
             <div class="layui-field-box">
@@ -86,35 +85,25 @@
             var laydate = layui.laydate;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
-            console.log(actions);
-            if (actions.indexOf('project:add') != -1) {
+            if (actions.indexOf('tongchuang:apply:add') != -1) {
                 $('#add').show();
             } else {
                 $('#add').hide();
             }
-            if (actions.indexOf('project:import') != -1) {
-                $('#upload').show();
-            } else {
-                $('#upload').hide();
-            }
-            if (actions.indexOf('project:export') != -1) {
-                $('#export').show();
-            } else {
-                $('#export').hide();
-            }
+           
             var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-            if (actions.indexOf('project:history') != -1) {
-                html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-            }
-            if (actions.indexOf('project:contract:apply') != -1) {
-                html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
-            }
-            if (actions.indexOf('project:midterminspection:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
-            }
-            if (actions.indexOf('project:acceptance:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
-            }
+            // if (actions.indexOf('project:history') != -1) {
+            //     html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+            // }
+            // if (actions.indexOf('project:contract:apply') != -1) {
+            //     html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+            // }
+            // if (actions.indexOf('project:midterminspection:apply') != -1) {
+            //     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
+            // }
+            // if (actions.indexOf('project:acceptance:apply') != -1) {
+            //     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
+            // }
 
             $('#barDemo').html(html);
 

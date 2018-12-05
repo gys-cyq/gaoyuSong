@@ -58,6 +58,8 @@
 
 
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">申报时间
 
@@ -70,9 +72,6 @@
 
 
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
-
-
-
             </div>
         </form>
         <div style="margin: 20px">
@@ -113,7 +112,7 @@
             var laydate = layui.laydate;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
-          
+
             if (actions.indexOf('project:add') != -1) {
                 $('#add').show();
             } else {
@@ -172,22 +171,22 @@
                         {
                             field: 'status', title: '项目审核状态', templet: function (e) {
                                 if (e.status == 0) {
-                                    return  "待审核";
+                                    return "待审核";
                                 } else if (e.status == 1) {
                                     return "审核中"
                                 } else if (e.status == 2) {
-                                    return  "通过"
+                                    return "通过"
                                 } else if (e.status == 3) {
                                     return "不通过"
                                 } else if (e.status == 4) {
-                                    return "退回" 
+                                    return "退回"
                                 } else if (e.status == 7) {
-                                    return  "专家审批结束" 
+                                    return "专家审批结束"
 
                                 } else if (e.status == 8) {
-                                    return"流程未匹配";
+                                    return "流程未匹配";
 
-                                }else if(e.status==9){
+                                } else if (e.status == 9) {
                                     return "系统导入"
 
                                 }
@@ -203,7 +202,7 @@
                                 var html = '';
                                 html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
                                 if (e.status == 2) {
-                                   
+
                                     if (actions.indexOf('project:contract:apply') != -1) {
                                         html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
                                     }
@@ -215,9 +214,9 @@
                                     }
                                 }
                                 if (actions.indexOf('project:history') != -1) {
-                                        html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-                                    }
-                                if (actions.indexOf('project:edit') != -1 && (e.status == 4||e.status==8||e.status==9||e.status==0) ){
+                                    html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+                                }
+                                if (actions.indexOf('project:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
                                 }
@@ -271,7 +270,7 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
                         }
 
@@ -291,7 +290,7 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
 
                         }
@@ -311,7 +310,7 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
 
                         }
@@ -347,7 +346,7 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
                         }
 
@@ -366,7 +365,7 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload('testReload');
                         }
 
@@ -474,7 +473,7 @@
                 fix: false,//不固定
                 title: '添加',
                 content: 'list_add.html',
-                end:function(){
+                end: function () {
                     table.reload("testReload");
                 }
 

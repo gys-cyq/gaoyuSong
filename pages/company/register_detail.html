@@ -47,6 +47,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">联系电话
@@ -56,14 +57,7 @@
                         <input type="text" name="contactsTel" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">地址
 
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="address" class="layui-input" readonly='readonly' />
-                    </div>
-                </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">注册资金</label>
@@ -72,15 +66,16 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">员工人数</label>
                     <div class="layui-input-inline">
                         <input type="text" name="staffNumber" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
-               
+
+
+            </div>
+            <div class="layui-form-item">
 
                 <div class="layui-inline">
                     <label class="layui-form-label">账号</label>
@@ -89,29 +84,11 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">注册时间</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="registerTime" class="layui-input" readonly='readonly' />
-                        </div>
+                    <label class="layui-form-label">注册时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="registerTime" class="layui-input" readonly='readonly' />
                     </div>
-            </div>
-            <div class="layui-form-item">
-                    <div class="layui-inline">
-                            <label class="layui-form-label">街道
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="streetName" class="layui-input" readonly='readonly' />
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                                <label class="layui-form-label">园区
-            
-                                </label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="parkName" class="layui-input" readonly='readonly' />
-                                </div>
-                            </div>
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">状态
 
@@ -121,24 +98,58 @@
                     </div>
                 </div>
 
-               
-            </div>
 
-            <div class="layui-form-item">
-                    <div class="layui-inline">
-                            <label class="layui-form-label">经营范围</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="operationScope" class="layui-input" readonly='readonly' style="width: 840px" />
-                            </div>
-                        </div>
             </div>
             <div class="layui-form-item">
                     <div class="layui-inline">
-                            <label class="layui-form-label">备注</label>
+                        <label class="layui-form-label">省市区
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ptcaddress" class="layui-input" readonly='readonly' />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">街道
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="streetName" class="layui-input" readonly='readonly' />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">园区
+    
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="parkName" class="layui-input" readonly='readonly' />
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">详细地址</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="remark" class="layui-input" readonly='readonly' style="width: 840px"/>
+                                <input type="text" name="address" class="layui-input" readonly='readonly' style="width: 840px" />
                             </div>
                         </div>
+                    </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">经营范围</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="operationScope" class="layui-input" readonly='readonly' style="width: 840px" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="remark" class="layui-input" readonly='readonly' style="width: 840px" />
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -148,21 +159,21 @@
     <script type="text/javascript">
 
         function child(obj) {
-            var data=JSON.parse(JSON.stringify(obj));
-            layui.use(['form','layer'], function () {
+            var data = JSON.parse(JSON.stringify(obj));
+            layui.use(['form', 'layer'], function () {
                 var layer = layui.layer;
                 var form = layui.form;
-                if(data.status==0){
-                    data.status='新注册'
-                }else if(data.status==1){
+                if (data.status == 0) {
+                    data.status = '新注册'
+                } else if (data.status == 1) {
                     data.status = '通过';
-                }else if(data.status==2){
+                } else if (data.status == 2) {
                     data.status = '不通过';
                 }
-                form.val('details',data)
+                form.val('details', data)
             });
-           
-          
+
+
 
         }
     </script>
