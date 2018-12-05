@@ -317,22 +317,38 @@
 
     function findschoolMajor(){
         $.ajax({
-            url: baseUrl + '/profession/selectChildren',
+//            url: baseUrl + '/profession/selectChildren',
+            url:baseUrl + '/profession/getProfessionList',
             type: 'get',
             dataType: 'json',
             timeout: 10000,
             data: { token:token},
             success: function (res) {
-
                 if (res.status == 1) {
-                    var data = res.data;
+//                    var data = res.data;
+//                    var html = ' <option value="">' + '所有' + '</option>';
+//
+//                    for (var i in data) {
+//                        var id = data[i].id;
+//                        var schoolMajorName = data[i].name;
+//                        html += ' <option value=' + id + '>' + schoolMajorName + '</option>';
+//
+//                    }
+//                    $('#schoolMajor').html(html);
+//                    form.render();
+                    var obj = res.data.children;
                     var html = ' <option value="">' + '所有' + '</option>';
-
-                    for (var i in data) {
-                        var id = data[i].id;
-                        var schoolMajorName = data[i].name;
-                        html += ' <option value=' + id + '>' + schoolMajorName + '</option>';
-
+                    major(obj);
+                    function major(data){
+                        for (var i in data) {
+                            var id = data[i].id;
+                            var schoolMajorName = data[i].name;
+                            html += ' <option value=' + id + '>' + schoolMajorName + '</option>';
+                            if(data[i].children){
+                                obj=data[i].children;
+                                major(obj);
+                            }
+                        }
                     }
                     $('#schoolMajor').html(html);
                     form.render();
