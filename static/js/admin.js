@@ -175,12 +175,12 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			var li = $("#WeTabTip li[lay-id=" + id + "]").length;
 			if(li > 0) {
 				element.tabChange('wenav_tab', id); //切换到：用户管理
-                location.reload();
+                $('#'+id)[0].contentWindow.location.reload(true)
 			} else {
 				//该id不存在，新增一个Tab项
 				element.tabAdd('wenav_tab', {
 					title: title,
-					content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="weIframe"></iframe>',
+					content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="weIframe" id="'+id+'"></iframe>',
 					id: id
 				});
 				//当前窗口内容
@@ -303,6 +303,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			fix: false, //不固定
 			maxmin: true,
 			shadeClose: true,
+			autoRefresh:true,
 			shade: 0.4,
 			title: title,
 			content: url
@@ -328,6 +329,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			fix: false, //不固定
 			maxmin: true,
 			shadeClose: true,
+            autoRefresh:true,
 			shade: 0.4,
 			title: title,
 			content: url,

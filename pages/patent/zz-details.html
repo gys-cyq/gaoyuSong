@@ -71,7 +71,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="description" name="description" style="width:80%;"></textarea>
+                <textarea class="layui-textarea" id="description" name="description" style="width:80%;"></textarea>
             </div>
         </div>
     </form>
@@ -93,14 +93,14 @@
         $('#mobile').val(obj.mobile);
         $('#description').val(obj.description);
         $('#applyTime').val(obj.applyTime);
-        if(obj.isApprove==0){
+        if(obj.status==0){
             $('#isApprove').val("未审核");
-        }else if(obj.isApprove==1){
+        }else if(obj.status==1){
             $('#isApprove').val("通过");
-        }else if(obj.isApprove==2){
+        }else if(obj.status==2){
             $('#isApprove').val("不通过");
         }else{
-            $('#isApprove').val("退回");
+            $('#status').val("退回");
         }
     }
 </script>

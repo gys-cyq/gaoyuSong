@@ -27,7 +27,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">专利号<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="number"id="number"  lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" name="number"id="number"  lay-verify="required" autocomplete="off" class="layui-input" onchange="numberRepeat()">
                 </div>
             </div>
             <div class="layui-inline">
@@ -86,7 +86,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" lay-verify="checkMolie">
+                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" lay-verify="linkTel">
                 </div>
             </div>
             <div class="layui-inline">
@@ -150,11 +150,7 @@
                  });
              })
              form.verify({
-                 checkMolie: function (value) {
-                     if (!checkMolie(value)) {
-                         return "请输入正确的手机号码"
-                     }
-                 }
+                 linkTel: [/^$|^1[34578]\d{9}$|^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/, '联系方式有误'],
              })
 
              window.cancel = function(){
@@ -281,6 +277,31 @@
                 console.log(xhr.responseText);
             }
         });
+    }
+    function numberRepeat(){
+        var url = baseUrl + '/patent/findPatentAll';
+        $.ajax({
+            url:url,
+            type:'get',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data;
+                    for(var i = 0;i<data.length;i++){
+                        if($('#number').val()==data[i].number){
+                            layer.msg('专利编号已存在');
+                            $('#number').val('');
+                            return false;
+                        }
+                    }
+                }else{
+                    errmsg(res);
+                }
+            },
+            error:function(res){
+                layer.msg('系统异常');
+            }
+        })
     }
 </script>
 </body>

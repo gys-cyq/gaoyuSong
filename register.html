@@ -16,7 +16,7 @@
 
         .layui-form-item{
             width:80%;
-            margin:0 auto 15px;
+            margin:15px auto;
         }
         .layui-form-item .layui-form-label{
             padding:9px 0;
@@ -106,7 +106,7 @@
                         <div class="layui-inline2">
                             <lable class="layui-form-label">联系电话</lable>
                             <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="contactsTel"/>
+                                <input type="text"  class="layui-input" name="contactsTel" lay-verify="linkTel"/>
                             </div>
                         </div>
                     </div>
@@ -196,6 +196,9 @@
                             </div>
                         </div>
                     </div>
+                    <div style="width:50%;">
+                        <span style="color:red;">注：手机号即为登录账号，默认密码为111111</span>
+                    </div>
                     <!--<div class="layui-form-item">-->
                             <!--<lable class="layui-form-label">注册时间</lable>-->
                             <!--<div class="layui-input-block">-->
@@ -229,6 +232,7 @@
             getCityList(data.value,'countryList');
         })
         form.on('select(country)', function (data) {
+            console.log(data);
             getstreetList(data.value);
         })
         form.on('select(street)', function (data) {
@@ -267,6 +271,7 @@
         form.verify({
             mobile: [/^1[34578]\d{9}$/, '手机号有误'],
             number:[/[^1-9]/g,'该项只能输入正整数'],
+            linkTel: [/^$|^1[34578]\d{9}$|^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/, '联系方式有误'],
             IDcard:[/^[1-9]\d{7}((0[1-9])|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/,'身份证号不合法'],
         });
         form.on('submit(registerP)', function(data){
@@ -373,12 +378,12 @@
 
                 if (response.status == 1) {
                     var data = response.data;
-                    console.log(data);
                     var html = ' <option value="">' + '请选择城市' + '</option>';
                     for (var i in data) {
                         var id = data[i].id;
                         var name = data[i].areaName;
-                        html += ' <option value=' + id + '>' + name + '</option>';
+                            html += ' <option value=' + id + '>' + name + '</option>';
+
 
                     }
                     $('#'+selectId).html(html);
@@ -398,9 +403,8 @@
             url: baseUrl + '/area/getStreetList',
             type: 'get',
             dataType: 'json',
-            data: { id:obj},
+            data: { country:obj},
             success: function (response) {
-                console.log(response);
                 response = eval(response);
 
                 if (response.status == 1) {
@@ -429,7 +433,7 @@
             url: baseUrl + '/area/getParkList',
             type: 'get',
             dataType: 'json',
-            data: { id:obj},
+            data: { streetId:obj},
             success: function (response) {
                 response = eval(response);
 

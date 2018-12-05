@@ -75,7 +75,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input">
+                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" lay-verify="linkTel">
                 </div>
             </div>
             <div class="layui-inline">
@@ -127,6 +127,9 @@
 
             getPatentType();
 
+            form.verify({
+                linkTel: [/^$|^1[34578]\d{9}$|^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/, '联系方式有误'],
+            })
             form.on('submit(submit)', function () {
                 var url = baseUrl + "/patent/add";
                 var options = {

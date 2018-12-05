@@ -206,8 +206,9 @@
                                 errmsg(res);
 							}
 						},
-						error:function(res){
-                              self.location.href("Login.html");
+						error:function(){
+						    layer.msg('系统异常');
+                              window.location="Login.html";
 						}
 
 					})

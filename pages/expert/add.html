@@ -81,10 +81,10 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">职称</label>
+                <label class="layui-form-label">职称<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <!--<input type="text" name="jobTitle" id="jobTitle" autocomplete="off" class="layui-input">-->
-                    <select lay-filter="jobTitle" name="jobTitle" id="jobTitle">
+                    <select lay-filter="jobTitle" name="jobTitle" id="jobTitle" lay-verify="required">
                         <option value="">请选择</option>
                         <option value="1">正高</option>
                         <option value="2">副高</option>
