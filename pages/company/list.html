@@ -227,7 +227,7 @@
                     });
 
                 } else if (layEvent == 'del') {
-                    layer.confirm('确定删除'+'<span style="color:red;">'+res.name+'</span>'+'吗？', function (index) {
+                    layer.confirm('确定删除'+'<span style="color:red;">'+res.name+"(删除企业会同步删除该企业下所有账号)"+'</span>'+'吗？', function (index) {
                         $.ajax({
                             url: baseUrl + '/company/delete',
                             type: 'post',

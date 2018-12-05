@@ -178,9 +178,71 @@
 		var parkId;
 		var locked;
 		var type;
-		layui.use(['form', 'layer', 'laydate'], function () {
+		function child(obj) {
+			layui.use(['form', 'layer', 'laydate'], function () {
 				var layer = layui.layer;
 				form = layui.form;
+				$("input[name='id']").val(obj.id)
+				$('#username').val(obj.username);
+				$("input[name='nickname']").val(obj.nickname);
+				$("input[name='password']").val(obj.password);
+				$("input[name='locked']").val(obj.locked);
+				$("input[name='deptName']").val(obj.deptName);
+				$("input[name='deptId']").val(obj.deptId);
+				if (obj.locked == 0) {
+					$("#status").attr("checked", true)
+					$("#status").val(0)
+				} else {
+					$("#status").val(1);
+					$("#status").attr("checked", false)
+				}
+				form.render();
+				var typeEt = $("#type");
+				var secondSL = $('#second');
+				var firstLL = $('#first');
+				type = obj.type;
+				streetId = obj.streetId;
+				parkId = obj.parkId;
+				switch (obj.type) {
+					case 1:
+						typeEt.val("普通用户");
+						firstLL.hide();
+						secondSL.hide();
+
+						break;
+					case 2:
+						typeEt.val("科技局用户");
+						secondSL.hide();
+						firstLL.show();
+
+						break;
+					case 3:
+						getStreetList();
+						typeEt.val("街道/园区用户");
+						secondSL.show();
+						firstLL.hide();
+
+						break
+				}
+				var isSelect = true;
+				var roles = [];
+				for (var i in obj.roleList) {
+					roles.push(obj.roleList[i].id)
+					if (obj.roleList[i].id < 6) {
+						isSelect = false;
+					}
+				}
+				if (!isSelect) {
+					$("#rolell").hide();
+					var html = '<input type="hidden" name="roles"/>';
+					$("#rolespan").append(html);
+					$("input[name='roles']").val(roles);
+				} else {
+					$("#rolell").show();
+				}
+				var roleNames = obj.roleNames.split(',');
+				getRoleList(roleNames);
+
 				form.on('select(street)', function (data) {
 					streetId = data.value;
 					if (streetId == '' || streetId == undefined) {
@@ -266,68 +328,6 @@
 
 
 			});
-		function child(obj) {
-			
-			$("input[name='id']").val(obj.id)
-			$('#username').val(obj.username);
-			$("input[name='nickname']").val(obj.nickname);
-			$("input[name='password']").val(obj.password);
-			$("input[name='locked']").val(obj.locked);
-			$("input[name='deptName']").val(obj.deptName);
-			$("input[name='deptId']").val(obj.deptId);
-			if (obj.locked == 0) {
-				$("#status").attr("checked", true)
-				$("#status").val(0)
-			} else {
-				$("#status").val(1);
-				$("#status").attr("checked", false)
-			}
-			form.render();
-			var typeEt = $("#type");
-			var secondSL = $('#second');
-			var firstLL = $('#first');
-			type = obj.type;
-			streetId = obj.streetId;
-			parkId = obj.parkId;
-			switch (obj.type) {
-				case 1:
-					typeEt.val("普通用户");
-					firstLL.hide();
-					secondSL.hide();
-
-					break;
-				case 2:
-					typeEt.val("科技局用户");
-					secondSL.hide();
-					firstLL.show();
-
-					break;
-				case 3:
-					getStreetList();
-					typeEt.val("街道/园区用户");
-					secondSL.show();
-					firstLL.hide();
-
-					break
-			}
-			var isSelect = true;
-			var roles = [];
-			for (var i in obj.roleList) {
-				roles.push(obj.roleList[i].id)
-				if (obj.roleList[i].id < 6) {
-					isSelect = false;
-				}
-			}
-			if (!isSelect) {
-				$("#rolell").hide();
-				var html = '<input type="hidden" name="roles"/>';
-				$("#rolespan").append(html);
-				$("input[name='roles']").val(roles);
-			} else {
-				$("#rolell").show();
-			}
-			var roleNames = obj.roleNames.split(',');
-			getRoleList(roleNames);
 
 		}
 		function getRoleList(roleNames) {
