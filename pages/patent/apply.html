@@ -174,7 +174,8 @@
 
                     }
                     console.log(fileList);
-                    $("input[name='files']").val(fileList);
+                    var new_arry=duplicate(fileList);
+                    $("input[name='files']").val(new_arry);
                     var tr = demoListView.find('tr#upload-' + index)
                         , tds = tr.children();
                     tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');

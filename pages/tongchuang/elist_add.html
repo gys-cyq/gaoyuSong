@@ -206,8 +206,8 @@
                             fileList.push(data[i]);
 
                         }
-                        console.log(fileList);
-                        $("input[name='files']").val(fileList);
+                        consoleUtils(fileList);
+                        $("input[name='files']").val(duplicate(fileList));
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
@@ -237,7 +237,7 @@
                 }
             });
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
+                consoleUtils(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/tcb/add",
                     type: 'post',

@@ -215,7 +215,7 @@
             });
             form.verify({
                 checkTel: function (value) {
-                    if (!checkTel(value) && value != null&&value.length!=0) {
+                    if (!checkTel(value) ) {
                         return "请输入正确的联系电话"
                     }
                 }

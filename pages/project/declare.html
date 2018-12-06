@@ -229,8 +229,8 @@
                             fileList.push(data[i]);
 
                         }
-                        console.log(fileList);
-                        $("input[name='files']").val(fileList);
+                        consoleUtils(fileList);
+                        $("input[name='files']").val(duplicate(fileList));
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
@@ -255,13 +255,13 @@
                         return '请上传附件'
                     }
                 },checkMolie:function(value){
-                    if(!checkMolie(value)){
+                    if(!checkTel(value)){
                         return "请输入正确的手机号码"
                     }
                 }
             });
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
+                consoleUtils(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/project/applyProject",
                     type: 'post',

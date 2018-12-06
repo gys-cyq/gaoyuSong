@@ -51,9 +51,9 @@ function GetQueryString(name) {
 
 //手机号验证
 function checkMolie(str) {
-    if(str==null||str.length==0){
+    if (str == null || str.length == 0) {
         return true;
-    }else{
+    } else {
         var re = /^((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(14[0-9]{1})|(17[0-9]{1}))+(\d{8})$/;
         if (re.test(str)) {
             return true
@@ -61,31 +61,42 @@ function checkMolie(str) {
             return false;
         }
     }
-    
+
 }
 //联系电话验证
 function checkTel(phone) {
-    if(phone==null||phone.length==0){
+    if (phone == null || phone.length == 0) {
         return true;
-    }else{
+    } else {
         if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone)) {
-       
+
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
- 
+
 }
 function cancel() {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
-    
+
 }
-var debug=true;
-function consoleUtils(message){
-    if(debug){
+var debug = true;
+function consoleUtils(message) {
+    if (debug) {
         console.log(message)
     }
+}
+function duplicate(fileList) {
+    var new_arr = [];
+    for (var i = 0; i < fileList.length; i++) {
+        var items = fileList[i];
+        //判断元素是否存在于new_arr中，如果不存在则插入到new_arr的最后
+        if ($.inArray(items, new_arr) == -1) {
+            new_arr.push(items);
+        }
+    }
+    return new_arr;
 }

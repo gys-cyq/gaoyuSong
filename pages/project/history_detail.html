@@ -45,7 +45,14 @@
                 data.status = '不通过';
             } else if (data.status == 4) {
                 data.status = '返回';
-            } else {
+            } else if (data.status == 7) {
+                status = '专家审批结束';
+            } else if (data.status == 8) {
+                status = '流程未匹配';
+            } else if (data.status == 9) {
+                status = "系统导入"
+            }
+            else {
                 data.status = '';
             }
             layui.use(['table', 'layer'], function () {
@@ -68,7 +75,7 @@
                             { field: 'personName', title: '审核部门/人' },
                             { field: 'timeStr', title: '审核时间' },
                             // { field: 'companyName', title: '申报单位' },
-                            
+
                             {
                                 field: 'status', templet: function (e) {
                                     if (e.status == 0) {
@@ -81,6 +88,16 @@
                                         return '<span style="color: red;">' + "不通过" + '</span>'
                                     } else if (e.status == 4) {
                                         return '<span style="color: red;">' + "退回" + '</span>'
+                                    }
+                                    else if (e.status == 7) {
+                                        return '<span style="color: red;">' +"专家审批结束"+'</span>'
+
+                                    } else if (e.status == 8) {
+                                        return '<span style="color: red;">' +"流程未匹配"+'</span>';
+
+                                    } else if (e.status == 9) {
+                                        return '<span style="color: red;">' +"系统导入"+'</span>'
+
                                     } else {
                                         return "";
                                     }
@@ -88,7 +105,7 @@
                                 }, title: '状态'
                             },
                             { field: 'reason', title: '说明' }
-                            
+
                         ]
                     ]
 

@@ -280,14 +280,18 @@
                 });
                 findprojectTypeAll(data.type);
                 form.on('submit(submit)', function (data) {
+                
                     if (temList.length != 0) {
-                        filesList.push(temList);
+                        for(var i in temList){
+                            filesList.push(temList[i]);
+                        }
+                       
                     }
-
-                    console.log("上传的时候：" + filesList)
-                    $("input[name='files']").val(filesList);
-                    data.field.files = filesList;
-                    console.log(JSON.stringify(data.field));
+                    var new_arr=duplicate(filesList)
+                    console.log("上传的时候：" + new_arr)
+                    $("input[name='files']").val(new_arr);
+                    data.field.files = new_arr;
+                    consoleUtils(JSON.stringify(data.field));
 
                     var options = {
                         url: baseUrl + "/project/editProject",

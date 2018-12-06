@@ -206,8 +206,17 @@
                             fileList.push(data[i]);
 
                         }
-                        console.log(fileList);
-                        $("input[name='files']").val(fileList);
+                        var new_arr = [];
+                        for (var i = 0; i < fileList.length; i++) {
+                            　　var items = fileList[i];
+                            　　//判断元素是否存在于new_arr中，如果不存在则插入到new_arr的最后
+                            　　if ($.inArray(items, new_arr) == -1) {
+                                　　　　new_arr.push(items);
+                            　　}
+                        }
+                        consoleUtils(fileList);
+                        consoleUtils("new_arr:"+new_arr);
+                        $("input[name='files']").val(new_arr);
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');

@@ -31,7 +31,7 @@
     <div class="layui-table-brief" style="margin: 20px">
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <div class="layui-form-item" style="display: none">
-                <input class="layui-input" name="userId">             
+                <input class="layui-input" name="userId">
                 <input class="layui-input" name="projectIndustry">
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
@@ -78,7 +78,7 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" name="companyName" class="layui-input" lay-verify='required' id="companyName" autocomplete="off" />
-                        <input type="hidden" name="declareCompany" class="layui-input"   />
+                        <input type="hidden" name="declareCompany" class="layui-input" />
 
 
                     </div>
@@ -89,24 +89,24 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="linkName" class="layui-input"  />
+                        <input type="text" name="linkName" class="layui-input" />
 
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
-                       
+
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input"  lay-verify='checkMolie'/>
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify='checkMolie' />
 
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">申报日期
-                        <span style="color:red;">*</span>
+                    <span style="color:red;">*</span>
                 </label>
                 <div class="layui-input-inline">
                     <input id="declareDate" name="declareDateStr" class="layui-input" readonly='readonly' lay-verify='required' />
@@ -159,7 +159,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
-                    <button  class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+                    <button class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
 
@@ -179,20 +179,20 @@
         layui.config({
             base: '../../js/' //假设这是test.js所在的目录
         })
-        .extend({ //设定模块别名
-            //autocomplete: 'autocomplete',
-            yutons_sug: 'yutons_sug'
-        });
+            .extend({ //设定模块别名
+                //autocomplete: 'autocomplete',
+                yutons_sug: 'yutons_sug'
+            });
 
-        layui.use(['form', 'layer', 'upload', 'yutons_sug','laydate'], function () {
+        layui.use(['form', 'layer', 'upload', 'yutons_sug', 'laydate'], function () {
             form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
-           
+
             var yutons_sug = layui.yutons_sug;
-            var laydate=layui.laydate;
+            var laydate = layui.laydate;
             laydate.render({
-                elem:'#declareDate'
+                elem: '#declareDate'
             });
 
             //console.log(yutons_sug)
@@ -208,8 +208,8 @@
                 }
             });
             findprojectTypeAll();
-        
-            
+
+
             var user = JSON.parse(localStorage.getItem('user'));
             console.log(user);
             $("input[name='userId']").val(user.id);
@@ -252,13 +252,22 @@
                     if (res.status == 1) { //上传成功
                         var data = res.data;
                         isUpload = true;
-
                         for (var i = 0; i < data.length; i++) {
                             fileList.push(data[i]);
-
                         }
-                        console.log(fileList);
-                        $("input[name='files']").val(fileList);
+
+                        // var new_arr = [];
+                        // for (var i = 0; i < fileList.length; i++) {
+                        //     var items = fileList[i];
+                        //     //判断元素是否存在于new_arr中，如果不存在则插入到new_arr的最后
+                        //     if ($.inArray(items, new_arr) == -1) {
+                        //         new_arr.push(items);
+                        //     }
+                        // }
+                        var new_arr=duplicate(fileList);
+                        consoleUtils(fileList);
+                        consoleUtils("new_arr:" + new_arr);
+                        $("input[name='files']").val(new_arr);
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
@@ -282,14 +291,14 @@
                     if (!isUpload) {
                         return '请上传附件'
                     }
-                },checkMolie:function(value){
-                    if(!checkTel(value)&&value!=null&value.length!=0){
+                }, checkMolie: function (value) {
+                    if (!checkTel(value) && value != null & value.length != 0) {
                         return "请输入正确的手机号码"
                     }
                 }
             });
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
+                consoleUtils(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/project/add",
                     type: 'post',
@@ -305,7 +314,7 @@
                             layer.alert(res.msg, function () {
                                 demoListView.html('')
                                 $("input[name='userId']").val(user.id);
-                                
+
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                                 // parent.location.reload();
@@ -328,10 +337,10 @@
                 return false;
             });
 
-         
+
 
         });
-       
+
 
         function findprojectTypeAll() {
             $.ajax({
@@ -350,7 +359,7 @@
                             html += ' <option value=' + id + '>' + typeName + '</option>';
 
                         }
-                       
+
 
                         $('#type').html(html);
                         form.render();
