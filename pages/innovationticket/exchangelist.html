@@ -40,7 +40,7 @@
 
 
                 </div>
-               
+
 
 
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
@@ -54,8 +54,6 @@
                 <i class="layui-icon"></i> 添加
             </button>
 
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
-            <button class="layui-btn" id="upload">导入</button>
         </div>
         <fieldset class="layui-elem-field">
             <div class="layui-field-box">
@@ -76,10 +74,11 @@
     <script type="text/javascript">
         var form;
         var typeId;
+        var table;
 
 
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
-            var table = layui.table;
+            table = layui.table;
             var layer = layui.layer;
             form = layui.form;
             var upload = layui.upload;
@@ -87,21 +86,12 @@
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
             console.log(actions);
-            if (actions.indexOf('project:add') != -1) {
+            if (actions.indexOf('innovationticket:exchange:add') != -1) {
                 $('#add').show();
             } else {
                 $('#add').hide();
             }
-            if (actions.indexOf('project:import') != -1) {
-                $('#upload').show();
-            } else {
-                $('#upload').hide();
-            }
-            if (actions.indexOf('project:export') != -1) {
-                $('#export').show();
-            } else {
-                $('#export').hide();
-            }
+
             var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
             if (actions.indexOf('project:history') != -1) {
                 html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
@@ -115,13 +105,13 @@
             if (actions.indexOf('project:acceptance:apply') != -1) {
                 html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
             }
-         
+
             $('#barDemo').html(html);
-         
+
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/ticket/select',
-                where: { token: localStorage.getItem('token') ,type:'C102002'},
+                where: { token: localStorage.getItem('token'), type: 'C102002' },
                 parseData: function (res) {
 
                     return {
@@ -140,8 +130,8 @@
                         { field: 'projectIndustryName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
                         { field: 'declareDateStr', title: '申报日期' },
-                        
-                            
+
+
                         // { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
                         {
                             field: 'isExpert', title: '操作', width: 165, align: 'center', templet: function (e) {
@@ -194,11 +184,14 @@
 
                         }, error: function (layero, index) {
 
+                        },end:function(){
+                            table.reload("testReload");
+
                         }
 
                     });
                 }
-                
+
             });
             form.on('select(type)', function (data) {
                 typeId = data.value;
@@ -208,7 +201,7 @@
                 reload: function () {
 
                     table.reload('testReload', {
-                        url: baseUrl + '/tcb/select',
+                        url: baseUrl + '/ticket/select',
                         method: 'get',
                         dataType: 'json',
                         page: {
@@ -216,9 +209,9 @@
                         },
                         where: {
                             token: localStorage.getItem('token'),
-                            type:"C101002",
+                            type: "C102002",
                             name: $('#name').val(),
-                           
+
                         }
                     })
                 }
@@ -263,15 +256,18 @@
                 }
             });
         });
-       
+
         function add() {
             layer.open({
                 type: 2,
                 area: ['1050px', '560px'],
                 fix: false,//不固定
                 title: '添加信息',
-                content: 'list_add.html',
+                content: 'elist_add.html',
+                end: function () {
+                    table.reload("testReload");
 
+                }
             });
 
         }
@@ -287,7 +283,7 @@
             if ($('#name').val() != '') {
                 url += '&name=' + $('#name').val();
             }
-           
+
 
 
             window.location.href = url;

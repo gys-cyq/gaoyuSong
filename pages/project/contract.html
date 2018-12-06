@@ -36,7 +36,7 @@
     <script type="text/javascript">
 
 
-
+        var table;
         layui.use(['table', 'layer'], function () {
             table = layui.table;
             var layer = layui.layer;
@@ -70,7 +70,7 @@
                                 // h = date.getHours() + ':';
                                 // m = date.getMinutes() + ':';
                                 // s = date.getSeconds();
-                                var time=Y + M + D ; 
+                                var time = Y + M + D;
                                 return time;
                             }
                         },
@@ -114,7 +114,11 @@
                             iframe.child(data);
 
 
+                        }, end: function () {
+                            table.reload("testReload");
+
                         }
+
 
                     });
                 }

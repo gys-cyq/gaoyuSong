@@ -75,10 +75,10 @@
     <script type="text/javascript">
         var form;
         var typeId;
-
+        var table;
 
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
-            var table = layui.table;
+            table = layui.table;
             var layer = layui.layer;
             form = layui.form;
             var upload = layui.upload;
@@ -183,6 +183,9 @@
 
                         }, error: function (layero, index) {
 
+                        },end:function(){
+                            table.reload("testReload");
+
                         }
 
                     });
@@ -259,6 +262,10 @@
                 fix: false,//不固定
                 title: '添加信息',
                 content: 'list_add.html',
+                end:function(){
+                    table.reload("testReload");
+
+                }
 
             });
 

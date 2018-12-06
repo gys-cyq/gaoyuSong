@@ -103,7 +103,7 @@
         var form;
         var typeId;
         var table
-
+        var user=JSON.parse(localStorage.getItem("user"));
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             table = layui.table;
             var layer = layui.layer;
@@ -220,7 +220,7 @@
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
                                 }
-                                if (e.isExpert == 1) {
+                                if (e.isExpert == 1&&user.companyId==0&&user.type!=3) {
 
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
                                     return html
