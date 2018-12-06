@@ -232,7 +232,6 @@
             getCityList(data.value,'countryList');
         })
         form.on('select(country)', function (data) {
-            console.log(data);
             getstreetList(data.value);
         })
         form.on('select(street)', function (data) {
@@ -433,12 +432,10 @@
             url: baseUrl + '/area/getParkList',
             type: 'get',
             dataType: 'json',
-            data: { streetId:obj},
+            data: { street:obj},
             success: function (response) {
                 response = eval(response);
-
                 if (response.status == 1) {
-                    console.log(response.data);
                     var data = response.data;
                     var html = ' <option value="">' + '请选择园区' + '</option>';
                     for (var i in data) {

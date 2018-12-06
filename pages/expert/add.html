@@ -51,7 +51,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">图片</label>
                 <div class="layui-input-inline">
-                    <img class="layui-upload-img" id="headImg" style="width:100px;padding:10px 0;">
+                    <img class="layui-upload-img" id="headImg">
                     <button type="button" class="layui-btn" id="upload">上传图片</button>
                     <!-- <input type="button" class="layui-btn" value="上传图片" id="upload" /> -->
                     <input type="hidden" name="headImg" class="layui-input" />
@@ -73,7 +73,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">从事专业<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="workMajorName" id="workMajorName" autocomplete="off" class="layui-input">
+                    <input type="text" name="workMajorName" id="workMajorName" autocomplete="off" class="layui-input" lay-verify="required">
                     <input type="hidden" name="workMajor"id="workMajor" >
                 </div>
                 <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare2()" value="选择">
@@ -131,7 +131,7 @@
         upload.render({
             elem: '#upload',
             url: baseUrl + '/file/uploadByCode',
-            data:{token:localStorage.getItem('token'),code:'C200000'},
+            data:{token:localStorage.getItem('token'),code:'C100000'},
             accept:'images',
             exts:'png|gif|jpeg|jpg',
             method:'post',
@@ -139,12 +139,12 @@
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
                     $('#headImg').attr('src', result); //图片链接（base64）
+                    $('#headImg').css('width','100px');
                 });
                 layer.load();
             },
             done:function(res){
                 layer.closeAll('loading'); //关闭loading
-                console.log(res);
                 try{
                     if(res.status==1){
                         var data=res.data;

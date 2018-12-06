@@ -66,7 +66,7 @@
                     }else{
                         return '退回';
                     }
-                },title: '是否审核'},
+                },title: '审核状态'},
                 {field:'',title:'操作',templet:'#zlAction'},
             ]],
             done: function (res,cuur,count) {
@@ -80,7 +80,7 @@
             if(obj.event==='search'){
                 layer.open({
                     type:2,
-                    title:'申报详情',
+                    title:'详情信息',
                     area:['800px','450px'],
                     fix:false,
                     content:'zz-details.html',
