@@ -76,6 +76,7 @@
         var form;
         var typeId;
         var table;
+        var user = JSON.parse(localStorage.getItem("user"));
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             table = layui.table;
             var layer = layui.layer;
@@ -135,12 +136,14 @@
                         {
                             field: 'isExpert', title: '操作', width: 165, align: 'center', templet: function (e) {
                                 var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-                                if (e.isExpert == 1) {
-
-                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
-
-
+                                if (actions.indexOf('innovationticket:apply:history') != -1) {
+                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史申报' + '</a>';
                                 }
+                                if (e.isExpert == 1 && user.companyId == 0 && user.type != 3) {
+
+                                    html += ' <a class="layui-btn layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
+                                }
+
                                 return html
                             }
                         }
@@ -183,8 +186,24 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
+
+                        }
+
+                    });
+                } else if (layEvent == "history") {
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '400px'],
+                        fix: true,
+                        title: '历史申请',
+                        content: '../project/history.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res.id);
+
+                        }, error: function (layero, index) {
 
                         }
 

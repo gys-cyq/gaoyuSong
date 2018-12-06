@@ -76,6 +76,7 @@
         var typeId;
         var table;
 
+        var user=JSON.parse(localStorage.getItem("user"));
 
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             table = layui.table;
@@ -136,9 +137,9 @@
                         {
                             field: 'isExpert', title: '操作', width: 165, align: 'center', templet: function (e) {
                                 var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-                                if (e.isExpert == 1) {
+                                if (e.isExpert == 1&&user.companyId==0&&user.type!=3) {
 
-                                    html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
+                                    html += ' <a class="layui-btn  layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
 
 
                                 }
