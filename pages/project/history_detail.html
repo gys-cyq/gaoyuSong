@@ -33,28 +33,7 @@
     <script type="text/javascript">
 
         function child(obj) {
-            obj = JSON.stringify(obj);
-            var data = JSON.parse(obj);
-            if (data.status == 0) {
-                data.status = '待审核';
-            } else if (data.status == 1) {
-                data.status = '审核中';
-            } else if (data.status == 2) {
-                data.status = '通过';
-            } else if (data.status == 3) {
-                data.status = '不通过';
-            } else if (data.status == 4) {
-                data.status = '返回';
-            } else if (data.status == 7) {
-                status = '专家审批结束';
-            } else if (data.status == 8) {
-                status = '流程未匹配';
-            } else if (data.status == 9) {
-                status = "系统导入"
-            }
-            else {
-                data.status = '';
-            }
+            
             layui.use(['table', 'layer'], function () {
                 var table = layui.table;
                 table.render({
