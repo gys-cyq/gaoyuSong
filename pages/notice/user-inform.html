@@ -85,8 +85,8 @@
                 width: 460,
                 page: true //开启分页
                 , cols: [[ //表头
-                    { field: 'username', title: '用户名', width: 230 },
-                    { field: 'nickname', title: '昵称', width: 230 },
+                    { field: 'nickname', title: '名称', width: 230 },
+                    { field: 'username', title: '账号', width: 230 },
                 ]], done: function (res, cuur, count) {
                     layer.closeAll('loading');
                 }
@@ -154,7 +154,7 @@
                         j++
                     }
                 } else {
-                    layer.msg('请确定选择后再提交');
+                    layer.alert('请确定选择后再提交');
                 }
                 //            var dataObj = data.field;
                 parent.layer.close(index);

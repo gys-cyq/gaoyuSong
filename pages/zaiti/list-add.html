@@ -24,13 +24,22 @@
                 </div>
             </div>
             <div class="layui-inline">
+                <label class="layui-form-label">载体类型<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <!--<input type="text" name="typeName" id="typeName"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                    <select lay-filter="type" name="type" id="type">
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label">运营机构<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="operatingMechanism"id="operatingMechanism"  lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">级别<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
@@ -43,6 +52,9 @@
                     </select>
                 </div>
             </div>
+
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">认定时间<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
@@ -71,6 +83,7 @@
             elem: '#cognizanceTime'
         });
 
+        getTypeName();
         form.on('submit(submit)', function(){
             var url = baseUrl + "/carrierInfo/add";
             var options = {
@@ -106,6 +119,30 @@
             parent.layer.close(index);
         }
     })
+    function getTypeName(){
+        $.ajax({
+            url:baseUrl + '/carrierType/findcarrierTypeAll',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data;
+                    var html = '<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var id = data[i].id;
+                        var typeName = data[i].typeName;
+                        html += '<option value=' + id + '>'+typeName+'</option>';
+                    }
+                    $('#type').html(html);
+                    form.render();
+                }
+            },
+            error:function(res){
+
+            }
+        })
+    }
 </script>
 </body>
 </html>

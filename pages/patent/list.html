@@ -30,6 +30,15 @@
                         <input type="text" name="name" id="name"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">专利类型</label>
+                    <div class="layui-input-inline">
+                        <!--<input type="text" name="typeName" id="typeName"  autocomplete="off" class="layui-input">-->
+                        <select lay-filter="type" name="type" id="type">
+
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -39,7 +48,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">电话</label>
+                    <label class="layui-form-label">联系电话</label>
                     <div class="layui-input-inline">
                         <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input">
                     </div>
@@ -75,13 +84,15 @@
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
+    var form;
     layui.use(['layer','table','form','upload'],function(){
         var layer = layui.layer,
             table = layui.table,
-            form = layui.form,
             upload = layui.upload;
+            form = layui.form;
 
 
+        getPatentType();
         table.render({
             elem: '#patentList',
             url:baseUrl+'/patent/findPatentByPage',
@@ -98,15 +109,15 @@
             page: true, //开启分页
             cols: [[ //表头
 //                {field: 'id', title: '专家名称'},
-                {field: 'typeName', title: '专利类型'},
                 {field: 'number', title: '专利号'},
+                {field: 'typeName', title: '专利类型'},
                 {field: 'name', title: '专利名称'},
-                {field: 'applyUserName', title: '申请人'},
-                {field: 'authorizerUserName', title: '专利权人',width:80},
-                {field: 'applyDate', title: '申请日期'},
+//                {field: 'applyUserName', title: '申请人'},
+                {field: 'authorizerUserName', title: '专利权人'},
+//                {field: 'applyDate', title: '申请日期'},
                 {field: 'authorizerDate', title: '授权日期'},
-                {field: 'tel', title: '电话'},
-                {field: 'validityPeriod', title: '有效期（单位:年）',width:60},
+//                {field: 'tel', title: '电话'},
+                {field: 'validityPeriod', title: '有效期（年）'},
                 {field:'',title:'操作',templet:'#patentAction',width:180},
             ]],
             done: function (res,cuur,count) {
@@ -118,7 +129,7 @@
             layer.open({
                 type:2,
                 title:'新增信息',
-                area:['800px','450px'],
+                area:['900px','500px'],
                 fix:false,
                 content:'list-add.html',
                 success:function(layero,index){
@@ -149,6 +160,7 @@
                         name:$('#name').val(),
                         authorizerUserName:$('#authorizerUserName').val(),
                         tel:$('#tel').val(),
+                        typeName:$('#typeName').val(),
                     },
                     done:function(res,curr,count){
 
@@ -168,7 +180,7 @@
                 layer.open({
                     type:2,
                     title:'编辑信息',
-                    area:['800px','500px'],
+                    area:['900px','500px'],
                     fix:false,
                     content:'list-edit.html',
                     maxmin:true,
@@ -210,7 +222,7 @@
                 layer.open({
                     type:2,
                     title:'专家库详细信息',
-                    area:['800px','500px'],
+                    area:['900px','500px'],
                     fix:false,
                     content:'list-details.html',
                     maxmin:true,
@@ -255,6 +267,30 @@
             }
         });
     })
+    function getPatentType(){
+        $.ajax({
+            url:baseUrl + '/patentType/findpatentTypeAll',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data;
+                    var html = '<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var id = data[i].id;
+                        var typeName = data[i].typeName;
+                        html += '<option value=' + id + '>'+typeName+'</option>';
+                    }
+                    $('#type').html(html);
+                    form.render();
+                }
+            },
+            error:function(res){
+
+            }
+        })
+    }
     function download() {
         window.location.href = baseUrl + '/template/patent_template.xls';
     }

@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="../../css/style.css"  />
     <script type="text/javascript" src="../../js/main.js"></script>
     <style>
+        .layui-form{
+            text-align:center;
+        }
         .layui-form-label{
             width:90px;
         }
@@ -23,17 +26,25 @@
     <form class="layui-form" id="patentform" style="margin-top:10px;">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">专利类型</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="typeName"id="type"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label">专利号</label>
                 <div class="layui-input-inline">
                     <input type="text" name="number"id="number"  readonly="readonly" autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="typeName"id="type"  autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left:13%;">
+            <label class="layui-form-label">专利名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name"id="name"  readonly="readonly" autocomplete="off" class="layui-input" style="width:79%;">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">申请人</label>
                 <div class="layui-input-inline">
@@ -47,17 +58,57 @@
                 </div>
             </div>
         </div>
-        <div class="layui-form-item">
-                <label class="layui-form-label">专利名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="name"id="name"  readonly="readonly" autocomplete="off" class="layui-input" style="width:77%;">
-                </div>
-        </div>
-        <div class="layui-form-item">
+
+        <div class="layui-form-item" style="margin-left:13%;">
                 <label class="layui-form-label">申请人地址</label>
                 <div class="layui-input-block">
-                    <input type="text" name="applyAddress" id="applyAddress"  autocomplete="off" class="layui-input" readonly="readonly" style="width:77%;">
+                    <input type="text" name="applyAddress" id="applyAddress"  autocomplete="off" class="layui-input" readonly="readonly" style="width:79%;">
                 </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">专利权人</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所在街道</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerStreetName" id="authorizerStreet" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利权人地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerAddress" id="authorizerAddress" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">申请日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="applyDate" id="applyDate" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">有效期（年）</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -67,56 +118,16 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">所在街道</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="authorizerStreetName" id="authorizerStreet" autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">有效期（年）</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">联系电话</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-                <label class="layui-form-label">专利权人地址</label>
-                <div class="layui-input-block">
-                    <input type="text" name="authorizerAddress" id="authorizerAddress" autocomplete="off" class="layui-input" readonly="readonly" style="width:77%;">
-                </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">专利权人（个人/单位）</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">申请日期</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="applyDate" id="applyDate" autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label">创建时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item layui-form-text" style="margin-left:13%;">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark" style="width:80%;"></textarea>
+                <textarea class="layui-textarea" id="remark" name="remark" style="width:79%;"></textarea>
             </div>
         </div>
     </form>

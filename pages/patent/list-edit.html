@@ -9,12 +9,26 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <script type="text/javascript" src="../../js/main.js"></script>
+    <style>
+        .layui-form{
+            text-align:center;
+        }
+        .layui-form-label{
+            width:90px;
+        }
+    </style>
 </head>
 <body>
 <div class="layui-tab-brief">
     <form class="layui-form" id="patentEditform" style="margin-top:10px;">
         <input type="hidden" id="id" name="id" />
         <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">专利号<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="number"id="number"  lay-verify="required" autocomplete="off" class="layui-input" onchange="numberRepeat()">
+                </div>
+            </div>
             <div class="layui-inline">
                 <label class="layui-form-label">专利类型<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
@@ -24,30 +38,18 @@
                     </select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">专利号<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="number"id="number"  lay-verify="required" autocomplete="off" class="layui-input" onchange="numberRepeat()">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">专利名称<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="name"id="name"  lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">申请人<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="applyUserName"id="applyUserName"  autocomplete="off" class="layui-input">
-                </div>
+        </div>
+        <div class="layui-form-item" style="margin-left:13%;">
+            <label class="layui-form-label">专利名称<span style="color:red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="name"id="name"  lay-verify="required" autocomplete="off" class="layui-input" style="width:79%;">
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">申请人地址</label>
+                <label class="layui-form-label">申请人<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="applyAddress" id="applyAddress"  autocomplete="off" class="layui-input">
+                    <input type="text" name="applyUserName"id="applyUserName"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
@@ -57,30 +59,20 @@
                     <select type="text" name="applyStreet" id="applyStreet"></select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">专利权人（个人或单位）<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+        <div class="layui-form-item" style="margin-left:13%;">
+                <label class="layui-form-label">申请人地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="applyAddress" id="applyAddress"  autocomplete="off" class="layui-input" style="width:79%;">
                 </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">授权日期<span style="color:red;">*</span></label>
-                <div class="layui-input-inline">
-                    <input type="text" name="authorizerDate" id="authorizerDate"  autocomplete="off" class="layui-input time" lay-verify="required">
-                </div>
-            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">专利权人地址</label>
+                <label class="layui-form-label">专利权人<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="authorizerAddress" id="authorizerAddress" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">所在街道</label>
-                <div class="layui-input-inline">
-                    <select lay-filter="authorizerStreet" name="authorizerStreet" id="authorizerStreet"></select>
+                    <!--<input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input" lay-verify="required">-->
+                    <input type="text" name="authorizerUserName" id="authorizerUserName" autocomplete="off" class="layui-input"  readonly="readonly" lay-verify="required" onclick="openUserList()">
+                    <input type="hidden" name="userId" id="authorizerUserName2" />
                 </div>
             </div>
             <div class="layui-inline">
@@ -89,13 +81,22 @@
                     <input type="text" name="tel" id="tel"  autocomplete="off" class="layui-input" lay-verify="linkTel">
                 </div>
             </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">有效期（单位:年）</label>
+                <label class="layui-form-label">所在街道</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" onkeyup="num(this)" onblur="num(this)">
+                    <select lay-filter="authorizerStreet" name="authorizerStreet" id="authorizerStreet"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">专利权人地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerAddress" id="authorizerAddress" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
+
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">申请日期<span style="color:red;">*</span></label>
@@ -103,12 +104,12 @@
                     <input type="text" name="applyDate" id="applyDate" autocomplete="off" class="layui-input time" lay-verify="required">
                 </div>
             </div>
-            <!--<div class="layui-inline">-->
-                <!--<label class="layui-form-label">创建时间<span style="color:red;">*</span></label>-->
-                <!--<div class="layui-input-inline">-->
-                    <!--<input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" lay-verify="required">-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="layui-inline">
+                <label class="layui-form-label">有效期（年）</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" onkeyup="num(this)" onblur="num(this)">
+                </div>
+            </div>
             <!--<div class="layui-inline">-->
                 <!--<label class="layui-form-label">专利类型名称<span style="color:red;">*</span></label>-->
                 <!--<div class="layui-input-inline">-->
@@ -116,10 +117,25 @@
                 <!--</div>-->
             <!--</div>-->
         </div>
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">授权日期<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="authorizerDate" id="authorizerDate"  autocomplete="off" class="layui-input time" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">创建时间<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item layui-form-text"  style="margin-left:13%;">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark"></textarea>
+                <textarea placeholder="请输入内容" class="layui-textarea" id="remark" name="remark" style="width:79%;"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -302,6 +318,27 @@
                 layer.msg('系统异常');
             }
         })
+    }
+    function openUserList() {
+        layer.open({
+            type: 2,
+            title: '选择专利权人',
+            area: ['700px', '450px'],
+            fix: false,
+            maxmin:true,
+            content: 'list-inform.html',
+            success: function (layero, index) {
+//                var iframe = window['layui-layer-iframe' + index];
+//                iframe.child("schoolMajor");
+            },
+            error: function (layero, index) {
+
+            }
+        })
+    }
+    function GetValue(obj,message) {
+        $('#authorizerUserName').val(message);
+        $('#authorizerUserName2').val(obj);
     }
 </script>
 </body>

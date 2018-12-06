@@ -63,6 +63,7 @@
             url: baseUrl + '/carrierInfo/findCarrierInfoByPage',
             where: {token: token},
             parseData: function (res) {
+                console.log(res.data.list);
                 return {
                     "code": 0,
                     "msg": res.msg,
@@ -74,6 +75,7 @@
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'name', title: '载体名称'},
+                {field: 'typeName', title: '载体类型'},
                 {field: 'operatingMechanism', title: '运营机构'},
                 {field: 'level', title: '级别'},
                 {field: 'cognizanceTime', title: '认定时间'},
@@ -88,7 +90,7 @@
             layer.open({
                 type: 2,
                 title: '新增信息',
-                area: ['800px', '450px'],
+                area: ['800px', '350px'],
                 fix: false,
                 content: 'list-add.html',
                 success: function (layero, index) {
@@ -133,7 +135,7 @@
                 layer.open({
                     type: 2,
                     title: '编辑信息',
-                    area: ['800px', '500px'],
+                    area: ['800px', '350px'],
                     fix: false,
                     content: 'list-edit.html',
                     maxmin: true,
