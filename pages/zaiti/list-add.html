@@ -34,7 +34,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">级别<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="level"id="level"  autocomplete="off" class="layui-input" lay-verify="required">
+                    <!--<input type="text" name="level"id="level"  autocomplete="off" class="layui-input" lay-verify="required">-->
+                    <select lay-filter="level" name="level" id="level" lay-verify="required">
+                        <option value="">请选择</option>
+                        <option value="国家">国家</option>
+                        <option value="省">省</option>
+                        <option value="市">市</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">

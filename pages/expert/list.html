@@ -125,17 +125,26 @@
                     }
                 }},
                 {field: 'headImg', templet: function (data) {
+//                    if (data.headImg != "") {
+//                        var image = baseUrl + '/file/getImg?path=' + data.headImg;
+//                        var html='';
+//                        if(data.headImg==null){
+//                            html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+//                        }else{
+//                            html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+//                        }
+//                        return html;
+//                    } else {
+//                        return ''
+//                    }
+                    var image = baseUrl + '/file/getImg?path=' + data.headImg;
+                    var html='';
                     if (data.headImg != "") {
-                        var image = baseUrl + '/file/getImg?path=' + data.headImg;
-                        var html='';
-                        if(data.headImg==null){
-                            html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-                        }else{
-                            html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-                        }
+                        html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
                         return html;
                     } else {
-                        return ''
+                        html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                        return html;
                     }
 
                 }, title: '头像'},

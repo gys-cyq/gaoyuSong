@@ -13,15 +13,33 @@
 		<link rel="stylesheet" href="lib/layui/css/layui.css" />
 		<link rel="stylesheet" href="css/style.css"  />
 		<script type="text/javascript" src="js/main.js"></script>
+		<style>
+			.layui-field-box{
+				width:45%;
+				float:left;
+				margin:2px 10px;
+				border:1px solid #eee;
+				border-left-width:5px;
+			}
+		</style>
 	</head>
 <body>
 <div class="layui-tab-brief">
-	<fieldset class="layui-elem-field">
-		<div class="layui-field-box">
-			<table class="style-table" id="patentList" lay-filter="patentList">
-			</table>
-		</div>
-	</fieldset>
+	<div class="layui-field-box">
+		<form>
+			<label>通知公告</label>
+		</form>
+		<table class="style-table" id="patentList" lay-filter="patentList">
+		</table>
+	</div>
+	<div class="layui-field-box">
+		<form>
+			<label>提醒</label>
+		</form>
+		<table class="style-table" id="remindList" lay-filter="remindList">
+
+		</table>
+	</div>
 </div>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
@@ -33,38 +51,68 @@
             table = layui.table,
             form = layui.form,
             upload = layui.upload;
-
-
-        table.render({
-            elem: '#patentList',
-            url: baseUrl + '/announcement/findOnHomePage',
-            where: {token: token},
-            parseData: function (res) {
-                return {
-                    "code": 0,
-                    "msg": res.msg,
-                    "count": res.data.total,
-                    "data": res.data.list,
-                }
-            },
-            id: 'infrastId',
-            page: true, //开启分页
-            cols: [[ //表头
-                {field: 'title', title: '标题',width:180,},
-                {field: 'type', title: '类型',width:80,templet:function(obj){
-                    if(obj.type==1){
-                        return "公告";
-                    }else if(obj.type==2){
-                        return "通知";
+        var rendernotice = function(){
+            table.render({
+                elem: '#patentList',
+                url: baseUrl + '/announcement/findOnHomePage',
+                where: {token: token},
+                parseData: function (res) {
+                    return {
+                        "code": 0,
+                        "msg": res.msg,
+                        "count": res.data.total,
+                        "data": res.data.list,
                     }
-                }},
-                {field: 'content', title: '内容'},
-                {field: 'author', title: '作者',width:150,},
-            ]],
-            done: function (res, cuur, count) {
-                layer.closeAll('loading');
-            }
-        });
+                },
+                id: 'infrastId',
+                page: true, //开启分页
+                cols: [[ //表头
+                    {field: 'title', title: '标题',width:180,},
+                    {field: 'type', title: '类型',width:80,templet:function(obj){
+                        if(obj.type==1){
+                            return "公告";
+                        }else if(obj.type==2){
+                            return "通知";
+                        }
+                    }},
+                    {field: 'content', title: '内容'},
+                    {field: 'author', title: '作者',width:150,},
+                ]],
+                done: function (res, cuur, count) {
+                    layer.closeAll('loading');
+                }
+            });
+            table.render({
+                elem: '#remindList',
+                url: baseUrl + '/notice/findNoticeByPage',
+                where: {token: token},
+                parseData: function (res) {
+                    return {
+                        "code": 0,
+                        "msg": res.msg,
+                        "count": res.data.total,
+                        "data": res.data.list,
+                    }
+                },
+                id: 'infrastId',
+                page: true, //开启分页
+                cols: [[ //表头
+                    {field: 'content', title: '内容'},
+                    {field: 'timeStr', title: '时间'},
+                ]],
+                done: function (res, cuur, count) {
+                    layer.closeAll('loading');
+                }
+            });
+		}
+        rendernotice();
+
+        window.getUpdate = function(){
+            setInterval(function(){
+                rendernotice();
+                }, 1000*5*60);
+		}
+        getUpdate();
 
     })
 
