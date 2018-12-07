@@ -83,12 +83,11 @@
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
             <button class="layui-btn" id="upload">导入</button>
         </div>
-        <fieldset class="layui-elem-field">
+       
             <div class="layui-field-box">
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
-            </div>
-        </fieldset>
+            </div>      
 
     </div>
     <!-- <script type="text/html" id="barDemo">
@@ -103,15 +102,17 @@
         var form;
         var typeId;
         var table
-        var user=JSON.parse(localStorage.getItem("user"));
+        var user
+        var actions;
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             table = layui.table;
             var layer = layui.layer;
             form = layui.form;
             var upload = layui.upload;
             var laydate = layui.laydate;
+            user=JSON.parse(localStorage.getItem("user"));
             var pid = GetQueryString('pid');
-            var actions = parent.GetPageData(pid);
+            actions = parent.GetPageData(pid);
 
             if (actions.indexOf('project:add') != -1) {
                 $('#add').show();
@@ -153,14 +154,14 @@
                 cols: [
                     [
                         { field: 'name', title: '项目名称' },
-                        { field: 'typeName', title: '项目类别' },
+                        { field: 'typeName', title: '项目类别',width:150 },
                         { field: 'companyName', title: '申报单位' },
                         {
-                            field: 'declareDate', title: '申报日期', templet: function (e) {
+                            field: 'declareDate', title: '申报日期', width:150,templet: function (e) {
                                 var date = new Date(e.declareDate);
                                 Y = date.getFullYear() + '-';
                                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-                                D = date.getDate() + ' ';
+                                D = date.getDate()<10 ? '0'+ (date.getDate() ) : date.getDate() ;
                                 // h = date.getHours() + ':';
                                 // m = date.getMinutes() + ':';
                                 // s = date.getSeconds();
@@ -169,7 +170,7 @@
                             }
                         },
                         {
-                            field: 'status', title: '项目审核状态', templet: function (e) {
+                            field: 'status', title: '项目审核状态',width:150, templet: function (e) {
                                 if (e.status == 0) {
                                     return "待审核";
                                 } else if (e.status == 1) {
@@ -198,7 +199,7 @@
                         // { fixed: 'right', width:250,align: 'center', toolbar: '#barDemo', title: '操作'},
 
                         {
-                            field: 'isExpert', title: '操作', width: 250, align: 'center', templet: function (e) {
+                            field: 'isExpert', title: '操作', width: 150, align: 'center', templet: function (e) {
                                 var html = '';
                                 html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
                                 if (actions.indexOf('project:history') != -1) {
@@ -207,7 +208,7 @@
                                 if (e.status == 2) {
 
                                     if (actions.indexOf('project:contract:apply') != -1) {
-                                        html += '<a class="layui-btn layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
+                                        html += '<a class="layui-btn layui-btn-xs" lay-event="contract">' + '合同审核申请' + '</a>';
                                     }
                                     if (actions.indexOf('project:midterminspection:apply') != -1) {
                                         html += ' <a class="layui-btn layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
@@ -321,13 +322,13 @@
                 } else if (layEvent == 'history') {
                     layer.open({
                         type: 2,
-                        area: ['1000px', '400px'],
+                        area: ['1000px', '460px'],
                         fix: true,
                         title: '历史申请',
                         content: 'history.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res.id);
+                            iframe.child(res.id,actions);
 
                         }, error: function (layero, index) {
 

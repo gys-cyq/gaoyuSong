@@ -38,10 +38,12 @@
 
 <body>
     <div class="layui-table-brief" style="margin: 20px">
+        <input type="hidden" name="type2" class="layui-input"></input>
+
         <form class="layui-form" id="demofrom" lay-filter="formTest">
-            <input class="layui-input" name='id' type="hidden">
-            <input class="layui-input" name='statusId' type="hidden">
-            <input class="layui-input" name='files' type="hidden">
+            <input class="layui-input" name='id' type="hidden" />
+            <input class="layui-input" name='statusId' type="hidden" />
+            <input class="layui-input" name='files' type="hidden" lay-verify='fileList'/>
             <input type="hidden" name="projectIndustry" class="layui-input" readonly='readonly' />
 
             <div class="layui-form-item">
@@ -49,8 +51,8 @@
                     <label class="layui-form-label">项目类型
                     </label>
                     <div class="layui-input-inline">
-                        <select id="type" name="type" lay-verify='required'></select>
-                        <!-- <input name="typeName" class="layui-input" readonly='readonly'></input> -->
+                        <input type="hidden" name="type" class="layui-input"></input>
+                        <input name="typeName" class="layui-input" readonly='readonly'></input>
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -59,10 +61,7 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" name="projectIndustryName" class="layui-input" lay-verify='required' readonly='readonly' />
-
                     </div>
-                    <input type="button" class="layui-btn layui-btn-normal" onclick="openDeclare()" value="选择">
-
                 </div>
 
             </div>
@@ -71,7 +70,7 @@
                     <label class="layui-form-label">项目名称
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" class="layui-input" />
+                        <input type="text" name="name" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -89,7 +88,7 @@
                     <label class="layui-form-label">联系人姓名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="linkName" class="layui-input" />
+                        <input type="text" name="linkName" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
@@ -97,7 +96,7 @@
                     <label class="layui-form-label">联系人电话
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" />
+                        <input type="tel" name="linkTel" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
@@ -107,11 +106,11 @@
                     <label class="layui-form-label">状态
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="statusName" class="layui-input" />
+                        <input type="text" id="statusName" name="status" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="layui-form-item">
@@ -119,7 +118,7 @@
                     <label class="layui-form-label">项目说明
                     </label>
                     <div class="layui-input-inline" style="width: 520px;">
-                        <input type="text" name="description" class="layui-input" />
+                        <input type="text" name="description" class="layui-input" readonly='readonly' />
 
                     </div>
                 </div>
@@ -173,52 +172,18 @@
         var filesList = [];
         var temList = [];
         var attList = [];
+        var oldList = [];
+        var relateid;
+
         function child(obj) {
             obj = JSON.stringify(obj);
             var data = JSON.parse(obj);
+            relateid=data.projectId;
             layui.use(['form', 'layer', 'upload'], function () {
                 form = layui.form;
                 var layer = layui.layer;
                 var upload = layui.upload;
-                form.val('formTest', data);
-                var status;
-                var statusTV = $("#statusName");
-                if (data.status == 0) {
-                    status = "待审核";
-                } else if (data.status == 1) {
-                    status = '审核中'
-                } else if (data.status == 2) {
-                    status = "通过";
-                } else if (data.status == 3) {
-                    status = "不通过";
-                } else if (data.status == 4) {
-                    status = "退回";
-                } else if (data.status == 7) {
-                    status = '专家审批结束';
-                } else if (data.status == 8) {
-                    status = '流程未匹配';
-                } else if (data.status == 9) {
-                    status = '系统导入';
-
-                } else {
-                    status = '';
-                }
-
-                statusTV.val(status);
-                var html = '';
-                attList = data.attList;
-                for (var i in data.attList) {
-                    filesList.push(data.attList[i].path);
-                    var imgurl = baseUrl + '/images/' + data.attList[i].formats + '.png';
-                    var downloadurl = baseUrl + '/file/download?path=' + data.attList[i].path;
-                    html += '<li>' + '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
-                    //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
-                    html += '<div >' + '<img src="' + imgurl + '" style="width:60px;height:60px"></img></a>' + '<img src="../../img/delete.png" class="delImage" onclick="del(\'' + data.attList[i].path + '\')"></img>' + '</div>';
-                    html += '<div class="filename">' + data.attList[i].filename + '</div>';
-                    html += '</div>' + '</li>';
-                }
-                $("input[name='files']").val(filesList)
-                $('#template').html(html);
+                selectProjectById(data);
                 var demoListView = $('#demoList')
                 var uploadListIns = upload.render({
                     elem: '#testList'
@@ -281,29 +246,51 @@
                         // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
                 });
-                findprojectTypeAll(data.type);
+                form.verify({
+                    fileList: function (value) {
+
+                        if (filesList.length==0&&temList.length==0) {
+                            return '请上传附件'
+                        }
+                    }
+                });
                 form.on('submit(submit)', function (data) {
-                
+
                     if (temList.length != 0) {
-                        for(var i in temList){
+                        for (var i in temList) {
                             filesList.push(temList[i]);
                         }
-                       
+
                     }
-                    var new_arr=duplicate(filesList)
-                    console.log("上传的时候：" + new_arr)
+                    var new_arr = duplicate(filesList)
+                    consoleUtils("上传的时候：" + new_arr);
+
                     $("input[name='files']").val(new_arr);
+
                     data.field.files = new_arr;
                     consoleUtils(JSON.stringify(data.field));
+                    var url;
+                    var type = $("input[name='type2']").val()
+                    if (type == 'C100001') {
+                        url = baseUrl + '/project/editProject';
+                    } else if (type == 'C100002') {
+                        url = baseUrl + '/project/editProjectContract'
+                    } else if (type == 'C100003') {
+                        url = baseUrl + '/project/editProjectMidtermInspection';
+                    } else if (type == 'C100004') {
+                        url = baseUrl + '/project/editProjectAcceptance'
+                    }
+        
 
                     var options = {
-                        url: baseUrl + "/project/editProject",
+                        url: url,
                         type: 'post',
                         dataType: 'json',
                         // clearForm: true,
                         // resetForm: true,
                         data: {
-                            token: localStorage.getItem('token')
+                            token: localStorage.getItem('token'),
+        
                         },
                         timeout: 10000,
                         success: function (res) {
@@ -324,11 +311,109 @@
 
                         }
                     };
+
                     $('#demofrom').ajaxForm(options);
                     $('#demofrom').submit();
                     return false;
+
+
                 });
 
+
+            });
+
+        }
+
+        function selectProjectById(obj) {
+            $.ajax({
+                url: baseUrl + '/project/selectProjectById',
+                type: 'get',
+                dataType: 'json',
+                timeout: 10000,
+                data: {
+                    token: localStorage.getItem("token"),
+                    id: obj.pid
+                }, success: function (res) {
+                    consoleUtils(res);
+                    if (res.status == 1) {
+                        var data = res.data;
+
+                        var status;
+                        if (data.status == 0) {
+                            data.status = "待审核";
+                        } else if (data.status == 1) {
+                            data.status = '审核中'
+                        } else if (data.status == 2) {
+                            data.status = "通过";
+                        } else if (data.status == 3) {
+                            data.status = "不通过";
+                        } else if (data.status == 4) {
+                            data.status = "退回";
+                        } else if (data.status == 7) {
+                            data.status = '专家审批结束';
+                        } else if (data.status == 8) {
+                            data.status = '流程未匹配';
+                        } else if (data.status == 9) {
+                            data.status = '系统导入';
+
+                        } else {
+                            data.status = '';
+                        }
+                        form.val('formTest', data);
+                        $("input[name='id']").val(obj.projectId);
+                        $("input[name='type2']").val(obj.type);
+                        $("input[name='statusId']").val(obj.id);
+                        getFiles(obj);
+                    } else {
+                        errmsg(res);
+                    }
+
+                }, error: function (xhr, type, errorThrown) {
+
+                }
+            });
+
+        }
+        function getFiles(data) {
+            $.ajax({
+                url: baseUrl + '/project/getFiles',
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: {
+                    token: localStorage.getItem('token'),
+                    type: data.type,
+                    projectId: data.id
+
+                },
+                success: function (res) {
+                    if (res.status == 1) {
+                        var data = res.data;
+                        oldList = data;
+
+                        var html = '';
+
+                        for (var i in data) {
+                            filesList.push(data[i].path);
+
+                            var imgurl = baseUrl + '/images/' + data[i].formats + '.png';
+                            var downloadurl = baseUrl + '/file/download?path=' + data[i].path;
+                            html += '<li>' + '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
+                            html += '<div >' + '<img src="' + imgurl + '" style="width:60px;height:60px"></img></a>' + '<img src="../../img/delete.png" class="delImage" onclick="del(\'' + data[i].path + '\')"></img>' + '</div>';
+                            html += '<div class="filename">' + data[i].filename + '</div>';
+                            html += '</div>' + '</li>';
+                        }
+
+                        $("input[name='files']").val(filesList);
+                        $('#template').html(html);
+                    } else {
+                        layer.msg(res.msg);
+                    }
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
             });
         }
 
@@ -384,8 +469,8 @@
             var ul = document.querySelector("#template");
             var list = ul.querySelectorAll("li");
             for (var i = 0; i < div.length; i++) {
-            
-                if (imageUrl == attList[i].path) {
+
+                if (imageUrl == oldList[i].path) {
                     list[i].remove();
 
                     filesList.splice(i, 1);
