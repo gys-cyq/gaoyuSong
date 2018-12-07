@@ -44,7 +44,10 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">专利权人</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="authorizerUserName" id="authorizerUserName"  autocomplete="off" class="layui-input">
+                        <!--<input type="text" name="authorizerUserName" id="authorizerUserName"  autocomplete="off" class="layui-input">-->
+                        <select lay-filter="authorizerUserName" name="authorizerUserName" id="authorizerUserName">
+
+                        </select>
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -93,6 +96,7 @@
 
 
         getPatentType();
+        getUserName();
         table.render({
             elem: '#patentList',
             url:baseUrl+'/patent/findPatentByPage',
@@ -158,12 +162,16 @@
                         token:token,
                         number:$('#number').val(),
                         name:$('#name').val(),
-                        authorizerUserName:$('#authorizerUserName').val(),
+//                        authorizerUserName:$('#authorizerUserName').val(),
+                        userId:$('#authorizerUserName').val(),
                         tel:$('#tel').val(),
-                        typeName:$('#typeName').val(),
+                        type:$('#type').val(),
                     },
                     done:function(res,curr,count){
 
+                    },
+                    error:function(res){
+                        console.log(111);
                     }
                 })
             }
@@ -283,6 +291,30 @@
                         html += '<option value=' + id + '>'+typeName+'</option>';
                     }
                     $('#type').html(html);
+                    form.render();
+                }
+            },
+            error:function(res){
+
+            }
+        })
+    }
+    function getUserName(){
+        $.ajax({
+            url:baseUrl + '/user/findCompanyNameAndUserId',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data.list;
+                    var html = '<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var id = data[i].userId;
+                        var typeName = data[i].companyName;
+                        html += '<option value=' + id + '>'+typeName+'</option>';
+                    }
+                    $('#authorizerUserName').html(html);
                     form.render();
                 }
             },

@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="layui-tab-brief">
-    <form class="layui-form" id="patentform" style="margin-top:10px;">
+    <form class="layui-form" id="patentform" style="margin-top:10px;text-align:center;">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">专利资助类型名称</label>
@@ -23,12 +23,12 @@
                     <input type="text" name="patentFundingTypeName"id="patentFundingTypeName"  autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">资助类型</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="type"id="type"  readonly="readonly" autocomplete="off" class="layui-input">
-                </div>
-            </div>
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">资助类型</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" name="type"id="type"  readonly="readonly" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="layui-inline">
                 <label class="layui-form-label">申请人名称</label>
                 <div class="layui-input-inline">
@@ -41,20 +41,20 @@
                     <input type="text" name="linkUser"id="linkUser"  autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="address" id="address"  autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">手机号</label>
+                <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-inline">
                     <input type="text" name="mobile" id="mobile"  autocomplete="off" class="layui-input" readonly="readonly">
                 </div>
             </div>
+        </div>
+        <div class="layui-form-item" style="margin-left:10%;">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" id="address"  autocomplete="off" class="layui-input" readonly="readonly" style="width:84%;">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">申请时间</label>
                 <div class="layui-input-inline">
@@ -68,10 +68,10 @@
                 </div>
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item layui-form-text" style="margin-left:10%;">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <textarea class="layui-textarea" id="description" name="description" style="width:80%;"></textarea>
+                <textarea class="layui-textarea" id="description" name="description" style="width:84%;"></textarea>
             </div>
         </div>
     </form>

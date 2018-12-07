@@ -15,6 +15,38 @@
 </head>
 <body>
 <div class="layui-tab-brief">
+    <div style="margin:10px;">
+        <form class="layui-form" id="expertform" style="margin-top:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">资助类型</label>
+                    <div class="layui-input-inline">
+                        <!--<input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="name" id="streetSearch" autocomplete="off">-->
+                        <select name="type" id="type" lay-verify="type" autocomplete="off" lay-verify="required">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">申请人名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="applyName" id="applyName" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text"  placeholder="请输入关键字" class="layui-input search_input" name="mobile" id="mobile" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <fieldset class="layui-elem-field">
         <div class="layui-field-box">
             <table class="style-table" id="zlList" lay-filter="zlList">
@@ -23,17 +55,19 @@
     </fieldset>
 </div>
 <script type="text/html" id="zlAction">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="search" style="background-color:#2fa4e7;color:#fff;">查看详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="search" style="background-color:#2fa4e7;color:#fff;">查看</a>
 </script>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/main.js"></script>
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem('token');
-    layui.use(['layer','table'],function(){
+    var form;
+    layui.use(['layer','table','form'],function(){
         var table = layui.table,
             layer = layui.layer;
-
+        form = layui.form;
+        getpatentType();
         table.render({
             elem: '#zlList',
             url:baseUrl+'/patentFunding/findPatentFundingByPage',
@@ -54,8 +88,8 @@
                 {field: 'patentFundingTypeName', title: '专利资助类型名称'},
 //                {field: 'type', title: '专利资助类型'},
                 {field: 'applyName', title: '申请人名称'},
-                {field: 'mobile', title: '手机号'},
-                {field: 'description', title: '描述'},
+                {field: 'mobile', title: '联系电话'},
+//                {field: 'description', title: '描述'},
                 {field: 'status', templet:function(d){
                     if(d.status==0){
                         return '未审核';
@@ -96,7 +130,68 @@
             }
         })
 
+        var active = {
+            reload :function(){
+                var url = baseUrl + '/patentFunding/findPatentFundingByPage';
+                table.reload('patentId',{
+                    url:url,
+                    method:'get',
+                    dataType:'json',
+                    page:{
+                        curr:'1'
+                    },
+                    where:{
+                        token:token,
+                        applyName:$('#applyName').val(),
+                        mobile:$('#mobile').val(),
+                        type:$('#type').val(),
+                    },
+                    done:function(res,curr,count){
+
+                    }
+                })
+            }
+        }
+
+        $("#Search").on('click',function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        })
+
     })
+    function getpatentType(){
+        $.ajax({
+            url:baseUrl + "/patentFundingType/findpatentFundingTypeAll",
+            type: 'get',
+            dataType: 'json',
+            data: { token: token },
+            success: function (response) {
+                var response = eval(response);
+                try {
+                    if (response.status == 1) {
+                        var data = response.data;
+                        var html = ' <option value="">' + '请选择资助类型' + '</option>';
+                        for (var i in data) {
+                            var id = data[i].id;
+                            var name = data[i].typeName;
+                            html += ' <option value=' + id + '>' + name + '</option>';
+
+                        }
+
+                        $('#type').html(html);
+                        form.render();
+                    }
+                } catch (e) {
+                    console.log(e.msg);
+
+                }
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
 </script>
 </body>
 </html>
