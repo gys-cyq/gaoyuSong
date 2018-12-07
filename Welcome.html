@@ -15,11 +15,17 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<style>
 			.layui-field-box{
-				width:45%;
+				width:49%;
 				float:left;
-				margin:2px 10px;
 				border:1px solid #eee;
 				border-left-width:5px;
+				box-sizing:border-box;
+			}
+			.layui-field-box:first-child{
+				margin:2px 0.8%;
+			}
+			.layui-field-box:last-child{
+				margin:2px 0;
 			}
 		</style>
 	</head>
@@ -41,6 +47,12 @@
 		</table>
 	</div>
 </div>
+<script type="text/html" id="NoticeAction">
+	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="NoticeDet" style="background-color:#2fa4e7;color:#fff;">查看</a>
+</script>
+<script type="text/html" id="RemindAction">
+	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="RemindDet" style="background-color:#2fa4e7;color:#fff;">查看</a>
+</script>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
@@ -67,7 +79,7 @@
                 id: 'infrastId',
                 page: true, //开启分页
                 cols: [[ //表头
-                    {field: 'title', title: '标题',width:180,},
+                    {field: 'title', title: '标题',width:120,},
                     {field: 'type', title: '类型',width:80,templet:function(obj){
                         if(obj.type==1){
                             return "公告";
@@ -76,7 +88,8 @@
                         }
                     }},
                     {field: 'content', title: '内容'},
-                    {field: 'author', title: '作者',width:150,},
+                    {field: 'createTime', title: '时间'},
+                    {field: '', title: '操作',templet:'#NoticeAction',width:70},
                 ]],
                 done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -94,11 +107,12 @@
                         "data": res.data.list,
                     }
                 },
-                id: 'infrastId',
+                id: 'RemindId',
                 page: true, //开启分页
                 cols: [[ //表头
                     {field: 'content', title: '内容'},
-                    {field: 'timeStr', title: '时间'},
+                    {field: 'timeStr', title: '时间',width:180},
+                    {field: '', title: '操作',templet:'#RemindAction',width:70},
                 ]],
                 done: function (res, cuur, count) {
                     layer.closeAll('loading');
@@ -113,6 +127,36 @@
                 }, 1000*5*60);
 		}
         getUpdate();
+
+        table.on("tool(patentList)",function(obj){
+            var data = obj.data;
+            if(obj.event==='NoticeDet'){
+                layer.open({
+                    type:2,
+                    title:'详情',
+                    area:['500px','350px'],
+                    fix:false,
+                    content:'Welcome-details.html',
+                    maxmin:true,
+                    success:function(layero,index){
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
+			}
+		})
+        table.on("tool(remindList)",function(obj){
+            var data = obj.data;
+            if(obj.event==='RemindDet'){
+//                console.log(data);
+				layer.alert(data.content,{
+				    title:'提醒'
+				});
+			}
+		})
 
     })
 

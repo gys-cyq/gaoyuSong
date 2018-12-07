@@ -181,20 +181,41 @@
              xAxis: {
                  data: xdata
              },
-             yAxis: {},
+             yAxis: {
+                 type:'value',
+                 minInterval:1,
+             },
 //            series:series
              series: [{
                  name: '申请量',
                  type: 'bar',
                  barGap: 0,
+                 label:{
+                     normal:{
+                         show:true,
+                         position:'top',
+                     }
+                 },
                  data: apply
              },{
                  name: '授权量',
                  type: 'bar',
+                 label:{
+                     normal:{
+                         show:true,
+                         position:'top',
+                     }
+                 },
                  data: authorizer
              },{
                  name: '有效授权量',
                  type: 'bar',
+                 label:{
+                     normal:{
+                         show:true,
+                         position:'top',
+                     }
+                 },
                  data: effAuthorizer
              }]
          };
