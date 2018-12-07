@@ -170,6 +170,12 @@
 
                 },
                 error:function(){
+                    var tabtitle = $(".layui-tab-title li");
+                    var ids = new Array();
+                    $.each(tabtitle, function(i) {
+                        ids[i] = $(this).attr("lay-id");
+                    })
+                    tab.tabDeleteAll(ids);
                     location.href='Login.html';
                 }
 			})
