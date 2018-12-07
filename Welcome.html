@@ -38,7 +38,7 @@
 		<table class="style-table" id="patentList" lay-filter="patentList">
 		</table>
 	</div>
-	<div class="layui-field-box">
+	<div class="layui-field-box" id="remind" style="display:none;">
 		<form>
 			<label>提醒</label>
 		</form>
@@ -58,11 +58,18 @@
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
+    id = localStorage.getItem("userId");
     layui.use(['layer','table','form','upload'],function() {
         var layer = layui.layer,
             table = layui.table,
             form = layui.form,
             upload = layui.upload;
+        if(id==1){
+			$('#remind').css('display','none');
+		}else{
+            $('#remind').css('display','block');
+		}
+
         var rendernotice = function(){
             table.render({
                 elem: '#patentList',

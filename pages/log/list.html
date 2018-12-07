@@ -14,12 +14,12 @@
 </head>
 <body>
 <div class="layui-tab-brief">
-    <fieldset class="layui-elem-field">
+    <!--<fieldset class="layui-elem-field">-->
         <div class="layui-field-box">
             <table class="style-table" id="logList" lay-filter="parkList">
             </table>
         </div>
-    </fieldset>
+    <!--</fieldset>-->
 </div>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
@@ -52,7 +52,13 @@
                     var date = new Date(d.time);
                     var year = date.getFullYear();
                     var month = date.getMonth()+1;
+                    if(month<10){
+                        month = '0'+month;
+                    }
                     var day = date.getDate();
+                    if(day<10){
+                        day = '0'+day;
+                    }
                     var h = date.getHours();
                     var m = date.getMinutes();
                     return year+'-'+month+'-'+day+'  '+h+':'+m;

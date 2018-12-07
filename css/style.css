@@ -1,6 +1,6 @@
-fieldset {
-    min-width: 1000px;
-    width:100%;
+
+.layui-field-box{
+    border-top:1px solid #eee;
 }
 .searchTitle{
     display:inline-block;
