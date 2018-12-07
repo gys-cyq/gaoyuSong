@@ -78,7 +78,7 @@
             <button class="layui-btn layui-btn-small" id="add" onclick="add()">
                 <i class="layui-icon"></i> 添加
             </button>
-            <button class="layui-btn" onclick="download()">下载导入模板</button>
+            <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
 
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
             <button class="layui-btn" id="upload">导入</button>
@@ -121,8 +121,10 @@
             }
             if (actions.indexOf('project:import') != -1) {
                 $('#upload').show();
+                $('#download').show();
             } else {
                 $('#upload').hide();
+                $('#download').hide();
             }
             if (actions.indexOf('project:export') != -1) {
                 $('#export').show();

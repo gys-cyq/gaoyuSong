@@ -107,17 +107,16 @@
             <button class="layui-btn layui-btn-small" id="add" onclick="add()">
                 <i class="layui-icon"></i> 添加
             </button>
-            <button class="layui-btn" onclick="download()">下载导入模板</button>
+            <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
 
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
             <button class="layui-btn" id="upload">导入</button>
         </div>
-        <fieldset class="layui-elem-field">
             <div class="layui-field-box">
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
             </div>
-        </fieldset>
+        
 
     </div>
     <script type="text/html" id="barDemo">
@@ -138,7 +137,9 @@
         var table
         layui.use(['form', 'table', 'layer', 'upload', 'laydate'], function () {
             pid = GetQueryString('pid');
-            console.log('pid:' + pid)
+            
+            var actions = parent.GetPageData(pid)
+            consoleUtils(actions)
             var layer = layui.layer;
             form = layui.form;
             table = layui.table;

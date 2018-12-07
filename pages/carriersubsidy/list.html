@@ -55,12 +55,11 @@
             </button>
 
         </div>
-        <fieldset class="layui-elem-field">
             <div class="layui-field-box">
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
             </div>
-        </fieldset>
+       
 
     </div>
     <script type="text/html" id="barDemo">
@@ -139,10 +138,10 @@
                                 if (actions.indexOf('carriersubsidy:history') != -1) {
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
                                 }
-                                if (actions.indexOf('carriersubsidy:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
-                                    html += ' <a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
+                                // if (actions.indexOf('carriersubsidy:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
+                                //     html += ' <a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
-                                }
+                                // }
                                 if (e.isExpert == 1 && user.companyId == 0 && user.type != 3) {
 
                                     html += ' <a class="layui-btn layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';

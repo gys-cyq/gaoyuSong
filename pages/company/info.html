@@ -403,7 +403,9 @@
 
                             $('#parkId').html(html);
                             if (obj != undefined) {
-                                $('#parkId').val(obj.parkId);
+                                form.val("formTest", "{'parkId':\'"+obj.parkId+"\'}");
+
+                                // $('#parkId').val(obj.parkId);
                             }
 
                             form.render();

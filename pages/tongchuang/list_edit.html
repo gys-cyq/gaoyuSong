@@ -40,17 +40,17 @@
     <div class="layui-table-brief" style="margin: 20px">
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <input class="layui-input" name='id' type="hidden">
-            <input class="layui-input" name='statusId' type="hidden">
+            <input class="layui-input" name='type' type="hidden" value="C101001">
             <input class="layui-input" name='files' type="hidden">
+            <input class="layui-inline" name="declareCompany" type="hidden">
             <input type="hidden" name="projectIndustry" class="layui-input" readonly='readonly' />
 
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">项目类型
+                <div class="layui-inline" id="type">
+                    <label class="layui-form-label">项目名称
                     </label>
                     <div class="layui-input-inline">
-                        <select id="type" name="type" lay-verify='required'></select>
-                        <!-- <input name="typeName" class="layui-input" readonly='readonly'></input> -->
+                        <input type="text" name="name" class="layui-input" />
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -66,24 +66,7 @@
                 </div>
 
             </div>
-            <div class="layui-form-item">
-                <div class="layui-inline" id="type">
-                    <label class="layui-form-label">项目名称
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="name" class="layui-input" />
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">申报单位
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="companyName" class="layui-input" readonly='readonly' lay-verify='required' />
-
-                    </div>
-                </div>
-
-            </div>
+           
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人姓名
@@ -107,13 +90,24 @@
                     <label class="layui-form-label">状态
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="statusName" class="layui-input" readonly='readonly' />
+                        <input type="text" id="statusName" class="layui-input" readonly="readonly"/>
 
                     </div>
                 </div>
                 
             </div>
+            <div class="layui-form-item">
+              
+                <div class="layui-inline" >
+                    <label class="layui-form-label">申报单位
+                    </label>
+                    <div class="layui-input-inline" style="width: 520px;">
+                        <input type="text" name="companyName" class="layui-input" readonly='readonly' />
 
+                    </div>
+                </div>
+
+            </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">项目说明
@@ -176,6 +170,7 @@
         function child(obj) {
             obj = JSON.stringify(obj);
             var data = JSON.parse(obj);
+            consoleUtils(data)
             layui.use(['form', 'layer', 'upload'], function () {
                 form = layui.form;
                 var layer = layui.layer;
@@ -229,7 +224,7 @@
                     , auto: false
                     , bindAction: '#testListAction'
                     , method: 'post',
-                    data: { token: token, code: 'C200002' }
+                    data: { token: token, code: 'C200006' }
                     , choose: function (obj) {
                         var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                         console.log(files);
@@ -281,7 +276,7 @@
                         // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
                 });
-                findprojectTypeAll(data.type);
+               
                 form.on('submit(submit)', function (data) {
                 
                     if (temList.length != 0) {
@@ -297,7 +292,7 @@
                     consoleUtils(JSON.stringify(data.field));
 
                     var options = {
-                        url: baseUrl + "/project/editProject",
+                        url: baseUrl + "/tcb/update",
                         type: 'post',
                         dataType: 'json',
                         // clearForm: true,
@@ -332,38 +327,7 @@
             });
         }
 
-        function findprojectTypeAll(type) {
-            $.ajax({
-                url: baseUrl + '/projectType/findprojectTypeAll',
-                type: 'get',
-                dataType: 'json',
-                timeout: 10000,
-                data: { token: localStorage.getItem('token') },
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        var html = ' <option value="">' + '请选择项目类型' + '</option>';
-                        for (var i in data) {
-                            var typeName = data[i].typeName;
-                            var id = data[i].id;
-                            html += ' <option value=' + id + '>' + typeName + '</option>';
-
-                        }
-
-                        $('#type').html(html);
-                        // $('#type').val(type);
-                        form.val('formTest', "{'type':\'"+type+"\'}");
-
-                        form.render();
-                    } else {
-                        errmsg(res);
-                    }
-
-                }, error: function (xhr, type, errorThrown) {
-
-                }
-            });
-        }
+       
 
         function openDeclare() {
             layer.open({
