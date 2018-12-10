@@ -236,8 +236,8 @@
                     url: baseUrl + "/tcb/apply",
                     type: 'post',
                     dataType: 'json',
-                    clearForm: true,
-                    resetForm: true,
+                    // clearForm: true,
+                    // resetForm: true,
                     data: {
                         token: localStorage.getItem('token')
                     },
@@ -249,7 +249,9 @@
                         $("input[name='companyName']").val(user.nickname);
                         $("input[name='declareCompany']").val(user.companyId);
                         if (res.status == 1) {
-                            layer.msg(res.msg);
+                            // layer.msg(res.msg);
+                            layer.alert(res.msg);
+
 
                         } else {
                             errmsg(res);

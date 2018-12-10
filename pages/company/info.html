@@ -13,19 +13,21 @@
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
         .layui-form {
-            margin: 20px
-            /* text-align: center */
+            margin-top: 20px;
+            margin-bottom: 30px
         }
 
         .layui-textarea {
             width: 850px;
 
         }
-        img{
+
+        img {
             width: 60px;
             height: 60px;
             margin: 0 30px
         }
+
         .filename {
             width: 120px;
             white-space: nowrap;
@@ -38,12 +40,12 @@
 </head>
 
 <body>
-    <div class="layui-table-brief" style="margin: 10px">
+    <div class="layui-table-brief" style="margin:10 ">
         <div>
             <button class="layui-btn" id="applySeniorCompany">资质申报</button>
             <button class="layui-btn" onclick="history()">历史申报</button>
         </div>
-        <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
+        <form class="layui-form" id="demofrom" lay-filter="formTest">
             <input name="id" class="layui-input" type="hidden" />
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -67,7 +69,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="address" class="layui-input" autocomplete="off" placeholder="请输入密码" />
+                        <input type="text" name="address" class="layui-input" autocomplete="off" placeholder="请输入地址" />
                     </div>
                 </div>
             </div>
@@ -99,6 +101,8 @@
 
                     </div>
                 </div>
+
+
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -106,7 +110,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" />
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)"  placeholder="单位：万元"/>
 
                     </div>
                 </div>
@@ -124,7 +128,8 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
-                        <select lay-filter="streetId" id="streetId" lay-verify="streetId" name="streetId">
+                        <select lay-filter="streetId"
+                         id="streetId" lay-verify="streetId" name="streetId">
                         </select>
                     </div>
                 </div>
@@ -215,7 +220,7 @@
             });
             form.verify({
                 checkTel: function (value) {
-                    if (!checkTel(value) ) {
+                    if (!checkTel(value)) {
                         return "请输入正确的联系电话"
                     }
                 }
@@ -251,8 +256,10 @@
             form.on('select(streetId)', function (data) {
                 streetId = data.value;
 
-                if (streetId == '' || streetId == undefined) {
-                    $('#parkId').html('');
+                if (streetId == undefined || streetId == "") {
+                    var html = ' <option value="0">' + "请选择园区" + '</option>';
+
+                    $('#parkId').html(html);
                     form.render();
                     return;
                 }
@@ -281,13 +288,13 @@
                             streetId = data.streetId;
                             form.val("formTest", data);
                             var qualificationsList = data.qualificationsList;
-                            var html='';
+                            var html = '';
                             for (var i in qualificationsList) {
                                 var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
                                 html += '<div style="width:120px;height:80px;">';
                                 html += '<img src="' + image + '" ></img>';
-                                html += '<div class="filename">' +qualificationsList[i].typeName + '</div>';
-                                html += '<div class="filename">' +qualificationsList[i].expirationDate+"到期" + '</div>';
+                                html += '<div class="filename">' + qualificationsList[i].typeName + '</div>';
+                                html += '<div class="filename">' + qualificationsList[i].expirationDate + "到期" + '</div>';
                                 html += '</div>';
                             }
                             $('#qualificationsList').html(html)
@@ -403,7 +410,7 @@
 
                             $('#parkId').html(html);
                             if (obj != undefined) {
-                                form.val("formTest", "{'parkId':\'"+obj.parkId+"\'}");
+                                form.val("formTest", "{'parkId':\'" + obj.parkId + "\'}");
 
                                 // $('#parkId').val(obj.parkId);
                             }

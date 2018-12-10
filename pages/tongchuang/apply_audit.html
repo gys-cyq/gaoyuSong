@@ -52,7 +52,7 @@
 
             </div>
             <div class="layui-form-item">
-               
+
                 <div class="layui-inline">
                     <label class="layui-form-label">申报单位
                     </label>
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                
+
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
                     </label>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                
+
                 <div class="layui-inline">
                     <label class="layui-form-label">项目说明
                     </label>
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                
+
                 <div class="layui-inline">
                     <label class="layui-form-label">备注
                     </label>
@@ -145,9 +145,9 @@
             obj = JSON.stringify(obj);
             response = JSON.parse(obj);
             var user = JSON.parse(localStorage.getItem('user'));
-            if(user.type==3){
+            if (user.type == 3) {
                 $('#exit').show();
-            }else{
+            } else {
                 $('#exit').hide();
             }
             layui.use(['form', 'layer', 'upload'], function () {
@@ -166,10 +166,10 @@
                     status = "不通过";
                 } else if (response.status == 4) {
                     status = "退回";
-                }else if(response.status==7){
-                    status="专家审批结束"
-                }else if(response.status==8){
-                    status='未匹配审批流程'
+                } else if (response.status == 7) {
+                    status = "专家审批结束"
+                } else if (response.status == 8) {
+                    status = '未匹配审批流程'
                 }
 
                 statusTV.val(status);
@@ -242,7 +242,7 @@
                 area: ["400px", "300px"],
                 fix: false,
                 title: '原因',
-                content: 'review_reason.html',
+                content: '../project/review_reason.html',
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
                     iframe.child(code, response);

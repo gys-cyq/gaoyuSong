@@ -114,7 +114,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" />
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元"/>
 
                     </div>
                 </div>
@@ -229,6 +229,13 @@
                 getParkList(data);
                 form.on('select(streetId)', function (data) {
                     streetId = data.value;
+                    if (streetId == undefined||streetId=="") {
+                        var html = ' <option value="0">' + "请选择园区" + '</option>';
+
+                        $('#parkId').html(html);
+                        form.render();
+                        return;
+                    }
                     getParkList(undefined);
                 });
                 form.verify({
@@ -241,11 +248,10 @@
                 form.on('submit(submit)', function (data) {
                     console.log(JSON.stringify(data.field));
                     var options = {
-                        url: baseUrl + "/company/update",
+                        url: baseUrl + "/company/updateByNumber",
                         type: 'post',
                         dataType: 'json',
-                        clearForm: true,
-                        resetForm: true,
+                      
                         data: {
                             token: localStorage.getItem('token')
                         },
@@ -335,8 +341,9 @@
                             }
 
                             $('#streetId').html(html);
-                            $('#streetId').val(obj.streetId);
-                            // form.val('formTest', { "streetId": obj.streetId });
+                            // $('#streetId').val(obj.streetId);
+                            form.val('formTest', { "streetId": obj.streetId });
+                            consoleUtils({ "streetId": obj.streetId })
                             form.render();
 
 
@@ -369,7 +376,7 @@
                         response = eval(response);
                         if (response.status == 1) {
                             var data = response.data;
-                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            var html = ' <option value="0">' + "请选择园区" + '</option>';
                             for (var i in data) {
                                 var id = data[i].id;
                                 var name = data[i].name;
@@ -378,7 +385,10 @@
 
                             $('#parkId').html(html);
                             if (obj != undefined) {
-                                $('#parkId').val(obj.parkId);
+                                // $('#parkId').val(obj.parkId);
+                                form.val('formTest', { "parkId": obj.parkId });
+
+
                             }
 
                             form.render();

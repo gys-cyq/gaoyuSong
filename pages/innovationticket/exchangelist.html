@@ -55,10 +55,10 @@
             </button>
 
         </div>
-            <div class="layui-field-box">
-                <table class="style-table" id="demo" lay-filter="test">
-                </table>
-            </div>
+        <div class="layui-field-box">
+            <table class="style-table" id="demo" lay-filter="test">
+            </table>
+        </div>
 
     </div>
     <script type="text/html" id="barDemo">
@@ -74,7 +74,7 @@
         var typeId;
         var table;
 
-        var user=JSON.parse(localStorage.getItem("user"));
+        var user = JSON.parse(localStorage.getItem("user"));
 
         layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
             table = layui.table;
@@ -135,12 +135,15 @@
                         {
                             field: 'isExpert', title: '操作', width: 165, align: 'center', templet: function (e) {
                                 var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-                                if (e.isExpert == 1&&user.companyId==0&&user.type!=3) {
+                                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
+
+                                if (e.isExpert == 1 && user.companyId == 0 && user.type != 3) {
 
                                     html += ' <a class="layui-btn  layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
 
 
                                 }
+
                                 return html
                             }
                         }
@@ -183,8 +186,24 @@
 
                         }, error: function (layero, index) {
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload("testReload");
+
+                        }
+
+                    });
+                } else if (layEvent == "history") {
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '400px'],
+                        fix: true,
+                        title: '历史审核',
+                        content: '../project/history_detail.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(res.statusId);
+
+                        }, error: function (layero, index) {
 
                         }
 

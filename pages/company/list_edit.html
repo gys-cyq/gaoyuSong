@@ -86,7 +86,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" />
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元" />
 
                     </div>
                 </div>
@@ -122,10 +122,6 @@
                     </div>
                 </div>
 
-
-
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">园区
 
@@ -135,6 +131,10 @@
                         </select>
                     </div>
                 </div>
+
+            </div>
+            <div class="layui-form-item">
+             
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -228,8 +228,12 @@
 
                 form.on('select(streetId)', function (data) {
                     streetId = data.value;
-                    if (streetId == undefined) {
-                        $('#parkId').html('');
+                    consoleUtils(streetId)
+                    if (streetId == undefined||streetId=="") {
+                        var html = ' <option value="0">' + "请选择园区" + '</option>';
+
+                        $('#parkId').html(html);
+                        form.render();
                         return;
                     }
                     getParkList(undefined);
@@ -401,7 +405,7 @@
                         response = eval(response);
                         if (response.status == 1) {
                             var data = response.data;
-                            var html = ' <option value="">' + "请选择园区" + '</option>';
+                            var html = ' <option value="0">' + "请选择园区" + '</option>';
                             for (var i in data) {
                                 var id = data[i].id;
                                 var name = data[i].name;
