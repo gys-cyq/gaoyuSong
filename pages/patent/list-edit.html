@@ -140,7 +140,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn" onclick="patentEdit()">确定</button>
+                <button class="layui-btn" lay-filter="submit" lay-submit="">确定</button>
                 <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -174,7 +174,7 @@
                  parent.layer.close(index);
              }
 
-             window.patentEdit = function(){
+             form.on('submit(submit)',function(data){
                  var url = baseUrl + "/patent/update";
                  var options = {
                      url: url,
@@ -203,7 +203,7 @@
                  $("#patentEditform").ajaxForm(options);
                  $("#patentEditform").submit();
                  return false;
-             }
+             })
 
              $('#id').val(obj.id);
              $('#type').val(obj.typeName);

@@ -25,7 +25,7 @@
                 <label class="layui-form-label">载体类型<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <!--<input type="text" name="typeName"id="type"  lay-verify="required" autocomplete="off" class="layui-input">-->
-                    <select lay-filter="type" name="type" id="type">
+                    <select lay-filter="type" name="type" id="type" lay-verify="required">
 
                     </select>
                 </div>
@@ -56,7 +56,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn" lay-submit=""  id="patentEdit">确定</button>
+                <button class="layui-btn" lay-submit=""  id="patentEdit" lay-filter="submit">确定</button>
                 <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -80,6 +80,36 @@
                 elem: '#cognizanceTime'
             });
 
+            form.on('submit(submit',function(data){
+                var url = baseUrl + "/carrierInfo/update";
+                var options = {
+                    url: url,
+                    type: 'post',
+                    dataType:'json',
+                    resetForm: true,
+                    timeout: 10000,
+                    data: {token: token},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        } else {
+                            errmsg(res);
+                        }
+                    },
+                    error: function (data) {
+                        //未登陆
+                        layer.msg("系统异常");
+                    }
+                };
+                $("#patentEditform").ajaxForm(options);
+                $("#patentEditform").submit();
+                return false;
+            })
+
             window.cancel = function(){
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
@@ -95,35 +125,6 @@
         })
     }
 
-    $('#patentEdit').on('click',function(){
-        var url = baseUrl + "/carrierInfo/update";
-        var options = {
-            url: url,
-            type: 'post',
-            dataType:'json',
-            resetForm: true,
-            timeout: 10000,
-            data: {token: token},
-            success: function (res) {
-                if (res.status == 1) {
-                    layer.alert("成功", function () {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    });
-                } else {
-                    errmsg(res);
-                }
-            },
-            error: function (data) {
-                //未登陆
-                layer.msg("系统异常");
-            }
-        };
-        $("#patentEditform").ajaxForm(options);
-        $("#patentEditform").submit();
-
-    })
     function getTypeName(obj){
         $.ajax({
             url:baseUrl + '/carrierType/findcarrierTypeAll',

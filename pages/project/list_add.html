@@ -303,8 +303,8 @@
                     url: baseUrl + "/project/add",
                     type: 'post',
                     dataType: 'json',
-                    clearForm: true,
-                    resetForm: true,
+//                    clearForm: true,
+//                    resetForm: true,
                     data: {
                         token: localStorage.getItem('token')
                     },
@@ -314,7 +314,7 @@
                             layer.alert(res.msg, function () {
                                 demoListView.html('')
                                 $("input[name='userId']").val(user.id);
-
+                                document.getElementById('demofrom').reset();
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                                 // parent.location.reload();
