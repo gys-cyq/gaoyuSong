@@ -49,13 +49,16 @@
             <div class="layui-form-item">
                 <div class="layui-inline" id="type">
                     <label class="layui-form-label">项目名称
+                            <span style="color:red;">*</span>
+
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" class="layui-input" />
+                        <input type="text" name="name" class="layui-input" lay-verify='required'/>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">项目行业
+                            <span style="color:red;">*</span>
 
                     </label>
                     <div class="layui-input-inline">
@@ -336,7 +339,7 @@
                 title: '选择项目行业',
                 area: ['250px', '360px'],
                 fix: false,
-                content: 'project_declare.html',
+                content: '../project/project_declare.html',
                 success: function (layero, index) {
 
                 },
