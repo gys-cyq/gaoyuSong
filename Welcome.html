@@ -31,7 +31,7 @@
 	</head>
 <body>
 <div class="layui-tab-brief">
-	<div class="layui-field-box">
+	<div class="layui-field-box" id="notice">
 		<form>
 			<label>通知公告</label>
 		</form>
@@ -66,6 +66,8 @@
             upload = layui.upload;
         if(id==1){
 			$('#remind').css('display','none');
+			$('#notice').css('width','98%');
+            $('#notice').css('border-left-width','1px');
 		}else{
             $('#remind').css('display','block');
 		}

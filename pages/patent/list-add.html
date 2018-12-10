@@ -164,13 +164,14 @@
                     url: url,
                     type: 'post',
                     dataType: 'json',
-                    clearForm: true,
-                    resetForm: true,
+//                    clearForm: true,
+//                    resetForm: true,
                     timeout: 10000,
                     data: {token: token},
                     success: function (res) {
                         if (res.status == 1) {
                             layer.alert("成功", function () {
+                                document.getElementById("patentform").reset();
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
 //                                parent.location.reload();

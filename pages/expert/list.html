@@ -73,8 +73,8 @@
                 <i class="layui-icon"></i> 添加
             </button>
             <button class="layui-btn" onclick="download()">下载导入模板</button>
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
             <button class="layui-btn" id="upload">导入</button>
+            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
         </div>
     </div>
     <!--<fieldset class="layui-elem-field">-->
@@ -116,14 +116,6 @@
             page: true, //开启分页
             id:'expertId',
             cols: [[ //表头
-                {field: 'name', title: '专家姓名'},
-                {field: 'sex', title: '性别',templet:function(d){
-                    if(d.sex=='M'){
-                        return '男';
-                    }else if(d.sex=='F'){
-                        return '女';
-                    }
-                }},
                 {field: 'headImg', templet: function (data) {
 //                    if (data.headImg != "") {
 //                        var image = baseUrl + '/file/getImg?path=' + data.headImg;
@@ -138,16 +130,25 @@
 //                        return ''
 //                    }
                     var image = baseUrl + '/file/getImg?path=' + data.headImg;
+                    var unimage = baseUrl+'/images/touxiang.jpg';
                     var html='';
                     if (data.headImg != "") {
                         html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
                         return html;
                     } else {
-                        html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                        html = '<div>' + '<img src="'+unimage+'" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
                         return html;
                     }
 
                 }, title: '头像'},
+                {field: 'name', title: '专家姓名'},
+                {field: 'sex', title: '性别',templet:function(d){
+                    if(d.sex=='M'){
+                        return '男';
+                    }else if(d.sex=='F'){
+                        return '女';
+                    }
+                }},
                 {field: 'position', title: '职务'},
                 {field: 'jobTitle',templet:function(d){
                     if(d.jobTitle==1){
@@ -168,8 +169,8 @@
                         return '';
                     }
                 }, title: '所在地区'},
-                {field: 'updateTime', title: '更新时间'},
-                {field: 'createTime', title: '创建时间'},
+//                {field: 'updateTime', title: '更新时间'},
+//                {field: 'createTime', title: '创建时间'},
                 {field: 'schoolMajorName', title: '学校所学专业名'},
                 {field: 'workMajorName', title: '从事专业名'},
                 {field:'',title:'操作',templet:'#expertAction',width:'150'},
