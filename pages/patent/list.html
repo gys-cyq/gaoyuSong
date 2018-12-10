@@ -65,7 +65,7 @@
             <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
                 <i class="layui-icon"></i> 添加
             </button>
-            <button class="layui-btn" onclick="download()">下载导入模板</button>
+            <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
             <button class="layui-btn" id="upload">导入</button>
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
         </div>
@@ -93,6 +93,26 @@
             table = layui.table,
             upload = layui.upload;
             form = layui.form;
+
+        var pid = GetQueryString('pid')
+        var actions = parent.GetPageData(pid);
+        if (actions.indexOf('patent:add') != -1) {
+            $('#addbutton').show();
+        } else {
+            $('#addbutton').hide();
+        }
+        if (actions.indexOf('patent:import') != -1) {
+            $('#upload').show();
+            $('#download').show();
+        } else {
+            $('#upload').hide();
+            $("#download").hide();
+        }
+        if (actions.indexOf('patent:export') != -1) {
+            $('#export').show();
+        } else {
+            $('#export').hide();
+        }
         getPatentType();
         getUserName();
         table.render({

@@ -41,7 +41,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">图片</label>
                 <div class="layui-input-inline">
-                    <img class="layui-upload-img" id="headImg" style="width:100px;height:auto;">
+                    <img class="layui-upload-img" id="headImg" style="width:100px;height:auto;margin-bottom:10px;">
                     <button type="button" class="layui-btn" id="upload">上传图片</button>
                     <!-- <input type="button" class="layui-btn" value="上传图片" id="upload" /> -->
                     <input type="hidden" name="headImg" class="layui-input" />
@@ -204,6 +204,7 @@
             };
             $("#expertform").ajaxForm(options);
             $("#expertform").submit();
+            return false;
         })
 
         window.cancel = function(){

@@ -140,6 +140,7 @@
                 obj.preview(function (index, file, result) {
                     $('#headImg').attr('src', result); //图片链接（base64）
                     $('#headImg').css('width','100px');
+                    $('#headImg').css('margin-bottom','10px');
                 });
                 layer.load();
             },
@@ -174,13 +175,14 @@
                 url: url,
                 type: 'post',
                 dataType:'json',
-                clearForm:true,
-                resetForm: true,
+//                clearForm:true,
+//                resetForm: true,
                 timeout: 10000,
                 data: {token: token},
                 success: function (res) {
                     if (res.status == 1) {
                         layer.alert("成功", function () {
+                            document.getElementById('expertform').reset();
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                             parent.location.reload();
