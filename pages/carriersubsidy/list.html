@@ -90,22 +90,6 @@
                 $('#add').hide();
             }
 
-            var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
-            if (actions.indexOf('project:history') != -1) {
-                html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
-            }
-            if (actions.indexOf('project:contract:apply') != -1) {
-                html += '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="contract">' + '合同审批申请' + '</a>';
-            }
-            if (actions.indexOf('project:midterminspection:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="midterminspection">' + '中期检查申请' + '</a>'
-            }
-            if (actions.indexOf('project:acceptance:apply') != -1) {
-                html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
-            }
-
-
-            $('#barDemo').html(html);
 
             table.render({
                 elem: '#demo',
