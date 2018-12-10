@@ -24,7 +24,7 @@
         </div>
         <div class="layui-form-item" style="text-align:center;">
             <div class="layui-inline">
-                <button class="layui-btn" lay-submit=""  id="patentTypeEdit">确定</button>
+                <button class="layui-btn" lay-submit=""  lay-filter="submit">确定</button>
                 <button class="layui-btn" style="background:#eee;color:#000;" onclick="cancel()">取消</button>
             </div>
         </div>
@@ -35,50 +35,52 @@
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
-    layui.use(['form','layer'],function(){
-        var form = layui.form,
-            layer = layui.layer;
 
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
-    })
 
     function child(obj){
-        $('#id').val(obj.id);
-        $('#typeName').val(obj.name);
+        layui.use(['form','layer'],function(){
+            var form = layui.form,
+                layer = layui.layer;
+
+            form.on('submit(submit)',function(data){
+                var url = baseUrl + "/infrastructuretype/infrastructuretypeEdit";
+                var options = {
+                    url: url,
+                    type: 'post',
+                    dataType:'json',
+                    resetForm: true,
+                    timeout: 10000,
+                    data: {token: token},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert("成功", function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            });
+                        } else {
+                            errmsg(res);
+                        }
+                    },
+                    error: function (data) {
+                        //未登陆
+                        layer.msg("系统异常");
+                    }
+                };
+                $("#patentTypeForm").ajaxForm(options);
+                $("#patentTypeForm").submit();
+                return false;
+            })
+            window.cancel = function(){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+            $('#id').val(obj.id);
+            $('#typeName').val(obj.name);
+        })
+
     }
 
-    $('#patentTypeEdit').on('click',function(){
-        var url = baseUrl + "/infrastructuretype/infrastructuretypeEdit";
-        var options = {
-            url: url,
-            type: 'post',
-            dataType:'json',
-            resetForm: true,
-            timeout: 10000,
-            data: {token: token},
-            success: function (res) {
-                if (res.status == 1) {
-                    layer.alert("成功", function () {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.location.reload();
-                    });
-                } else {
-                    errmsg(res);
-                }
-            },
-            error: function (data) {
-                //未登陆
-                layer.msg("系统异常");
-            }
-        };
-        $("#patentTypeForm").ajaxForm(options);
-        $("#patentTypeForm").submit();
-
-    })
 </script>
 </body>
 </html>
