@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>南通科技局</title>
+    <!--<link rel="stylesheet" href="../../static/css/font.css" />-->
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <style>
+        .layui-inline {
+            margin-bottom: 20px;
+        }
+
+        .filename {
+            width: 80px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="layui-table-brief" style="margin: 20px">
+        <form class="layui-form" id="demofrom" lay-filter="formTest">
+            <div class="layui-form-item">
+                <div class="layui-inline" id="type">
+                    <label class="layui-form-label">项目名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" class="layui-input" readonly='readonly' />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目行业
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="projectIndustryName" class="layui-input" readonly='readonly' />
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">申报载体
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyName" class="layui-input" readonly='readonly' lay-verify='required' />
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系人姓名
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="linkName" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系人电话
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="linkTel" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="status" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目说明
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="description" class="layui-input" readonly='readonly' style="width: 515px" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">备注
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="remark" class="layui-input" readonly='readonly' style="width: 515px" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: flex">
+                <div class="layui-inline">
+                    <label class="layui-form-label">附件
+                    </label>
+
+                </div>
+
+                <ul id="template" style="display: flex;float: left;"></ul>
+
+
+            </div>
+
+
+        </form>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                <button class="layui-btn" lay-submit="" lay-filter="submit" id="yes">通过</button>
+                <button class="layui-btn" id="no">不通过</button>
+                <button class="layui-btn" id="exit">退回</button>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/jquery.form.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript">
+        var layer;
+        var response;
+        function child(obj) {
+            obj = JSON.stringify(obj);
+            response = JSON.parse(obj);
+            var user = JSON.parse(localStorage.getItem('user'));
+            if (user.type == 3) {
+                $('#exit').show();
+            } else {
+                $('#exit').hide();
+            }
+            layui.use(['form', 'layer', 'upload'], function () {
+                var form = layui.form;
+                layer = layui.layer;
+                form.val('formTest', response);
+                var status;
+                var statusTV = $("input[name='status']");
+                if (response.status == 0) {
+                    status = "待审核";
+                } else if (response.status == 1) {
+                    status = '审核中'
+                } else if (response.status == 2) {
+                    status = "通过";
+                } else if (response.status == 3) {
+                    status = "不通过";
+                } else if (response.status == 4) {
+                    status = "退回";
+                } else if (response.status == 7) {
+                    status = "专家审批结束"
+                } else if (response.status == 8) {
+                    status = '未匹配审批流程'
+                }
+
+                statusTV.val(status);
+                var html = '';
+                for (var i in response.attList) {
+                    var imgurl = baseUrl + '/images/' + response.attList[i].formats + '.png';
+                    var downloadurl = baseUrl + '/file/download?path=' + response.attList[i].path;
+                    html += '<div style="margin-top:-20px"><a href="' + downloadurl + '">';
+                    //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
+                    html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
+                    html += '<div class="filename">' + response.attList[i].filename + '</div>';
+                    html += '</a></div>';
+                }
+                $('#template').html(html);
+
+
+            });
+            $('#yes').click(function () {
+                layer.confirm('确认通过？', function () {
+                    examineOperator(2);
+                })
+            });
+            $('#no').click(function () {
+                layer.confirm('确认不通过？', function () {
+                    // examineOperator(3);
+                    openReason(3);
+                })
+            });
+            $('#exit').click(function () {
+                layer.confirm('确认退回？', function () {
+                    // examineOperator(4);
+                    openReason(4);
+
+                })
+            })
+        }
+        function examineOperator(status) {
+            $.ajax({
+                url: baseUrl + '/project/examineOperator',
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: {
+                    token: localStorage.getItem('token'),
+                    id: response.statusId,
+                    status: status,
+                    sort: response.sort,
+                    nextNodeUser: response.nextNodeUser
+
+                }, success: function (res) {
+                    if (res.status == 1) {
+                        layer.alert("成功", function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    } else {
+                        errmsg(res)
+
+                    }
+
+                }, error: function (xhr, type, errorThrown) {
+
+                }
+            })
+
+        }
+        function openReason(code) {
+            layer.open({
+                type: 2,
+                area: ["400px", "300px"],
+                fix: false,
+                title: '原因',
+                content: '../project/review_reason.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(code, response);
+
+                }
+            });
+
+        }
+        function setchoose(success) {
+            if (success) {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.location.reload();
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
