@@ -61,7 +61,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">从事专业</label>
+                <label class="layui-form-label">从事专业<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="workMajorName" id="workMajorName" autocomplete="off" class="layui-input" lay-verify="required">
                     <input type="hidden" name="workMajor" id="workMajor">
@@ -164,8 +164,8 @@
             $('#schoolMajorName').val(obj.schoolMajorName);
             $('#workMajorName').val(obj.workMajorName);
             $("#company").val(obj.company);
-            $("#schoolMajor").val(obj.schoolMajor);
-            $("#workMajor").val(obj.workMajor);
+//            $("#schoolMajor").val(obj.schoolMajor);
+//            $("#workMajor").val(obj.workMajor);
             $("#position").val(obj.position);
             $("#mobile").val(obj.mobile);
             $("input[name='headImg']").val(obj.headImg);
