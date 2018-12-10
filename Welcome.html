@@ -59,12 +59,21 @@
 <script type="text/javascript">
     token = localStorage.getItem("token");
     id = localStorage.getItem("userId");
+    var companyId = localStorage.getItem('companyId');
+    var userinfo = JSON.parse(localStorage.getItem('user')).roleList;
+	var flag = false;
+	for(var i=0;i<userinfo.length;i++){
+	    if(userinfo[i].id<4){
+            flag=true;
+            break;
+		}
+	}
     layui.use(['layer','table','form','upload'],function() {
         var layer = layui.layer,
             table = layui.table,
             form = layui.form,
             upload = layui.upload;
-        if(id==1){
+        if(flag){
 			$('#remind').css('display','none');
 			$('#notice').css('width','98%');
             $('#notice').css('border-left-width','1px');

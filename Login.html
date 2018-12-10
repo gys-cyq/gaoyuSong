@@ -129,6 +129,7 @@
                         sessionStorage.setItem("userinfo",nickname);
                         localStorage.setItem("token",res.data.token);
                         localStorage.setItem('userId',res.data.user.id);
+                        localStorage.setItem('companyId',res.data.user.companyId);
                         token=res.data.token;
                         location.href="index.html";
                     }else{

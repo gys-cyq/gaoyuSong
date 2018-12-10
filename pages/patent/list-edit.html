@@ -105,9 +105,9 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">有效期（年）</label>
+                <label class="layui-form-label">有效期（年）<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" onkeyup="num(this)" onblur="num(this)">
+                    <input type="text" name="validityPeriod" id="validityPeriod" autocomplete="off" class="layui-input" onkeyup="num(this)" onblur="num(this)" lay-verify="required">
                 </div>
             </div>
             <!--<div class="layui-inline">-->
@@ -127,7 +127,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">创建时间<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input" lay-verify="required" readonly="readonly">
                 </div>
             </div>
 
@@ -222,6 +222,7 @@
              $('#createTime').val(obj.createTime);
              $('#typeName').val(obj.typeName);
              $('#applyDate').val(obj.applyDate);
+             $('#authorizerUserName2').val(obj.userId);
 
              getStreetList(obj);
              getPatentType(obj);

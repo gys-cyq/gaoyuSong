@@ -67,7 +67,7 @@
             </button>
             <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
             <button class="layui-btn" id="upload">导入</button>
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
+            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
         </div>
     </div>
     <!--<fieldset class="layui-elem-field">-->
@@ -281,8 +281,10 @@
             done: function (res, index, upload) {
                 layer.closeAll('loading');
                 if (res.status == 1) {
-                    layer.msg(res.msg);
-                    parent.location.reload();
+                    layer.alert(res.msg,function(){
+                        layer.close(index);
+                        this.location.reload();
+                    });
                 } else {
                     errmsg(res);
                 }
