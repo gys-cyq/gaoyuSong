@@ -19,10 +19,18 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .titlename{
-            text-align:center;
-            font-size:16px;
-            padding:10px;
+
+        .titlename {
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        fieldset {
+
+            width: auto;
+            min-width: 380px;
+
         }
     </style>
 
@@ -46,7 +54,7 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-        function child(obj,title) {
+        function child(obj, title) {
             $('.titlename').html(title)
             $.ajax({
                 url: baseUrl + '/template/getTemplateList',
