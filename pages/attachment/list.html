@@ -57,7 +57,7 @@
             cols: [[ //表头
 //                {field: 'code', title: '类别编号'},
                 {field: 'typeName', title: '附件类别名称',width:150},
-                {field: 'name', title: '附件名称',width:150},
+//                {field: 'name', title: '附件名称',width:150},
                 {field:'attList',title: '附件',align:'center',templet:function(d){
 //                    console.log(d);
                     if(d.attList!=null){
@@ -69,7 +69,7 @@
                             html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+obj[i].filename+'\'"><a href="'+downloadurl+'">';
 //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
                             html += '<img src="'+imgurl+'"></img>';
-                            html += '<div style="font-size:12px;width:100px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
+                            html += '<div style="font-size:12px;width:120px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
                             html += '</a></div>';
                         }
                         return html;
