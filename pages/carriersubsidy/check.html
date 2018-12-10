@@ -35,7 +35,7 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
 
-
+        var table;
 
         layui.use(['table', 'layer'], function () {
             table = layui.table;
@@ -60,7 +60,7 @@
                     [
                         { field: 'name', title: '项目名称' },
                         { field: 'projectIndustryName', title: '项目类别' },
-                        { field: 'companyName', title: '申报单位' },
+                        { field: 'companyName', title: '申报载体' },
                         {
                             field: 'declareDate', title: '申报日期', templet: function (e) {
                                 var date = new Date(e.declareDate);
@@ -92,11 +92,13 @@
                         area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '详细信息',
-                        content: '../tongchuang/apply_detail.html',
+                        content: 'apply_detail.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
 
+                        },end:function(){
+                            table.reload('testReload');
                         }
 
                     });
@@ -106,11 +108,14 @@
                         area: ['720px', '460px'],
                         fix: false,//不固定
                         title: '审核',
-                        content: '../tongchuang/apply_audit.html',
+                        content: 'apply_audit.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
                             iframe.child(data);
 
+
+                        },end:function(){
+                            table.reload('testReload');
 
                         }
 
