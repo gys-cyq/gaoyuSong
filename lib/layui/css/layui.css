@@ -1,4 +1,4 @@
-/** layui-v2.4.3 MIT License By https://www.layui.com */
+/** layui-v2.4.5 MIT License By https://www.layui.com */
 
 .layui-inline,
 img {
@@ -20,6 +20,13 @@ h6 {
 .layui-inline,
 .layui-main {
 	position: relative
+}
+
+.layui-elip,
+.layui-form-checkbox span,
+.layui-form-pane .layui-form-label {
+	text-overflow: ellipsis;
+	white-space: nowrap
 }
 
 .layui-btn,
@@ -198,9 +205,7 @@ a cite {
 }
 
 .layui-elip {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap
+	overflow: hidden
 }
 
 .layui-disabled,
@@ -2230,7 +2235,7 @@ hr {
 }
 
 .layui-form-select dl dd.layui-this {
-	background-color: #2fa4e7;
+	background-color: #5FB878;
 	color: #fff
 }
 
@@ -2300,9 +2305,7 @@ hr {
 	border-radius: 2px 0 0 2px;
 	background-color: #d2d2d2;
 	color: #fff;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis
+	overflow: hidden
 }
 
 .layui-form-checkbox:hover span {
@@ -2330,17 +2333,17 @@ hr {
 
 .layui-form-checked,
 .layui-form-checked:hover {
-	border-color: #2fa4e7
+	border-color: #5FB878
 }
 
 .layui-form-checked span,
 .layui-form-checked:hover span {
-	background-color: #2fa4e7
+	background-color: #5FB878
 }
 
 .layui-form-checked i,
 .layui-form-checked:hover i {
-	color: #2fa4e7
+	color: #5FB878
 }
 
 .layui-form-item .layui-form-checkbox {
@@ -2522,8 +2525,6 @@ hr {
 	text-align: center;
 	background-color: #FBFBFB;
 	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 	box-sizing: border-box
 }
 
@@ -3091,7 +3092,7 @@ hr {
 	width: 100%;
 	height: 100%;
 	text-align: center;
-	z-index: 10
+	z-index: 110
 }
 
 .layui-table-init .layui-icon {
@@ -3154,16 +3155,21 @@ hr {
 	min-height: 40px;
 	border: 1px solid #d2d2d2;
 	text-align: left;
+	overflow-y: auto;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, .12)
+}
+
+.layui-table-cell,
+.layui-table-tool-panel li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
 }
 
 .layui-table-tool-panel li {
 	padding: 0 10px;
 	line-height: 30px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	-webkit-transition: .5s all;
 	transition: .5s all
 }
@@ -3250,9 +3256,6 @@ hr {
 	line-height: 28px;
 	padding: 0 15px;
 	position: relative;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	box-sizing: border-box
 }
 
@@ -3424,7 +3427,7 @@ hr {
 }
 
 .layui-table-edit:focus {
-	border-color: #2fa4e7!important
+	border-color: #5FB878!important
 }
 
 select.layui-table-edit {
@@ -3697,7 +3700,7 @@ body .layui-table-tips .layui-layer-content {
 	top: 0;
 	width: 0;
 	height: 5px;
-	background-color: #2fa4e7;
+	background-color: #5FB878;
 	transition: all .2s;
 	-webkit-transition: all .2s
 }
@@ -3757,10 +3760,10 @@ body .layui-table-tips .layui-layer-content {
 	top: 65px;
 	min-width: 100%;
 	line-height: 36px;
-	/*padding: 5px 0;*/
+	padding: 5px 0;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
 	border: 1px solid #d2d2d2;
-	background-color: #333;
+	background-color: #fff;
 	z-index: 100;
 	border-radius: 2px;
 	white-space: nowrap
@@ -3781,7 +3784,7 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-nav .layui-nav-child dd.layui-this a,
 .layui-nav-child dd.layui-this {
-	background-color: #000;
+	background-color: #5FB878;
 	color: #fff
 }
 
@@ -3849,8 +3852,8 @@ body .layui-table-tips .layui-layer-content {
 .layui-nav-tree .layui-nav-child a {
 	height: 40px;
 	line-height: 40px;
-	margin-left:20px;
 	color: #fff;
+	margin-left:20px;
 	color: rgba(255, 255, 255, .7)
 }
 
