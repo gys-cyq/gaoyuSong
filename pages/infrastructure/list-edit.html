@@ -22,6 +22,17 @@
                 </div>
             </div>
             <div class="layui-inline">
+                <label class="layui-form-label">设施类型<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <!--<input type="text" name="typeName"id="type"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                    <select lay-filter="type" name="type" id="type" lay-verify="required">
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label">公司名称<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="companyName"id="companyName"  lay-verify="required" autocomplete="off" class="layui-input">
@@ -94,7 +105,7 @@
                     url: url,
                     type: 'post',
                     dataType:'json',
-                    resetForm: true,
+//                    resetForm: true,
                     timeout: 10000,
                     data: {token: token},
                     success: function (res) {
@@ -121,14 +132,15 @@
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
             }
-
             $('#id').val(obj.id);
             $('#number').val(obj.number);
             $('#companyName').val(obj.companyName);
             $('#projectName').val(obj.projectName);
+            $('#type').val(obj.typeName);
 //        $('#projectLevel').val(obj.projectLevel);
             $('#projectSetupTime').val(obj.projectSetupTime);
             getLevel(obj);
+            getTypeName(obj);
         })
     }
 
@@ -142,6 +154,31 @@
         $('#projectLevel').html(html);
         $("#projectLevel").val(data.projectLevel);
         form.render();
+    }
+    function getTypeName(obj){
+        $.ajax({
+            url:baseUrl + '/infrastructuretype/findInfrastructuretypeAll',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data;
+                    var html = '<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var id = data[i].id;
+                        var typeName = data[i].name;
+                        html += '<option value=' + id + '>'+typeName+'</option>';
+                    }
+                    $('#type').html(html);
+                    $('#type').val(obj.type);
+                    form.render();
+                }
+            },
+            error:function(res){
+
+            }
+        })
     }
 
 </script>
