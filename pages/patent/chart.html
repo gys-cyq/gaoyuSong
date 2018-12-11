@@ -56,7 +56,7 @@
 
         if(user.userId==null&&(user.streetId!=null&&user.streetId!=0)&&(user.parkId==0)){
             $('#expertform').remove();
-//            chartsShow();
+            chartsShow();
         }else if((user.streetId!=null&&user.streetId!=0)&&(user.parkId!=0)){
             $('#expertform').remove();
             layer.msg('您暂无权限访问此页面');

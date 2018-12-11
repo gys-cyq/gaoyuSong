@@ -83,6 +83,7 @@
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'number', title: '设施号'},
+                {field: 'typeName', title: '设施类型'},
                 {field: 'companyName', title: '公司名称'},
                 {field: 'projectName', title: '项目名称'},
                 {field: 'projectLevel', title: '项目级别'},
@@ -99,7 +100,7 @@
             layer.open({
                 type: 2,
                 title: '新增设施',
-                area: ['800px', '450px'],
+                area: ['700px', '450px'],
                 fix: false,
                 content: 'list-add.html',
                 success: function (layero, index) {
@@ -145,7 +146,7 @@
                 layer.open({
                     type: 2,
                     title: '编辑',
-                    area: ['800px', '500px'],
+                    area: ['700px', '450px'],
                     fix: false,
                     content: 'list-edit.html',
                     maxmin: true,

@@ -283,7 +283,7 @@
                 if (res.status == 1) {
                     layer.alert(res.msg,function(){
                         layer.close(index);
-                        this.location.reload();
+                        parent.location.reload();
                     });
                 } else {
                     errmsg(res);

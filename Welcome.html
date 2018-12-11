@@ -75,7 +75,7 @@
             upload = layui.upload;
         if(flag){
 			$('#remind').css('display','none');
-			$('#notice').css('width','98%');
+			$('#notice').css('width','96%');
             $('#notice').css('border-left-width','1px');
 		}else{
             $('#remind').css('display','block');
@@ -113,8 +113,8 @@
 //                        }
 //                    }},
                     {field: 'content', title: '内容'},
-                    {field: 'createTime', title: '时间'},
-                    {field: '', title: '操作',templet:'#NoticeAction',width:70},
+                    {field: 'createTime', title: '时间',width:200},
+                    {field: '', title: '操作',templet:'#NoticeAction',width:200},
                 ]],
                 done: function (res, cuur, count) {
                     layer.closeAll('loading');

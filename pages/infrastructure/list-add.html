@@ -24,6 +24,15 @@
                 </div>
             </div>
             <div class="layui-inline">
+                <label class="layui-form-label">设施类型<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <!--<input type="text" name="number"id="type"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                    <select lay-filter="type" name="type" id="type">
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label">公司名称<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="companyName"id="companyName"  lay-verify="required" autocomplete="off" class="layui-input">
@@ -76,6 +85,7 @@
         laydate.render({
             elem: '#projectSetupTime'
         });
+        getTypeName();
 
         form.on('submit(submit)', function(){
             var url = baseUrl + "/infrastructure/infrastructureAdd";
@@ -112,6 +122,30 @@
             parent.layer.close(index);
         }
     })
+    function  getTypeName(){
+        $.ajax({
+            url:baseUrl + '/infrastructuretype/findInfrastructuretypeAll',
+            type:'get',
+            dataType:'json',
+            data:{token:token},
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data;
+                    var html = '<option value="">'+'请选择'+'</option>';
+                    for(var i=0;i<data.length;i++){
+                        var id = data[i].id;
+                        var typeName = data[i].name;
+                        html += '<option value=' + id + '>'+typeName+'</option>';
+                    }
+                    $('#type').html(html);
+                    form.render();
+                }
+            },
+            error:function(res){
+
+            }
+        })
+    }
 </script>
 </body>
 </html>
