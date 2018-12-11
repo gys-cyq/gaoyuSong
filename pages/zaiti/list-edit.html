@@ -42,7 +42,10 @@
             <div class="layui-inline">
                 <label class="layui-form-label">级别<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text" name="level"id="level"  autocomplete="off" class="layui-input" lay-verify="required">
+                    <!--<input type="text" name="level"id="level"  autocomplete="off" class="layui-input" lay-verify="required">-->
+                    <select lay-filter="level" name="level" id="level" lay-verify="required">
+
+                    </select>
                 </div>
             </div>
         </div>
@@ -86,7 +89,7 @@
                     url: url,
                     type: 'post',
                     dataType:'json',
-                    resetForm: true,
+//                    resetForm: true,
                     timeout: 10000,
                     data: {token: token},
                     success: function (res) {
@@ -121,8 +124,18 @@
             $('#level').val(obj.level);
             $('#cognizanceTime').val(obj.cognizanceTime);
             getTypeName(obj);
-
+            getLevel(obj);
         })
+    }
+    function getLevel(data){
+        var html = '';
+        html += '<option value="">'+'请选择'+'</option>';
+        html += '<option value="国家">'+'国家'+'</option>';
+        html += '<option value="省">'+'省'+'</option>';
+        html += '<option value="市">'+'市'+'</option>';
+        $('#level').html(html);
+        $("#level").val(data.level);
+        form.render();
     }
 
     function getTypeName(obj){
