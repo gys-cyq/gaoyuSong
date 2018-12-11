@@ -44,10 +44,10 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">专利权人</label>
                     <div class="layui-input-inline">
-                        <!--<input type="text" name="authorizerUserName" id="authorizerUserName"  autocomplete="off" class="layui-input">-->
-                        <select lay-filter="authorizerUserName" name="authorizerUserName" id="authorizerUserName">
+                        <input type="text" name="authorizerUserName" id="authorizerUserName"  autocomplete="off" class="layui-input" lay-filter="authorizerUserName">
+                        <!--<select lay-filter="authorizerUserName" name="authorizerUserName" id="authorizerUserName">-->
 
-                        </select>
+                        <!--</select>-->
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -180,8 +180,8 @@
                         token:token,
                         number:$('#number').val(),
                         name:$('#name').val(),
-//                        authorizerUserName:$('#authorizerUserName').val(),
-                        userId:$('#authorizerUserName').val(),
+                        authorizerUserName:$('#authorizerUserName').val(),
+//                        userId:$('#authorizerUserName').val(),
                         tel:$('#tel').val(),
                         type:$('#type').val(),
                     },

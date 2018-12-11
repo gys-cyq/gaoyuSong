@@ -204,8 +204,11 @@
             done: function (res, index, upload) {
                 layer.closeAll('loading');
                 if (res.status == 1) {
-                    layer.msg(res.msg);
-                    parent.location.reload();
+                    layer.alert(res.msg,function(){
+                        layer.close(index);
+                        parent.location.reload();
+                    });
+//                    parent.location.reload();
                 } else {
                     errmsg(res);
                 }
