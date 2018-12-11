@@ -101,7 +101,7 @@
                     <label class="layui-form-label">联系人电话
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" />
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify='checkTel'/>
 
                     </div>
                 </div>
@@ -286,6 +286,13 @@
                     }
                 });
                 findprojectTypeAll(data.type);
+                form.verify({
+                checkTel: function (value) {
+                    if (!checkTel(value)) {
+                        return "请输入正确的联系电话"
+                    }
+                }
+            });
                 form.on('submit(submit)', function (data) {
                 
                     if (temList.length != 0) {
