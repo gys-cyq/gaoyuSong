@@ -429,8 +429,12 @@
                 done: function (res, index, upload) {
                     layer.closeAll('loading');
                     if (res.status == 1) {
-                        layer.msg(res.msg);
-                        parent.location.reload();
+                        // layer.msg(res.msg);
+                        // parent.location.reload();
+                        layer.alert(res.msg,function(){
+                            layer.closeAll();
+                            table.reload('testReload');
+                        });
                     } else {
                         errmsg(res);
                     }
@@ -502,10 +506,10 @@
             if ($("#companyName").val() != '') {
                 url += '&companyName=' + $("#companyName").val();
             }
-            if (typeId != undefined) {
+            if (typeId != undefined&&typeId!='') {
                 url += '&type=' + typeId;
             }
-
+            consoleUtils(url);
 
             window.location.href = url;
         }
