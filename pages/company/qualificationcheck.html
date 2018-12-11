@@ -59,10 +59,10 @@
             </div>
         </form>
 
-            <div class="layui-field-box">
+            <!-- <div class="layui-field-box"> -->
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
-            </div>
+            <!-- </div> -->
 
     </div>
     <script type="text/html" id="barDemo">
@@ -214,7 +214,7 @@
                         var html = ' <option value="">' + '所有' + '</option>';
 
                         for (var i in data) {
-                            var id = data[i].id;
+                            var id = data[i].companyType;
                             var typeName = data[i].companyTypeName;
                             html += ' <option value=' + id + '>' + typeName + '</option>';
 

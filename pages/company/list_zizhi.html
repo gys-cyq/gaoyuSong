@@ -112,10 +112,10 @@
 
             <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
         </div>
-            <div class="layui-field-box">
+            <!-- <div class="layui-field-box"> -->
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
-            </div>
+            <!-- </div> -->
         
 
     </div>
@@ -247,7 +247,7 @@
 
                     });
                 } else if (layEvent == 'del') {
-                    layer.confirm('确定删除吗？', function (index) {
+                    layer.confirm('确定删除' + '<span style="color:red;">' + res.name + "(删除企业会同步删除该企业下所有账号)" + '</span>' + '吗？', function (index) {
                         $.ajax({
                             url: baseUrl + '/company/delete',
                             type: 'post',
@@ -315,8 +315,10 @@
                 done: function (res, index, upload) {
                     layer.closeAll('loading');
                     if (res.status == 1) {
-                        layer.msg(res.msg);
-                        parent.location.reload();
+                        layer.alert(res.msg,function(){
+                            layer.closeAll();
+                            table.reload('testReload');
+                        });
                     } else {
                         errmsg(res);
                     }

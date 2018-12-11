@@ -51,10 +51,10 @@
             </button>
         </div>
         <!--<fieldset class="layui-elem-field">-->
-            <div class="layui-field-box">
+            <!-- <div class="layui-field-box"> -->
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
-            </div>
+            <!-- </div> -->
         <!--</fieldset>-->
     </div>
 
@@ -160,7 +160,7 @@
                         }
                     });
                 } else if (layEvent === 'del') {
-                    layer.confirm('确定删除吗？', function (index) {
+                    layer.confirm('确定删除' + '<span style="color:red;">' + data.username + '</span>' + '吗？', function (index) {
                         $.ajax({
                             url: baseUrl + "/user/delete",
                             type: 'post',
