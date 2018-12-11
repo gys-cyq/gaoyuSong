@@ -28,7 +28,7 @@
     <div class="layui-tab-brief">
 
         <form class="layui-form">
-            <div class="layui-form-item" style="margin-top: 10px">
+            <div class="layui-form-item">
 
                 <div class="layui-inline">
                     <label class="layui-form-label">项目类别
@@ -74,20 +74,21 @@
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
             </div>
         </form>
-        <div style="margin: 20px">
+        <div>
             <button class="layui-btn layui-btn-small" id="add" onclick="add()">
                 <i class="layui-icon"></i> 添加
             </button>
             <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
-            <button class="layui-btn" id="upload" style="margin: 0 10px">导入</button>
+            <button class="layui-btn" id="upload">导入</button>
 
-            <button class="layui-btn" id="export" onclick='exportFile()'>导出</button>
+            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
         </div>
-       
-           
-                <table class="style-table" id="demo" lay-filter="test">
-                </table>
-               
+
+        <!-- <div class="layui-field-box"> -->
+        <table class="style-table" id="demo" lay-filter="test">
+        </table>
+        <!-- </div> -->
+
 
     </div>
     <!-- <script type="text/html" id="barDemo">
@@ -110,7 +111,7 @@
             form = layui.form;
             var upload = layui.upload;
             var laydate = layui.laydate;
-            user=JSON.parse(localStorage.getItem("user"));
+            user = JSON.parse(localStorage.getItem("user"));
             var pid = GetQueryString('pid');
             actions = parent.GetPageData(pid);
 
@@ -152,18 +153,19 @@
                 },
                 page: true,//开启分页
                 limit: 20,
+                height: 'full-200',
                 id: 'testReload',
                 cols: [
                     [
                         { field: 'name', title: '项目名称' },
-                        { field: 'typeName', title: '项目类别',width:150 },
+                        { field: 'typeName', title: '项目类别', width: 150 },
                         { field: 'companyName', title: '申报单位' },
                         {
-                            field: 'declareDate', title: '申报日期', width:150,templet: function (e) {
+                            field: 'declareDate', title: '申报日期', width: 150, templet: function (e) {
                                 var date = new Date(e.declareDate);
                                 Y = date.getFullYear() + '-';
                                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-                                D = date.getDate()<10 ? '0'+ (date.getDate() ) : date.getDate() ;
+                                D = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
                                 // h = date.getHours() + ':';
                                 // m = date.getMinutes() + ':';
                                 // s = date.getSeconds();
@@ -172,7 +174,7 @@
                             }
                         },
                         {
-                            field: 'status', title: '项目审核状态',width:150, templet: function (e) {
+                            field: 'status', title: '项目审核状态', width: 150, templet: function (e) {
                                 if (e.status == 0) {
                                     return "待审核";
                                 } else if (e.status == 1) {
@@ -219,12 +221,12 @@
                                         html += ' <a class="layui-btn layui-btn-xs" lay-event="acceptance">' + '项目验收申请' + '</a>'
                                     }
                                 }
-                              
+
                                 if (actions.indexOf('project:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
                                     html += ' <a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
                                 }
-                                if (e.isExpert == 1&&user.companyId==0&&user.type!=3) {
+                                if (e.isExpert == 1 && user.companyId == 0 && user.type != 3) {
 
                                     html += ' <a class="layui-btn layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
                                     return html
@@ -330,7 +332,7 @@
                         content: 'history.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res.id,actions);
+                            iframe.child(res.id, actions);
 
                         }, error: function (layero, index) {
 
@@ -431,7 +433,7 @@
                     if (res.status == 1) {
                         // layer.msg(res.msg);
                         // parent.location.reload();
-                        layer.alert(res.msg,function(){
+                        layer.alert(res.msg, function () {
                             layer.closeAll();
                             table.reload('testReload');
                         });
@@ -506,7 +508,7 @@
             if ($("#companyName").val() != '') {
                 url += '&companyName=' + $("#companyName").val();
             }
-            if (typeId != undefined&&typeId!='') {
+            if (typeId != undefined && typeId != '') {
                 url += '&type=' + typeId;
             }
             consoleUtils(url);

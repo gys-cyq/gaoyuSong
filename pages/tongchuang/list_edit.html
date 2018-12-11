@@ -84,7 +84,7 @@
                     <label class="layui-form-label">联系人电话
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" />
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify="checkTel" />
 
                     </div>
                 </div>
@@ -280,6 +280,13 @@
                         // tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
                 });
+                form.verify({
+                    checkTel: function (value) {
+                    if (!checkTel(value)) {
+                        return "请输入正确的联系方式"
+                    }
+                }
+            });
                
                 form.on('submit(submit)', function (data) {
                 
