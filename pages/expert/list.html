@@ -132,7 +132,7 @@
                     var image = baseUrl + '/file/getImg?path=' + data.headImg;
                     var unimage = baseUrl+'/images/touxiang.jpg';
                     var html='';
-                    if (data.headImg != "") {
+                    if (data.headImg != ""&&data.headImg!=null) {
                         html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
                         return html;
                     } else {
@@ -147,6 +147,8 @@
                         return '男';
                     }else if(d.sex=='F'){
                         return '女';
+                    }else{
+                        return '男';
                     }
                 }},
                 {field: 'position', title: '职务'},

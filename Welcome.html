@@ -66,7 +66,7 @@
     var userinfo = JSON.parse(localStorage.getItem('user')).roleList;
 	var flag = false;
 	for(var i=0;i<userinfo.length;i++){
-	    if(userinfo[i].id<4){
+	    if(userinfo[i].id<4&&userinfo[i].id!=2){
             flag=true;
             break;
 		}
