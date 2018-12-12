@@ -112,6 +112,11 @@
 
 
             </div> -->
+            <div class="layui-inline">
+                <label class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;" onclick="openFiles()">点击附件
+                </label>
+
+            </div>
             <div class="layui-upload">
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
@@ -291,6 +296,22 @@
             $("input[name='projectIndustry']").val(message.id);
 
         }
+        function openFiles() {
+            layer.open({
+                type: 2,
+                area: ['600px', '300px'],
+                fix: false,//不固定
+                title: '附件',
+                content: '../project/template.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child('C200010', "载体补助模板下载");
+
+                }
+
+            });
+                
+            }
     </script>
 </body>
 

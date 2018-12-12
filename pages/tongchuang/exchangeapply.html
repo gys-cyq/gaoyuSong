@@ -73,7 +73,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="linkTel" class="layui-input" lay-verify='checkMolie'/>
+                        <input type="tel" name="linkTel" class="layui-input" lay-verify='checkMolie' />
 
                     </div>
                 </div>
@@ -112,6 +112,11 @@
 
 
             </div> -->
+            <div class="layui-inline">
+                <label class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;" onclick="openFiles()">点击附件
+                </label>
+
+            </div>
             <div class="layui-upload">
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
@@ -199,7 +204,7 @@
 
                         }
                         console.log(fileList);
-                        var new_arry=duplicate(fileList);
+                        var new_arry = duplicate(fileList);
                         $("input[name='files']").val(new_arry);
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
@@ -224,8 +229,8 @@
                     if (!isUpload) {
                         return '请上传附件'
                     }
-                },checkMolie:function(value){
-                    if(!checkMolie(value)){
+                }, checkMolie: function (value) {
+                    if (!checkMolie(value)) {
                         return "请输入正确的手机号码"
                     }
                 }
@@ -289,6 +294,22 @@
 
             $("input[name='projectName']").val(message.name)
             $("input[name='projectIndustry']").val(message.id);
+
+        }
+        function openFiles() {
+            layer.open({
+                type: 2,
+                area: ['600px', '300px'],
+                fix: false,//不固定
+                title: '附件',
+                content: '../project/template.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child('C200007', "通创币兑换模板下载");
+
+                }
+
+            });
 
         }
     </script>
