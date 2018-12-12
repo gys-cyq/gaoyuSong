@@ -1,4 +1,4 @@
-/** layui-v2.4.5 MIT License By https://www.layui.com */
+/** layui-v2.4.3 MIT License By https://www.layui.com */
 
 .layui-inline,
 img {
@@ -20,13 +20,6 @@ h6 {
 .layui-inline,
 .layui-main {
 	position: relative
-}
-
-.layui-elip,
-.layui-form-checkbox span,
-.layui-form-pane .layui-form-label {
-	text-overflow: ellipsis;
-	white-space: nowrap
 }
 
 .layui-btn,
@@ -205,7 +198,9 @@ a cite {
 }
 
 .layui-elip {
-	overflow: hidden
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap
 }
 
 .layui-disabled,
@@ -1621,7 +1616,7 @@ a cite {
 	height: 6px;
 	border-radius: 20px;
 	text-align: right;
-	background-color: #2fa4e7;
+	background-color: #5FB878;
 	transition: all .3s;
 	-webkit-transition: all .3s
 }
@@ -2305,7 +2300,9 @@ hr {
 	border-radius: 2px 0 0 2px;
 	background-color: #d2d2d2;
 	color: #fff;
-	overflow: hidden
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis
 }
 
 .layui-form-checkbox:hover span {
@@ -2385,13 +2382,13 @@ hr {
 }
 
 .layui-form-checkbox[lay-skin=primary]:hover i {
-	border-color: #2fa4e7;
+	border-color: #5FB878;
 	color: #fff
 }
 
 .layui-form-checked[lay-skin=primary] i {
-	border-color: #2fa4e7;
-	background-color: #2fa4e7;
+	border-color: #5FB878;
+	background-color: #5FB878;
 	color: #fff
 }
 
@@ -2448,8 +2445,8 @@ hr {
 }
 
 .layui-form-onswitch {
-	border-color: #2fa4e7;
-	background-color: #2fa4e7
+	border-color: #5FB878;
+	background-color: #5FB878
 }
 
 .layui-checkbox-disbaled,
@@ -2507,7 +2504,7 @@ hr {
 
 .layui-form-radio>i:hover,
 .layui-form-radioed>i {
-	color: #2fa4e7
+	color: #5FB878
 }
 
 .layui-radio-disbaled>i {
@@ -2525,6 +2522,8 @@ hr {
 	text-align: center;
 	background-color: #FBFBFB;
 	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	box-sizing: border-box
 }
 
@@ -3092,7 +3091,7 @@ hr {
 	width: 100%;
 	height: 100%;
 	text-align: center;
-	z-index: 110
+	z-index: 10
 }
 
 .layui-table-init .layui-icon {
@@ -3155,21 +3154,16 @@ hr {
 	min-height: 40px;
 	border: 1px solid #d2d2d2;
 	text-align: left;
-	overflow-y: auto;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, .12)
-}
-
-.layui-table-cell,
-.layui-table-tool-panel li {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap
 }
 
 .layui-table-tool-panel li {
 	padding: 0 10px;
 	line-height: 30px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	-webkit-transition: .5s all;
 	transition: .5s all
 }
@@ -3256,6 +3250,9 @@ hr {
 	line-height: 28px;
 	padding: 0 15px;
 	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	box-sizing: border-box
 }
 
@@ -3760,10 +3757,10 @@ body .layui-table-tips .layui-layer-content {
 	top: 65px;
 	min-width: 100%;
 	line-height: 36px;
-	padding: 5px 0;
+	/*padding: 5px 0;*/
 	box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
 	border: 1px solid #d2d2d2;
-	background-color: #fff;
+	background-color: #333;
 	z-index: 100;
 	border-radius: 2px;
 	white-space: nowrap
@@ -3784,7 +3781,7 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-nav .layui-nav-child dd.layui-this a,
 .layui-nav-child dd.layui-this {
-	background-color: #2fa4e7;
+	background-color: #000;
 	color: #fff
 }
 
@@ -3852,8 +3849,8 @@ body .layui-table-tips .layui-layer-content {
 .layui-nav-tree .layui-nav-child a {
 	height: 40px;
 	line-height: 40px;
-	color: #fff;
 	margin-left:20px;
+	color: #fff;
 	color: rgba(255, 255, 255, .7)
 }
 
@@ -3916,7 +3913,7 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-breadcrumb a:hover {
-	color: #2fa4e7!important
+	color: #5FB878!important
 }
 
 .layui-breadcrumb a cite {
@@ -4072,7 +4069,7 @@ body .layui-table-tips .layui-layer-content {
 .layui-tab-brief>.layui-tab-title .layui-this:after {
 	border: none;
 	border-radius: 0;
-	border-bottom: 2px solid #2fa4e7
+	border-bottom: 2px solid #5FB878
 }
 
 .layui-tab-brief[overflow]>.layui-tab-title .layui-this:after {
@@ -4115,7 +4112,7 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-tab-card>.layui-tab-more .layui-this {
 	background: 0 0;
-	color: #2fa4e7
+	color: #5FB878
 }
 
 .layui-tab-card>.layui-tab-more .layui-this:after {
@@ -4140,7 +4137,7 @@ body .layui-table-tips .layui-layer-content {
 	height: 20px;
 	line-height: 20px;
 	background-color: #fff;
-	color: #2fa4e7;
+	color: #5FB878;
 	border-radius: 50%;
 	text-align: center;
 	cursor: pointer
