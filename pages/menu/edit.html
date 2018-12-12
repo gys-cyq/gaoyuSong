@@ -39,7 +39,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="name" id="name" class="layui-input" />
+                    <input type="text" name="name" id="name" class="layui-input"  lay-verify="required"/>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">权限</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="permission" class="layui-input" id="permission" />
+                    <input type="text" name="permission" class="layui-input" id="permission" lay-verify="required"/>
                 </div>
             </div>
         </div>
@@ -63,17 +63,17 @@
             <div class="layui-inline">
                 <label class="layui-form-label">排序号</label>
                 <div class="layui-input-inline">
-                    <input type="number" name="sort" class="layui-input" id="sort" />
+                    <input type="number" name="sort" class="layui-input" id="sort" lay-verify="required"/>
                 </div>
             </div>
         </div>
-    </form>
-    <div class="layui-form-item">
-        <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-            <button class="layui-btn" name="submit" lay-filter="submit" lay-submit="">确定编辑</button>
-            <button type="reset" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                <button class="layui-btn" name="submit" lay-filter="submit" lay-submit="">确定编辑</button>
+                <button type="reset" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery.form.js"></script>
@@ -98,7 +98,7 @@
                 url: url,
                 type: 'post',
                 //clearForm:true,
-                resetForm: true,
+//                resetForm: true,
                 timeout: 10000,
                 crossDomain: true == !(document.all) ,
                 data: {token: token},
@@ -106,6 +106,7 @@
                 success: function (res) {
                     if (res.status == 1) {
                         layer.alert("成功", function () {
+                            document.getElementById('demoform').reset();
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                             parent.location.reload();
