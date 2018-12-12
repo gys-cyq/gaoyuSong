@@ -43,7 +43,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">角色描述</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="roleDes" name="description"/>
+                    <input type="text" class="layui-input" id="roleDes" name="description" />
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <label class="layui-form-label">是否可用</label>
                 <div class="layui-input-inline">
                     <!--<input type="text" name="available" id="roleab" class="layui-input" />-->
-                    <select name="available" lay-filter="available" id="roleab">
+                    <select name="available" lay-filter="available" id="roleab" lay-verify="required">
                         <!--<option value="1">正常</option>-->
                         <!--<option value="2">禁用</option>-->
                     </select>
@@ -84,7 +84,7 @@
                 var options = {
                     url: url,
                     type: 'post',
-                    resetForm: true,
+//                    resetForm: true,
                     timeout: 10000,
                     data: {token: token},
                     success: function (res) {

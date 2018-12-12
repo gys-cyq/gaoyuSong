@@ -20,8 +20,8 @@
 			.layui-field-box{
 				width:49%;
 				float:left;
-				border:1px solid #eee;
-				border-left-width:5px;
+				/*border:1px solid #eee;*/
+				/*border-left-width:5px;*/
 				box-sizing:border-box;
 			}
 			.layui-field-box:first-child{
@@ -79,9 +79,12 @@
         if(flag){
 			$('#remind').css('display','none');
 			$('#notice').css('width','96%');
-            $('#notice').css('border-left-width','1px');
 		}else{
             $('#remind').css('display','block');
+            $('#notice').css('border-left','1px solid #eee');
+            $('#notice').css('border-left-width','5px');
+            $('#remind').css('border-left','1px solid #eee');
+            $('#remind').css('border-left-width','5px');
 		}
 
         var rendernotice = function(){
