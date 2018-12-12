@@ -257,10 +257,12 @@ body {
 .container .logo a {
   float: left;
   color: #fff;
-  font-size: 18px;
+  font-family:'黑体';
+  font-weight:700;
+  font-size: 32px;
   padding-left: 20px;
   line-height: 45px;
-  width: 200px;
+  width: 500px;
 }
 .container .right {
   background-color: rgba(0, 0, 0, 0);

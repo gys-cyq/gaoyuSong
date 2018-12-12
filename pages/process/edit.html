@@ -16,6 +16,7 @@
 <div style="width:100%;height:100%;margin-top:20px;" class="layui-tab-brief">
     <form class="layui-form" id="processEdit">
         <input type="hidden" name="id"  id="id"/>
+        <input type="hidden" name="description" id="description" />
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">流程名称</label>
@@ -77,8 +78,8 @@
                 content:'addProcess.html',
                 maxmin:true,
                 success:function(layero,index){
-//                    var iframe = window['layui-layer-iframe' + index];
-//                    iframe.child(data);
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child($('#description').val());
                 },
                 error:function(layero,index){
 
@@ -166,6 +167,7 @@
             }
         }
         $("#processNodes1").html(html);
+        $("#description").val(obj.type);
     }
 </script>
 </body>

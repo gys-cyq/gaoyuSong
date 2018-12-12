@@ -57,38 +57,39 @@
 <script type="text/javascript">
     token = localStorage.getItem("token");
     var index = parent.layer.getFrameIndex(window.name);
-    layui.use(['form','layer'],function(){
-        var layer = layui.layer,
-            form = layui.form;
+    function child(obj2){
+        layui.use(['form','layer'],function(){
+            var layer = layui.layer,
+                form = layui.form;
 
-        window.cancel = function(){
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        }
+            window.cancel = function(){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
 
 
 
-        form.on('select(type)', function (data) {
-            if(data.value==1){
-                $('#choose2').css('display','none');
-                $('#choose1').css('display','block');
-                $.ajax({
-                    url:baseUrl + '/role/getRoleList2',
-                    type:'get',
-                    dataType:'json',
-                    data:{token:token,limit:9999},
-                    success:function(res){
-                        if(res.status==1){
-                            var data = res.data;
-                            var html = '<option value="">'+'请选择角色'+'</option>';
-                            var description;
-                            for(var i=0;i<data.length;i++){
-                                var name = data[i].role;
-                                description = data[i].description;
-                                html += '<option value='+description+'>'+description+'</option>';
-                            }
-                            $('#role').html(html);
-                            form.render();
+            form.on('select(type)', function (data) {
+                if(data.value==1){
+                    $('#choose2').css('display','none');
+                    $('#choose1').css('display','block');
+                    $.ajax({
+                        url:baseUrl + '/role/getRoleList2',
+                        type:'get',
+                        dataType:'json',
+                        data:{token:token,limit:9999,description:obj2},
+                        success:function(res){
+                            if(res.status==1){
+                                var data = res.data;
+                                var html = '<option value="">'+'请选择角色'+'</option>';
+                                var description;
+                                for(var i=0;i<data.length;i++){
+                                    var name = data[i].role;
+                                    description = data[i].description;
+                                    html += '<option value='+description+'>'+description+'</option>';
+                                }
+                                $('#role').html(html);
+                                form.render();
 //                            for(var j=0;j<data.length;j++){
 //                                if(data[j].description==$('#role').val()){
 //                                    console.log(data[j].description);
@@ -96,118 +97,120 @@
 //                                    $('#id').val(id);
 //                                }
 //                            }
-                        }else{
-                            errmsg(res);
-                        }
-                    },
-                    error:function(res){
-
-                    }
-                })
-            }else{
-                $('#choose1').css('display','none');
-                $('#choose2').css('display','block');
-                $.ajax({
-                    url:baseUrl + '/user/select',
-                    type:'get',
-                    dataType:'json',
-                    data:{token:token,limit:9999},
-                    success:function(res){
-                        if(res.status==1){
-                            var data = res.data.list;
-                            var html = '';
-                            var name;
-                            var nickname;
-                            for(var i=0;i<data.length;i++){
-                                var id=data[i].id;
-                                name = data[i].username;
-                                nickname = data[i].nickname;
-                                if(nickname==null){
-                                    html += '<option value='+name+'>'+name+'</option>';
-                                }else{
-                                    html += '<option value='+nickname+'>'+nickname+'</option>';
-                                }
-//                                $('#id').val(id);
+                            }else{
+                                errmsg(res);
                             }
-                            $('#user').html(html);
-                            form.render();
-                            for(var j=0;j<data.length;j++){
-                                if(data[j].name==$('#user').val() || data[j].nickname==$('#user').val()){
-                                    var id=data[j].id;
+                        },
+                        error:function(res){
+
+                        }
+                    })
+                }else{
+                    $('#choose1').css('display','none');
+                    $('#choose2').css('display','block');
+                    $.ajax({
+                        url:baseUrl + '/user/select',
+                        type:'get',
+                        dataType:'json',
+                        data:{token:token,limit:9999},
+                        success:function(res){
+                            if(res.status==1){
+                                var data = res.data.list;
+                                var html = '';
+                                var name;
+                                var nickname;
+                                for(var i=0;i<data.length;i++){
+                                    var id=data[i].id;
+                                    name = data[i].username;
+                                    nickname = data[i].nickname;
+                                    if(nickname==null){
+                                        html += '<option value='+name+'>'+name+'</option>';
+                                    }else{
+                                        html += '<option value='+nickname+'>'+nickname+'</option>';
+                                    }
+//                                $('#id').val(id);
+                                }
+                                $('#user').html(html);
+                                form.render();
+                                for(var j=0;j<data.length;j++){
+                                    if(data[j].name==$('#user').val() || data[j].nickname==$('#user').val()){
+                                        var id=data[j].id;
+                                        $('#id').val(id);
+                                    }
+                                }
+                            }else{
+                                errmsg(res);
+                            }
+                        },
+                        error:function(res){
+
+                        }
+                    })
+                }
+            })
+
+            form.on('select(role)', function (data) {
+                var obj = $('#role').val();
+                $.ajax({
+                    url: baseUrl + '/role/getRoleList2',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {token: token},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            var data = res.data;
+                            for (var j = 0; j < data.length; j++) {
+                                if (data[j].description == obj) {
+                                    var id = data[j].id;
                                     $('#id').val(id);
                                 }
                             }
-                        }else{
+                        } else {
                             errmsg(res);
                         }
                     },
-                    error:function(res){
+                    error: function (res) {
 
                     }
                 })
-            }
-        })
-
-        form.on('select(role)', function (data) {
-            var obj = $('#role').val();
-            $.ajax({
-                url: baseUrl + '/role/getRoleList2',
-                type: 'get',
-                dataType: 'json',
-                data: {token: token},
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data;
-                        for (var j = 0; j < data.length; j++) {
-                            if (data[j].description == obj) {
-                                var id = data[j].id;
-                                $('#id').val(id);
-                            }
-                        }
-                    } else {
-                        errmsg(res);
-                    }
-                },
-                error: function (res) {
-
-                }
             })
-        })
-        form.on('select(user)', function (data) {
-            var obj = $('#user').val();
-            $.ajax({
-                url: baseUrl + '/user/select',
-                type: 'get',
-                dataType: 'json',
-                data: {token: token},
-                success: function (res) {
-                    if (res.status == 1) {
-                        var data = res.data.list;
-                        console.log(data);
-                        for (var j = 0; j < data.length; j++) {
-                            if (data[j].nickname == obj) {
-                                var id = data[j].id;
+            form.on('select(user)', function (data) {
+                var obj = $('#user').val();
+                $.ajax({
+                    url: baseUrl + '/user/select',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {token: token},
+                    success: function (res) {
+                        if (res.status == 1) {
+                            var data = res.data.list;
+                            console.log(data);
+                            for (var j = 0; j < data.length; j++) {
+                                if (data[j].nickname == obj) {
+                                    var id = data[j].id;
 
-                                $('#id').val(id);
+                                    $('#id').val(id);
+                                }
                             }
+                        } else {
+                            errmsg(res);
                         }
-                    } else {
-                        errmsg(res);
+                    },
+                    error: function (res) {
+
                     }
-                },
-                error: function (res) {
-
-                }
+                })
             })
-        })
-        form.on('submit(streetEdit)', function(data){
-            var dataObj = data.field;
-            parent.layer.close(index);
-            parent.GetValue(dataObj);
-            return false;
-        });
+            form.on('submit(streetEdit)', function(data){
+                var dataObj = data.field;
+                parent.layer.close(index);
+                parent.GetValue(dataObj);
+                return false;
+            });
 
-    })
+        })
+    }
+
 </script>
 </body>
 </html>

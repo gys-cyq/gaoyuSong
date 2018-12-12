@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../../css/style.css"  />
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+    <!--[if IE 8]>
+    <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
+    <![endif]-->
     <style>
         .layui-form-item{
             text-align:center;
@@ -67,7 +70,7 @@
     </form>
     <div class="layui-form-item">
         <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-            <button class="layui-btn" onclick="edit()" name="submit" lay-filter="submit">确定编辑</button>
+            <button class="layui-btn" name="submit" lay-filter="submit" lay-submit="">确定编辑</button>
             <button type="reset" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
         </div>
     </div>
@@ -97,6 +100,7 @@
                 //clearForm:true,
                 resetForm: true,
                 timeout: 10000,
+                crossDomain: true == !(document.all) ,
                 data: {token: token},
 //            beforeSubmit: validateForm,
                 success: function (res) {

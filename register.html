@@ -264,7 +264,7 @@
                 timeout: 10000,
                 success: function (res) {
                     if (res.status == 1) {
-                        layer.alert("注册成功,等待1-3个工作日审核通过后可用于登录", function (index) {
+                        layer.alert("注册成功,请及时与上级部门联络", function (index) {
                             document.getElementById("parkForm").reset();
                             layer.close(index);
                         });
@@ -293,7 +293,7 @@
                 timeout: 10000,
                 success: function (res) {
                     if (res.status == 1) {
-                        layer.alert("注册成功,等待1-3个工作日审核通过后可使用手机号登录，密码为111111", function (index) {
+                        layer.alert("注册成功,请及时与上级部门联络", function (index) {
                             layer.close(index);
                         });
                     } else {
