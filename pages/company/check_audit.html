@@ -11,15 +11,15 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-<style>
-      .filename {
+    <style>
+        .filename {
             width: 120px;
             white-space: nowrap;
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-</style>
+    </style>
 
 </head>
 
@@ -53,7 +53,7 @@
 
                     </div>
                 </div>
-              
+
             </div>
 
             <div class="layui-form-item">
@@ -62,7 +62,7 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <textarea  name="description" class="layui-textarea"  style="width: 520px"></textarea>
+                        <textarea name="description" class="layui-textarea" style="width: 520px"></textarea>
 
                     </div>
                 </div>
@@ -114,10 +114,18 @@
                 $('#template').html(html);
             });
             $('#yes').on('click', function () {
-                layer.msg('1')
-                layer.alert("确定通过吗？", function () {
-                    approveCompanyQualificationsApply(1);
+
+                layer.open({
+                    type: 2,
+                    area: ['400px', '400px'],
+                    fix: false,//不固定
+                    title: '选择起始时间',
+                    content: 'time.html?pid='+data.id,
+                   
+                    
+
                 });
+
             });
             $('#no').on('click', function () {
                 layer.alert('确定不通过吗？', function () {
@@ -143,8 +151,8 @@
                     if (response.status == 1) {
                         layer.alert(response.msg, function () {
                             var index = parent.layer.getFrameIndex(window.name);
-						    parent.layer.close(index);
-                            
+                            parent.layer.close(index);
+
                         })
 
 
@@ -157,6 +165,13 @@
 
                 }
             });
+        }
+        function setChoose(success) {
+            if (success) {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+
         }
     </script>
 </body>
