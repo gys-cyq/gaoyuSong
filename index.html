@@ -197,7 +197,7 @@
 								SetPageData(id, res.data);
 
 								if(url2=='pages/company/list_zizhi.html'){
-									tab.tabAdd(title, url2 + "?pid=" + number, id);
+									tab.tabAdd(title, url2 + "?number=" + number+"&pid="+id, id);
 
 								}else{
 									tab.tabAdd(title, url2 + "?pid=" + id, id);

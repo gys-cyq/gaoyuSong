@@ -108,38 +108,37 @@
                 <i class="layui-icon"></i> 添加
             </button>
             <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
-            <button class="layui-btn" id="upload" >导入</button>
+            <button class="layui-btn" id="upload">导入</button>
 
             <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
         </div>
-            <!-- <div class="layui-field-box"> -->
-                <table class="style-table" id="demo" lay-filter="test">
-                </table>
-            <!-- </div> -->
-        
+        <!-- <div class="layui-field-box"> -->
+        <table class="style-table" id="demo" lay-filter="test">
+        </table>
+        <!-- </div> -->
+
 
     </div>
     <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">历史申报</a>
-
-                </script>
+            
+    </script>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
         var form;
         var pid;
+        var number
         var streetId;
         var parkId;
         var table
         layui.use(['form', 'table', 'layer', 'upload', 'laydate'], function () {
             pid = GetQueryString('pid');
-            
+
+            number=GetQueryString('number');
+
             var actions = parent.GetPageData(pid)
-            consoleUtils(actions)
+            consoleUtils(pid+'\n'+number+'\n'+actions)
             var layer = layui.layer;
             form = layui.form;
             table = layui.table;
@@ -149,11 +148,41 @@
                 elem: '#year',
                 type: 'year'
             });
+
+          
+            if (actions.indexOf('companyqualification:add') != -1) {
+                $('#add').show();
+            } else {
+                $('#add').hide();
+            }
+            if (actions.indexOf('companyqualification:import') != -1) {
+                $('#upload').show();
+                $('#download').show();
+            } else {
+                $('#upload').hide();
+                $("#download").hide();
+            }
+            if (actions.indexOf('companyqualification:export') != -1) {
+                $('#export').show();
+            } else {
+                $('#export').hide();
+            }
+            var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
+            if (actions.indexOf('companyqualification:update') != -1) {
+                html += '<a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>';
+            }
+            if (actions.indexOf('companyqualification:delete') != -1) {
+                html += ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">' + '删除' + '</a>'
+            }
+            if (actions.indexOf('companyqualification:history') != -1) {
+                html += html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史申报' + '</a>';
+            }
+            $('#barDemo').html(html);
             getStreetList();
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/company/findCompanyAllByNumberAndByPage',
-                where: { token: localStorage.getItem('token'), number: pid },
+                where: { token: localStorage.getItem('token'), number: number },
                 parseData: function (res) {
 
                     return {
@@ -167,9 +196,9 @@
                 limit: 20,
                 id: 'testReload',
                 cols: [[
-                    { field: 'name', title: '企业名称' ,width:250},
-                    { field: 'legalPerson', title: '企业法人' ,width:100},
-                    { field: 'contactsTel', title: '企业联系电话' ,width:200},
+                    { field: 'name', title: '企业名称', width: 250 },
+                    { field: 'legalPerson', title: '企业法人', width: 100 },
+                    { field: 'contactsTel', title: '企业联系电话', width: 200 },
                     { field: 'address', title: '企业地址' },
                     { field: 'operationScope', title: '经营范围' },
                     { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }
@@ -180,7 +209,7 @@
 
 
             });
-            
+
             var active = {
                 reload: function () {
 
@@ -305,7 +334,7 @@
                 data: {
                     token: localStorage.getItem('token'),
                     myfile: 'myfile',
-                    number: pid
+                    number: number
                 },
                 choose: function (obj) {
                     //将文件放在队列里面
@@ -315,7 +344,7 @@
                 done: function (res, index, upload) {
                     layer.closeAll('loading');
                     if (res.status == 1) {
-                        layer.alert(res.msg,function(){
+                        layer.alert(res.msg, function () {
                             layer.closeAll();
                             table.reload('testReload');
                         });
@@ -349,8 +378,8 @@
                 area: ['1050px', '560px'],
                 fix: false,//不固定
                 title: '添加信息',
-                content: 'list_zizhi_add.html?pid=' + pid,
-                end:function(){
+                content: 'list_zizhi_add.html?pid=' + number,
+                end: function () {
                     table.reload('testReload')
                 }
 
@@ -362,7 +391,7 @@
 
         }
         function exportFile() {
-            var url = baseUrl + '/company/exportExcel?token=' + localStorage.getItem('token') + '&number=' + pid;
+            var url = baseUrl + '/company/exportExcel?token=' + localStorage.getItem('token') + '&number=' + number;
             if ($('#name').val() != '') {
                 url += '&name=' + $('#name').val();
             }

@@ -26,9 +26,9 @@
 
 <body>
 <div class="layui-table-brief" style="margin: 10px">
-    <div>
+    <!-- <div>
         <button class="layui-btn" id="applyPatent">下载模板</button>
-    </div>
+    </div> -->
     <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
         <div class="layui-form-item">
             <label class="layui-form-label">资助类型<span style="color:red">*</span></label>
@@ -70,6 +70,11 @@
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" class="layui-textarea" name="description" id="description"></textarea>
             </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;" onclick="openFiles()">点击附件
+            </label>
+
         </div>
         <div class="layui-upload">
             <div class="layui-inline">
@@ -282,6 +287,22 @@
             }
         });
     }
+    function openFiles() {
+            layer.open({
+                type: 2,
+                area: ['600px', '300px'],
+                fix: false,//不固定
+                title: '附件',
+                content: '../project/template.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child('C200011', "专利资助申报模板下载");
+
+                }
+
+            });
+
+        }
 </script>
 </body>
 
