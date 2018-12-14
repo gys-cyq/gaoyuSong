@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<style>
 			.layui-field-box{
-				width:49%;
+				/*width:49%;*/
 				float:left;
 				/*border:1px solid #eee;*/
 				/*border-left-width:5px;*/
@@ -26,6 +26,7 @@
 			}
 			.layui-field-box:first-child{
 				margin:2px 0.8%;
+				width:96%;
 			}
 			.layui-field-box:last-child{
 				margin:2px 0;
@@ -78,8 +79,9 @@
             upload = layui.upload;
         if(flag){
 			$('#remind').css('display','none');
-			$('#notice').css('width','96%');
 		}else{
+            $('#notice').css('width','49%');
+            $('#remind').css('width','49%');
             $('#remind').css('display','block');
             $('#notice').css('border-left','1px solid #eee');
             $('#notice').css('border-left-width','5px');
