@@ -19,6 +19,20 @@
             word-wrap: break-word;
             word-break: break-all
         }
+
+        .layui-form-checkbox[lay-skin="primary"]:hover i {
+            border-color: #2fa4e7;
+        }
+
+        .layui-form-checked[lay-skin="primary"] i {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
+
+        .layui-form-onswitch {
+            background-color: #2fa4e7;
+            border-color: #2fa4e7;
+        }
     </style>
 
 </head>
@@ -53,13 +67,15 @@
             <button class="layui-btn layui-btn-small" id="add" onclick="add()">
                 <i class="layui-icon"></i> 添加
             </button>
+            <button class="layui-btn" id="batchChoose" onclick='batchChoose()' style="margin-left:10px;">批量送审</button>
+
 
 
         </div>
-            <!-- <div class="layui-field-box"> -->
-                <table class="style-table" id="demo" lay-filter="test">
-                </table>
-            <!-- </div> -->
+        <!-- <div class="layui-field-box"> -->
+        <table class="style-table" id="demo" lay-filter="test">
+        </table>
+        <!-- </div> -->
 
     </div>
     <script type="text/html" id="barDemo">
@@ -83,11 +99,16 @@
             var laydate = layui.laydate;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
-            console.log(actions);
+            consoleUtils(actions);
             if (actions.indexOf('innovationticket:apply:add') != -1) {
                 $('#add').show();
             } else {
                 $('#add').hide();
+            }
+            if (actions.indexOf('innovationticket:apply:batchsongshen') != -1) {
+                $('#batchChoose').show();
+            } else {
+                $('#batchChoose').hide();
             }
 
             var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
@@ -124,6 +145,7 @@
                 id: 'testReload',
                 cols: [
                     [
+                        { type: 'checkbox' },
                         { field: 'name', title: '项目名称' },
                         { field: 'projectIndustryName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
@@ -137,7 +159,7 @@
                                 if (actions.indexOf('innovationticket:apply:history') != -1) {
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
                                 }
-                                if (e.isExpert == 1 && user.companyId == 0 && user.type != 3) {
+                                if (e.isExpert == 1 && actions.indexOf('project:acceptance:apply') != -1) {
 
                                     html += ' <a class="layui-btn layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
                                 }
@@ -306,6 +328,49 @@
 
 
 
+        function batchChoose() {
+            var checkStatus = table.checkStatus('testReload'); //idTest 即为基础参数 id 对应的值
+            var data = checkStatus.data;  //获取选中行的数据
+            var isExpert = true;
+            if (data.length == 0) {
+                layer.msg('请选择有效数据');
+                return;
+            } else {
+                for (var i in data) {
+                    if (data[i].isExpert != 1) {
+                        isExpert = false;
+                    }
+
+                }
+            }
+            if (!isExpert) {
+                layer.msg("选择的项目有不符合送审条件的");
+                return;
+            }
+
+            layer.open({
+                type: 2,
+                area: ['460px', '500px'],
+                fix: true,
+                title: '专家送审',
+                content: '../project/list_audit.html',
+                success: function (layero, index) {
+                    var res = [];
+                    for (var i in data) {
+                        res.push(data[i].statusId);
+                    }
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.multiple(res);
+
+
+                }, error: function (layero, index) {
+
+                }, end: function () {
+                    table.reload('testReload');
+                }
+
+            });
+        }
 
 
     </script>

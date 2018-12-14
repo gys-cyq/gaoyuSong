@@ -27,6 +27,8 @@
             <div class="layui-form-item">
                 <input type='hidden' name="conditions">
                 <input type="hidden" name="statusId">
+                <input type="hidden" name="statusIds">
+
                 <div class="layui-input-inline" style="width:75%;">
                     <label class="layui-form-label">专家</label>
                     <img src="../../img/plus.png" onclick="addPro()" style="width:10%;" />
@@ -108,7 +110,56 @@
 
 
         }
+        function multiple(obj){
+            consoleUtils(obj)
+            $("input[name='statusIds']").val(obj)
+            layui.use(['layer', 'form'], function () {
+                layer = layui.layer;
+                var form = layui.form;
+                form.verify({
+                    select:function(value){
+                        temp = $('#conditions li');
+                       
+                       if(temp.length==0){
+                           return "请选择专家"
+                       }
+                    }
+                })
+                form.on('submit(submit)', function (data) {
+                    console.log(JSON.stringify(data.field));
+                    var options = {
+                        url: baseUrl + '/expert/batchChoose',
+                        type: 'POST',
+                        dataType: "json",
+                        data: { token: localStorage.getItem('token') },
+                        // clearForm: true,
+                        // resetForm: true,
+                        async: false,
+                        timeout: 10000,
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.alert("成功", function () {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    // parent.location.reload();
+                                });
+                            } else {
+                                errmsg(res)
 
+                            }
+                        },
+                        error: function (data) {
+                            alert('error');
+                        }
+
+                    };
+                    $('#demofrom').ajaxForm(options);
+                    $('#demofrom').submit();
+                    return false;
+                })
+            });
+
+        }
 
         function addPro() {
             layer.open({

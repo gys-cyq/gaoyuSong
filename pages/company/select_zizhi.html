@@ -77,11 +77,11 @@
         var res = [];
         var time = [];
         var select = [];
-        var beginTime=[];
+        var beginTime = [];
         function child(response, parentTime) {
             select = response
             time = parentTime;
-            consoleUtils("时间："+time)
+            consoleUtils(JSON.stringify(select)+'\n'+time)
             layui.use(['laydate', 'layer', 'form'], function () {
                 laydate = layui.laydate;
                 layer = layui.layer;
@@ -99,6 +99,9 @@
                                 if (time == null || time == "") {
                                     isCheckd = false;
                                 }
+                            } else {
+                                var id = "#beginTime" + data[i].id;
+                                $(id).val("");
                             }
 
                         });
@@ -110,22 +113,25 @@
 
                 });
                 form.on('submit(submit)', function (response) {
-                 
-                    $("input:checkbox").each(function (i) {
 
-                        if ($(this).prop("checked") == true) {
-                            var id = "#beginTime" + data[i].id;
-                            var time = $(id).val();
-                            consoleUtils(id)
-                            if (time != null && time != "") {
-                                typeIdAndBeginTime.push(data[i].id + '#' + time);
-                                res.push(data[i]);
-                                beginTime.push(time);
+                    try {
+                        $("input:checkbox").each(function (i) {
+
+                            if ($(this).prop("checked") == true) {
+                                var id = "#beginTime" + data[i].id;
+                                var time = $(id).val();
+                                consoleUtils(id)
+                                if (time != null && time != "") {
+                                    typeIdAndBeginTime.push(data[i].id + '#' + time);
+                                    res.push(data[i]);
+                                    beginTime.push(time);
+                                }
                             }
-                        }
 
-                    });
-                    consoleUtils(typeIdAndBeginTime);
+                        });
+                    } catch(e){
+                        consoleUtils(e.message)
+                    }
                     parent.setChoose(typeIdAndBeginTime, res, beginTime)
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
@@ -175,7 +181,7 @@
                                 $("input:checkbox").each(function (index) {
                                     if (data[index].id == select[i].id) {
                                         $(this).attr("checked", true);
-                                        var timeId = "#beginTime" + data[i].id;
+                                        var timeId = "#beginTime" + select[i].id;
                                         $(timeId).val(time[i]);
                                     }
 
