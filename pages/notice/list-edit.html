@@ -108,15 +108,14 @@
             var layer = layui.layer;
 
             var url22=baseUrl + '/file/uploadTextImage';
-            console.log(url22);
             layedit.set({
                 uploadImage: {
                     url: url22, //接口url
 //                    data:{token:token,code:'C111111'}, //默认post
                     success:function(res){
-                        if(res.code==0){
-                            console.log(res.data.src);
-                        }
+//                        if(res.code==0){
+//                            console.log(res.data.src);
+//                        }
 
                     }
                 }
@@ -145,10 +144,10 @@
             })
             form.verify({
                 content:function (value) {
-                    var a=layedit.getText(index).trim();
+                    var a=layedit.getContent(index).trim();
 //                    return layedit.sync(index);
                     if (a == ''){
-                        return '内容不能为空或只有表情';
+                        return '内容不能为空';
                     }
                 }
             });
@@ -278,8 +277,8 @@
     function getsex(obj){
         var html = '';
         html += '<option value="">'+'请选择'+'</option>';
-        html += '<option value="1">'+'通知'+'</option>';
-        html += '<option value="2">'+'公告'+'</option>';
+        html += '<option value="1">'+'公告'+'</option>';
+        html += '<option value="2">'+'通知'+'</option>';
         $('#type').html(html);
         $("#type").val(obj.type);
         form.render();
