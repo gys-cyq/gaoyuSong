@@ -94,6 +94,7 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人电话
+                            <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline">
                         <input type="tel" name="linkTel" class="layui-input" lay-verify='checkMolie' />
@@ -255,7 +256,7 @@
                         return '请上传附件'
                     }
                 },checkMolie:function(value){
-                    if(!checkTel(value)){
+                    if(!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value)){
                         
                         return "请输入正确的联系方式"
                     }

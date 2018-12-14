@@ -44,7 +44,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="submit" >立即提交</button>
                     <button type="cancel" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
@@ -126,6 +126,7 @@
                     }
                 })
                 form.on('submit(submit)', function (data) {
+                    layer.load();
                     console.log(JSON.stringify(data.field));
                     var options = {
                         url: baseUrl + '/expert/batchChoose',
@@ -144,7 +145,8 @@
                                     // parent.location.reload();
                                 });
                             } else {
-                                errmsg(res)
+                                layer.closeAll();
+                                errmsg(res);
 
                             }
                         },
@@ -194,10 +196,11 @@
         }
 
         function del(messageId) {
+            consoleUtils(messageId);
             var div = document.getElementsByClassName("delImage");
             var ul = document.querySelector("#conditions");
             var list = ul.querySelectorAll("li");
-            for (var i = 0; i < div.length; i++) {
+            for (var i = 0; i < conditions.length; i++) {
 
                 if(messageId==conditions[i]){
                     list[i].remove();
