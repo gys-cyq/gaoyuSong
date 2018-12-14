@@ -107,9 +107,21 @@
                  upload = layui.upload;
             var layer = layui.layer;
 
-            var index = layedit.build('content',{
-                tool: ['strong','italic','underline','del','|','left','center','right','link','unlink','face']
+            var url22=baseUrl + '/file/uploadTextImage';
+            console.log(url22);
+            layedit.set({
+                uploadImage: {
+                    url: url22, //接口url
+//                    data:{token:token,code:'C111111'}, //默认post
+                    success:function(res){
+                        if(res.code==0){
+                            console.log(res.data.src);
+                        }
+
+                    }
+                }
             });
+            var index = layedit.build('content');
             layedit.setContent(index,obj.content);
 
                 $("#id").val(obj.id);
@@ -117,14 +129,6 @@
                 $('#type').val(obj.type);
 //            $('#content').val(obj.content);
                 $("#author").val(obj.author);
-                var attachmentList=obj.attachmentList;
-                for(var i=0;i<attachmentList.length;i++){
-                    $('#demoList').append("<tr><td>"+attachmentList[i].filename+"</td><td></td><td>"+"<button class=\"layui-btn layui-btn-xs layui-btn-danger demo-delete\">删除</button>"+"</td></tr>");
-                }
-                tr.find('.demo-delete').on('click', function () {
-                    delete files[index]; //删除对应的文件
-                    tr.remove();
-                });
                 $(":radio[name='isAll'][value="+ obj.isAll +"]").prop("checked", "checked");
                 getuserIdcontent(obj);
                 getsex(obj);
@@ -156,13 +160,13 @@
                 elem: '#uploadFile' //绑定元素
                 ,url: url   //上传接口
                 ,accept:'file',
-                exts:'doc|xls|docx|xlsx',
+                exts:'doc|xls|docx|xlsx|pdf|PDF',
                 multiple:true,
                 auto: false,
                 bindAction: '#testListAction',
                 method:'post'
 //            ,data:{token:token,savepath:purl},
-                ,data:{token:token,code:'C900001'},
+                ,data:{token:token,code:'C111111'},
                 allDone: function(obj){ //当文件全部被提交后，才触发
 //                console.log(obj.total); //得到总文件数
 //                console.log(obj.successful); //请求成功的文件数

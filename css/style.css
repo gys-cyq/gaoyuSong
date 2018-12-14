@@ -162,13 +162,16 @@
     color:#fff;
 }
 .login-header span{
-    font-family:'方正姚体';
+    font-family:'黑体';
     font-size:50px;
     font-weight:bold;
     display:block;
-    width:50%;
+    width:100%;
     margin:0 auto;
     text-align:center;
+}
+.layui-table-cell .layui-table-cell{
+    float:left;
 }
 .login-content{
     display:block;
@@ -211,4 +214,79 @@
     font-size:23px;
     font-family: '宋体';
     text-align:center;
+}
+
+.register span{
+    font-size:16px;
+}
+.register span a{
+    color:#4480bf;
+}
+.login-notice{
+    display:block;
+    width:66%;
+    position:absolute;
+    box-sizing:border-box;
+    height:100%;
+}
+.notice-title{
+    width:100%;
+    display:block;
+    border-bottom:5px solid #666;
+    height:15%;
+}
+.notice-title div{
+    display:block;
+    float:left;
+    color:#fff;
+    height:100%;
+    /*box-sizing:border-box;*/
+    /*padding:2%;*/
+    font-family:'黑体';
+    font-size:22px;
+}
+.notice-title-c{
+    width:18%;
+    margin-left:2%;
+    height:100%;
+    border-bottom:5px solid #4480bf;
+}
+
+.notice-title-more{
+    width:20%;
+    text-align:right;
+    height:100%;
+    margin-left:55%;
+    cursor:pointer;
+}
+.notice-title-c span{
+    display:block;
+    padding:10% 0;
+    height:100%;
+}
+.notice-title-more span{
+    display:block;
+    padding:10% 0;
+    height:100%;
+}
+.xiaoxi{
+    margin-top:2%;
+    height:100%;
+    overflow:hidden;
+    max-height:270px;
+}
+.noticeList{
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
+.noticeList li{
+    cursor:pointer;
+}
+.noticeList li div{
+    float: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 500px;
+    overflow: hidden;
 }

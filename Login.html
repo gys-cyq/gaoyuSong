@@ -31,7 +31,6 @@
                 margin:0;
             }
 
-
             .form-inline{
                 display:block;
                 width:100%;
@@ -70,90 +69,13 @@
                 text-align:left;
                 padding:5% 0;
             }
-            .register span{
-                font-size:16px;
-            }
-            .register span a{
-                color:#4480bf;
-            }
-            .login-notice{
-                display:block;
-                width:66%;
-                position:absolute;
-                box-sizing:border-box;
-                border:1px solid #000;
-                height:100%;
-            }
-            .notice-title{
-                width:100%;
-                display:block;
-                border-bottom:5px solid #666;
-                height:15%;
-            }
-            .notice-title div{
-                display:block;
-                float:left;
-                color:#fff;
-                height:100%;
-                /*box-sizing:border-box;*/
-                /*padding:2%;*/
-                font-family:'黑体';
-                font-size:22px;
-            }
-            .notice-title-c{
-                width:18%;
-                margin-left:2%;
-                height:100%;
-                border-bottom:5px solid #4480bf;
-            }
 
-            .notice-title-more{
-                width:20%;
-                text-align:right;
-                height:100%;
-                margin-left:55%;
-                cursor:pointer;
-            }
-            .notice-title-c span{
-                display:block;
-                padding:10% 0;
-                height:100%;
-            }
-            .notice-title-more span{
-                display:block;
-                padding:10% 0;
-                height:100%;
-            }
-            .xiaoxi{
-                margin-top:2%;
-                height:100%;
-                overflow:hidden;
-                max-height:210px;
-            }
-            .noticeList{
-                list-style-type: none;
-                padding:0;
-                margin:0;
-            }
-            .noticeList li{
-                padding-left: 10px;
-                padding-right: 10px;
-                height: 30px;
-                line-height: 30px;
-            }
-            .noticeList li div{
-                float: left;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                max-width: 500px;
-                overflow: hidden;
-            }
         </style>
 	</head>
 	<body>
     <div class="login-title">
         <div class="login-header">
-            <span>崇川科技局项目管理系统</span>
+            <span>崇&nbsp;川&nbsp;科&nbsp;技&nbsp;局&nbsp;项&nbsp;目&nbsp;管&nbsp;理&nbsp;系&nbsp;統</span>
         </div>
     </div>
     <div class="login">
@@ -191,7 +113,7 @@
                 <!--<input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" id="passwordText"/>-->
                 <div class="form-inline" style="margin:0;">
                     <!--<input class="loginin" value="登录" onclick="login()"  type="button">-->
-                    <input class="loginin" value="登录" onclick="login()"  type="button">
+                    <input class="loginin" value="登录" onclick="login()"  type="button" />
                 </div>
 
                 <div class="register">
@@ -206,6 +128,7 @@
 //        $('#skipR').on('click',function(){
 //            location.href='register.html';
 //        })
+
         layui.use('layer',function(){
             var layer = layui.layer;
 
@@ -213,10 +136,10 @@
                 layer.open({
                     type: 2,
                     title: '通知公告',
-                    area: ['1000px', '650px'],
+                    area: ['900px', '86%'],
                     fix: false,
                     maxmin:true,
-                    content: 'Welcome.html',
+                    content: 'Login-notice.html',
                     success: function (layero, index) {
 //                    var iframe = window['layui-layer-iframe' + index];
 //                    iframe.child(data);
@@ -226,7 +149,64 @@
                     }
                 })
             })
+            var message=[];
+            $.ajax({
+                type:'get',
+                url:baseUrl+'/home/findAnnouncementOnHome',
+                dataType:'json',
+                crossDomain: true == !(document.all) ,
+                success:function(res){
+                    if(res.status==1){
+                        var data = res.data.list;
+                        var html='';
+                        message=data;
+                        for(var i=0;i<data.length;i++){
+                            var obj = data[i].id;
+                            html+='<li onclick="openDetails(\''+obj+'\')"  style="padding:0 10px;height:40px;line-height:40px;" >';
+                            html+='<div style="float:left;padding:0 2%;text-overflow: ellipsis;white-space: nowrap; max-width: 500px;overflow: hidden;color:#fff;">'+'<img src="img/publish.png" style="width:25px;padding:0 10px;"/>'+data[i].title;
+                        if(data[i].hasatt==1){
+                            html+='<img src="img/attachment.png"  style="width:15px;padding:0 5px;"/>'
+                        }
+                            html+='</div>';
+                            html += '<div style="float:right;margin-right:5%;max-width:120px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color:#fff;" title='+data[i].createTime+'>'+data[i].createTime+'</div>';
+                            html+='</li>';
+                        }
+                        $('#noticeList').html(html);
+                    }else{
+                        layer.msg(res.msg);
+                    }
 
+                },
+                error:function(xhr,type,errorThrown){
+//                    console.log('用户不存在');
+                    console.log(222);
+                }
+            })
+            window.openDetails = function(obj){
+                var data;
+                for(var i in message){
+                    if(message[i].id==obj){
+                        data = message[i];
+                    }
+                }
+                layer.open({
+                    type: 2,
+                    title: '通知公告',
+                    area: ['900px', '100%'],
+                    fix: false,
+                    maxmin:true,
+                    zIndex: layer.zIndex,
+                    content: 'Welcome-details.html',
+                    success: function (layero, index) {
+                        layer.setTop(layero);
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(data);
+                    },
+                    error: function (layero, index) {
+
+                    }
+                })
+            }
         })
         document.onkeyup = function(e){
             var ev = document.all ? window.event : e;
@@ -285,36 +265,7 @@
                 }
             })
         }
-        $.ajax({
-            type:'get',
-            url:baseUrl+'/home/findAnnouncementOnHome',
-            dataType:'json',
-            crossDomain: true == !(document.all) ,
-            success:function(res){
-                if(res.status==1){
-                    var data = res.data.list;
-                    var html='';
-                    for(var i=0;i<data.length;i++){
-                        html+='<li style="padding:0 10px;height:30px;line-height:30px;">';
-                        html+='<div style="float:left;padding:0 2%;text-overflow: ellipsis;white-space: nowrap; max-width: 500px;overflow: hidden;color:#fff;">'+'<img src="img/publish.png" style="width:15px;"/>'+data[i].content;
-//                        if(data[i].hasatt!=null){
-//                            html+='<img src="img/arrow.png"  style="width:15px;"/>'
-//                        }
-                        html+='</div>';
-                        html += '<div style="float:right;margin-right:5%;max-width:120px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color:#fff;" title='+data[i].createTime+'>'+data[i].createTime+'</div>';
-                        html+='</li>'
-                    }
-                    $('#noticeList').html(html);
-                }else{
-                    layer.msg(res.msg);
-                }
 
-            },
-            error:function(xhr,type,errorThrown){
-//                    console.log('用户不存在');
-                console.log(222);
-            }
-        })
     </script>  
     <!-- 底部结束 -->
 </body>

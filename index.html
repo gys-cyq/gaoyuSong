@@ -12,6 +12,9 @@
 		<link rel="stylesheet" href="static/css/weadmin.css" />
 		<link rel="stylesheet" href="lib/layui/css/layui.css" />
 		<link rel='icon' href='img/icon.png' type='image/x-ico' />
+		<!--[if IE 8]>
+			<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+		<![endif]-->
 		<script type="text/javascript" src="js/main.js"></script>
 		<style>
 			.layui-nav .layui-nav-child a{
@@ -116,6 +119,7 @@
 				url:baseUrl+'/menu/getMenus',
                 type:'post',
                 dataType:'json',
+                crossDomain: true == !(document.all) ,
 				data:{token:token},
                 success:function(res){
 				    if(res.status==1){
@@ -186,6 +190,7 @@
 						type:'post',
 						dataType:'json',
 						data:{token:token,id:id},
+                        crossDomain: true == !(document.all) ,
 						success:function(res){
 						    if(res.status==1){
 								//跳转到页面
@@ -235,6 +240,7 @@
 					url:baseUrl + '/logout',
 					type:"post",
 					dataType:"json",
+                    crossDomain: true == !(document.all) ,
 					data:{token:token},
 					success:function(res){
 					    if(res.status==1){

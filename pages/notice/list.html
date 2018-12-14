@@ -20,6 +20,7 @@
                 .layui-table-cell{
                     min-height:28px;
                     height:100%;
+                    max-height:70px;
                 }
             </style>
         </head>
@@ -113,8 +114,8 @@
                             var imgurl=baseUrl+'/images/'+obj[i].formats+'.png';
                             var downloadurl = baseUrl+'/file/download?path='+obj[i].path;
                             html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+obj[i].filename+'\'"><a href="'+downloadurl+'">';
-                            html += '<img src="'+imgurl+'"></img>';
-                            html += '<div style="font-size:12px;width:120px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
+                            html += '<img src="'+imgurl+'" style="max-width:30px;"></img>';
+                            html += '<div style="font-size:12px;width:50px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
                             html += '</a></div>';
                         }
                         return html;
