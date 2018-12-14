@@ -37,19 +37,8 @@
             var roleid;
             var sourceList;
             var k;
-            var layer;
             var form;
-			layui.use(['layer','table','form'],function(){
-			    layer = layui.layer,
-				form = layui.form;
-                var table = layui.table;
 
-                window.cancel=function(){
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
-                }
-
-			})
 
             function child(obj) {
                 rootData = JSON.parse(obj);
@@ -58,124 +47,132 @@
                 k=sourceList.length;
 
                 $.ajax({
-				url:baseUrl+'/menu/getMenuList',
-				type:'get',
-				dataType:"json",
-				data:{token:token,id:roleid},
-				success:function(res){
-				    if(res.status==1){
-				        var data = res.data;
-                        var html="<form id='roleRoot'>";
-                        for(var i in data){
-                            html += "<tr>";
-                            html+="<th><input type='checkbox' value=\""+data[i].id+"\" name=\"menus\" />"+data[i].name+"</th>";
-                            if(data[i].children){
-                                html+="<th>"
-                                html+="<table class='style-table'><tbody>";
-                                for(var key in data[i].children){
-                                    html+="<tr>";
-                                    html+="<th><input type='checkbox' value=\""+(data[i].children)[key].id+"\" name=\"menus\"  />"+(data[i].children)[key].name+"</th>";
+                    url:baseUrl+'/menu/getMenuList',
+                    type:'get',
+                    dataType:"json",
+                    data:{token:token,id:roleid},
+                    success:function(res){
+                        if(res.status==1){
+                            var data = res.data;
+                            var html="<form id='roleRoot'>";
+                            for(var i in data){
+                                html += "<tr>";
+                                html+="<th><input type='checkbox' value=\""+data[i].id+"\" name=\"menus\" />"+data[i].name+"</th>";
+                                if(data[i].children){
+                                    html+="<th>"
+                                    html+="<table class='style-table'><tbody>";
+                                    for(var key in data[i].children){
+                                        html+="<tr>";
+                                        html+="<th><input type='checkbox' value=\""+(data[i].children)[key].id+"\" name=\"menus\"  />"+(data[i].children)[key].name+"</th>";
 //						        var data=(data[i].children)[key];
-                                    if((data[i].children)[key].children){
-                                        html+="<th>";
-                                        html+="<table class='style-table'><tbody>";
-                                        for(var j in (data[i].children)[key].children){
-                                            html+="<tr>";
-                                            html+="<th><input type='checkbox' value=\""+((data[i].children)[key].children)[j].id+"\" name=\"menus\" />"+((data[i].children)[key].children)[j].name+"</th>";
-                                            html+="</tr>";
+                                        if((data[i].children)[key].children){
+                                            html+="<th>";
+                                            html+="<table class='style-table'><tbody>";
+                                            for(var j in (data[i].children)[key].children){
+                                                html+="<tr>";
+                                                html+="<th><input type='checkbox' value=\""+((data[i].children)[key].children)[j].id+"\" name=\"menus\" />"+((data[i].children)[key].children)[j].name+"</th>";
+                                                html+="</tr>";
+                                            }
+                                            html+="</tbody></table>";
+                                            html+="</th>"
                                         }
-                                        html+="</tbody></table>";
-                                        html+="</th>"
+                                        html+="</tr>";
                                     }
-                                    html+="</tr>";
+                                    html+="</tbody></table>"
+                                    html+="</th>"
                                 }
-                                html+="</tbody></table>"
-                                html+="</th>"
-                            }
-                            html+="</tr></form>";
+                                html+="</tr></form>";
 
 //						console.log(data[i].name);
-                        }
-                        $("#rootContent").html(html);
+                            }
+                            $("#rootContent").html(html);
 
 
 
-                        var list = document.getElementsByTagName('input');
-                        for(var i=0;i<k;i++){
-                            for(var j=0;j<list.length;j++){
-                                if(list[j].value==sourceList[i].id){
-                                    $(list[j]).prop("checked",true);
-                                    continue;
-								}
-							}
-                        }
-                        $('input').click(function() {
-                            $(this).val();
-                            if($(this).is(':checked')){
-                                $(this).parents("th").siblings().find("input").prop("checked", true);
-                            }else{
+                            var list = document.getElementsByTagName('input');
+                            for(var i=0;i<k;i++){
+                                for(var j=0;j<list.length;j++){
+                                    if(list[j].value==sourceList[i].id){
+                                        $(list[j]).prop("checked",true);
+                                        continue;
+                                    }
+                                }
+                            }
+                            $('input').click(function() {
+                                $(this).val();
+                                if($(this).is(':checked')){
+                                    $(this).parents("th").siblings().find("input").prop("checked", true);
+                                }else{
 //                              if($(this).parents("tbody:first-child").find("input").is(':checked')){
-                                if($(this).parents("th:first-child").parent().parent().find("input").is(':checked')){
-                                    $(this).prop("checked",false);
-                                    $(this).parents("th:first-child").parent().find("input").prop("checked",false);
-                                }else{
-                                    $(this).parents("th:first-child").parent().parent().parent().parent().parent().find("input").prop("checked", false);
+                                    if($(this).parents("th:first-child").parent().parent().find("input").is(':checked')){
+                                        $(this).prop("checked",false);
+                                        $(this).parents("th:first-child").parent().find("input").prop("checked",false);
+                                    }else{
+                                        $(this).parents("th:first-child").parent().parent().parent().parent().parent().find("input").prop("checked", false);
+                                    }
+                                }
+
+                            })
+
+                        }else{
+                            errmsg(res);
+                        }
+                    },
+                    error:function(){
+                        layer.msg("系统异常！");
+                    }
+                })
+                layui.use(['layer','table','form'],function(){
+                    var layer = layui.layer;
+                        form = layui.form;
+                    var table = layui.table;
+
+                    $("#saveDataBtn").on('click',function(){
+                        var menus=[];
+                        var inCheck = document.getElementById('rootContent');
+                        var list = inCheck.getElementsByTagName('input');
+                        var j=0;
+                        for(var i=0;i<list.length;i++){
+                            if($(list[i]).is(':checked')){
+                                menus[j]=list[i].value;
+                                j++;
+                            }
+                        }
+                        if(menus.length!=0){
+                            var url=baseUrl + '/role/distribut';
+                            var options={
+                                url:url,
+                                type:'post',
+                                dataType:'json',
+                                traditional:true,
+                                async:false,
+                                data:{roleid:roleid,menus:menus,token:token},
+                                success:function(res){
+                                    if(res.status==1){
+                                        layer.alert("分配成功",function(){
+                                            var index = parent.layer.getFrameIndex(window.name);
+                                            parent.layer.close(index);
+                                            parent.location.reload();
+										});
+                                    }else{
+                                        layer.alert('请选择菜单');
+                                    }
+                                },
+                                error:function(res){
+                                    layer.alert('权限未保存成功，请重新分配');
                                 }
                             }
-
-                        })
-
-					}else{
-				        errmsg(res);
-					}
-				},
-				error:function(){
-					layer.msg("系统异常！");
-				}
-			})
-
-
-            $("#saveDataBtn").click(function(){
-                var menus=[];
-                var inCheck = document.getElementById('rootContent');
-                var list = inCheck.getElementsByTagName('input');
-                var j=0;
-                for(var i=0;i<list.length;i++){
-                    if($(list[i]).is(':checked')){
-                        menus[j]=list[i].value;
-                        j++;
-					}
-				}
-				if(menus.length!=0){
-                    var url=baseUrl + '/role/distribut';
-						var options={
-                            url:url,
-                            type:'post',
-                            dataType:'json',
-                            traditional:true,
-                            async:false,
-                            data:{roleid:roleid,menus:menus,token:token},
-                            success:function(res){
-                                if(res.status==1){
-                                    alert("分配成功");
-                                }else{
-                                    alert('请选择菜单');
-                                }
-                            },
-                            error:function(res){
-                                alert('权限未保存成功，请重新分配');
-                            }
-						}
-                    $("#roleRoot").ajaxForm(options);
-                    $("#roleRoot").submit();
-				}else{
-				    alert('权限不能为空，请选择一项权限再保存');
-				}
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
-                parent.location.reload();
-            })
-
+                            $("#roleRoot").ajaxForm(options);
+                            $("#roleRoot").submit();
+                        }else{
+                            layer.msg('权限不能为空，请选择一项权限再保存');
+                        }
+                    })
+                })
+                window.cancel=function(){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }
 			}
 
 		</script>
