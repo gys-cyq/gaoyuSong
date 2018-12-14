@@ -16,26 +16,13 @@
             <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
             <link rel="stylesheet" href="../../css/style.css"  />
             <script type="text/javascript" src="../../js/main.js"></script>
-            <style>
-                .layui-table-cell{
-                    min-height:28px;
-                    height:100%;
-                }
-            </style>
         </head>
 <body>
 <div class="layui-tab-brief">
-    <div style="margin:10px;">
-        <button class="layui-btn layui-btn-small" onclick="openAddLayer()" style="margin-top:15px;" id="addbutton">
-            <i class="layui-icon"></i> 添加
-        </button>
+    <div class="layui-field-box">
+        <table class="style-table" id="patentList" lay-filter="patentList">
+        </table>
     </div>
-    <!--<fieldset class="layui-elem-field">-->
-        <div class="layui-field-box">
-            <table class="style-table" id="patentList" lay-filter="patentList">
-            </table>
-        </div>
-    <!--</fieldset>-->
 </div>
 <script type="text/html" id="patentAction">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">编辑</a>
@@ -58,7 +45,6 @@
             url: baseUrl + '/announcement/findAnnouncementByPage',
             where: {token: token},
             parseData: function (res) {
-                console.log(res.data);
                 return {
                     "code": 0,
                     "msg": res.msg,
@@ -77,51 +63,7 @@
                     }
                 }},
                 {field: 'title', title: '标题',width:120,},
-//                {field: 'type', title: '类型',width:80,templet:function(obj){
-//                    if(obj.type==1){
-//                        return "公告";
-//                    }else if(obj.type==2){
-//                        return "通知";
-//                    }
-//                }},
                 {field: 'content', title: '内容'},
-//                {field: 'author', title: '作者',width:100,},
-//                {field: 'isAll', title: '是否通知全员',width:100,templet:function(obj){
-//                    if(obj.isAll==1){
-//                        return "通知全员";
-//                    }else if(obj.isAll==2){
-//                        return "非全员";
-//                    }
-//                }},
-//                {field: 'attList', title: '通知人信息',width:350,templet:function(d){
-//                    var obj = d.attList;
-//                    var data = '';
-//                    for(var i=0;i<obj.length;i++){
-//                        if(data==''){
-//                            data=obj[i].nickName;
-//                        }else{
-//                            data = data+','+obj[i].nickName;
-//                        }
-//                    }
-//                    return data;
-//                }},
-                {field:'attachmentList',title: '附件',align:'center',templet:function(d){
-                    if(d.attachmentList!=null){
-                        var obj = d.attachmentList;
-                        var html = '';
-                        for(var i=0;i<obj.length;i++){
-                            var imgurl=baseUrl+'/images/'+obj[i].formats+'.png';
-                            var downloadurl = baseUrl+'/file/download?path='+obj[i].path;
-                            html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+obj[i].filename+'\'"><a href="'+downloadurl+'">';
-                            html += '<img src="'+imgurl+'"></img>';
-                            html += '<div style="font-size:12px;width:120px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+obj[i].filename+'</div>';
-                            html += '</a></div>';
-                        }
-                        return html;
-                    }else{
-                        return '';
-                    }
-                }},
                 {field: 'createTime', title: '时间'},
                 {field: '', title: '操作',width:150, templet: '#patentAction'},
             ]],
@@ -129,25 +71,6 @@
                 layer.closeAll('loading');
             }
         });
-
-        window.openAddLayer = function () {
-            layer.open({
-                type: 2,
-                title: '新增信息',
-                area: ['900px', '550px'],
-                fix: false,
-                maxmin:true,
-                content: 'list-add.html',
-                success: function (layero, index) {
-//                    var iframe = window['layui-layer-iframe' + index];
-//                    iframe.child(data);
-                },
-                error: function (layero, index) {
-
-                }
-            })
-        }
-
 
         table.on("tool(patentList)", function (obj) {
             var data = obj.data;
@@ -157,7 +80,7 @@
                     title: '编辑信息',
                     area: ['800px', '500px'],
                     fix: false,
-                    content: 'list-edit.html',
+                    content: 'check-edit.html',
                     maxmin: true,
                     success: function (layero, index) {
                         var iframe = window['layui-layer-iframe' + index];

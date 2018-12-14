@@ -141,26 +141,47 @@
     width:100%;
     text-align:center;
     border-radius:5px;
-    background:#fff;
+    background:rgba(68,128,191,0.8);
     display:block;
     vertical-align: middle;
     position:absolute;
     top:25%;
     height:50%;
-    opacity:0.85;
+    /*opacity:0.8;*/
+}
+.login-title{
+    position:absolute;
+    margin:0 auto;
+    width:100%;
+    top:7%;
+    bottom:75%;
 }
 .login-header{
     display:block;
     padding:15px 0;
+    color:#fff;
 }
 .login-header span{
-    font-size:27px;
-    font-family: '宋体';
+    font-family:'方正姚体';
+    font-size:50px;
+    font-weight:bold;
+    display:block;
+    width:50%;
+    margin:0 auto;
+    text-align:center;
 }
 .login-content{
     display:block;
     width:28%;
     margin:0 auto;
+    background-color:#fff;
+    position:absolute;
+    right:5%;
+    padding:1%;
+    height:110%;
+    top:-5%;
+    box-sizing:border-box;
+    border-radius:5%;
 }
 .chooseType{
     width:100%;
