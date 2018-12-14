@@ -25,6 +25,18 @@
             background-color: #2fa4e7;
             border-color: #2fa4e7;
         }
+        .filename {
+            width: 120px;
+            white-space: nowrap;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        img {
+            width: 60px;
+            height: 60px;
+            margin: 0 30px
+        }
     </style>
 
 </head>
@@ -33,6 +45,7 @@
     <div class="layui-table-brief" style="margin: 10px">
 
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
+            <input type="hidden" class="layui-input" name="typeIdAndBeginTime" />
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业名称
@@ -107,7 +120,8 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元" />
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元"
+                        />
 
                     </div>
                 </div>
@@ -154,17 +168,6 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item" id="zizhi">
-                <div class="layui-inline">
-                    <label class="layui-form-label">企业资质
-                    </label>
-                    <div class="layui-input-inline">
-                        <!-- <input class="layui-input" name="typeName"></input> -->
-                        <ul id="typeName" style="display: flex" lay-verify="isCheckd"></ul>
-
-                    </div>
-                </div>
-            </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">经营范围
@@ -184,12 +187,25 @@
                     <div class="layui-input-inline" style="width: 850px">
                         <input class="layui-input" name="remark"></input>
 
-
                     </div>
                 </div>
 
 
             </div>
+            <div class="layui-form-item" id="zizhi">
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业资质
+                    </label>
+                    <div class="layui-input-inline">
+                        <label id="select" class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;width: auto;" onclick="openZizhi()">请选择企业资质
+                        </label>
+                        <!-- <input class="layui-input" name="typeName"></input> -->
+                        <ul id="typeName" style="display: flex" lay-verify="isCheckd"></ul>
+
+                    </div>
+                </div>
+            </div>
+
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                     <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
@@ -208,6 +224,9 @@
         var typeName;
         var streetId;
         var layer;
+        var typeIdAndBeginTime;
+        var response=[];
+        var beginTime=[];
         var user = JSON.parse(localStorage.getItem('user'));
         layui.use(['form', 'layer', 'laydate'], function () {
             form = layui.form;
@@ -219,7 +238,7 @@
             var user = JSON.parse(localStorage.getItem("user"));
             var parkId = user.parkId;
             if (user.type != 3) {
-                findcompanyTypeAll();
+                // findcompanyTypeAll();
             } else {
                 $('#zizhi').hide();
             }
@@ -440,6 +459,41 @@
             });
 
 
+        }
+        function openZizhi() {
+            layer.open({
+                type: 2,
+                area: ['400px', '400px'],
+                fix: false,//不固定
+                title: '选择企业资质',
+                content: 'select_zizhi.html',
+                success: function (layero, index) {
+                    consoleUtils("parentTime:"+beginTime)
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(response,beginTime);
+
+                }
+
+            });
+        }
+        function setChoose(message, res,beginTime) {
+            if(res!=null){
+                response=res;
+               this. beginTime=beginTime;
+
+            }
+            consoleUtils("主界面:"+message+'\n'+res+'\n'+beginTime)
+            $("input[name='typeIdAndBeginTime']").val(message)
+            var html=""
+            for (var i in res) {
+                var image = baseUrl + '/file/getImg?path=' + res[i].image;
+                html += '<div style="width:120px;height:80px;">';
+                html += '<img src="' + image + '" ></img>';
+                html += '<div class="filename">' + res[i].typeName + '</div>';
+                html += '<div class="filename">' +beginTime[i]+ '</div>';
+                html += '</div>';
+            }
+            $('#typeName').html(html)
         }
     </script>
 </body>
