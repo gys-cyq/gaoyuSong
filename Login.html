@@ -1,272 +1,272 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>南通科技局</title>
-		<meta name="renderer" content="webkit|ie-comp|ie-stand">
-    	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    	<meta http-equiv="Cache-Control" content-type="utf-8" />
-    	<link rel="stylesheet" href="static/css/font.css"  />
-    	<!--<link rel="stylesheet" href="static/css/weadmin.css" />-->
-        <link rel="stylesheet" href="lib/layui/css/layui.css"  />
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel='icon' href='img/icon.png' type='image/x-ico' />
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <!--[if IE 8]>
-             <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-        <![endif]-->
-        <script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
-        <style>
-            html {
-                width: 100%;
-                height: 100%;
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
-            body{
-                width:100%;
-                height:100%;
-                background-image: url(img/login2.jpg);background-size:100% 100%;background-repeat:no-repeat;font-size:18px;
-                margin:0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>南通科技局</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content-type="utf-8" />
+    <link rel="stylesheet" href="static/css/font.css"  />
+    <!--<link rel="stylesheet" href="static/css/weadmin.css" />-->
+    <link rel="stylesheet" href="lib/layui/css/layui.css"  />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel='icon' href='img/icon.png' type='image/x-ico' />
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <!--[if IE 8]>
+    <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body{
+            width:100%;
+            height:100%;
+            background-image: url(img/login2.jpg);background-size:100% 100%;background-repeat:no-repeat;font-size:18px;
+            margin:0;
+        }
 
-            .form-inline{
-                display:block;
-                width:100%;
-                padding:5% 0;
-            }
-            .fill-input{
-                display:block;
-                height:100%;
-                border: 0px;
-                border-bottom:2px solid #4480bf;
-                outline:none;
-                padding:2% 0;
-                width:100%;
-            }
-            .fill-input:hover:hover{
-                border-bottom:2px solid #4480bf !important;
-            }
-            .loginin{
-                width:100%;
-                margin-top:20px;
-                height: 100%;
-                /*padding: 0 25px;*/
-                font-size: 26px;
-                font-weight:bold;
-                padding:5%;
-                background-color: #4480bf;
-                color: #fff;
-                border-style: none;
-                cursor:pointer;
-                box-sizing:border-box;
-                font-family:'黑体';
-            }
-            .layui-form div:last-child{
-                display:block;
-                margin-right:55%;
-                text-align:left;
-                padding:3% 0;
-            }
+        .form-inline{
+            display:block;
+            width:100%;
+            padding:18px 0;
+        }
+        .fill-input{
+            display:block;
+            height:100%;
+            border: 0px;
+            border-bottom:2px solid #4480bf;
+            outline:none;
+            padding:10px 0;
+            width:100%;
+        }
+        .fill-input:hover:hover{
+            border-bottom:2px solid #4480bf !important;
+        }
+        .loginin{
+            width:100%;
+            /*margin-top:20px;*/
+            /*height: 100%;*/
+            /*padding: 0 25px;*/
+            font-size: 26px;
+            font-weight:bold;
+            padding:3%;
+            background-color: #4480bf;
+            color: #fff;
+            border-style: none;
+            cursor:pointer;
+            box-sizing:border-box;
+            font-family:'黑体';
+        }
+        .layui-form div:last-child{
+            display:block;
+            /*margin-right:55%;*/
+            text-align:left;
+            padding:3% 0;
+        }
 
-        </style>
-	</head>
-	<body>
-    <div class="login-title">
-        <div class="login-header">
-            <span>崇&nbsp;川&nbsp;科&nbsp;技&nbsp;局&nbsp;项&nbsp;目&nbsp;管&nbsp;理&nbsp;系&nbsp;統</span>
-        </div>
+    </style>
+</head>
+<body>
+<div class="login-title">
+    <div class="login-header">
+        <span>崇&nbsp;川&nbsp;科&nbsp;技&nbsp;局&nbsp;项&nbsp;目&nbsp;管&nbsp;理&nbsp;系&nbsp;統</span>
     </div>
-    <div class="login">
-        <div class="login-notice">
-            <div class="notice-title">
-                <div class="notice-title-c">
-                    <span>通知公告</span>
-                </div>
-                <div class="notice-title-more" id="openMoreNotice">
-                    <span>更多>></span>
-                </div>
+</div>
+<div class="login">
+    <div class="login-notice">
+        <div class="notice-title">
+            <div class="notice-title-c">
+                <span>通知公告</span>
             </div>
-            <div class="xiaoxi">
-                <ul class="noticeList" id="noticeList">
-                </ul>
+            <div class="notice-title-more" id="openMoreNotice">
+                <span>更多>></span>
             </div>
         </div>
-        <div class="login-content">
-            <!--<div class="chooseType">-->
-                <!--<div class="typeL">-->
-                    <!--<span>登录</span>-->
-                <!--</div>-->
-                <!--<div class="typeR" id="skipR">-->
-                    <!--<span>注册</span>-->
-                <!--</div>-->
-            <!--</div>-->
-            <form class="layui-form" style="margin-top:5%;">
-                <div class="form-inline">
-                    <input name="username" placeholder="账号"  type="text" lay-verify="required" class="fill-input" id="usernameText" />
-                </div>
-                <div class="form-inline" style="margin:10% 0 5%;">
-                    <input name="password" lay-verify="required" placeholder="密码"  type="password" class="fill-input" id="passwordText"/>
-                </div>
-                <!--<input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" id="usernameText" />-->
-                <!--<input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" id="passwordText"/>-->
-                <div class="form-inline" style="margin:0;">
-                    <!--<input class="loginin" value="登录" onclick="login()"  type="button">-->
-                    <input class="loginin" value="登录" onclick="login()"  type="button" />
-                </div>
-
-                <div class="register">
-                    <span>还没有账号？<a href="register.html">注册</a></span>
-                </div>
-            </form>
+        <div class="xiaoxi">
+            <ul class="noticeList" id="noticeList">
+            </ul>
         </div>
     </div>
+    <div class="login-content">
+        <!--<div class="chooseType">-->
+        <!--<div class="typeL">-->
+        <!--<span>登录</span>-->
+        <!--</div>-->
+        <!--<div class="typeR" id="skipR">-->
+        <!--<span>注册</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <form class="layui-form" style="margin-top:18px;">
+            <div class="form-inline">
+                <input name="username" placeholder="账号"  type="text" lay-verify="required" class="fill-input" id="usernameText" />
+            </div>
+            <div class="form-inline">
+                <input name="password" lay-verify="required" placeholder="密码"  type="password" class="fill-input" id="passwordText"/>
+            </div>
+            <!--<input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" id="usernameText" />-->
+            <!--<input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" id="passwordText"/>-->
+            <div class="form-inline" style="margin:0;">
+                <!--<input class="loginin" value="登录" onclick="login()"  type="button">-->
+                <input class="loginin" value="登录" onclick="login()"  type="button" />
+            </div>
 
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript">
-//        $('#skipR').on('click',function(){
-//            location.href='register.html';
-//        })
+            <div class="register">
+                <span>还没有账号？<a href="register.html">注册</a></span>
+            </div>
+        </form>
+    </div>
+</div>
 
-        layui.use('layer',function(){
-            var layer = layui.layer;
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+    //        $('#skipR').on('click',function(){
+    //            location.href='register.html';
+    //        })
 
-            $('#openMoreNotice').on('click',function(){
-                layer.open({
-                    type: 2,
-                    title: '通知公告',
-                    area: ['900px', '86%'],
-                    fix: false,
-                    maxmin:true,
-                    content: 'Login-notice.html',
-                    success: function (layero, index) {
+    layui.use('layer',function(){
+        var layer = layui.layer;
+
+        $('#openMoreNotice').on('click',function(){
+            layer.open({
+                type: 2,
+                title: '通知公告',
+                area: ['900px', '100%'],
+                fix: false,
+                maxmin:true,
+                content: 'Login-notice.html',
+                success: function (layero, index) {
 //                    var iframe = window['layui-layer-iframe' + index];
 //                    iframe.child(data);
-                    },
-                    error: function (layero, index) {
+                },
+                error: function (layero, index) {
 
-                    }
-                })
+                }
             })
-            var message=[];
-            $.ajax({
-                type:'get',
-                url:baseUrl+'/home/findAnnouncementOnHome',
-                dataType:'json',
-                crossDomain: true == !(document.all) ,
-                success:function(res){
-                    if(res.status==1){
-                        var data = res.data.list;
-                        var html='';
-                        message=data;
-                        for(var i=0;i<data.length;i++){
-                            var obj = data[i].id;
-                            html+='<li onclick="openDetails(\''+obj+'\')"  style="padding:0 10px;height:40px;line-height:40px;" >';
-                            html+='<div style="float:left;padding:0 2%;text-overflow: ellipsis;white-space: nowrap; max-width: 500px;overflow: hidden;color:#fff;">'+'<img src="img/publish.png" style="width:25px;padding:0 10px;"/>'+data[i].title;
+        })
+        var message=[];
+        $.ajax({
+            type:'get',
+            url:baseUrl+'/home/findAnnouncementOnHome',
+            dataType:'json',
+            crossDomain: true == !(document.all) ,
+            success:function(res){
+                if(res.status==1){
+                    var data = res.data.list;
+                    var html='';
+                    message=data;
+                    for(var i=0;i<data.length;i++){
+                        var obj = data[i].id;
+                        html+='<li onclick="openDetails(\''+obj+'\')"  style="padding:0 10px;height:40px;line-height:40px;" >';
+                        html+='<div style="float:left;padding:0 2%;text-overflow: ellipsis;white-space: nowrap; max-width: 500px;overflow: hidden;color:#fff;">'+'<img src="img/publish.png" style="width:25px;padding:0 10px;"/>'+data[i].title;
                         if(data[i].hasatt==1){
                             html+='<img src="img/attachment.png"  style="width:15px;padding:0 5px;"/>'
                         }
-                            html+='</div>';
-                            html += '<div style="float:right;margin-right:3%;max-width:99px;white-space: nowrap;overflow: hidden;color:#fff;" title='+data[i].createTime+'>'+data[i].createTime+'</div>';
-                            html+='</li>';
-                        }
-                        $('#noticeList').html(html);
-                    }else{
-                        layer.msg(res.msg);
+                        html+='</div>';
+                        html += '<div style="float:right;margin-right:3%;max-width:99px;white-space: nowrap;overflow: hidden;color:#fff;" title='+data[i].createTime+'>'+data[i].createTime+'</div>';
+                        html+='</li>';
                     }
+                    $('#noticeList').html(html);
+                }else{
+                    layer.msg(res.msg);
+                }
 
-                },
-                error:function(xhr,type,errorThrown){
+            },
+            error:function(xhr,type,errorThrown){
 //                    console.log('用户不存在');
-                    console.log(222);
-                }
-            })
-            window.openDetails = function(obj){
-                var data;
-                for(var i in message){
-                    if(message[i].id==obj){
-                        data = message[i];
-                    }
-                }
-                layer.open({
-                    type: 2,
-                    title: '通知公告',
-                    area: ['900px', '100%'],
-                    fix: false,
-                    maxmin:true,
-                    zIndex: layer.zIndex,
-                    content: 'Welcome-details.html',
-                    success: function (layero, index) {
-                        layer.setTop(layero);
-                    var iframe = window['layui-layer-iframe' + index];
-                    iframe.child(data);
-                    },
-                    error: function (layero, index) {
-
-                    }
-                })
+                console.log(222);
             }
         })
-        document.onkeyup = function(e){
-            var ev = document.all ? window.event : e;
-            if(ev.keyCode==13) {
-                //激活提交按钮事件
-               login();
-            }
-        }
-        function login(){
-//            var username=document.getElementById('usernameText').value.trim();
-//            var password=document.getElementById('passwordText').value.trim();
-            var username;
-            var password;
-            if(String.prototype.trim){
-               username=document.getElementById('usernameText').value.trim();
-               password=document.getElementById('passwordText').value.trim();
-            }else{
-                String.prototype.trim = function () {
-                    return this.replace(/^\s*|\s*$/g, "");
+        window.openDetails = function(obj){
+            var data;
+            for(var i in message){
+                if(message[i].id==obj){
+                    data = message[i];
                 }
             }
-            if(username.length == 0){
-                layer.msg('登录账号不能为空！', function(){});
-                return false;
-            }
-            if(password.length == 0){
-                layer.msg('登录密码不能为空！', function(){});
-                return false;
-            }
-//            console.log(username+','+password);
-            $.ajax({
-                type:'post',
-                url:baseUrl+'/login',
-                dataType:'json',
-                crossDomain: true == !(document.all) ,
-                data:{username:username,password:password},
-//                contentType : 'application/json;charset=UTF-8',
-                success:function(res){
-                    if(res.status==1){
-                        nickname=res.data.user.nickname
-                        localStorage.setItem('user',JSON.stringify(res.data.user));
-                        sessionStorage.setItem("userinfo",nickname);
-                        localStorage.setItem("token",res.data.token);
-                        localStorage.setItem('userId',res.data.user.id);
-                        localStorage.setItem('companyId',res.data.user.companyId);
-                        token=res.data.token;
-                        location.href="index.html";
-                    }else{
-                        //layer.msg(res.msg);
-                        errmsg(res);
-//                        console.log(res);
-                    }
+            layer.open({
+                type: 2,
+                title: '通知公告',
+                area: ['900px', '100%'],
+                fix: false,
+                maxmin:true,
+                zIndex: layer.zIndex,
+                content: 'Welcome-details.html',
+                success: function (layero, index) {
+                    layer.setTop(layero);
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child(data);
                 },
-                error:function(xhr,type,errorThrown){
-//                    console.log('用户不存在');
+                error: function (layero, index) {
+
                 }
             })
         }
+    })
+    document.onkeyup = function(e){
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode==13) {
+            //激活提交按钮事件
+            login();
+        }
+    }
+    function login(){
+//            var username=document.getElementById('usernameText').value.trim();
+//            var password=document.getElementById('passwordText').value.trim();
+        var username;
+        var password;
+        if(String.prototype.trim){
+            username=document.getElementById('usernameText').value.trim();
+            password=document.getElementById('passwordText').value.trim();
+        }else{
+            String.prototype.trim = function () {
+                return this.replace(/^\s*|\s*$/g, "");
+            }
+        }
+        if(username.length == 0){
+            layer.msg('登录账号不能为空！', function(){});
+            return false;
+        }
+        if(password.length == 0){
+            layer.msg('登录密码不能为空！', function(){});
+            return false;
+        }
+//            console.log(username+','+password);
+        $.ajax({
+            type:'post',
+            url:baseUrl+'/login',
+            dataType:'json',
+            crossDomain: true == !(document.all) ,
+            data:{username:username,password:password},
+//                contentType : 'application/json;charset=UTF-8',
+            success:function(res){
+                if(res.status==1){
+                    nickname=res.data.user.nickname
+                    localStorage.setItem('user',JSON.stringify(res.data.user));
+                    sessionStorage.setItem("userinfo",nickname);
+                    localStorage.setItem("token",res.data.token);
+                    localStorage.setItem('userId',res.data.user.id);
+                    localStorage.setItem('companyId',res.data.user.companyId);
+                    token=res.data.token;
+                    location.href="index.html";
+                }else{
+                    //layer.msg(res.msg);
+                    errmsg(res);
+//                        console.log(res);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+//                    console.log('用户不存在');
+            }
+        })
+    }
 
-    </script>  
-    <!-- 底部结束 -->
+</script>
+<!-- 底部结束 -->
 </body>
 </html>
