@@ -19,6 +19,7 @@
 
         <form class="layui-form" id="demofrom" style="margin-top: 10px" lay-filter="formTest">
             <input name="id" class="layui-input" type="hidden" />
+            <input type="hidden" name="number" class="layui-input" lay-verify="required" />
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业名称
@@ -219,7 +220,7 @@
         var typeName;
         var streetId;
 
-        function child(obj) {
+        function child(obj,number) {
 
 
 
@@ -238,6 +239,7 @@
                 var data = JSON.parse(obj);
                 form.val('formTest', data);
                 form.render();
+                $("input[name='number']").val(number);
                 // findcompanyTypeAll(data);
                 getStreetList(data);
                 getParkList(data);

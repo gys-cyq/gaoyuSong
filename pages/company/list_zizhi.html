@@ -268,7 +268,7 @@
                         content: 'list_zizhi_edit.html',
                         success: function (layero, index) {
                             var iframe = window['layui-layer-iframe' + index];
-                            iframe.child(res);
+                            iframe.child(res,number);
 
                         }, end: function () {
                             table.reload('testReload');
