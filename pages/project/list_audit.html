@@ -44,7 +44,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                    <button class="layui-btn" lay-submit="" lay-filter="submit" >立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
                     <button type="cancel" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
                 </div>
             </div>
@@ -64,12 +64,12 @@
                 layer = layui.layer;
                 var form = layui.form;
                 form.verify({
-                    select:function(value){
+                    select: function (value) {
                         temp = $('#conditions li');
-                       
-                       if(temp.length==0){
-                           return "请选择专家"
-                       }
+
+                        if (temp.length == 0) {
+                            return "请选择专家"
+                        }
                     }
                 })
                 form.on('submit(submit)', function (data) {
@@ -110,19 +110,19 @@
 
 
         }
-        function multiple(obj){
+        function multiple(obj) {
             consoleUtils(obj)
             $("input[name='statusIds']").val(obj)
             layui.use(['layer', 'form'], function () {
                 layer = layui.layer;
                 var form = layui.form;
                 form.verify({
-                    select:function(value){
+                    select: function (value) {
                         temp = $('#conditions li');
-                       
-                       if(temp.length==0){
-                           return "请选择专家"
-                       }
+
+                        if (temp.length == 0) {
+                            return "请选择专家"
+                        }
                     }
                 })
                 form.on('submit(submit)', function (data) {
@@ -190,8 +190,9 @@
         function setChooseValues(messageId, message) {
             conditions.push(messageId)
             $("input[name='conditions']").val(conditions);
-            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '<img src="../../img/iconfont-del.png" class="delImage" onclick="del(\''+messageId+'\')"/>' + '</li>';
+            html = '<li style="display:flex;width:400px">' + '<p>' + message + '</p>' + '<img src="../../img/iconfont-del.png" class="delImage" onclick="del(\'' + messageId + '\')"/>' + '</li>';
             $('#conditions').append(html);
+
 
         }
 
@@ -200,13 +201,15 @@
             var div = document.getElementsByClassName("delImage");
             var ul = document.querySelector("#conditions");
             var list = ul.querySelectorAll("li");
-            for (var i = 0; i < conditions.length; i++) {
-
+            for (var i = 0; i < div.length; i++) {
                 if(messageId==conditions[i]){
                     list[i].remove();
                     conditions.splice(i,1);
                 }
+               
+
             }
+            consoleUtils(conditions)
             $("input[name='conditions']").val(conditions);
 
         }
