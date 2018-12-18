@@ -150,6 +150,32 @@
                         { field: 'projectIndustryName', title: '项目类别' },
                         { field: 'companyName', title: '申报单位' },
                         { field: 'declareDateStr', title: '申报日期' },
+                        {
+                            field: 'status', title: '状态', templet: function (data) {
+                                if (data.status == 0) {
+                                    return "待审核";
+                                } else if (data.status == 1) {
+                                    return '审核中'
+                                } else if (data.status == 2) {
+                                    return "通过";
+                                } else if (data.status == 3) {
+                                    return "不通过";
+                                } else if (data.status == 4) {
+                                    return "退回";
+                                } else if (data.status == 7) {
+                                    return "专家审批结束"
+
+                                } else if (data.status == 8) {
+                                    return "流程未匹配";
+
+                                } else if (data.status == 9) {
+                                    return "系统导入"
+
+                                }else{
+                                    return ""
+                                }
+                            }
+                        },
 
 
                         // { fixed: 'right', align: 'center', toolbar: '#barDemo', title: '操作' }

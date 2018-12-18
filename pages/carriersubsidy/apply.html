@@ -158,6 +158,10 @@
             var isUpload = false;
             var fileList = [];
             var user = JSON.parse(localStorage.getItem('user'));
+            if(user.parkId==0){
+                $("#demofrom").remove();
+                layer.msg('您暂无权限访问此页面');
+            }
             $("input[name='companyName']").val(user.nickname);
             $("input[name='declareCompany']").val(user.companyId);
             var demoListView = $('#demoList')
