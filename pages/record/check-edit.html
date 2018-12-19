@@ -112,6 +112,13 @@
                             return '已变更';
                         }
                     }},
+                    {field: 'reason', title: '变更原因',templet:function(d){
+                        if(d.status==1){
+                            return '<span style="color:#ddd;">'+ '无变更'+'</span>';
+                        }else if(d.status==2){
+                            return d.reason;
+                        }
+                    }},
 //	                {field:'',title:'操作',templet:'#expertAction'},
                     {field:'',title:'操作',templet:function(d){
                         if(d.status==1){
