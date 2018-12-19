@@ -230,6 +230,22 @@
             active[type] ? active[type].call(this) : '';
         })
 
+        window.exportFile = function() {
+            var url = baseUrl + '/expert/exportExcel?token=' + token;
+            if ($('#expertname').val() != '') {
+                url += '&name=' + $('#expertname').val();
+            }
+            if ($("#jobTitle").val() != '') {
+                url += '&jobTitle=' + $("#jobTitle").val();
+            }
+            if ($('#area').val() != '') {
+                url += '&area=' + $('#area').val();
+            }
+            if ($("#schoolMajor").val() != '') {
+                url += '&schoolMajor=' + $("#schoolMajor").val();
+            }
+            window.location.href = url;
+        }
 
 
         table.on("tool(expertList)",function(obj){
@@ -313,16 +329,6 @@
 
     function download() {
         window.location.href = baseUrl + '/template/expert_template.xls';
-    }
-    function exportFile() {
-        var url = baseUrl + '/expert/exportExcel?token=' + token;
-        if ($('#expertname').val() != '') {
-            url += '&name=' + $('#expertname').val();
-        }
-        if ($("#jobTitle").val() != '') {
-            url += '&jobTitle=' + $("#jobTitle").val();
-        }
-        window.location.href = url;
     }
 
     function findschoolMajor(){
