@@ -18,6 +18,39 @@
             <script type="text/javascript" src="../../js/main.js"></script>
         </head>
 <body>
+<div style="margin:10px;">
+    <form class="layui-form" id="expertform" style="margin-top:10px;">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">批次号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="batchno"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">项目类型</label>
+                <div class="layui-input-inline">
+                    <select id="type" name="type" lay-verify='required' lay-filter='type'  style="width:90%;">
+                        <option value="">不限</option>
+                        <option value="C100001">新项目审批</option>
+                        <option value="C100002">合同审批</option>
+                        <option value="C100003">中期检查</option>
+                        <option value="C100004">项目验收</option>
+                        <option value="C101001">通创币申请</option>
+                        <option value="C101002">通创币兑换</option>
+                        <option value="C102001">创新券申请</option>
+                        <option value="C102002">创新券兑换</option>
+                        <option value="C103001">企业资质申报</option>
+                        <option value="C104001">载体补助申请</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="layui-tab-brief">
     <div class="layui-field-box">
         <table class="style-table" id="patentList" lay-filter="patentList">
@@ -25,7 +58,7 @@
     </div>
 </div>
 <script type="text/html" id="patentAction">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">专家</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#fff;color:#000;">查看</a>
     <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
 </script>
 <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -33,12 +66,12 @@
 <script type="text/javascript" src="../../lib/layui/layui.js"></script>
 <script type="text/javascript">
     token = localStorage.getItem("token");
+    var form;
     layui.use(['layer','table','form','upload'],function() {
         var layer = layui.layer,
             table = layui.table,
-            form = layui.form,
             upload = layui.upload;
-
+         form = layui.form;
 
         table.render({
             elem: '#patentList',
@@ -75,31 +108,56 @@
                 {field: 'typeName', title: '项目类型'},
                 {field: 'projectNames', title: '送审项目'},
                 {field: 'expertNames', title: '送审专家'},
-                {field:'time',title:'时间',templet:function(d){
-                	if(d.time!=null){
-                		var date = new Date(d.time);
-	                	var year = date.getFullYear();
-	                    var month = date.getMonth()+1;
-	                    if(month<10){
-	                        month = '0'+month;
-	                    }
-	                    var day = date.getDate();
-	                    if(day<10){
-	                        day = '0'+day;
-	                    }
-	                    var h = date.getHours();
-	                    var m = date.getMinutes();
-	                    return year+'-'+month+'-'+day+'  '+h+':'+m;
-                	}else{
-                		return '';
-                	}
-                	
-                }},
+                {field: 'timeStr', title: '时间'},
+//                {field:'time',title:'时间',templet:function(d){
+//                	if(d.time!=null){
+//                		var date = new Date(d.time);
+//	                	var year = date.getFullYear();
+//	                    var month = date.getMonth()+1;
+//	                    if(month<10){
+//	                        month = '0'+month;
+//	                    }
+//	                    var day = date.getDate();
+//	                    if(day<10){
+//	                        day = '0'+day;
+//	                    }
+//	                    var h = date.getHours();
+//	                    var m = date.getMinutes();
+//	                    return year+'-'+month+'-'+day+'  '+h+':'+m;
+//                	}else{
+//                		return '';
+//                	}
+//
+//                }},
                 {field: '', title: '操作',width:150, templet: '#patentAction'},
             ]],
             done: function (res, cuur, count) {
                 layer.closeAll('loading');
             }
+        });
+
+        var active = {
+            reload: function () {
+
+                table.reload('infrastId', {
+                    url:  baseUrl + '/expert/selectSongshenInfo',
+                    method: 'get',
+                    dataType: 'json',
+                    page: {
+                        curr: '1'
+                    },
+                    where: {
+                        token: token,
+                        batchno: $('#batchno').val(),
+                        type:  $('#type').val(),
+                    }
+                })
+            }
+        }
+
+        $('#Search').click(function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
 
         table.on("tool(patentList)", function (obj) {
@@ -108,7 +166,7 @@
                 layer.open({
                     type: 2,
                     title: '送审专家信息',
-                    area: ['800px', '500px'],
+                    area: ['900px', '100%'],
                     fix: false,
                     content: 'check-edit.html',
                     maxmin: true,

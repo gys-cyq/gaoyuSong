@@ -164,8 +164,8 @@
             $('#schoolMajorName').val(obj.schoolMajorName);
             $('#workMajorName').val(obj.workMajorName);
             $("#company").val(obj.company);
-//            $("#schoolMajor").val(obj.schoolMajor);
-//            $("#workMajor").val(obj.workMajor);
+            $("#schoolMajor").val(obj.schoolMajor);
+            $("#workMajor").val(obj.workMajor);
             $("#position").val(obj.position);
             $("#mobile").val(obj.mobile);
             $("input[name='headImg']").val(obj.headImg);
@@ -182,7 +182,7 @@
                 url: url,
                 type: 'post',
                 //clearForm:true,
-                resetForm: true,
+//                resetForm: true,
                 timeout: 10000,
                 data: {token: token},
 //            beforeSubmit: validateForm,

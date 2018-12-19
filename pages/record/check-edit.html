@@ -25,170 +25,184 @@
 </head>
 <body>
 <div class="layui-tab-brief">
-    <!--<div style="margin:10px;">
+    <div style="margin:10px;">
         <div>
-            <button class="layui-btn layui-btn-small" onclick="openChangeLayer()" id="addbutton">添加</button>
+            <button class="layui-btn layui-btn-small" onclick="openChangeLayer()" id="addbutton">批量变更</button>
         </div>
-    </div>-->
-    <!--<fieldset class="layui-elem-field">-->
-        <div class="layui-field-box">
-            <table class="style-table" id="expertList" lay-filter="expertList">
-            </table>
-        </div>
-    <!--</fieldset>-->
+    </div>
+    <div class="layui-field-box">
+        <table class="style-table" id="expertList" lay-filter="expertList">
+        </table>
+    </div>
 </div>
-<script type="text/html" id="toolbarDemo">
-  <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="isAll">变更</button>
-  </div>
-</script>
+<!--<script type="text/html" id="toolbarDemo">-->
+  <!--<div class="layui-btn-container">-->
+    <!--<button class="layui-btn layui-btn-sm" lay-event="isAll">批量变更</button>-->
+  <!--</div>-->
+<!--</script>-->
 <script type="text/html" id="expertAction">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">变更</a>
 </script>
 <script type="text/javascript">
-    var schoolMajor;
-    var areaFind;
     token = localStorage.getItem("token");
     var form;
-    layui.use(['table','layer','jquery','upload'],function(){
-        var layer = layui.layer,
-            table = layui.table,
-            $ = layui.jquery,
-            upload = layui.upload;
-        form = layui.form;
-        findschoolMajor();
+    var table;
+    var InfoID;
+    function child(obj){
+        InfoID = obj.id;
+    	layui.use(['table','layer','jquery','upload'],function(){
+	        var layer = layui.layer,
+	            $ = layui.jquery,
+	            upload = layui.upload;
+	        form = layui.form;
+            table = layui.table;
+	        table.render({
+	            elem: '#expertList',
+		        url:baseUrl + '/expert/selectSongshenInfo',
+		        where:{token:token},
+	            parseData: function(res){
+	                return {
+	                    "code" : 0,
+	                    "msg" : res.msg,
+	                    "count" : obj.expertInfoList.length,
+	                    "data" :obj.expertInfoList,
+	                }
+	            },
+	            page: true, //开启分页
+	            id:'expertId',
+	            cols: [[ //表头
+	            	{type:'checkbox'},
+	                {field: 'headImg', templet: function (data) {
+	                    var image = baseUrl + '/file/getImg?path=' + data.headImg;
+	                    var unimage = baseUrl+'/images/touxiang.jpg';
+	                    var html='';
+	                    if (data.headImg != ""&&data.headImg!=null) {
+	                        html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+	                        return html;
+	                    } else {
+	                        html = '<div>' + '<img src="'+unimage+'" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+	                        return html;
+	                    }
+	
+	                }, title: '头像'},
+	                {field: 'expertName', title: '专家姓名'},
+	                {field: 'sex', title: '性别',templet:function(d){
+	                    if(d.sex=='M'){
+	                        return '男';
+	                    }else if(d.sex=='F'){
+	                        return '女';
+	                    }else{
+	                        return '';
+                        }
+	                }},
+	                {field: 'area',templet:function(d){
+	                    if(d.area==1){
+	                        return '市内';
+	                    }else if(d.area==2){
+	                        return '市外';
+	                    }else{
+	                        return '';
+	                    }
+	                }, title: '所在地区'},
+	                {field: 'workMajorName', title: '从事专业名'},
+                    {field: 'status', title: '状态',templet:function(d){
+                        if(d.status==1){
+                            return '已确认';
+                        }else if(d.status==2){
+                            return '已变更';
+                        }
+                    }},
+//	                {field:'',title:'操作',templet:'#expertAction'},
+                    {field:'',title:'操作',templet:function(d){
+                        if(d.status==1){
+                            return '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">'+"变更"+'</a>';
+                        }else{
+                            return '';
+                        }
+                    }},
+	            ]],
+	            done: function (res,cuur,count) {
+	                layer.closeAll('loading');
+	            }
+	        });
 
-        table.render({
-            elem: '#expertList',
-            url:baseUrl+'/expert/findExpertByPage',
-            where:{token:token},
-            toolbar: '#toolbarDemo',
-            parseData: function(res){
-                return {
-                    "code" : 0,
-                    "msg" : res.msg,
-                    "count" : res.data.total,
-                    "data" : res.data.list,
+//			table.on('toolbar(expertList)', function(obj){
+//			    var checkStatus = table.checkStatus(obj.config.id);
+//			    if(obj.event==='isAll'){
+//			    	if(checkStatus.isAll){
+//			    		layer.open({
+//			    			title:'批量变更',
+//			    			type:2,
+//			    			area:['800px','500px'],
+//			    			content:'change.html',
+//			    		})
+//			    	}
+//			    }
+//			  });
+	        table.on("tool(expertList)",function(obj2){
+	            var data = obj2.data;
+	            if(obj2.event==='edit'){
+	                layer.open({
+	                    type:2,
+	                    title:'更改',
+	                    area:['600px','80%'],
+	                    fix:false,
+	                    content:'change.html',
+	                    maxmin:true,
+	                    success:function(layero,index){
+	                        var iframe = window['layui-layer-iframe' + index];
+	                        iframe.child(data,obj.id,1);
+	                    },
+	                    error:function(layero,index){
+	
+	                    }
+	                })
+	            }
+	        })
+       })
+    }
+    function openChangeLayer() {
+        var checkStatus = table.checkStatus('expertId'); //idTest 即为基础参数 id 对应的值
+        var data=checkStatus.data;  //获取选中行的数据
+        var isExpert=true;
+        if(data.length==0){
+            layer.msg('请选择有效数据');
+            return;
+        }else{
+            for(var i in data){
+                if(data[i].status!=1){
+                    isExpert=false;
                 }
-            },
-            page: true, //开启分页
-            id:'expertId',
-            cols: [[ //表头
-            	{type:'checkbox'},
-                {field: 'headImg', templet: function (data) {
-//                    if (data.headImg != "") {
-//                        var image = baseUrl + '/file/getImg?path=' + data.headImg;
-//                        var html='';
-//                        if(data.headImg==null){
-//                            html = '<div>' + '<img src="../../img/touxiang.jpg" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-//                        }else{
-//                            html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-//                        }
-//                        return html;
-//                    } else {
-//                        return ''
-//                    }
-                    var image = baseUrl + '/file/getImg?path=' + data.headImg;
-                    var unimage = baseUrl+'/images/touxiang.jpg';
-                    var html='';
-                    if (data.headImg != ""&&data.headImg!=null) {
-                        html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-                        return html;
-                    } else {
-                        html = '<div>' + '<img src="'+unimage+'" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
-                        return html;
-                    }
-
-                }, title: '头像'},
-                {field: 'name', title: '专家姓名'},
-                {field: 'sex', title: '性别',templet:function(d){
-                    if(d.sex=='M'){
-                        return '男';
-                    }else if(d.sex=='F'){
-                        return '女';
-                    }else{
-                        return '男';
-                    }
-                }},
-                {field: 'area',templet:function(d){
-                    if(d.area==1){
-                        return '市内';
-                    }else if(d.area==2){
-                        return '市外';
-                    }else{
-                        return '';
-                    }
-                }, title: '所在地区'},
-                {field: 'workMajorName', title: '从事专业名'},
-                {field:'',title:'操作',templet:'#expertAction'},
-            ]],
-            done: function (res,cuur,count) {
-                layer.closeAll('loading');
             }
+        }
+        if(!isExpert){
+            layer.msg("选择的项目有不符合送审条件的");
+            return;
+        }
+
+        layer.open({
+            type: 2,
+            area: ['600px', '80%'],
+            fix: true,
+            title: '更改',
+            content: 'change.html',
+            success: function (layero, index) {
+//                var res=[];
+//                for(var i in data){
+//                    res.push(data[i].statusId);
+//                }
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.child(data,InfoID,data.length);
+
+            }, error: function (layero, index) {
+
+            }, end: function () {
+                table.reload('testReload');
+            }
+
         });
-
-//      window.openChangeLayer = function(){
-//        layer.open({
-//            title:'变更',
-//            type:2,
-//            area:['800px','510px'],
-//            content:'add.html',
-//            maxmin:true,
-//            success:function(){
-//
-//            },
-//            error:function(){
-//
-//            }
-//        })
-//      }
-
-		table.on('toolbar(expertList)', function(obj){
-		    var checkStatus = table.checkStatus(obj.config.id);
-		    if(obj.event==='isAll'){
-		    	if(checkStatus.isAll){
-		    		layer.open({
-		    			title:'批量变更',
-		    			type:2,
-		    			area:['800px','500px'],
-		    			content:
-		    		})
-		    	}
-		    }
-//		    switch(obj.event){
-//		      case 'getCheckData':
-//		        var data = checkStatus.data;
-//		        layer.alert(JSON.stringify(data));
-//		      break;
-//		      case 'getCheckLength':
-//		        var data = checkStatus.data;
-//		        layer.msg('选中了：'+ data.length + ' 个');
-//		      break;
-//		      case 'isAll':
-//		        layer.msg(checkStatus.isAll ? '全选': '未全选');
-//		      break;
-//		    };
-		  });
-        table.on("tool(expertList)",function(obj){
-            var data = obj.data;
-            if(obj.event==='edit'){
-                layer.open({
-                    type:2,
-                    title:'编辑信息',
-                    area:['800px','500px'],
-                    fix:false,
-                    content:'edit.html',
-                    maxmin:true,
-                    success:function(layero,index){
-                        var iframe = window['layui-layer-iframe' + index];
-                        iframe.child(data);
-                    },
-                    error:function(layero,index){
-
-                    }
-                })
-            }
-        })
+    }
+    
 </script>
 </body>
 </html>

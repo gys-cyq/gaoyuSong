@@ -2382,13 +2382,13 @@ hr {
 }
 
 .layui-form-checkbox[lay-skin=primary]:hover i {
-	border-color: #5FB878;
+	border-color: #2fa4e7;
 	color: #fff
 }
 
 .layui-form-checked[lay-skin=primary] i {
-	border-color: #5FB878;
-	background-color: #5FB878;
+	border-color: #2fa4e7;
+	background-color: #2fa4e7;
 	color: #fff
 }
 
