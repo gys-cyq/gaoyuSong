@@ -37,7 +37,17 @@
                     </div>
                 </div>
 
-
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户类型</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="type" name="type">
+                            <option value="">请选择用户类型</option>
+                            <option value="1">普通用户</option>
+                            <option value="2">科技局用户</option>
+                            <option value="3">街道/园区用户</option>
+                        </select>
+                    </div>
+                </div>
 
                 <a class="layui-btn search_btn" data-type="reload" id="Search">查询</a>
 
@@ -69,6 +79,7 @@
     <script type="text/javascript">
         var layer;
         var table;
+        var typeId;
         layui.use(['table', 'layer', 'form'], function () {
             table = layui.table;
             layer = layui.layer;
@@ -81,7 +92,11 @@
             } else {
                 $('#addbutton').hide();
             }
+            
+            form.on('select(type)',function(data){
+                typeId = data.value;
 
+            })
 
 
             table.render({
@@ -214,7 +229,8 @@
                         where: {
                             token: localStorage.getItem('token'),
                             username: $('#username').val(),
-                            nickname: $("#nickname").val()
+                            nickname: $("#nickname").val(),
+                            type:typeId
 
                         }
                     })

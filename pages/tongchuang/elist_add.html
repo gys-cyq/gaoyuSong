@@ -76,7 +76,7 @@
                         <span style="color:red;">*</span>
                     </label>
                     <div class="layui-input-inline" style="width: 700px">
-                        <input type="text"  class="layui-input" lay-verify='required' id="companyName" autocomplete="off" style="width: 700px" />
+                        <input type="text"  class="layui-input" lay-verify='required|declareCompany' id="companyName" autocomplete="off" style="width: 700px" />
                         <input type="hidden" name="declareCompany" class="layui-input"   />
                     </div>
                 </div>
@@ -238,6 +238,10 @@
                 }, checkMolie: function (value) {
                     if (!checkTel(value)) {
                         return "请输入正确的联系方式"
+                    }
+                },declareCompany:function(value){
+                    if ($("input[name='declareCompany']").val() == null || $("input[name='declareCompany']").val() == "") {
+                        return "请输入正确的申报单位"
                     }
                 }
             });
