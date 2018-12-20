@@ -30,12 +30,12 @@
                 </div>
                 <div class="layui-input-inline">
                     <select  lay-filter="city" lay-verify="required" id="cityList" name="city">
-                        <option selected="" id="city"></option>
+                        <option id="city"></option>
                     </select>
                 </div>
                 <div class="layui-input-inline" style="margin-left:110px;margin-top:10px;">
                     <select  lay-filter="country"  lay-verify="required" id="countryList" name="country">
-                        <option selected="" id="country"></option>
+                        <option id="country"></option>
                     </select>
                 </div>
         </div>
@@ -84,6 +84,7 @@
 
         form.on('select(province)', function (data) {
             getCityList(data.value,'cityList');
+            $('#country').remove();
         })
         form.on('select(city)', function (data) {
             getCityList(data.value,'countryList');
@@ -185,7 +186,7 @@
 
                 if (response.status == 1) {
                     var data = response.data;
-                    var html = '<option value='+province+' selected="">'+provinceName+'</option>';
+                    var html = '<option value="">'+"请选择"+'</option>';
                     for (var i in data) {
                         var id = data[i].id;
                         var name = data[i].areaName;
@@ -193,6 +194,7 @@
 
                     }
                     $('#provinceList').html(html);
+                    $('#provinceList').val(province);
                     form.render();
                 }else{
                     console.log(response.msg);
@@ -211,13 +213,13 @@
             dataType: 'json',
             data: { token:localStorage.getItem("token"),id:obj},
             success: function (response) {
-                console.log(response);
+//                console.log(response);
                 response = eval(response);
 
                 if (response.status == 1) {
                     var data = response.data;
-//                    var html = ' <option value="">' + '请选择城市' + '</option>';
-                    var html ='';
+                    var html = ' <option value="">' + '请选择' + '</option>';
+//                    var html ='';
                     for (var i in data) {
                         var id = data[i].id;
                         var name = data[i].areaName;

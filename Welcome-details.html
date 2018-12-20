@@ -52,6 +52,9 @@
             margin:0 auto;
             min-height:460px;
         }
+        #content img{
+            max-width:600px;
+        }
     </style>
 </head>
 <body>
@@ -96,7 +99,7 @@
                     html2 += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+data[i].filename+'\'"><a href="'+downloadurl+'">';
 //                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
                     html2 += '<img src="'+imgurl+'" style="width:60px;float:left;"></img>';
-                    html2 += '<div style="font-size:16px;width:400px;padding:45px 10px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;float:left;">'+data[i].filename+'</div>';
+                    html2 += '<div style="font-size:16px;width:300px;padding:20px 10px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;float:left;">'+data[i].filename+'</div>';
                     html2 += '</a></div>';
                 }
                 html2 += '</div>';

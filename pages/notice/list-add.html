@@ -104,16 +104,30 @@
             upload = layui.upload,
             layedit = layui.layedit;
 
-        var index = layedit.build('LAY_demo1',{
-            tool: ['strong','italic','underline','del','|','left','center','right','link','unlink','face']
-        });
+//        var index = layedit.build('LAY_demo1',{
+//            tool: ['strong','italic','underline','del','|','left','center','right','link','unlink','face']
+//        });
 
+        var url22=baseUrl + '/file/uploadTextImage';
+        layedit.set({
+            uploadImage: {
+                url: url22, //接口url
+//                    data:{token:token,code:'C111111'}, //默认post
+                success:function(res){
+//                        if(res.code==0){
+//                            console.log(res.data.src);
+//                        }
+
+                }
+            }
+        });
+        var index = layedit.build('LAY_demo1');
         form.verify({
             content:function (value) {
-                var a=layedit.getText(index).trim();
+                var a=layedit.getContent(index).trim();
 //                    return layedit.sync(index);
                 if (a == ''){
-                    return '内容不能为空或只有表情';
+                    return '内容不能为空';
                 }
             }
         });
