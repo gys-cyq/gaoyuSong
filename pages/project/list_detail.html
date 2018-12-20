@@ -96,6 +96,14 @@
 
                     </div>
                 </div>
+                <div class="layui-inline" style="display:none" id="checkUserName">
+                    <label class="layui-form-label">下个审批人
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="checkUserName" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
 
             </div>
             <div class="layui-form-item">
@@ -156,6 +164,10 @@
                     status="系统导入"
                 }else {
                     status = '';
+                }
+                if((data.status==0||data.status==1)&&data.checkUserName!=null){
+                    $("#checkUserName").css('display','inline-block');
+                    $("input[name='checkUserName']").val(data.checkUserName);
                 }
 
                 statusTV.val(status);

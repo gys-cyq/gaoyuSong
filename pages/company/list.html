@@ -95,12 +95,12 @@
             </div>
         </form>
         <div style="margin-left: 20px">
-            <button class="layui-btn layui-btn-small" id="add" onclick="add()">
+            <button class="layui-btn layui-btn-small" id="add" onclick="add()" style="display:none;">
                 <i class="layui-icon"></i> 添加
             </button>
-            <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
-            <button class="layui-btn" id="upload">导入</button>
-            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
+            <button class="layui-btn" onclick="download()" id="download" style="display:none;">下载导入模板</button>
+            <button class="layui-btn" id="upload" style="display:none;">导入</button>
+            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;display:none;">导出</button>
 
         </div>
         <!-- <div class="layui-field-box"> -->
@@ -134,21 +134,29 @@
             var actions = parent.GetPageData(pid)
 
             if (actions.indexOf('companylist:add') != -1) {
-                $('#add').show();
+//                $('#add').show();
+                $('#add').css('display','inline-block');
             } else {
-                $('#add').hide();
+//                $('#add').hide();
+                $('#add').css('display','none');
             }
             if (actions.indexOf('companylist:import') != -1) {
-                $('#upload').show();
-                $('#download').show();
+//                $('#upload').show();
+//                $('#download').show();
+                $('#upload').css('display','inline-block');
+                $('#download').css('display','inline-block');
             } else {
-                $('#upload').hide();
-                $("#download").hide();
+//                $('#upload').hide();
+//                $("#download").hide();
+                $('#upload').css('display','none');
+                $("#download").css('display','none');
             }
             if (actions.indexOf('companylist:export') != -1) {
-                $('#export').show();
+//                $('#export').show();
+                $('#export').css('display','inline-block');
             } else {
-                $('#export').hide();
+//                $('#export').hide();
+                $('#export').css('display','none');
             }
             var html = ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">' + '查看' + '</a>';
             if (actions.indexOf('companylist:update') != -1) {

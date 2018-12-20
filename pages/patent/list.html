@@ -62,12 +62,12 @@
             </div>
         </form>
         <div style="margin: 20px">
-            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton">
+            <button class="layui-btn layui-btn-small" onclick="openAddLayer()" id="addbutton" style="display:none;">
                 <i class="layui-icon"></i> 添加
             </button>
-            <button class="layui-btn" onclick="download()" id="download">下载导入模板</button>
-            <button class="layui-btn" id="upload">导入</button>
-            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
+            <button class="layui-btn" onclick="download()" id="download" style="display:none;">下载导入模板</button>
+            <button class="layui-btn" id="upload" style="display:none;">导入</button>
+            <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;display:none">导出</button>
         </div>
     </div>
     <!--<fieldset class="layui-elem-field">-->
@@ -97,21 +97,29 @@
         var pid = GetQueryString('pid')
         var actions = parent.GetPageData(pid);
         if (actions.indexOf('patent:add') != -1) {
-            $('#addbutton').show();
+//            $('#addbutton').show();
+            $('#addbutton').css('display','inline-block');
         } else {
-            $('#addbutton').hide();
+//            $('#addbutton').hide();
+            $('#addbutton').css('display','none');
         }
         if (actions.indexOf('patent:import') != -1) {
-            $('#upload').show();
-            $('#download').show();
+//            $('#upload').show();
+//            $('#download').show();
+            $('#upload').css('display','inline-block');
+            $('#download').css('display','inline-block');
         } else {
-            $('#upload').hide();
-            $("#download").hide();
+//            $('#upload').hide();
+//            $("#download").hide();
+            $('#upload').css('display','none');
+            $('#download').css('display','none');
         }
         if (actions.indexOf('patent:export') != -1) {
-            $('#export').show();
+//            $('#export').show();
+            $('#export').css('display','inline-block');
         } else {
-            $('#export').hide();
+//            $('#export').hide();
+            $('#export').css('display','none');
         }
         getPatentType();
         getUserName();
@@ -353,6 +361,9 @@
         }
         if ($('#number').val() != '') {
             url += '&number=' + $('#number').val();
+        }
+        if ($('#type').val() != '') {
+            url += '&type=' + $('#type').val();
         }
         if ($("#tel").val() != '') {
             url += '&tel=' + $("#tel").val();
