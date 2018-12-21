@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="layui-tab-brief">
-    <form class="layui-form" id="patentform" style="margin-top:10px;">
+    <form class="layui-form" id="patentform"  style="text-align:center;margin-top:10px;">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">设施号<span style="color:red;">*</span></label>
@@ -32,10 +32,13 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">公司名称<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
                     <input type="text" name="companyName"id="companyName"  lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="declareCompany" class="layui-input" />
                 </div>
             </div>
             <div class="layui-inline">
@@ -78,12 +81,29 @@
 <script type="text/javascript">
     token = localStorage.getItem('token');
     var form;
-    layui.use(['form','layer','laydate'],function(){
+    layui.config({
+        base: '../../js/' //假设这是test.js所在的目录
+    }).extend({ //设定模块别名
+            yutons_sug: 'yutons_sug'
+        });
+    layui.use(['form','layer','laydate','yutons_sug'],function(){
         form = layui.form;
         var layer = layui.layer,
             laydate = layui.laydate;
+        var yutons_sug = layui.yutons_sug;
         laydate.render({
-            elem: '#projectSetupTime'
+            elem: '#projectSetupTime',
+            position:'fixed'
+        });
+        yutons_sug.render({
+            id: "companyName", //设置容器唯一id
+            type: 'sug', //设置输入框提示类型：sug-下拉框，sugTable-下拉表格
+            key: 'name',
+            url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
+            onselect: function (data) {
+                console.log(data)
+                $("input[name='declareCompany']").val(data.id);
+            }
         });
         getTypeName();
 
