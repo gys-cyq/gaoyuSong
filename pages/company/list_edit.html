@@ -238,7 +238,9 @@
                 qualificationsList = data.qualificationsList;
 
                 var html = ""
+                var typeIdAndBeginTime=[];
                 for (var i in qualificationsList) {
+                    typeIdAndBeginTime.push(qualificationsList[i].id + '#' + qualificationsList[i].beginTime)
                     beginTime.push(qualificationsList[i].beginTime)
                     var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
                     html += '<div style="width:120px;height:80px;">';
@@ -248,7 +250,7 @@
                     html += '</div>';
                 }
                 $('#typeName').html(html)
-
+                $("input[name='typeIdAndBeginTime']").val(typeIdAndBeginTime);
                 if (user.type != 3) {
                     // findcompanyTypeAll(data);
                 } else {
