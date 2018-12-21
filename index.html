@@ -167,7 +167,10 @@
 //                                    $(this).siblings().find('.layui-nav-more').html('&#xe697;');
 //                                    $(this).siblings().removeClass('open');
                                 }
-                            }
+                            }else{
+                                $(this).parents('#nav').find('li').removeClass('layui-this');
+                                $(this).addClass('layui-this');
+							}
                             event.stopPropagation();
 						})
 

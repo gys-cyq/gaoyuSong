@@ -61,8 +61,8 @@
 //                            nodes:[{name:res.data.name,children:getdept(res.data.children)}],
                             nodes:res.data.children,
                             click:function(node){
-                                $("#dept ul li>a").removeClass('layui-table-click2');     //清除旧的样式
-                                $("#dept ul li cite:contains(" + node.name + ")").parent().addClass('layui-table-click2');
+                                $("#dept li>a").removeClass('layui-table-click2');     //清除旧的样式
+                                $("#dept li cite:contains(" + node.name + ")").parent().addClass('layui-table-click2');
                                 data=node;
                             }
                         });
