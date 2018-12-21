@@ -289,11 +289,12 @@
                 type: 'post',
                 dataType:'json',
 //                clearForm:true,
-                resetForm: true,
+//                resetForm: true,
                 timeout: 10000,
                 success: function (res) {
                     if (res.status == 1) {
                         layer.alert("注册成功,请及时与上级部门联络", function (index) {
+                            document.getElementById("personalForm").reset();
                             layer.close(index);
                         });
                     } else {
