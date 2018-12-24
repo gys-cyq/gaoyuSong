@@ -38,30 +38,7 @@
                         <input type="text" name="name" class="layui-input" readonly='readonly' />
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">项目行业
 
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="projectIndustryName" class="layui-input" readonly='readonly' />
-
-                    </div>
-
-
-                </div>
-
-            </div>
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">申报载体
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="companyName" class="layui-input" readonly='readonly' lay-verify='required' />
-
-                    </div>
-                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">联系人姓名
                     </label>
@@ -71,6 +48,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
 
                 <div class="layui-inline">
@@ -90,9 +68,46 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item" style="display:none" id="checkUserName">
+                <div class="layui-inline">
+                    <label class="layui-form-label">下个审批人
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="checkUserName" class="layui-input" readonly='readonly' />
+
+                    </div>
+                </div>
+            </div>
             <div class="layui-form-item">
 
-                <div class="layui-inline" >
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">申报载体
+                    </label>
+                    <div class="layui-input-inline" style="width: 515px">
+                        <input type="text" name="companyName" class="layui-input" readonly='readonly' lay-verify='required' />
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目行业
+
+                    </label>
+                    <div class="layui-input-inline" style="width: 515px">
+                        <input type="text" name="projectIndustryName" class="layui-input" readonly='readonly' />
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
                     <label class="layui-form-label">项目说明
                     </label>
                     <div class="layui-input-inline" style="width: 515px">
@@ -100,20 +115,20 @@
 
                     </div>
                 </div>
-                
+
             </div>
             <div class="layui-form-item">
 
-                    <div class="layui-inline" >
-                        <label class="layui-form-label">项备注
-                        </label>
-                        <div class="layui-input-inline" style="width: 515px">
-                            <input type="text" name="remark" class="layui-input" readonly='readonly' />
-    
-                        </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">项备注
+                    </label>
+                    <div class="layui-input-inline" style="width: 515px">
+                        <input type="text" name="remark" class="layui-input" readonly='readonly' />
+
                     </div>
-                    
                 </div>
+
+            </div>
 
             <div class="layui-form-item" style="display: flex">
                 <div class="layui-inline">
@@ -158,18 +173,22 @@
                     status = "不通过";
                 } else if (data.status == 4) {
                     status = "退回";
-                }else if (data.status == 7) {
-                    status ="专家审批结束"
+                } else if (data.status == 7) {
+                    status = "专家审批结束"
 
                 } else if (data.status == 8) {
                     status = "流程未匹配";
 
                 } else if (data.status == 9) {
-                    status ="系统导入"
+                    status = "系统导入"
 
                 }
 
                 statusTV.val(status);
+                if ((data.status == 0 || data.status == 1) && data.checkUserName != null) {
+                    $("#checkUserName").css('display', 'block');
+                    $("input[name='checkUserName']").val(data.checkUserName);
+                }
                 var html = '';
                 for (var i in data.attList) {
                     var imgurl = baseUrl + '/images/' + data.attList[i].formats + '.png';

@@ -21,23 +21,26 @@
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">申请人/单位</label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="width: 515px">
                         <input type="text" name="applyName" autocomplete="off" class="layui-input" readonly="readonly">
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">联系人</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="linkUser" readonly="readonly" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
 
+               
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">地址</label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="width: 515px">
                         <input type="text" name="address" id="address" readonly="readonly" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">联系人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="linkUser" readonly="readonly" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -69,8 +72,8 @@
     <script type="text/javascript">
 
         function child(obj) {
-            obj=JSON.stringify(obj);
-            var data=JSON.parse(obj);
+            obj = JSON.stringify(obj);
+            var data = JSON.parse(obj);
             var status = ''
             if (data.status == 0) {
                 status = '未审核'
@@ -79,13 +82,13 @@
             } else if (data.status == 2) {
                 status = '不通过'
             }
-
             data.status = status;
+
             layui.use(['form', 'layer'], function () {
                 var layer = layui.layer,
                     form = layui.form;
 
-                form.val('formTest',data)
+                form.val('formTest', data)
             });
         }
     </script>

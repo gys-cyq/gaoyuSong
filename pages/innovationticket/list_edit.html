@@ -41,7 +41,7 @@
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <input class="layui-input" name="statusId" type="hidden">
             <input class="layui-input" name='id' type="hidden">
-            <input class="layui-input" name='type' type="hidden" value="C101001">
+            <input class="layui-input" name='type' type="hidden" value="C102001">
             <input class="layui-input" name='files' type="hidden">
             <input class="layui-inline" name="declareCompany" type="hidden">
             <input type="hidden" name="projectIndustry" class="layui-input" readonly='readonly' />
@@ -228,7 +228,7 @@
                     , auto: false
                     , bindAction: '#testListAction'
                     , method: 'post',
-                    data: { token: token, code: 'C200006' }
+                    data: { token: token, code: 'C200008' }
                     , choose: function (obj) {
                         var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                         console.log(files);
@@ -303,7 +303,7 @@
                     consoleUtils(JSON.stringify(data.field));
 
                     var options = {
-                        url: baseUrl + "/tcb/update",
+                        url: baseUrl + "/ticket/update",
                         type: 'post',
                         dataType: 'json',
                         // clearForm: true,

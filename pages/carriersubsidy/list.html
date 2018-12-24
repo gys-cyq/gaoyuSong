@@ -169,10 +169,10 @@
                                 if (actions.indexOf('carriersubsidy:history') != -1) {
                                     html += ' <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="history">' + '历史审核' + '</a>';
                                 }
-                                // if (actions.indexOf('carriersubsidy:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
-                                //     html += ' <a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
+                                if (actions.indexOf('carriersubsidy:edit') != -1 && (e.status == 4 || e.status == 8 || e.status == 9 || e.status == 0)) {
+                                    html += ' <a class="layui-btn layui-btn-xs" lay-event="edit">' + '编辑' + '</a>'
 
-                                // }
+                                }
                                 if (e.isExpert == 1 && actions.indexOf('carriersubsidy:batchsongshen') != -1) {
 
                                     html += ' <a class="layui-btn layui-btn-xs" lay-event="audit" >' + '专家送审' + '</a>';
