@@ -132,9 +132,17 @@
                         {
                             field: 'status', title: '状态', templet: function (e) {
                                 if (e.status == 0) {
-                                    return "待审核";
+                                    if(e.checkUserName!=null){
+                                        return '待审核'+'<span style="color:red">'+'('+e.checkUserName+')'+'</span>';
+                                    }else{
+                                        return "待审核";
+                                    }
                                 } else if (e.status == 1) {
-                                    return "审核中"
+                                    if(e.checkUserName!=null){
+                                        return '待审核'+'<span style="color:red">'+'('+e.checkUserName+')'+'</span>';
+                                    }else{
+                                        return "审核中";
+                                    }
                                 } else if (e.status == 2) {
                                     return "通过"
                                 } else if (e.status == 3) {

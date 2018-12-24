@@ -153,9 +153,17 @@
                         {
                             field: 'status', title: '状态', templet: function (data) {
                                 if (data.status == 0) {
-                                    return "待审核";
+                                    if(data.checkUserName!=null){
+                                        return '待审核'+'<span style="color:red">'+'('+data.checkUserName+')'+'</span>';
+                                    }else{
+                                        return "待审核";
+                                    }
                                 } else if (data.status == 1) {
-                                    return '审核中'
+                                    if(data.checkUserName!=null){
+                                        return '待审核'+'<span style="color:red">'+'('+data.checkUserName+')'+'</span>';
+                                    }else{
+                                        return "审核中";
+                                    }
                                 } else if (data.status == 2) {
                                     return "通过";
                                 } else if (data.status == 3) {
