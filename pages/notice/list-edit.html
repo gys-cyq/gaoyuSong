@@ -99,6 +99,7 @@
     var form;
     var isUpload = false;
     var fileList = [];
+    var attList = [];
 
     function child(obj){
         layui.use(['layer','form','layedit','upload'],function(){
@@ -132,7 +133,6 @@
                 getuserIdcontent(obj);
                 getsex(obj);
 
-
             $('#isAll').on('click',function(){
                 if($('input:radio:checked').val()==2){
                     $('#userIds').css('display','block');
@@ -152,7 +152,10 @@
                 }
             });
 
-
+            for (var i in obj.attachmentList) {
+                fileList.push(obj.attachmentList[i].path);
+            }
+            $("input[name='files']").val(fileList);
             var url = baseUrl+'/file/uploadByCode';
             var demoListView = $('#demoList');
             var uploadListIns = upload.render({
@@ -243,8 +246,8 @@
                     data: {token: token},
 //            beforeSubmit: validateForm,
                     success: function (res) {
-                        fileList=[];
-                        demoListView.html('');
+//                        fileList=[];
+//                        demoListView.html('');
                         if (res.status == 1) {
                             layer.alert("成功", function () {
                                 var index = parent.layer.getFrameIndex(window.name);
