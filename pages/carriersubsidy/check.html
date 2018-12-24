@@ -15,13 +15,11 @@
 </head>
 
 <body>
-    <div class="layui-tab-brief">
-        <fieldset class="layui-elem-field">
+    <div class="layui-tab-brief" id="table">
             <div class="layui-field-box">
                 <table class="style-table" id="demo" lay-filter="test">
                 </table>
             </div>
-        </fieldset>
 
     </div>
     <script type="text/html" id="barDemo">
@@ -40,6 +38,11 @@
         layui.use(['table', 'layer'], function () {
             table = layui.table;
             var layer = layui.layer;
+            var user = JSON.parse(localStorage.getItem('user'));
+            if(user.parkId!=0){
+                $("#table").hide();
+                layer.msg('您暂无权限访问此页面');
+            }
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/carrier/unexamineCarrierSubsidy',
