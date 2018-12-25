@@ -77,7 +77,7 @@
                         return "通知";
                     }
                 }},
-                {field: 'title', title: '标题',width:120,},
+                {field: 'title', title: '标题'},
 //                {field: 'type', title: '类型',width:80,templet:function(obj){
 //                    if(obj.type==1){
 //                        return "公告";
@@ -85,7 +85,7 @@
 //                        return "通知";
 //                    }
 //                }},
-                {field: 'content', title: '内容'},
+//                {field: 'content', title: '内容'},
 //                {field: 'author', title: '作者',width:100,},
 //                {field: 'isAll', title: '是否通知全员',width:100,templet:function(obj){
 //                    if(obj.isAll==1){
@@ -123,7 +123,7 @@
                         return '';
                     }
                 }},
-                {field: 'createTime', title: '时间'},
+                {field: 'createTime', title: '时间',width:150},
                 {field: '', title: '操作',width:150, templet: '#patentAction'},
             ]],
             done: function (res, cuur, count) {
