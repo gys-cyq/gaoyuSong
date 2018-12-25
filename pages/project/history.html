@@ -88,22 +88,22 @@
                                 field: 'status', templet: function (e) {
                                     if (e.status == 0) {
                                         if(e.checkUserName!=null){
-                                            return '<span style="color:red">'+'待审核'+'('+e.checkUserName+')'+'</span>';
+                                            return '待审核'+'('+e.checkUserName+')';
                                         }else{
-                                            return '<span style="color: red;">' + "待审核" + '</span>';
+                                            return "待审核" + '</span>';
                                         }
                                     } else if (e.status == 1) {
                                         if(e.checkUserName!=null){
-                                            return '<span style="color:red">'+'审核中'+'('+e.checkUserName+')'+'</span>';
+                                            return '审核中'+'('+e.checkUserName+')';
                                         }else{
-                                            return '<span style="color: red;">' + '审核中' + '</span>'
+                                            return  '审核中' 
                                         }
                                     } else if (e.status == 2) {
-                                        return '<span style="color: red;">' + "通过" + '</span>';
+                                        return  "通过" ;
                                     } else if (e.status == 3) {
-                                        return '<span style="color: red;">' + "不通过" + '</span>'
+                                        return  "不通过" 
                                     } else if (e.status == 4) {
-                                        return '<span style="color: red;">' + "退回" + '</span>'
+                                        return  "退回" 
                                     } else if (e.status == 7) {
                                         return "专家审批结束"
 
