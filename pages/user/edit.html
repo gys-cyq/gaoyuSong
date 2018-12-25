@@ -269,14 +269,14 @@
 				form.verify({
 					isCheckd: function (value) {
 						var isCheckd = false;
-						$("input:checkbox").each(function (i) {
+						$("input[name='roles']").each(function (i) {
 							if ($(this).prop("checked") == true) {
 								isCheckd = true;
 							}
 
 						});
 						console.log(isCheckd)
-						if (!isCheckd) {
+						if (!isCheckd&&isSelect) {
 							return "请选择用户角色";
 						}
 
@@ -311,7 +311,7 @@
 								});
 
 							} else {
-								errmsg(response)
+								errmsg(res)
 
 							}
 						},
