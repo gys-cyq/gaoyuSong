@@ -21,7 +21,6 @@
         <form class="layui-form" id="demofrom" lay-filter="formTest">
             <div class="layui-form-item" style="display: none">
                 <input class="layui-input" name="projectIndustry">
-                <input class="layui-input" name="type" value="C102001">
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
             </div>
@@ -77,7 +76,7 @@
                     </label>
                     <div class="layui-input-inline" style="width: 700px">
                         <input type="text" class="layui-input" lay-verify='required|userId' id="companyName" autocomplete="off" style="width: 700px" />
-                        <input type="hidden" name="userId" class="layui-input" />
+                        <input type="hidden" name="declareCompany" class="layui-input" />
                     </div>
                 </div>
             </div>
@@ -162,10 +161,10 @@
                 id: "companyName", //设置容器唯一id
                 type: 'sug', //设置输入框提示类型：sug-下拉框，sugTable-下拉表格
                 key: 'name',
-                url: baseUrl + '/company/findZtAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
+                url: baseUrl + '/park/findZtAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
                 onselect: function (data) {
-                    console.log(data)
-                    $("input[name='userId']").val(data.id);
+                    consoleUtils(data)
+                    $("input[name='declareCompany']").val(data.id);
                 }
             });
             var demoListView = $('#demoList')
@@ -240,7 +239,7 @@
                         return "请输入正确的联系方式"
                     }
                 },userId:function(value){
-                    if ($("input[name='userId']").val() == null || $("input[name='userId']").val() == "") {
+                    if ($("input[name='declareCompany']").val() == null || $("input[name='declareCompany']").val() == "") {
                         return "请输入正确的申报载体"
                     }
                 }

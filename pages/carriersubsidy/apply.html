@@ -158,6 +158,7 @@
             var isUpload = false;
             var fileList = [];
             var user = JSON.parse(localStorage.getItem('user'));
+            consoleUtils(user)
             if(user.parkId==0){
                 $("#demofrom").hide();
                 layer.msg('您暂无权限访问此页面');
