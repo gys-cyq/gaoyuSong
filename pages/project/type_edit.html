@@ -56,7 +56,6 @@
             var data=JSON.parse(obj)
             form.val('formTest',data);
             form.on('submit(submit)',function(data){
-                console.log(JSON.stringify(data.field));
                 var url=baseUrl+'/projectType/update';
                 var options={
                     url:url,

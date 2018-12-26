@@ -108,7 +108,6 @@
                 },
                 done:function(res){
                     layer.closeAll('loading'); //关闭loading
-                    console.log(res);
                     try{
                         if(res.status==1){
                             var data=res.data;
@@ -123,7 +122,6 @@
 
                 },
                 error:function(res){
-                    console.log(res)
                     // layer.msg("上传失败")
                 }
 
@@ -157,7 +155,6 @@
 
             });
             form.on('submit(submit)',function(data){
-                console.log(JSON.stringify(data.field));
                 var url=baseUrl+'/companytype/add';
                 var options={
                     url:url,

@@ -183,7 +183,6 @@
                 layer.confirm('真的删除'+'<span style="color:red;">'+data.name+'</span>'+'吗？', function (index) {
                     var rowId = data.id;
                     var url = baseUrl + "/street/delete";
-                    console.log(url);
                     $.ajax({
                         url: url,
                         type: "post",
@@ -199,7 +198,6 @@
                             }
                         },
                         error: function (res) {
-                            console.log(res);
                             layer.msg('删除失败');
                         }
                     });

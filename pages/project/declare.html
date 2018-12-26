@@ -199,7 +199,6 @@
                 data: { token: token, code: 'C200002' }
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                    console.log(files);
                     //读取本地文件
                     obj.preview(function (index, file, result) {
                         var tr = $(['<tr id="upload-' + index + '">'
@@ -380,7 +379,6 @@
             })
         }
         function setChooseValues(message) {
-            console.log(message);
             $("input[name='projectName']").val(message.name)
             $("input[name='projectIndustry']").val(message.id);
 

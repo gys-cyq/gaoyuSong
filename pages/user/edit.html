@@ -275,7 +275,6 @@
 							}
 
 						});
-						console.log(isCheckd)
 						if (!isCheckd&&isSelect) {
 							return "请选择用户角色";
 						}
@@ -292,7 +291,6 @@
 
 				});
 				form.on('submit(submit)', function (data) {
-					console.log("表单提交" + JSON.stringify(data.field));
 					var url = baseUrl + '/user/update';
 					var options = {
 						url: url,
@@ -402,13 +400,11 @@
 
 						}
 					} catch (e) {
-						console.log(e.message);
 
 					}
 
 				},
 				error: function (xhr, type, errorThrown) {
-					console.log(xhr.responseText);
 				}
 			});
 

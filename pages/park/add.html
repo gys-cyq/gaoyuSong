@@ -90,7 +90,6 @@
                 timeout: 10000,
                 data: {token: token},
                 success: function (res) {
-                    console.log(res);
                     if (res.status == 1) {
                         layer.alert("成功", function () {
                             var index = parent.layer.getFrameIndex(window.name);
@@ -132,12 +131,10 @@
                     $('#streetList').html(html);
                     form.render();
                 }else{
-                    console.log(response.msg);
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
             }
         })
     }

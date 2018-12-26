@@ -82,7 +82,6 @@
         token = localStorage.getItem("token");
         getProvinceList();
         form.on('select(province)', function (data) {
-            console.log(data.value);
 //
                 getCityList(data.value,'cityList');
         })

@@ -189,7 +189,6 @@
                 var qualificationsList = JSON.parse(data).qualificationsList;
                 for (var i in qualificationsList) {
                     var image = baseUrl + '/file/getImg?path=' + qualificationsList[i].image;
-                    console.log(image)
                     html += '<div style="width:120px;height:80px;">';
                     html += '<img src="' + image + '" ></img>';
                     html += '<div class="filename">' + qualificationsList[i].typeName + '</div>';

@@ -165,7 +165,6 @@
                 key: 'name',
                 url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
                 onselect: function (data) {
-                    console.log(data)
                     $("input[name='declareCompany']").val(data.id);
                 }
             });
@@ -182,7 +181,6 @@
                 data: { token: token, code: 'C200009' }
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                    console.log(files);
                     //读取本地文件
                     obj.preview(function (index, file, result) {
                         var tr = $(['<tr id="upload-' + index + '">'
@@ -212,7 +210,6 @@
                             fileList.push(data[i]);
 
                         }
-                        console.log(fileList);
                         $("input[name='files']").val(duplicate(fileList));
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
@@ -248,7 +245,6 @@
                 }
             });
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/ticket/add",
                     type: 'post',
@@ -306,7 +302,6 @@
             })
         }
         function setChooseValues(message) {
-            console.log(message);
             $("input[name='projectName']").val(message.name)
             $("input[name='projectIndustry']").val(message.id);
 

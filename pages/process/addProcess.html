@@ -184,7 +184,6 @@
                     success: function (res) {
                         if (res.status == 1) {
                             var data = res.data.list;
-                            console.log(data);
                             for (var j = 0; j < data.length; j++) {
                                 if (data[j].nickname == obj) {
                                     var id = data[j].id;

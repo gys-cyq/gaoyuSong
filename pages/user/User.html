@@ -82,7 +82,6 @@
 //							body.contents().find("#dataId").val(id);
 					},
 					error: function(layero, index) {
-						console.log("失败");
 					}
 				});
 			}
@@ -95,7 +94,6 @@
 					success:function(layero,index){
 					},
 					error:function(layero,index){
-						console.log('失败');
 					}
 				})
 			}
@@ -139,8 +137,7 @@
                     $("#userContent").html(html);
             },
             error:function(xhr,type,errorThrown){
-                console.log("请求失败");
-                console.log(xhr);
+               
             }
 
         });

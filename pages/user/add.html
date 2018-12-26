@@ -176,7 +176,6 @@
             $('#first').hide();
             var userId = localStorage.getItem('userId');
             var user=JSON.parse(localStorage.getItem("user"));
-            console.log(user)
             if (userId == 1) {
                 $("#type").show();
             } else {
@@ -265,7 +264,6 @@
                         }
 
                     });
-                    console.log(isCheckd+'\n'+type)
                     if (!isCheckd&&type!=3) {
                         return "请选择用户角色";
                     }
@@ -283,7 +281,6 @@
             });
 
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
                 var url = baseUrl + '/user/add';
                 var options = {
                     url: url,

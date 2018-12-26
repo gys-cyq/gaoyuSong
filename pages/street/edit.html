@@ -195,12 +195,10 @@
                     $('#provinceList').val(province);
                     form.render();
                 }else{
-                    console.log(response.msg);
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
             }
         });
     }
@@ -227,12 +225,10 @@
                     $('#'+selectId).html(html);
                     form.render();
                 }else{
-                    console.log(response.msg);
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
             }
         })
     }

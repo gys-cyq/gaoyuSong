@@ -73,7 +73,6 @@
                     }
                 })
                 form.on('submit(submit)', function (data) {
-                    console.log(JSON.stringify(data.field));
                     var options = {
                         url: baseUrl + '/expert/choose',
                         type: 'POST',
@@ -127,7 +126,6 @@
                 })
                 form.on('submit(submit)', function (data) {
                     layer.load();
-                    console.log(JSON.stringify(data.field));
                     var options = {
                         url: baseUrl + '/expert/batchChoose',
                         type: 'POST',

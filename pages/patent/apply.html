@@ -153,7 +153,6 @@
             data: { token: token, code: 'C200011' }
             , choose: function (obj) {
                 var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                console.log(files);
                 //读取本地文件
                 obj.preview(function (index, file, result) {
                     var tr = $(['<tr id="upload-' + index + '">'
@@ -184,7 +183,6 @@
                         fileList.push(data[i]);
 
                     }
-                    console.log(fileList);
                     var new_arry=duplicate(fileList);
                     $("input[name='files']").val(new_arry);
                     var tr = demoListView.find('tr#upload-' + index)
@@ -271,7 +269,6 @@
                     if (response.status == 1) {
                         var data = response.data;
                         var html = ' <option value="">' + '请选择资助类型' + '</option>';
-                        console.log(data);
                         for (var i in data) {
                             var id = data[i].id;
                             var name = data[i].typeName;
@@ -283,13 +280,11 @@
                         form.render();
                     }
                 } catch (e) {
-                    console.log(e.msg);
 
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
             }
         });
     }

@@ -56,7 +56,6 @@
             form = layui.form;
             var pid = GetQueryString('pid');
             var actions = parent.GetPageData(pid);
-            console.log(actions)
             findpatentFundingTypeAll();
             form.on('select(type)',function(data){
                 typeId=data.value;

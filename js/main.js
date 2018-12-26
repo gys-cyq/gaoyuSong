@@ -88,7 +88,7 @@ function cancel() {
     parent.layer.close(index);
 
 }
-var debug = true;
+var debug = false;
 function consoleUtils(message) {
     if (debug) {
         console.log(message)

@@ -73,7 +73,6 @@
             url: baseUrl + '/reward/findRewardByPage',
             where: {token: token},
             parseData: function (res) {
-                console.log(res);
                 return {
                     "code": 0,
                     "msg": res.msg,

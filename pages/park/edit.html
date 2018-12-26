@@ -114,7 +114,6 @@
     function getstreetList(obj){
         var street = obj.streetName;
         var streetId = obj.street;
-        console.log(obj);
         $.ajax({
             url: baseUrl + '/street/getStreetList',
             type: 'get',
@@ -135,12 +134,10 @@
                     $('#street').html(html);
                     form.render();
                 }else{
-                    console.log(response.msg);
                 }
 
             },
             error: function (xhr, type, errorThrown) {
-                console.log(xhr.responseText);
             }
         })
     }

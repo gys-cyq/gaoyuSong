@@ -226,7 +226,6 @@
                 }
             })
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/company/update",
                     type: 'post',
@@ -382,7 +381,6 @@
 
                 },
                 error: function (xhr, type, errorThrown) {
-                    console.log(xhr.responseText);
                 }
             });
 

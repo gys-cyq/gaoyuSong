@@ -262,7 +262,6 @@
                 //     }
                 // });
                 form.on('submit(submit)', function (data) {
-                    console.log(JSON.stringify(data.field));
                     var options = {
                         url: baseUrl + "/company/updateByNumber",
                         type: 'post',
@@ -368,13 +367,11 @@
 
                         }
                     } catch (e) {
-                        console.log(e.message);
 
                     }
 
                 },
                 error: function (xhr, type, errorThrown) {
-                    console.log(xhr.responseText);
                 }
             });
         }

@@ -231,7 +231,6 @@
                     data: { token: token, code: 'C200009' }
                     , choose: function (obj) {
                         var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                        console.log(files);
                         //读取本地文件
                         obj.preview(function (index, file, result) {
                             var tr = $(['<tr id="upload-' + index + '">'
@@ -262,7 +261,6 @@
                                 temList.push(data[i]);
 
                             }
-                            console.log(temList);
                             var tr = demoListView.find('tr#upload-' + index)
                                 , tds = tr.children();
                             tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
@@ -369,11 +367,9 @@
                 }
 
             }
-            console.log(filesList);
         }
 
         function setChooseValues(message) {
-            console.log(message);
             $("input[name='projectIndustryName']").val(message.name)
             $("input[name='projectIndustry']").val(message.id);
 

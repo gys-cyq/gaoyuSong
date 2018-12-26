@@ -101,7 +101,6 @@
             key: 'name',
             url: baseUrl + '/company/findCompanyAll?token=' + localStorage.getItem('token') + '&name=', //设置异步数据接口,url为必填项
             onselect: function (data) {
-                console.log(data)
                 $("input[name='declareCompany']").val(data.id);
             }
         });

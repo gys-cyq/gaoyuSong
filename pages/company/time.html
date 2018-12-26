@@ -78,7 +78,7 @@
                 elem: '#createTime'
             });
             form.on('submit(submit)', function (data) {
-                console.log(JSON.stringify(data.field));
+                consoleUtils(JSON.stringify(data.field));
                 var options = {
                     url: baseUrl + "/company/approveCompanyQualificationsApply",
                     type: 'post',

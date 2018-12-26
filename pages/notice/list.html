@@ -59,7 +59,6 @@
             url: baseUrl + '/announcement/findAnnouncementByPage',
             where: {token: token},
             parseData: function (res) {
-                console.log(res.data);
                 return {
                     "code": 0,
                     "msg": res.msg,
