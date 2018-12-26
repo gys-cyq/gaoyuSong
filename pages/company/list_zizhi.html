@@ -422,6 +422,10 @@
                 url += '&parkId=' + parkId;
 
             }
+            if($("#year").val!=""){
+                url+="&year="+$("#year").val();
+            }
+            consoleUtils(url)
             window.location.href = url;
 
         }
