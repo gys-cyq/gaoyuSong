@@ -150,7 +150,7 @@
                     }else{
                         return '男';
                     }
-                }},
+                },width:80},
                 {field: 'position', title: '职务'},
                 {field: 'jobTitle',templet:function(d){
                     if(d.jobTitle==1){
@@ -161,7 +161,7 @@
                         return '';
                     }
                 }, title: '职称'},
-                {field: 'mobile', title: '联系电话'},
+                {field: 'mobile', width:180,title: '联系电话'},
                 {field: 'area',templet:function(d){
                     if(d.area==1){
                         return '市内';
@@ -175,7 +175,7 @@
 //                {field: 'createTime', title: '创建时间'},
                 {field: 'schoolMajorName', title: '学校所学专业名'},
                 {field: 'workMajorName', title: '从事专业名'},
-                {field:'',title:'操作',templet:'#expertAction',width:'150'},
+                {field:'',title:'操作',templet:'#expertAction',width:150},
             ]],
             done: function (res,cuur,count) {
                 layer.closeAll('loading');
