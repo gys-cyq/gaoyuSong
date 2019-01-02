@@ -59,6 +59,7 @@
         var conditions = [];
         var html = '';
         function child(obj) {
+            //单独送审
             $("input[name='statusId']").val(obj.statusId)
             layui.use(['layer', 'form'], function () {
                 layer = layui.layer;
@@ -110,7 +111,7 @@
 
         }
         function multiple(obj) {
-            consoleUtils(obj)
+            consoleUtils(obj);//批量送审
             $("input[name='statusIds']").val(obj)
             layui.use(['layer', 'form'], function () {
                 layer = layui.layer;

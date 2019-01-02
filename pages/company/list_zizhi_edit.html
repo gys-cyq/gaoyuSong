@@ -115,7 +115,8 @@
 
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元"/>
+                        <input type="text" name="registerCapital" class="layui-input" onkeyup="only_num(this)" onblur="only_num(this)" placeholder="单位：万元"
+                        />
 
                     </div>
                 </div>
@@ -152,20 +153,26 @@
                         </select>
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">起始时间
+                        <span style="color:red;">*</span>
 
-            </div>
-            <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">起始时间
-                            <span style="color:red;">*</span>
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="beginTime" id="beginTime" class="layui-input" lay-verify="required" autocomplete="off"/>
-                        </div>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="beginTime" id="beginTime" class="layui-input" lay-verify="required" autocomplete="off" />
                     </div>
-    
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">社会信用代码
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="socialCreditCode" class="layui-input" autocomplete="off" />
+
+                    </div>
+                </div>
+            </div>
+
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">企业地址
@@ -220,7 +227,7 @@
         var typeName;
         var streetId;
 
-        function child(obj,number) {
+        function child(obj, number) {
 
 
 
@@ -233,7 +240,7 @@
                 });
 
                 laydate.render({
-                    elem:'#beginTime'
+                    elem: '#beginTime'
                 })
                 obj = JSON.stringify(obj);
                 var data = JSON.parse(obj);
@@ -245,7 +252,7 @@
                 getParkList(data);
                 form.on('select(streetId)', function (data) {
                     streetId = data.value;
-                    if (streetId == undefined||streetId=="") {
+                    if (streetId == undefined || streetId == "") {
                         var html = ' <option value="0">' + "请选择园区" + '</option>';
 
                         $('#parkId').html(html);
@@ -266,7 +273,7 @@
                         url: baseUrl + "/company/updateByNumber",
                         type: 'post',
                         dataType: 'json',
-                      
+
                         data: {
                             token: localStorage.getItem('token')
                         },

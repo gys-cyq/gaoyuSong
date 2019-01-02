@@ -122,9 +122,7 @@
         </form>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
-                <button class="layui-btn" lay-submit="" lay-filter="submit" id="yes">通过</button>
-                <button class="layui-btn" id="no">不通过</button>
-                <button class="layui-btn" id="exit">退回</button>
+                <button class="layui-btn" id="exit">审核</button>
 
             </div>
         </div>
@@ -141,11 +139,7 @@
             response = JSON.parse(obj);
             var user = JSON.parse(localStorage.getItem('user'));
             consoleUtils(user)
-            if(user.type==3){
-                $('#exit').show();
-            }else{
-                $('#exit').hide();
-            }
+           
             layui.use(['form', 'layer', 'upload'], function () {
                 var form = layui.form;
                 layer = layui.layer;
@@ -183,23 +177,23 @@
 
 
             });
-            $('#yes').click(function () {
-                layer.confirm('确认通过？', function () {
-                    examineOperator(2);
-                })
-            });
-            $('#no').click(function () {
-                layer.confirm('确认不通过？', function () {
-                    // examineOperator(3);
-                    openReason(3);
-                })
-            });
+            // $('#yes').click(function () {
+            //     layer.confirm('确认通过？', function () {
+            //         examineOperator(2);
+            //     })
+            // });
+            // $('#no').click(function () {
+            //     layer.confirm('确认不通过？', function () {
+            //         // examineOperator(3);
+            //         openReason(3);
+            //     })
+            // });
             $('#exit').click(function () {
-                layer.confirm('确认退回？', function () {
+               
                     // examineOperator(4);
-                    openReason(4);
+                    openReason(2);
 
-                })
+                
             })
         }
         function examineOperator(status) {
@@ -235,10 +229,10 @@
         function openReason(code) {
             layer.open({
                 type: 2,
-                area: ["400px", "300px"],
+                area: ["460px", "400px"],
                 fix: false,
                 title: '原因',
-                content: 'expert.html',
+                content: 'expert_reason.html',
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
                     iframe.child(code, response);

@@ -16,10 +16,10 @@
 
 <body>
     <div class="layui-tab-brief">
-            <!-- <div class="layui-field-box"> -->
-                <table class="style-table" id="demo" lay-filter="test">
-                </table>
-            <!-- </div> -->
+        <!-- <div class="layui-field-box"> -->
+        <table class="style-table" id="demo" lay-filter="test">
+        </table>
+        <!-- </div> -->
 
     </div>
     <script type="text/html" id="barDemo">
@@ -32,12 +32,17 @@
     <script type="text/javascript" src="../../js/main.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
-
-
-
+        var user = JSON.parse(localStorage.getItem('user'));
+        consoleUtils(user);
+        var isExpert=false;
         layui.use(['table', 'layer'], function () {
             table = layui.table;
             var layer = layui.layer;
+            for(var i in user.roleList){
+                if(user.roleList[i].id==5){
+                    isExpert=true;
+                }
+            }
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/project/unexamineProject',
@@ -64,11 +69,11 @@
                                 var date = new Date(e.declareDate);
                                 Y = date.getFullYear() + '-';
                                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-                                D = date.getDate()<10 ? '0'+ (date.getDate() ) : date.getDate() ;
+                                D = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
                                 // h = date.getHours() + ':';
                                 // m = date.getMinutes() + ':';
                                 // s = date.getSeconds();
-                                var time=Y + M + D ; 
+                                var time = Y + M + D;
                                 return time;
                             }
                         },
@@ -99,7 +104,26 @@
 
                     });
                 } else if (layEvent == 'audit') {
-                    layer.open({
+                    if(isExpert){
+                        layer.open({
+                        type: 2,
+                        area: ['720px', '500px'],
+                        fix: false,//不固定
+                        title: '审核',
+                        content: 'expert_audit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(data);
+
+
+                        }, end: function () {
+                            table.reload('testReload');
+
+                        }
+
+                    });
+                    }else{
+                        layer.open({
                         type: 2,
                         area: ['720px', '460px'],
                         fix: false,//不固定
@@ -110,12 +134,14 @@
                             iframe.child(data);
 
 
-                        },end:function(){
+                        }, end: function () {
                             table.reload('testReload');
 
                         }
 
                     });
+                    }
+                   
                 }
             })
         });

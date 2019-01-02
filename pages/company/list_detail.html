@@ -12,11 +12,12 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
-        img{
+        img {
             width: 60px;
             height: 60px;
             margin: 0 30px
         }
+
         .filename {
             width: 120px;
             white-space: nowrap;
@@ -50,16 +51,16 @@
                     </div>
                 </div>
                 <div class="layui-inline" id="type">
-                        <label class="layui-form-label">联系人</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="contacts" class="layui-input" readonly="readonly" />
-    
-                        </div>
+                    <label class="layui-form-label">联系人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="contacts" class="layui-input" readonly="readonly" />
+
                     </div>
-                
+                </div>
+
             </div>
             <div class="layui-form-item">
-               
+
                 <div class="layui-inline">
                     <label class="layui-form-label">联系电话
 
@@ -79,20 +80,20 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">员工人数
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="staffNumber" class="layui-input" readonly="readonly" />
-    
-                        </div>
+                    <label class="layui-form-label">员工人数
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="staffNumber" class="layui-input" readonly="readonly" />
+
                     </div>
+                </div>
             </div>
 
 
             <div class="layui-form-item">
 
-               
+
                 <div class="layui-inline">
                     <label class="layui-form-label">街道
 
@@ -112,25 +113,35 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                        <label class="layui-form-label">注册资金（单位：万元）
-    
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="registerCapital" class="layui-input" readonly="readonly" />
-    
-                        </div>
+                    <label class="layui-form-label">注册资金（单位：万元）
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="registerCapital" class="layui-input" readonly="readonly" />
+
                     </div>
+                </div>
             </div>
-           
             <div class="layui-form-item">
-                    <div class="layui-inline">
-                            <label class="layui-form-label">企业地址
-        
-                            </label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="address" class="layui-input" readonly="readonly"  style="width: 850px"/>
-                            </div>
-                        </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">社会信用代码
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="socialCreditCode" class="layui-input" autocomplete="off" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">企业地址
+
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="address" class="layui-input" readonly="readonly" style="width: 850px" />
+                    </div>
+                </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
@@ -192,11 +203,11 @@
                     html += '<div style="width:120px;height:80px;">';
                     html += '<img src="' + image + '" ></img>';
                     html += '<div class="filename">' + qualificationsList[i].typeName + '</div>';
-                    html += '<div class="filename">' +qualificationsList[i].expirationDate+"到期" + '</div>';
+                    html += '<div class="filename">' + qualificationsList[i].expirationDate + "到期" + '</div>';
 
                     html += '</div>';
                 }
-              
+
                 $('#qualificationsList').html(html)
             });
         }
