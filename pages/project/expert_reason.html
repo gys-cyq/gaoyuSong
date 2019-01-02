@@ -11,8 +11,19 @@
     <title>南通科技局</title>
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-
-
+<style>
+       .filename {
+           max-width: 200px;
+            width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .layui-form-label{
+            text-align: left;
+            width: auto;
+        }
+</style>
 
 </head>
 
@@ -21,19 +32,24 @@
 
         <form class="layui-form" id="demofrom">
             <div class="layui-form-item" style="display: none">
-             
+
                 <input class="layui-input" name="files" lay-verify='fileList'>
 
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline" style="margin-left: -40px">
-                    <label class="layui-form-label">说明
+                <div class="layui-inline">
+                    <label class="layui-form-label" >说明
                     </label>
-                    <div class="layui-input-inline" style="width: 320px">
-                        <textarea class="layui-textarea"  name='reason'></textarea>
+                    <div class="layui-input-inline" style="width: 300px">
+                        <textarea class="layui-textarea" name='reason'></textarea>
                     </div>
                 </div>
             </div>
+            <div class="layui-inline">
+                    <label class="layui-form-label" style="color: blue;font-size: 12px;cursor: pointer;" onclick="openFiles()">点击附件
+                    </label>
+    
+                </div>
             <div class="layui-upload">
                 <div class="layui-inline">
                     <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
@@ -90,7 +106,7 @@
                         //读取本地文件
                         obj.preview(function (index, file, result) {
                             var tr = $(['<tr id="upload-' + index + '">'
-                                , '<td>' + file.name + '</td>'
+                                , '<td class="filename">' + file.name + '</td>'
                                 , '<td>等待上传</td>'
                                 , '<td>'
                                 , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
@@ -136,13 +152,13 @@
                     }
                 });
                 form.verify({
-                fileList: function (value) {
+                    fileList: function (value) {
 
-                    if (!isUpload) {
-                        return '请上传附件'
+                        if (!isUpload) {
+                            return '请上传附件'
+                        }
                     }
-                }
-            });
+                });
                 form.on('submit(submit)', function (data) {
                     consoleUtils(JSON.stringify(data.field));
                     var options = {
@@ -182,6 +198,22 @@
 
 
             });
+        }
+        function openFiles() {
+            layer.open({
+                type: 2,
+                area: ['400px', '300px'],
+                fix: false,//不固定
+                title: '附件',
+                content: 'template.html',
+                success: function (layero, index) {
+                    var iframe = window['layui-layer-iframe' + index];
+                    iframe.child('C200012', "项目评审表模板下载");
+
+                }
+
+            });
+
         }
     </script>
 </body>
