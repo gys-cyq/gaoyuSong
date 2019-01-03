@@ -175,7 +175,13 @@
 //                {field: 'createTime', title: '创建时间'},
                 {field: 'schoolMajorName', title: '学校所学专业名'},
                 {field: 'workMajorName', title: '从事专业名'},
-                {field:'',title:'操作',templet:'#expertAction',width:150},
+//                {field:'',title:'操作',templet:'#expertAction',width:150},
+                {field:'',title:'操作',templet:function(e){
+                    var html =  '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" style="background-color:#2fa4e7;color:#fff;">'+'编辑'+'</a>';
+                    html += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">'+'删除'+'</a>'
+                    html += '  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="select" style="background-color:#fff;color:#555;border:1px solid #999;">' + '已评审项目' + '</a>';
+                    return html
+                },width:150,align:'center'},
             ]],
             done: function (res,cuur,count) {
                 layer.closeAll('loading');
@@ -292,6 +298,22 @@
                     });
                     layer.close(index);
                 });
+            }else if(obj.event==='select'){
+                layer.open({
+                    type:2,
+                    title:'已评审项目',
+                    area:['800px','500px'],
+                    fix:false,
+                    content:'select.html',
+                    maxmin:true,
+                    success:function(layero,index){
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
             }
         })
 

@@ -132,9 +132,18 @@
                                 }
                             }, title: '资源类型'
                         },
+                        { field: 'btime', title: '开启时段',templet:function(e){
+                            if(e.type=="menu"){
+                                if(e.btime!=null && e.etime!=null&&e.btime!=''&&e.etime!=''){
+                                    return e.btime+ '--' +e.etime;
+                                }else{
+                                    return '';
+                                }
+                            }else{
+                                return '';
+                            }
+                        } },
                         { field: 'actions', title: '操作', templet: '#oper-col', }
-                        //                    {templet: '#oper-col', align: 'center', title: '操作',}
-                        //                            {templet: '#oper-col', title: 'oper'}
                     ]],
                     done: function (res, cuur, count) {
                         if (actions.indexOf('menu:delete') == -1 && actions.indexOf('menu:update') == -1) {
@@ -189,6 +198,9 @@
                                 var body = layui.layer.getChildFrame('body', index);
                                 body.find('#type').val("menu");
                                 body.find("#parentId").val(data.id);
+                                body.find("#time").css('display','block');
+                            },end: function () {
+                                table.reload('menuId')
                             }
                         })
                     }
@@ -258,6 +270,8 @@
                             body.find('#permission').val(data.permission);
                             body.find('#sort').val(data.sort);
                             body.find('#type').val(data.type);
+                            body.find('#btime').val(data.btime);
+                            body.find('#etime').val(data.etime);
                         }
                     })
                 }

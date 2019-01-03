@@ -68,6 +68,21 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">开启时段<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text"  class="layui-input"   lay-verify="time"  placeholder="请选择开始时间" name="btime" id="btime"/>
+                </div>
+
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <input type="text"  class="layui-input"   lay-verify="endTime"  placeholder="请选择结束时间" name="etime" id="etime"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                 <button class="layui-btn" name="submit" lay-filter="submit" lay-submit="">确定编辑</button>
                 <button type="reset" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
@@ -80,7 +95,7 @@
 <script type="text/javascript">
     layui.use(['form','layer'],function() {
         var layer = layui.layer,
-            form = layui.form;
+            form = layui.form,
         token = localStorage.getItem("token");
 
         if($('#type').val()=='action'){
@@ -92,6 +107,32 @@
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         }
+
+        form.verify({
+            time:[/^$|^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$/,'时间输入错误'],
+            endTime:function(value){
+                if(value!=null&&value!=''){
+                    var btime = $('#btime').val();
+                    var re = /^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$/;
+                    if (re.test(value)) {
+                        for(var i=0;i<value.length;i++){
+                            if(value[i]==':'){
+                                continue;
+                            }else if(value[i]-btime[i]>=1){
+                                return false;
+                            }else if(value[i]-btime[i]==0){
+                                continue;
+                            }else{
+                                return '结束时间要晚于开始时间';
+                            }
+                        }
+                    } else {
+                        return '输入时间格式不正确';
+                    }
+                }
+            }
+        })
+
         form.on('submit(submit)',function(data){
             var url = baseUrl + "/menu/update";
             var options = {

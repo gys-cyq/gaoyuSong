@@ -68,6 +68,20 @@
                         </div>
                     </div>
                     <div class="layui-form-item2">
+                        <div class="layui-inline2">
+                            <lable class="layui-form-label">登录账号<span class="judgeNull">*</span></lable>
+                            <div class="layui-input-inline2">
+                                <input type="text"  class="layui-input" name="account" lay-verify="required" onchange="verifyRepeat()" id="account"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline2">
+                            <lable class="layui-form-label">登录密码<span class="judgeNull">*</span></lable>
+                            <div class="layui-input-inline2">
+                                <input type="text"  class="layui-input" name="password" lay-verify="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item2">
                             <label class="layui-form-label" style="padding:9px 0;">所属街道<span style="color:red;">*</span></label>
                             <div class="layui-input-inline3">
                                 <select name="province" lay-filter="province" id="provinceList" lay-verify="required">
@@ -91,64 +105,60 @@
                             </div>
                     </div>
                     <div class="layui-form-item">
-                            <lable class="layui-form-label">地址</lable>
+                            <lable class="layui-form-label">地址<span class="judgeNull">*</span></lable>
                             <div class="layui-input-block">
                                 <input type="text"  class="layui-input" name="address"/>
                             </div>
                     </div>
+
                     <div class="layui-form-item2">
                         <div class="layui-inline2">
-                            <lable class="layui-form-label">联系人</lable>
+                            <lable class="layui-form-label">社会信用代码<span class="judgeNull">*</span></lable>
                             <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="contacts"/>
+                                <input type="text"  class="layui-input" name="socialCreditCode" lay-verify="required" onchange="verifyRepeat()" id="society"/>
                             </div>
                         </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">联系电话</lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="contactsTel" lay-verify="checkTel"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <lable class="layui-form-label">注册资金（单位：万）</lable>
-                        <div class="layui-input-block">
-                            <input type="text"  class="layui-input" name="registerCapital"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item2">
                         <div class="layui-inline2">
                             <lable class="layui-form-label">员工人数</lable>
                             <div class="layui-input-inline2">
                                 <input type="text"  class="layui-input" name="staffNumber"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="layui-form-item2" style="clear:both">
                         <div class="layui-inline2">
-                            <lable class="layui-form-label">经营范围</lable>
+                            <lable class="layui-form-label">联系人<span class="judgeNull">*</span></lable>
                             <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="operationScope"/>
+                                <input type="text"  class="layui-input" name="contacts"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline2">
+                            <lable class="layui-form-label">联系电话<span class="judgeNull">*</span></lable>
+                            <div class="layui-input-inline2">
+                                <input type="text"  class="layui-input" name="contactsTel" lay-verify="checkTel"/>
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                            <lable class="layui-form-label">备注</lable>
+                        <lable class="layui-form-label">注册资金（单位：万）<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-block">
+                            <input type="text"  class="layui-input" name="registerCapital"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                            <lable class="layui-form-label">经营范围</lable>
                             <div class="layui-input-block">
-                                <input type="text"  class="layui-input" name="remark"/>
+                                <!--<input type="text"  class="layui-input" name="operationScope"/>-->
+                                <textarea placeholder="请输入内容" class="layui-textarea" name="operationScope"></textarea>
                             </div>
                     </div>
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">账号<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="account" lay-verify="required" onchange="verifyRepeat()" id="account"/>
+                    <div class="layui-form-item">
+                            <lable class="layui-form-label">备注</lable>
+                            <div class="layui-input-block">
+                                <!--<input type="text"  class="layui-input" name="remark"/>-->
+                                <textarea placeholder="请输入内容" class="layui-textarea" name="remark"></textarea>
                             </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">密码<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="password" lay-verify="required"/>
-                            </div>
-                        </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-inline" style="width:33%">

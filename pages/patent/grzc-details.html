@@ -65,6 +65,12 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">文件</label>
+                <div class="layui-input-block" id="attachList" style="text-align:left;">
+
+                </div>
+            </div>
         </form>
     </div>
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -77,12 +83,27 @@
             var status = ''
             if (data.status == 0) {
                 status = '未审核'
-            } else if (obj.status == 1) {
+            } else if (data.status == 1) {
                 status = '通过'
             } else if (data.status == 2) {
                 status = '不通过'
             }
             data.status = status;
+            var html = '';
+            if(data.attList!=null){
+                var attachm = data.attList;
+                for(var i in attachm){
+                    var imgurl=baseUrl+'/images/'+attachm[i].formats+'.png';
+                    var downloadurl = baseUrl+'/file/download?path='+attachm[i].path;
+                    html += '<div title="'+attachm[i].filename+'" style="padding:5px;display:inline-block;">'+
+                        '<a href="'+downloadurl+'"><img src="'+imgurl+'" style="width:50px;"/>';
+                    html += '<div style="font-size:12px;width:100px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+attachm[i].filename+'</div>';
+                    html += '</a></div>';
+                }
+                $('#attachList').html(html);
+            }else{
+                $('#attachList').html('无附件');
+            }
 
             layui.use(['form', 'layer'], function () {
                 var layer = layui.layer,

@@ -64,6 +64,17 @@
                 </div>
             </div>
         </div>
+        <div class="layui-form-item" style="display:none;" id="time">
+            <div class="layui-inline">
+                <label class="layui-form-label">开启时段<span style="color:red;">*</span></label>
+                <div class="layui-input-inline">
+                    <input type="text"  class="layui-input"   lay-verify="time"  placeholder="HH:MM" name="btime" id="btime"/>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text"  class="layui-input"   lay-verify="endTime"  placeholder="HH:MM" name="etime" id="etime"/>
+                </div>
+            </div>
+        </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="text-align:center;margin:0 auto;">
                 <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
@@ -86,6 +97,31 @@
         window.checkNum=function(val){
             document.getElementById('sort').value = val >= 0 ? val : 0
         }
+        form.verify({
+            time:[/^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$/,'时间输入错误'],
+            endTime:function(value){
+                if(value!=null&&value!=''){
+                    var btime = $('#btime').val();
+                    var re = /^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$/;
+                    if (re.test(value)) {
+                        for(var i=0;i<value.length;i++){
+                            if(value[i]==':'){
+                                continue;
+                            }else if(value[i]-btime[i]>=1){
+                                return false;
+                            }else if(value[i]-btime[i]==0){
+                                continue;
+                            }else{
+                                return '结束时间要晚于开始时间';
+                            }
+                        }
+                    } else {
+                        return '输入时间格式不正确';
+                    }
+                }
+            }
+        })
+
 
         form.on('submit(submit)', function(data){
             var url = baseUrl + "/menu/add";
@@ -105,7 +141,7 @@
                             parent.location.reload();
                         });
                     } else {
-//                        errmsg(res);
+                        errmsg(res);
                     }
                 },
                 error: function (data) {
