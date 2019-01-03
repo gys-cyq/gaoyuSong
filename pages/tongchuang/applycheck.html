@@ -35,9 +35,16 @@
     <script type="text/javascript" src="../../lib/layui/layui.js"></script>
     <script type="text/javascript">
         var table;
+        var user = JSON.parse(localStorage.getItem('user'));
+        var isExpert=false;
         layui.use(['table', 'layer'], function () {
             table = layui.table;
             var layer = layui.layer;
+            for(var i in user.roleList){
+                if(user.roleList[i].id==5){
+                    isExpert=true;
+                }
+            }
             table.render({
                 elem: '#demo',
                 url: baseUrl + '/tcb/unexamineTongchuangbi',
@@ -99,7 +106,27 @@
 
                     });
                 } else if (layEvent == 'audit') {
-                    layer.open({
+                    if(isExpert){
+                        
+                        layer.open({
+                        type: 2,
+                        area: ['720px', '500px'],
+                        fix: false,//不固定
+                        title: '审核',
+                        content: 'apply_expert_audit.html',
+                        success: function (layero, index) {
+                            var iframe = window['layui-layer-iframe' + index];
+                            iframe.child(data);
+
+
+                        }, end: function () {
+                            table.reload('testReload');
+
+                        }
+
+                    });
+                    }else{
+                        layer.open({
                         type: 2,
                         area: ['720px', '460px'],
                         fix: false,//不固定
@@ -115,6 +142,8 @@
                         }
 
                     });
+                    }
+                    
                 }
             })
         });

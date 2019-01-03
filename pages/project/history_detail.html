@@ -100,7 +100,7 @@
                                     var html = ' <ul style="display: flex">';
                                     for (var i in e.attList) {
                                         var imgurl;
-                                        if (e.attList[i].formats == 'pdf') {
+                                        if (e.attList[i].formats == 'pdf'||e.attList[i].formats == 'PDF') {
                                             imgurl = baseUrl + '/images/' + e.attList[i].formats + '.png';
 
                                         } else {
