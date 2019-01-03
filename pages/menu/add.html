@@ -68,10 +68,10 @@
             <div class="layui-inline">
                 <label class="layui-form-label">开启时段<span style="color:red;">*</span></label>
                 <div class="layui-input-inline">
-                    <input type="text"  class="layui-input"   lay-verify="time"  placeholder="HH:MM" name="btime" id="btime"/>
+                    <input type="text"  class="layui-input time"   lay-verify="time"  placeholder="HH:MM" name="btime" id="btime"/>
                 </div>
                 <div class="layui-input-inline">
-                    <input type="text"  class="layui-input"   lay-verify="endTime"  placeholder="HH:MM" name="etime" id="etime"/>
+                    <input type="text"  class="layui-input time"   lay-verify="endTime"  placeholder="HH:MM" name="etime" id="etime"/>
                 </div>
             </div>
         </div>
@@ -97,6 +97,13 @@
         window.checkNum=function(val){
             document.getElementById('sort').value = val >= 0 ? val : 0
         }
+        lay('.time').each(function() {
+            laydate.render({
+                elem:this,
+                type:'time',
+                format:'HH:mm'
+            });
+        })
         form.verify({
             time:[/^(?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]$/,'时间输入错误'],
             endTime:function(value){
