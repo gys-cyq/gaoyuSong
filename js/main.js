@@ -105,3 +105,4 @@ function duplicate(fileList) {
     }
     return new_arr;
 }
+
