@@ -118,21 +118,38 @@
                     {field: 'projectTypeName', title: '类型'},
                     {field: 'projectName', title: '名称'},
                     {field: 'psTime', title: '评审日期'},
-                    {field: 'attList', title: '评分表',templet:function(d){
-                        if(d.attList!=null){
-                            var data = d.attList;
-                            var html = '';
-                            for(var i=0;i<data.length;i++){
-                                var imgurl=baseUrl+'/images/'+data[i].formats+'.png';
-                                var downloadurl = baseUrl+'/file/download?path='+obj[i].path;
-                                html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+data[i].filename+'\'"><a href="'+downloadurl+'">';
-//                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
-                                html += '<img src="'+imgurl+'" style="max-width:70px;"></img>';
-                                html += '<div style="font-size:12px;width:120px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+data[i].filename+'</div>';
-                                html += '</a></div>';
+                    {field: 'attList', title: '评分表',templet:function(e){
+//                        if(d.attList!=null){
+//                            var data = d.attList;
+//                            var html = '';
+//                            for(var i=0;i<data.length;i++){
+//                                var imgurl=baseUrl+'/images/'+data[i].formats+'.png';
+//                                var downloadurl = baseUrl+'/file/download?path='+obj[i].path;
+//                                html += '<div style=\"display:inline-block;padding:5px 10px;\" title="\''+data[i].filename+'\'"><a href="'+downloadurl+'">';
+////                            console.log(baseUrl+'/images/'+obj[i].formats+'.png');
+//                                html += '<img src="'+imgurl+'" style="max-width:70px;"></img>';
+//                                html += '<div style="font-size:12px;width:120px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">'+data[i].filename+'</div>';
+//                                html += '</a></div>';
+//                            }
+//                            return html;
+//                        }
+                        var html = ' <ul style="display: flex">';
+                        for (var i in e.attList) {
+                            var imgurl;
+                            if (e.attList[i].formats == 'pdf'||e.attList[i].formats == 'PDF') {
+                                imgurl = baseUrl + '/images/' + e.attList[i].formats + '.png';
+
+                            } else {
+                                imgurl = baseUrl + '/file/getImg?path=' + e.attList[i].path;
+
                             }
-                            return html;
+                            var downloadurl = baseUrl + '/file/download?path=' + e.attList[i].path;
+                            html += '<div style="text-align:center;"><a href="' + downloadurl + '">';
+                            html += '<img src="' + imgurl + '" style="width:60px;height:60px"></img>';
+                            html += '</a></div>';
                         }
+                        html+='</ul>';
+                        return html;
                     }},
                 ]],
                 done: function (res, cuur, count) {
