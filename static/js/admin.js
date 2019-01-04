@@ -337,7 +337,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 				//向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
 				var body = layer.getChildFrame('body', index);
 				body.contents().find("#dataId").val(id);
-				console.log(id);
+				// console.log(id);
 			},
 			error: function(layero, index) {
 				alert("aaa");
@@ -461,7 +461,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			$(which).attr('data-bit',i);
 			var frame = $('.weIframe[tab-id='+layId+']');
 			frame.attr('src', frame.attr('src'));
-			console.log("reload:"+$(which).attr('data-bit'));
+			// console.log("reload:"+$(which).attr('data-bit'));
 		}
     }
 	/**
