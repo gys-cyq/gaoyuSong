@@ -41,189 +41,191 @@
     <div class="register-header">
         <span>崇川科技局项目管理平台用户注册</span>
     </div>
-        <div class="select-subject">
-            <form class="layui-form" style="width:80%;margin:10px auto;">
-                <select id="target" class="select-box" lay-filter="target">
-                    <option value="1" id="company" selected="true">公司</option>
-                    <option value="2" id="personal">个人</option>
-                </select>
-            </form>
-            <form class="layui-form" id="parkForm">
-                <div id="choose1">
-                    <div class="typeR">
-                        <span>企业基础信息</span>
-                    </div>
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">企业名称<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  placeholder="请输入公司名称" class="layui-input" name="name" lay-verify="required">
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">公司法人<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text" class="layui-input" name="legalPerson" lay-verify="required"/>
-                            </div>
+    <div class="select-subject">
+        <form class="layui-form" style="width:80%;margin:10px auto;">
+            <select id="target" class="select-box" lay-filter="target">
+                <option value="1" id="company" selected="true">公司</option>
+                <option value="2" id="personal">个人</option>
+            </select>
+        </form>
+        <form class="layui-form" id="parkForm">
+            <div id="choose1">
+                <div class="typeR">
+                    <span>企业基础信息</span>
+                </div>
+                <div class="layui-form-item2">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">企业名称<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  placeholder="请输入公司名称" class="layui-input" name="name" lay-verify="required">
                         </div>
                     </div>
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">登录账号<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="account" lay-verify="required" onchange="verifyRepeat()" id="account"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">登录密码<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="password" lay-verify="required"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item2">
-                            <label class="layui-form-label" style="padding:9px 0;">所属街道<span style="color:red;">*</span></label>
-                            <div class="layui-input-inline3">
-                                <select name="province" lay-filter="province" id="provinceList" lay-verify="required">
-                                </select>
-                            </div>
-                            <div class="layui-input-inline3">
-                                <select name="city" lay-filter="city" id="cityList" lay-verify="required">
-                                </select>
-                            </div>
-                            <div class="layui-input-inline3">
-                                <select name="country" lay-filter="country" id="countryList" lay-verify="required">
-                                </select>
-                            </div>
-                            <div class="layui-input-inline3">
-                                <select name="streetId" lay-filter="street" id="streetList" lay-verify="required">
-                                </select>
-                            </div>
-                            <div class="layui-input-inline3">
-                                <select name="parkId" lay-filter="park" id="parkList">
-                                </select>
-                            </div>
-                    </div>
-                    <div class="layui-form-item">
-                            <lable class="layui-form-label">地址<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-block">
-                                <input type="text"  class="layui-input" name="address"/>
-                            </div>
-                    </div>
-
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">社会信用代码<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="socialCreditCode" lay-verify="required" onchange="verifyRepeat()" id="society"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">员工人数</lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="staffNumber"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item2" style="clear:both">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">联系人<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="contacts"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">联系电话<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text"  class="layui-input" name="contactsTel" lay-verify="checkTel"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <lable class="layui-form-label">注册资金（单位：万）</lable>
-                        <div class="layui-input-block">
-                            <input type="text"  class="layui-input" name="registerCapital"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                            <lable class="layui-form-label">经营范围</lable>
-                            <div class="layui-input-block">
-                                <!--<input type="text"  class="layui-input" name="operationScope"/>-->
-                                <textarea placeholder="请输入内容" class="layui-textarea" name="operationScope"></textarea>
-                            </div>
-                    </div>
-                    <div class="layui-form-item">
-                            <lable class="layui-form-label">备注</lable>
-                            <div class="layui-input-block">
-                                <!--<input type="text"  class="layui-input" name="remark"/>-->
-                                <textarea placeholder="请输入内容" class="layui-textarea" name="remark"></textarea>
-                            </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-inline" style="width:33%">
-                            <button class="layui-btn" lay-submit="" lay-filter="register" style="width:100%;">确定注册</button>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">公司法人<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text" class="layui-input" name="legalPerson" lay-verify="required"/>
                         </div>
                     </div>
                 </div>
-            </form>
-            <form class="layui-form" id="personalForm">
-                <div id="choose2" style="display:none">
-                    <div class="typeR">
-                        <span>个人基础信息</span>
-                    </div>
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">用户姓名<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text" placeholder="请输入用户名称" class="layui-input" name="username" lay-verify="required"  id="username"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">身份证号<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text" class="layui-input" name="idcard" lay-verify="required|IDcard"/>
-                            </div>
+                <div class="layui-form-item2">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">登录账号<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="account" lay-verify="required" onchange="verifyRepeat()" id="account"/>
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                            <lable class="layui-form-label">地址<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-block">
-                                <input type="text"  class="layui-input" name="address" lay-verify="required"/>
-                            </div>
-                    </div>
-                    <div class="layui-form-item2">
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">手机号<span class="judgeNull">*</span></lable>
-                            <div class="layui-input-inline2">
-                                <input type="text" class="layui-input" name="phone" id="phone" lay-verify="required|phone|mobile" onchange="verifyRepeat()"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline2">
-                            <lable class="layui-form-label">工作单位</lable>
-                            <div class="layui-input-inline2">
-                                <input type="text" class="layui-input" name="company"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:50%;">
-                        <span style="color:red;">注：手机号即为登录账号，默认密码为111111</span>
-                    </div>
-                    <!--<div class="layui-form-item">-->
-                            <!--<lable class="layui-form-label">注册时间</lable>-->
-                            <!--<div class="layui-input-block">-->
-                                <!--<input type="text" class="layui-input" name="registerTime" id="registerTime"/>-->
-                            <!--</div>-->
-                    <!--</div>-->
-                    <div class="layui-form-item">
-                        <div class="layui-inline" style="width:33%">
-                            <button class="layui-btn" lay-submit="" lay-filter="registerP" style="width:100%">确定注册</button>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">登录密码<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="password" lay-verify="required"/>
                         </div>
                     </div>
                 </div>
-            </form>
-            <div style="text-align:center">如果已有账号，请直接<a href="Login.html" style="color:red;">登录</a></div>
-        </div>
+                <div class="layui-form-item2">
+                    <label class="layui-form-label" style="padding:9px 0;">所属街道<span style="color:red;">*</span></label>
+                    <div class="layui-input-inline3">
+                        <select name="province" lay-filter="province" id="provinceList" lay-verify="required">
+                        </select>
+                    </div>
+                    <div class="layui-input-inline3">
+                        <select name="city" lay-filter="city" id="cityList" lay-verify="required">
+                            <option value="">请选择城市</option>
+                            <option value="320600">南通</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline3">
+                        <select name="country" lay-filter="country" id="countryList" lay-verify="required">
+                        </select>
+                    </div>
+                    <div class="layui-input-inline3">
+                        <select name="streetId" lay-filter="street" id="streetList" lay-verify="required">
+                        </select>
+                    </div>
+                    <div class="layui-input-inline3">
+                        <select name="parkId" lay-filter="park" id="parkList">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <lable class="layui-form-label">地址<span class="judgeNull">*</span></lable>
+                    <div class="layui-input-block">
+                        <input type="text"  class="layui-input" name="address"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item2">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">社会信用代码<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="socialCreditCode" lay-verify="required" onchange="verifyRepeat()" id="society"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">员工人数</lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="staffNumber"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item2" style="clear:both">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">联系人<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="contacts"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">联系电话<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text"  class="layui-input" name="contactsTel" lay-verify="checkTel"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <lable class="layui-form-label">注册资金（单位：万）</lable>
+                    <div class="layui-input-block">
+                        <input type="text"  class="layui-input" name="registerCapital"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <lable class="layui-form-label">经营范围</lable>
+                    <div class="layui-input-block">
+                        <!--<input type="text"  class="layui-input" name="operationScope"/>-->
+                        <textarea placeholder="请输入内容" class="layui-textarea" name="operationScope"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <lable class="layui-form-label">备注</lable>
+                    <div class="layui-input-block">
+                        <!--<input type="text"  class="layui-input" name="remark"/>-->
+                        <textarea placeholder="请输入内容" class="layui-textarea" name="remark"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline" style="width:33%">
+                        <button class="layui-btn" lay-submit="" lay-filter="register" style="width:100%;">确定注册</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form class="layui-form" id="personalForm">
+            <div id="choose2" style="display:none">
+                <div class="typeR">
+                    <span>个人基础信息</span>
+                </div>
+                <div class="layui-form-item2">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">用户姓名<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text" placeholder="请输入用户名称" class="layui-input" name="username" lay-verify="required"  id="username"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">身份证号<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text" class="layui-input" name="idcard" lay-verify="required|IDcard"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <lable class="layui-form-label">地址<span class="judgeNull">*</span></lable>
+                    <div class="layui-input-block">
+                        <input type="text"  class="layui-input" name="address" lay-verify="required"/>
+                    </div>
+                </div>
+                <div class="layui-form-item2">
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">手机号<span class="judgeNull">*</span></lable>
+                        <div class="layui-input-inline2">
+                            <input type="text" class="layui-input" name="phone" id="phone" lay-verify="required|phone|mobile" onchange="verifyRepeat()"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline2">
+                        <lable class="layui-form-label">工作单位</lable>
+                        <div class="layui-input-inline2">
+                            <input type="text" class="layui-input" name="company"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:50%;">
+                    <span style="color:red;">注：手机号即为登录账号，默认密码为111111</span>
+                </div>
+                <!--<div class="layui-form-item">-->
+                <!--<lable class="layui-form-label">注册时间</lable>-->
+                <!--<div class="layui-input-block">-->
+                <!--<input type="text" class="layui-input" name="registerTime" id="registerTime"/>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="layui-form-item">
+                    <div class="layui-inline" style="width:33%">
+                        <button class="layui-btn" lay-submit="" lay-filter="registerP" style="width:100%">确定注册</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="text-align:center">如果已有账号，请直接<a href="Login.html" style="color:red;">登录</a></div>
+    </div>
 </div>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
@@ -235,7 +237,8 @@
         var layer = layui.layer;
 
         getProvinceList();
-        getCityList(320000,'cityList');
+//        getCityList(320000,'cityList');
+        $('#cityList').val('南通')
         getCityList(320600,'countryList');
 //        form.on('select(province)', function (data) {
 //            getCityList(data.value,'cityList');
@@ -398,13 +401,11 @@
 
                 if (response.status == 1) {
                     var data = response.data;
-                    var html = ' <option value="">' + '请选择城市' + '</option>';
+                    var html = ' <option value="">' + '请选择地区' + '</option>';
                     for (var i in data) {
                         var id = data[i].id;
                         var name = data[i].areaName;
-                            html += ' <option value=' + id + '>' + name + '</option>';
-
-
+                        html += ' <option value=' + id + '>' + name + '</option>';
                     }
                     $('#'+selectId).html(html);
                     $('#cityList').val(320600);
