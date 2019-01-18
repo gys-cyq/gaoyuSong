@@ -182,8 +182,9 @@
             findprojectTypeAll();
             // getTemplateList();
             var user = JSON.parse(localStorage.getItem('user'));
+            consoleUtils(user)
             $("input[name='userId']").val(user.id);
-            $("input[name='companyName']").val(user.nickname);
+            $("input[name='companyName']").val(user.companyName);
             $("input[name='declareCompany']").val(user.companyId);
             var purl = ' /project/apply/' + y + m + d;
             var demoListView = $('#demoList')
@@ -277,7 +278,7 @@
                         demoListView.html('')
                         fileList=[];
                         $("input[name='userId']").val(user.id);
-                        $("input[name='companyName']").val(user.nickname);
+                        $("input[name='companyName']").val(user.companyName);
                         $("input[name='declareCompany']").val(user.companyId);
                         if (res.status == 1) {
                             // layer.msg(res.msg);
