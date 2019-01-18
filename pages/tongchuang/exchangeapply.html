@@ -158,7 +158,7 @@
             var isUpload = false;
             var fileList = [];
             var user = JSON.parse(localStorage.getItem('user'));
-            $("input[name='companyName']").val(user.nickname);
+            $("input[name='companyName']").val(user.companyName);
             $("input[name='declareCompany']").val(user.companyId);
             var demoListView = $('#demoList')
             var uploadListIns = upload.render({
@@ -248,7 +248,7 @@
                         fileList = [];
                         demoListView.html('');
                         $("input[name='userId']").val(user.id);
-                        $("input[name='companyName']").val(user.nickname);
+                        $("input[name='companyName']").val(user.companyName);
                         $("input[name='declareCompany']").val(user.companyId);
                         if (res.status == 1) {
                             // layer.msg(res.msg);

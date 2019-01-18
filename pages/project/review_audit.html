@@ -235,10 +235,10 @@
         function openReason(code) {
             layer.open({
                 type: 2,
-                area: ["400px", "300px"],
+                area: ["500px", "300px"],
                 fix: false,
                 title: '原因',
-                content: 'expert.html',
+                content: 'expert_reason.html',
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
                     iframe.child(code, response);
