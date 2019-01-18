@@ -188,22 +188,22 @@
 
             });
             $('#yes').click(function () {
-                layer.confirm('确认通过？', function () {
+                // layer.confirm('确认通过？', function () {
                     examineOperator(2);
-                })
+                // })
             });
             $('#no').click(function () {
-                layer.confirm('确认不通过？', function () {
+                // layer.confirm('确认不通过？', function () {
                     // examineOperator(3);
                     openReason(3);
-                })
+                // })
             });
             $('#exit').click(function () {
-                layer.confirm('确认退回？', function () {
+                // layer.confirm('确认退回？', function () {
                     // examineOperator(4);
                     openReason(4);
 
-                })
+                // })
             })
         }
         function examineOperator(status) {
