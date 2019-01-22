@@ -108,7 +108,7 @@
                         { field: 'name', title: '专家姓名' },
                         { field: 'workMajorName', title: '从事专业' },
                         {
-                            field: 'jobTitle', title: '职称', templet: function (e) {
+                            field: 'jobTitle', title: '职称',width:70, templet: function (e) {
                                 if (e.jobTitle == 1) {
                                     return "正高"
                                 } else if (e.jobTitle == 2) {
@@ -183,6 +183,8 @@
                     }
                 })
                 form.on('submit(submit)', function (data) {
+                    layer.confirm('确定保存吗？', function (index) {   
+                        
                     var expertNames = "";
                     for (var i in infoList) {
                         if (i == 0) {
@@ -220,6 +222,7 @@
                     return false;
                 })
 
+});
             });
             function addPro() {
                 layer.open({
@@ -276,7 +279,6 @@
             }
 
             function setEdit(messageId, oldExpertId, existExpertIds) {
-                consoleUtils("变更")
                 $.ajax({
                     url: baseUrl + "/expert/extracting",
                     type: 'post',
