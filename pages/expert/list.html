@@ -75,6 +75,8 @@
             <button class="layui-btn" onclick="download()">下载导入模板</button>
             <button class="layui-btn" id="upload">导入</button>
             <button class="layui-btn" id="export" onclick='exportFile()' style="margin-left:10px;">导出</button>
+            <button class="layui-btn"  onclick='select()' style="margin-left:10px;">抽取</button>
+
         </div>
     </div>
     <!--<fieldset class="layui-elem-field">-->
@@ -399,6 +401,22 @@
 
             }
         });
+    }
+    function select(){
+        layer.open({
+                    type:2,
+                    title:'抽取专家',
+                    area:['800px','500px'],
+                    fix:false,
+                    content:'extract.html',
+                    maxmin:true,
+                    success:function(layero,index){
+                       
+                    },
+                    error:function(layero,index){
+
+                    }
+                })
     }
 </script>
 </body>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>南通科技局</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" />
+    <style>
+        .delImage {
+            width: 18px;
+            height: 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            align-items: right;
+        }
+
+        .layui-table-cell {
+            height: auto;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-tab-brief">
+        <div class="layui-btn layui-btn-small" onclick="addPro()" style="margin: 20px">
+            <i class="layui-icon"></i> 添加
+        </div>
+
+        <form class="layui-form" id="demofrom">
+
+            <div class="layui-form-item">
+
+                <!-- <div class="layui-input-inline" style="width:75%;">
+                    <label class="layui-form-label">抽取</label>
+                    <img src="../../img/plus.png" onclick="addPro()" style="width:40px;height: 40px" />
+                </div> -->
+                <div class="layui-field-box">
+                    <table class="style-table" id="expertList" lay-filter="expertList" lay-verify="infoList">
+                    </table>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="margin-left: -20px">项目说明
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="layui-input-inline">
+                            <textarea class="layui-textarea" name="projectNames" lay-verify="required" style="width: 695px"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="text-align:center;margin:0 auto;">
+                        <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+                        <button type="cancel" class="layui-btn layui-btn-primary" onclick="cancel()">取消</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+        <script type="text/html" id="barDemo">
+        <!-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a> -->
+        <a class="layui-btn layui-btn-xs" lay-event="edit">变更</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="../../lib/layui/layui.js"></script>
+        <script type="text/javascript" src="../../js/jquery.form.js"></script>
+        <script type="text/javascript" src="../../js/main.js"></script>
+        <script type="text/javascript">
+            var layer;
+            var infoList = [];
+            var html = '';
+            var table;
+
+            layui.use(['layer', 'form', 'table'], function () {
+                layer = layui.layer;
+                var form = layui.form;
+                table = layui.table;
+                table.render({
+                    elem: '#expertList',
+                    page: false, //开启分页
+                    id: 'experId',
+                    cols: [[ //表头
+                        {
+                            field: 'headImg', templet: function (data) {
+                                //                  
+                                var image = baseUrl + '/file/getImg?path=' + data.headImg;
+                                var unimage = baseUrl + '/images/touxiang.jpg';
+                                var html = '';
+                                if (data.headImg != "" && data.headImg != null) {
+                                    html = '<div>' + '<img src="' + image + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                                    return html;
+                                } else {
+                                    html = '<div>' + '<img src="' + unimage + '" class="layui-upload-img" style="width:70px;">' + '</img>' + '</div>';
+                                    return html;
+                                }
+
+                            }, title: '头像'
+                        },
+                        { field: 'name', title: '专家姓名' },
+                        { field: 'workMajorName', title: '从事专业' },
+                        {
+                            field: 'jobTitle', title: '职称', templet: function (e) {
+                                if (e.jobTitle == 1) {
+                                    return "正高"
+                                } else if (e.jobTitle == 2) {
+                                    return "副高"
+                                }
+                            }
+                        },
+                        { field: 'mobile', title: '联系电话' },
+                        {
+                            field: 'area', title: '所在地区', templet: function (e) {
+                                if (e.area == 1) {
+                                    return "市内"
+                                } else if (e.area == 2) {
+                                    return "市外"
+                                }
+                            }
+                        },
+                        // {field:'generatingUnit',title:'生产单位'},
+                        , { fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo', title: '操作' }
+
+                    ]],
+                    data: infoList,
+                    done: function (res, cuur, count) {
+
+                    }
+                });
+                table.on('tool(expertList)', function (obj) {
+                    var data = obj.data //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值
+                    if (layEvent === 'edit') {
+                        layer.open({
+                            type: 2,
+                            area: ['400px', '400px'],
+                            fix: false, //不固定
+                            title: '变更',
+                            content: 'add_pro.html',
+                            success: function (layero, index) {
+                                var existExpertIds = "";
+                                for (var i in infoList) {
+                                    if (i == 0) {
+                                        existExpertIds += infoList[i].id;
+                                    } else {
+                                        existExpertIds += "#" + infoList[i].id
+                                    }
+                                }
+                                consoleUtils(existExpertIds)
+                                var iframe = window['layui-layer-iframe' + index];
+                                iframe.child(data, existExpertIds)
+                            },
+                            error: function (layero, index) {
+                            }
+                        });
+                    } else if (layEvent === 'del') {
+                        layer.confirm('确定删除' + '<span style="color:red;">' + data.name + '</span>' + '吗？', function (index) {
+                            obj.del();
+                            layer.closeAll();
+                            for (var i in infoList) {
+                                if (infoList[i].id == data.id) {
+                                    infoList.splice(i, 1);
+                                    consoleUtils(infoList)
+                                }
+                            }
+
+                        });
+                    }
+                });
+                form.verify({
+                    infoList: function (value) {
+
+
+                        if (infoList.length == 0) {
+                            return "请选择专家"
+                        }
+                    }
+                })
+                form.on('submit(submit)', function (data) {
+                    var expertNames = "";
+                    for (var i in infoList) {
+                        if (i == 0) {
+                            expertNames += infoList[i].name;
+                        } else {
+                            expertNames += "#" + infoList[i].name
+                        }
+                    }
+                    var options = {
+                        url: baseUrl + '/extracting/saveExtractingRecord',
+                        type: 'POST',
+                        dataType: "json",
+                        data: { token: localStorage.getItem('token'), expertNames: expertNames },
+                        async: false,
+                        timeout: 10000,
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.alert("成功", function () {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    // parent.location.reload();
+                                });
+                            } else {
+                                errmsg(res)
+
+                            }
+                        },
+                        error: function (data) {
+                            alert('error');
+                        }
+
+                    };
+                    $('#demofrom').ajaxForm(options);
+                    $('#demofrom').submit();
+                    return false;
+                })
+
+            });
+            function addPro() {
+                layer.open({
+                    type: 2,
+                    area: ['400px', '400px'],
+                    fix: true,
+                    title: '专家条件',
+                    content: 'add_pro.html',
+                    success: function (layero, index) {
+
+
+                    }, error: function (layero, index) {
+
+                    }
+
+                });
+            }
+
+
+
+            function setChooseValues(messageId, message) {
+                consoleUtils(messageId);
+                var existExpertIds = "";
+                for (var i in infoList) {
+                    if (i == 0) {
+                        existExpertIds += infoList[i].id;
+                    } else {
+                        existExpertIds += "#" + infoList[i].id
+                    }
+                }
+                $.ajax({
+                    url: baseUrl + "/expert/extracting",
+                    type: 'post',
+
+                    dataType: "json",
+                    data: { token: localStorage.getItem('token'), conditions: messageId, existExpertIds: existExpertIds },
+                    timeout: 10000,
+
+                    success: function (res) {
+                        consoleUtils(res);
+                        if (res.status == 1) {
+                            infoList.push(res.data);
+                            table.reload('experId', { data: infoList });
+                        } else {
+                            errmsg(res);
+                        }
+
+                    },
+                    error: function () { }
+                })
+
+
+
+            }
+
+            function setEdit(messageId, oldExpertId, existExpertIds) {
+                $.ajax({
+                    url: baseUrl + "/expert/extracting",
+                    type: 'post',
+
+                    dataType: "json",
+                    data: { token: localStorage.getItem('token'), conditions: messageId, oldExpertId: oldExpertId, existExpertIds: existExpertIds },
+                    timeout: 10000,
+
+                    success: function (res) {
+                        consoleUtils(oldExpertId);
+                        if (res.status == 1) {
+                            for (var i in infoList) {
+                                if (infoList[i].id == oldExpertId) {
+                                    infoList.splice(i, 1, res.data)//替换之前的那条数据
+                                }
+                            }
+                            consoleUtils(infoList)
+                            table.reload('experId', { data: infoList });
+                        } else {
+                            errmsg(res);
+                        }
+
+                    },
+                    error: function () { }
+                })
+
+            }
+            function del(event, messageId) {
+                consoleUtils(messageId);
+                var div = document.getElementsByClassName("delImage");
+                var ul = document.querySelector("#conditions");
+                // var list = ul.querySelectorAll("li");
+                $(event.target).parent('li').remove();
+                for (var i = 0; i < div.length; i++) {
+                    if (messageId == conditions[i]) {
+                        // list[i].remove();
+                        infoList.splice(i, 1);
+                        break;
+                    }
+
+
+                }
+                consoleUtils(conditions)
+                // $("input[name='conditions']").val(conditions);
+
+            }
+
+        </script>
+</body>
+
+</html>
