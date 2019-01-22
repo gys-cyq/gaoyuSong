@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="static/css/weadmin.css" />
 		<link rel="stylesheet" href="lib/layui/css/layui.css" />
 		<link rel='icon' href='img/icon.png' type='image/x-ico' />
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 		<!--[if IE 8]>
 			<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 		<![endif]-->
@@ -24,7 +25,7 @@
 				cursor:pointer;
 			}
 			.container .logo a{
-				padding-top:7px;
+				padding-top:0px;
 			}
 			.container .layui-nav-child{
 				top:55px;
@@ -84,7 +85,6 @@
 		</div>
 		<div class="page-content-bg"></div>
 		<script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
 			layui.config({
 			  base: './static/js/',
@@ -242,30 +242,31 @@
 			}
 
 			$('#loginout').on('click',function(){
-			    $.ajax({
-					url:baseUrl + '/logout',
-					type:"post",
-					dataType:"json",
-                    crossDomain: true == !(document.all) ,
-					data:{token:token},
-					success:function(res){
-					    if(res.status==1){
-                            var tabtitle = $(".layui-tab-title li");
-                            var ids = new Array();
-                            $.each(tabtitle, function(i) {
-                                ids[i] = $(this).attr("lay-id");
-                            })
-                            tab.tabDeleteAll(ids);
-					        location.href='Login.html';
-						}else{
-                            errmsg(res);
-						}
-					},
-					error:function(res){
-					    layer.msg('系统异常');
-                        location.href='Login.html';
-					}
-				})
+			    if(token!=null&&token!=''){
+                    $.ajax({
+                        url:baseUrl + '/logout',
+                        type:"post",
+                        dataType:"json",
+                        crossDomain: true == !(document.all) ,
+                        data:{token:token},
+                        success:function(res){
+                        },
+
+                        error:function(res){
+//                            layer.msg('系统异常');
+//                            location.href='Login.html';
+                        }
+                    })
+				}
+                var tabtitle = $(".layui-tab-title li");
+                var ids = new Array();
+                $.each(tabtitle, function(i) {
+                    ids[i] = $(this).attr("lay-id");
+                })
+                localStorage.removeItem("token");
+                tab.tabDeleteAll(ids);
+                location.href='Login.html';
+
 			})
 
 		</script>
