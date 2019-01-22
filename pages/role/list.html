@@ -63,12 +63,12 @@ layui.use(['table','layer','jquery'], function(){
 
     var pid = GetQueryString('pid');
     var actions = parent.GetPageData(pid);
-    if(actions.indexOf('role:add')==-1){
+    if(actions.indexOf('role:add')!=-1){
         $('#addbutton').css('display','inline-block');
     }else{
         $('#addbutton').css('display','none');
     }
-    if(actions.indexOf('role:permissions')==-1){
+    if(actions.indexOf('role:permissions')!=-1){
         $('#root').css('display','inline-block');
     }else{
         $('#root').css('display','none');

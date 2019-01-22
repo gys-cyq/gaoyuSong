@@ -1665,7 +1665,7 @@ a cite {
 	color: #333;
 	background-color: #f2f2f2;
 	cursor: pointer;
-	font-size: 10px;
+	font-size: 12px;
 	overflow: hidden
 }
 
@@ -1680,7 +1680,7 @@ a cite {
 	position: absolute;
 	left: 15px;
 	top: 0;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-card {
@@ -1702,7 +1702,7 @@ a cite {
 	border-bottom: 1px solid #f6f6f6;
 	color: #333;
 	border-radius: 2px 2px 0 0;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-bg-black,
@@ -1821,7 +1821,7 @@ hr {
 
 .layui-text {
 	line-height: 22px;
-	font-size: 10px;
+	font-size: 12px;
 	color: #666
 }
 
@@ -1876,7 +1876,7 @@ hr {
 	color: #fff;
 	white-space: nowrap;
 	text-align: center;
-	font-size: 10px;
+	font-size: 12px;
 	border: none;
 	border-radius: 2px;
 	cursor: pointer
@@ -1984,7 +1984,7 @@ hr {
 }
 
 .layui-btn-xs i {
-	font-size: 10px!important
+	font-size: 12px!important
 }
 
 .layui-btn-group {
@@ -2296,7 +2296,7 @@ hr {
 .layui-form-checkbox span {
 	padding: 0 10px;
 	height: 100%;
-	font-size: 10px;
+	font-size: 12px;
 	border-radius: 2px 0 0 2px;
 	background-color: #d2d2d2;
 	color: #fff;
@@ -2493,7 +2493,7 @@ hr {
 }
 
 .layui-form-radio * {
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-form-radio>i {
@@ -2654,7 +2654,7 @@ hr {
 	display: inline-block;
 	vertical-align: middle;
 	text-align: center;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-layedit-tool .layui-icon {
@@ -2905,7 +2905,7 @@ hr {
 	margin: 10px 0;
 	text-align: center;
 	color: #999;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-flow-more a {
@@ -2988,7 +2988,7 @@ hr {
 	padding: 9px 15px;
 	min-height: 20px;
 	line-height: 20px;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-table[lay-skin=line] td,
@@ -3489,7 +3489,7 @@ body .layui-table-tips .layui-layer-content {
 	margin: -44px 0 0 -1px;
 	max-height: 150px;
 	padding: 8px 15px;
-	font-size: 10px;
+	font-size: 12px;
 	overflow-y: scroll;
 	background-color: #fff;
 	color: #666
@@ -3614,7 +3614,7 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-tree li a cite {
 	padding: 0 6px;
-	font-size: 10px;
+	font-size: 12px;
 	font-style: normal
 }
 
@@ -3668,7 +3668,7 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-nav * {
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-nav .layui-nav-item {
@@ -3905,7 +3905,7 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-breadcrumb>* {
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-breadcrumb a {
@@ -3952,7 +3952,7 @@ body .layui-table-tips .layui-layer-content {
 	*display: inline;
 	*zoom: 1;
 	vertical-align: middle;
-	font-size: 10px;
+	font-size: 12px;
 	transition: all .2s;
 	-webkit-transition: all .2s;
 	position: relative;
@@ -4049,7 +4049,7 @@ body .layui-table-tips .layui-layer-content {
 	margin-left: 8px;
 	top: 1px;
 	text-align: center;
-	font-size: 10px;
+	font-size: 12px;
 	color: #c2c2c2;
 	transition: all .2s;
 	-webkit-transition: all .2s
@@ -4364,7 +4364,7 @@ body .layui-table-tips .layui-layer-content {
 	width: 10px;
 	height: 10px;
 	margin: 0 3px;
-	font-size: 10px;
+	font-size: 12px;
 	background-color: #e2e2e2;
 	background-color: rgba(255, 255, 255, .5);
 	border-radius: 50%;
@@ -4808,7 +4808,7 @@ body .layui-util-face .layui-layer-content {
 .layui-colorpicker-main-input div.layui-inline {
 	float: left;
 	margin-right: 10px;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-colorpicker-main-input input.layui-input {
@@ -4951,7 +4951,7 @@ body .layui-util-face .layui-layer-content {
 
 .layui-slider-input-txt {
 	height: 100%;
-	font-size: 10px
+	font-size: 12px
 }
 
 .layui-slider-input-txt input {
