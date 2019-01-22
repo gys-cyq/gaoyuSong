@@ -75,37 +75,40 @@
         var jobId
         var area;
         var areaId;
-        layui.use(['form', 'layer'], function () {
-            var form = layui.form;
-            var layer = layui.layer;
-            form.on('select(jobTitle)', function (data) {
+       function hello() {
+           layui.use(['form', 'layer'], function () {
+               var form = layui.form;
+               var layer = layui.layer;
+               form.on('select(jobTitle)', function (data) {
 
-                jobId = data.value;
-                if (jobId == 1) {
-                    jobTitle = '正高'
-                } else {
-                    jobTitle = '副高'
-                }
-            });
-            form.on('select(area)', function (data) {
-                areaId = data.value;
-                if (areaId == 1) {
-                    area = '市内'
-                } else {
-                    area = '市外'
-                }
-            })
-            form.on('submit(submit)', function (data) {
-                var projectIndustry = $("input[name='projectIndustry']").val();
-                var messageId =  areaId + '#' + jobId + '#' + projectIndustry;
-                var message = area + ',' + jobTitle + ',' + $("input[name='projectIndustryName']").val()
-                parent.setChooseValues(messageId, message);
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
+                   jobId = data.value;
+                   if (jobId == 1) {
+                       jobTitle = '正高'
+                   } else {
+                       jobTitle = '副高'
+                   }
+               });
+               form.on('select(area)', function (data) {
+                   areaId = data.value;
+                   if (areaId == 1) {
+                       area = '市内'
+                   } else {
+                       area = '市外'
+                   }
+               })
+               form.on('submit(submit)', function (data) {
+                   var projectIndustry = $("input[name='projectIndustry']").val();
+                   var messageId =  areaId + '#' + jobId + '#' + projectIndustry;
+                   var message = area + ',' + jobTitle + ',' + $("input[name='projectIndustryName']").val()
+                   parent.setChooseValues(messageId, message);
+                   var index = parent.layer.getFrameIndex(window.name);
+                   parent.layer.close(index);
 
-            })
+               })
 
-        });
+           });
+
+       }
         function child (data,existExpertIds){
             var oldExpertId=data.id;
             layui.use(['form', 'layer'], function () {
