@@ -257,7 +257,7 @@ body {
 .container .logo a {
   float: left;
   /*color: #fff;*/
-  color:rgba(255, 255, 255, .7);
+  color:#ccc;
   font-family:'黑体';
   font-weight:600;
   font-size: 20px;
@@ -268,6 +268,7 @@ body {
 .container .right {
   background-color: rgba(0, 0, 0, 0);
   float: right;
+  position:relative;
 }
 .container .left_open {
   height: 45px;

@@ -96,59 +96,68 @@
         }
 
         window.openEditLayer = function(){
-            layer.open({
-                type:2,
-                title:'编辑',
-                area: ['450px', '360px'],
-                fix: false,
-                content: 'edit.html',
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
+            if(data==null){
+                layer.msg('请选中一行后再进行添加');
+            }else{
+                layer.open({
+                    type:2,
+                    title:'编辑',
+                    area: ['450px', '360px'],
+                    fix: false,
+                    content: 'edit.html',
+                    success: function (layero, index) {
+                        var body = layui.layer.getChildFrame('body', index);
 //                        body.find('#type').val("action");
-                    body.find("#id").val(data.id);
-                    body.find("#name").val(data.name);
-                },
-                error: function (layero, index) {
-                    //                                errmsg(res);
-                }
-            })
+                        body.find("#id").val(data.id);
+                        body.find("#name").val(data.name);
+                    },
+                    error: function (layero, index) {
+                        //                                errmsg(res);
+                    }
+                })
+            }
         }
 
         window.del = function(){
-            var crowId = data.id;
-            if(crowId==1){
-                layer.alert('此部门不能删除,请确认后重新选择',function(index){
+            if(data==null){
+                layer.msg('请选中一行后再进行添加');
+            }else{
+                var crowId = data.id;
+                if(crowId==1){
+                    layer.alert('此部门不能删除,请确认后重新选择',function(index){
 //                    var index = parent.layer.getFrameIndex(window.name);
 //                    parent.layer.close(index);
 //                    parent.location.reload();
-                    layer.close(index);
-                })
-            }else{
-                layer.confirm('您确定删除'+'<span style="color:red">'+data.name+'</span>'+'及其级联子类吗？', function (index) {
-                    var url = baseUrl + "/dept/delete";
+                        layer.close(index);
+                    })
+                }else{
+                    layer.confirm('您确定删除'+'<span style="color:red">'+data.name+'</span>'+'及其级联子类吗？', function (index) {
+                        var url = baseUrl + "/dept/delete";
 
 
-                    $.ajax({
-                        url: url,
-                        type: "post",
-                        resetForm: true,
-                        timeout: 10000,
-                        data: { token: token, id: crowId },
-                        success: function (res) {
-                            if (res.status == 1) {
-                                location.reload();
-                            } else {
-                                errmsg(res);
+                        $.ajax({
+                            url: url,
+                            type: "post",
+                            resetForm: true,
+                            timeout: 10000,
+                            data: { token: token, id: crowId },
+                            success: function (res) {
+                                if (res.status == 1) {
+                                    location.reload();
+                                } else {
+                                    errmsg(res);
+                                }
+                            },
+                            error: function () {
+                                layer.msg('删除失败');
                             }
-                        },
-                        error: function () {
-                            layer.msg('删除失败');
-                        }
-                    });
+                        });
 
-                    layer.close(index);
-                });
+                        layer.close(index);
+                    });
+                }
             }
+
 
         }
 
